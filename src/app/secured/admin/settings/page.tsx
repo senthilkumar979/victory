@@ -1,5 +1,7 @@
 'use client'
 
+import { Title } from "@/templates/Title";
+import { SubTitle } from "../../../../ui/templates/SubTitle";
 import { useCheckIsAuthenticated } from "../../../hooks/useCheckIsAuthenticated";
 import { SettingsNav, type SettingsNavItem } from "./components/SettingsNav";
 
@@ -12,8 +14,8 @@ const AdminSettingsPage = () => {
       label: "General",
       content: (
         <div className="space-y-2">
-          <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">General</h2>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <SubTitle>General</SubTitle>
+          <p className="text-sm text-gray-500">
             Manage high-level admin settings and defaults.
           </p>
         </div>
@@ -24,8 +26,8 @@ const AdminSettingsPage = () => {
       label: "Security",
       content: (
         <div className="space-y-2">
-          <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">Security</h2>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <SubTitle>Security</SubTitle>
+          <p className="text-sm text-gray-500">
             Configure authentication, roles, and access controls.
           </p>
         </div>
@@ -36,22 +38,9 @@ const AdminSettingsPage = () => {
       label: "Users",
       content: (
         <div className="space-y-2">
-          <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">Users</h2>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <SubTitle>Users</SubTitle>
+          <p className="text-sm text-gray-500">
             Manage admin users, invitations, and permissions.
-          </p>
-        </div>
-      ),
-    },
-    {
-      value: "billing",
-      label: "Billing",
-      disabled: true,
-      content: (
-        <div className="space-y-2">
-          <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">Billing</h2>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            Billing is not available in this environment.
           </p>
         </div>
       ),
@@ -62,7 +51,7 @@ const AdminSettingsPage = () => {
     <main className="min-h-screen px-6 py-10">
       <div className="mx-auto w-full max-w-8xl space-y-6">
         <header className="space-y-1">
-          <h1 className="text-2xl font-semibold text-primary">Admin settings</h1>
+          <Title as="h1" className="text-2xl font-semibold text-primary">Admin settings</Title>
           <p className="text-sm text-secondary">
             Choose a section from the left to edit its settings.
           </p>
