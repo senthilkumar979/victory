@@ -5,6 +5,7 @@ import {
   TextButton,
 } from "@/ui/atoms/button/Button";
 import { Badge } from "@/ui/atoms/badge/Badge";
+import { Alert } from "@/ui/atoms/alert/Alert";
 
 const ComponentsDemoPage = () => {
   return (
@@ -87,6 +88,37 @@ const ComponentsDemoPage = () => {
             With icons
           </Badge>
         </div>
+      </section>
+      <section className="flex w-full max-w-xl flex-col items-stretch gap-3">
+        <h2 className="text-lg font-semibold text-foreground text-center">
+          Alerts
+        </h2>
+        <Alert
+          color="primary"
+          title="Primary alert"
+          message="This is a primary alert message."
+        />
+        <Alert
+          color="success"
+          title="Success alert"
+          message="Your changes have been saved successfully."
+        />
+        <Alert
+          color="warning"
+          title="Warning alert"
+          message="Please double-check the information before proceeding."
+          isClosable
+        />
+        <Alert
+          color="error"
+          title="Error alert"
+          message="Something went wrong. Try again in a moment."
+        />
+        <Alert
+          color="info"
+          title="Info alert"
+          message="Here is some additional context for this page."
+        />
       </section>
     </main>
   );

@@ -23,9 +23,21 @@ export type BadgeVariant = "solid" | "outline" | "ghost";
 
 export type BadgeTheme = Record<BadgeColor, Record<BadgeVariant, string>>;
 
+export type AlertColor =
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "success"
+  | "warning"
+  | "info"
+  | "error";
+
+export type AlertTheme = Record<AlertColor, string>;
+
 export interface Theme {
   button: ButtonTheme;
   badge: BadgeTheme;
+  alert: AlertTheme;
 }
 
 export const defaultTheme: Theme = {
@@ -83,7 +95,8 @@ export const defaultTheme: Theme = {
       ghost: "bg-transparent text-success border border-transparent",
     },
     error: {
-      solid: "bg-error text-error-foreground border border-error/70 shadow-sm",
+      solid
+        : "bg-error text-error-foreground border border-error/70 shadow-sm",
       outline:
         "border border-error text-error bg-transparent shadow-sm bg-error/10",
       ghost: "bg-transparent text-error border border-transparent",
@@ -101,6 +114,15 @@ export const defaultTheme: Theme = {
         "border border-info text-info bg-transparent shadow-sm bg-info/10",
       ghost: "bg-transparent text-info border border-transparent",
     },
+  },
+  alert: {
+    primary: "border border-primary/40 bg-primary/5 text-primary",
+    secondary: "border border-secondary/40 bg-secondary/5 text-secondary",
+    tertiary: "border border-muted/50 bg-muted/5 text-muted-foreground",
+    success: "border border-success/40 bg-success/5 text-success",
+    warning: "border border-warning/50 text-warning",
+    info: "border border-info/40 bg-info/5 text-info",
+    error: "border border-error/40 bg-error/5 text-error",
   },
 };
 
