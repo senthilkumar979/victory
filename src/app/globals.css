@@ -60,3 +60,11 @@ body {
 .w-fit-content {
   width: fit-content;
 }
+
+.letter-spacing-wide {
+  letter-spacing: 0.1em;
+}
+
+.font-sm {
+  font-size: 0.8rem;
+}
