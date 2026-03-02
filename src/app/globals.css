@@ -52,3 +52,11 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.p-5 {
+  padding: 1.25rem;
+}
+
+.w-fit-content {
+  width: fit-content;
+}
