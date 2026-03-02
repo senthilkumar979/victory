@@ -8,7 +8,7 @@ import { Badge } from "@/ui/atoms/badge/Badge";
 
 const ComponentsDemoPage = () => {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-8 bg-background px-6">
+    <main className="flex min-h-screen flex-col items-center justify-center gap-8 bg-foreground px-6">
       <h1 className="text-2xl font-semibold text-foreground">Components demo</h1>
       <div className="flex flex-wrap items-center justify-center gap-4">
         <PrimaryButton>Primary</PrimaryButton>

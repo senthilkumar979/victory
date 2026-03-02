@@ -35,15 +35,15 @@ export const defaultTheme: Theme = {
     secondary:
       "bg-secondary text-secondary-foreground hover:bg-secondary/90 focus-visible:ring-secondary",
     text:
-      "bg-transparent text-primary hover:bg-muted focus-visible:ring-primary",
+      "bg-transparent text-primary hover:bg-primary hover:text-white focus-visible:ring-primary",
     tertiary:
       "bg-muted text-muted-foreground hover:bg-muted/80 focus-visible:ring-muted",
     primaryOutline:
-      "border border-primary text-primary bg-transparent hover:bg-primary text-white focus-visible:ring-primary",
+      "border border-primary text-primary bg-transparent hover:bg-primary hover:text-white focus-visible:ring-primary",
     secondaryOutline:
-      "border border-secondary text-secondary bg-transparent hover:bg-secondary text-white focus-visible:ring-secondary",
+      "border border-secondary text-secondary bg-transparent hover:bg-secondary hover:text-white focus-visible:ring-secondary",
     textOutline:
-      "border border-transparent text-primary bg-transparent hover:border-muted focus-visible:ring-primary",
+      "border border-transparent text-primary bg-transparent hover:border-primary focus-visible:ring-primary",
     tertiaryOutline:
       "border border-muted text-muted-foreground bg-transparent hover:bg-muted text-black focus-visible:ring-muted",
   },
@@ -92,8 +92,8 @@ export const defaultTheme: Theme = {
       solid:
         "bg-warning text-warning-foreground border border-warning/70 shadow-sm",
       outline:
-        "border border-warning text-warning-foreground bg-transparent bg-warning/10",
-      ghost: "bg-transparent text-warning-foreground border border-transparent",
+        "border border-warning text-warning bg-transparent",
+      ghost: "bg-transparent text-warning border border-transparent",
     },
     info: {
       solid: "bg-info text-info-foreground border border-info/70 shadow-sm",
