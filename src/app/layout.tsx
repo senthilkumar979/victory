@@ -27,8 +27,8 @@ export default function RootLayout({
     <ClerkProvider
       signInUrl="/sign-in"
       signUpUrl="/sign-up"
-      afterSignInUrl="/"
-      afterSignUpUrl="/"
+      afterSignInUrl="/post-login"
+      afterSignUpUrl="/post-login"
       taskUrls={{ "reset-password": "/session-tasks/reset-password" }}
     >
       <html lang="en">
