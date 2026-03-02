@@ -68,3 +68,7 @@ body {
 .font-sm {
   font-size: 0.8rem;
 }
+
+input:checked {
+  accent-color: var(--primary);
+}
