@@ -1,3 +1,4 @@
+import { FormLabel } from '@/atoms/form-label/FormLabel'
 import type { InputHTMLAttributes, ReactNode } from 'react'
 
 type ValidationStatus = 'default' | 'valid' | 'invalid'
@@ -60,13 +61,7 @@ export const FormInput = ({
 
   return (
     <div className="flex w-full flex-col gap-1.5">
-      <label
-        htmlFor={inputId}
-        className="text-sm text-muted font-medium uppercase letter-spacing-wide font-sm"
-      >
-        {label}
-        {isRequired ? <span className="text-red-500">*</span> : null}
-      </label>
+      <FormLabel isRequired={isRequired}>{label}</FormLabel>
 
       <div className="relative">
         <input
