@@ -59,11 +59,11 @@ const AdminSettingsPage = () => {
   ];
 
   return (
-    <main className="min-h-screen bg-zinc-50 px-6 py-10 dark:bg-black">
+    <main className="min-h-screen px-6 py-10">
       <div className="mx-auto w-full max-w-8xl space-y-6">
         <header className="space-y-1">
-          <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">Admin settings</h1>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <h1 className="text-2xl font-semibold text-primary">Admin settings</h1>
+          <p className="text-sm text-secondary">
             Choose a section from the left to edit its settings.
           </p>
         </header>
