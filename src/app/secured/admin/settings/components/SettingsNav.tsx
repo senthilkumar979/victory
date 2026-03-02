@@ -1,0 +1,181 @@
+'use client';
+
+import { useEffect, useMemo, useRef, useState } from "react";
+
+export interface SettingsNavItem {
+  value: string;
+  label: string;
+  content: React.ReactNode;
+  disabled?: boolean;
+}
+
+export interface SettingsNavProps {
+  items: SettingsNavItem[];
+  "aria-label"?: string;
+  className?: string;
+  defaultValue?: string;
+  value?: string;
+  onValueChange?: (value: string) => void;
+}
+
+function joinClassNames(...classes: Array<string | false | null | undefined>): string {
+  return classes.filter(Boolean).join(" ");
+}
+
+function findFirstEnabledValue(items: SettingsNavItem[]): string | undefined {
+  return items.find((item) => !item.disabled)?.value;
+}
+
+function findNextEnabledIndex(items: SettingsNavItem[], startIndex: number, delta: number): number {
+  if (items.length === 0) return -1;
+  const safeStart = Math.min(Math.max(startIndex, 0), items.length - 1);
+
+  for (let step = 1; step <= items.length; step += 1) {
+    const nextIndex = (safeStart + step * delta + items.length) % items.length;
+    if (!items[nextIndex]?.disabled) return nextIndex;
+  }
+
+  return -1;
+}
+
+export const SettingsNav = ({
+  items,
+  className,
+  defaultValue,
+  value,
+  onValueChange,
+  "aria-label": ariaLabel = "Settings navigation",
+}: SettingsNavProps) => {
+  const isControlled = value !== undefined;
+  const [uncontrolledValue, setUncontrolledValue] = useState<string | undefined>(() => {
+    return defaultValue ?? findFirstEnabledValue(items);
+  });
+
+  const activeValue = isControlled ? value : uncontrolledValue;
+
+  const activeIndex = useMemo(() => {
+    const index = items.findIndex((item) => item.value === activeValue);
+    return index === -1 ? 0 : index;
+  }, [activeValue, items]);
+
+  const tabButtonRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  useEffect(() => {
+    if (isControlled) return;
+    if (items.length === 0) return;
+    const hasActiveValue = items.some((item) => item.value === uncontrolledValue && !item.disabled);
+    if (hasActiveValue) return;
+
+    setUncontrolledValue(defaultValue ?? findFirstEnabledValue(items));
+  }, [defaultValue, isControlled, items, uncontrolledValue]);
+
+  const setActiveValue = (nextValue: string) => {
+    onValueChange?.(nextValue);
+    if (!isControlled) setUncontrolledValue(nextValue);
+  };
+
+  return (
+    <div
+      className={joinClassNames(
+        "flex w-full overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900",
+        className,
+      )}
+    >
+      <div className="w-64 shrink-0 border-r border-zinc-200 bg-zinc-50 p-2 dark:border-zinc-800 dark:bg-zinc-950">
+        <div role="tablist" aria-orientation="vertical" aria-label={ariaLabel} className="flex flex-col gap-1">
+          {items.map((item, index) => {
+            const isActive = item.value === activeValue;
+            const tabId = `settings-nav-tab-${item.value}`;
+            const panelId = `settings-nav-panel-${item.value}`;
+
+            return (
+              <button
+                key={item.value}
+                ref={(node) => {
+                  tabButtonRefs.current[index] = node;
+                }}
+                type="button"
+                role="tab"
+                id={tabId}
+                aria-selected={isActive}
+                aria-controls={panelId}
+                tabIndex={isActive ? 0 : -1}
+                disabled={item.disabled}
+                onClick={() => setActiveValue(item.value)}
+                onKeyDown={(event) => {
+                  if (items.length === 0) return;
+
+                  if (event.key === "Home") {
+                    event.preventDefault();
+                    const firstIndex = findNextEnabledIndex(items, 0, 1);
+                    if (firstIndex === -1) return;
+                    const next = items[firstIndex];
+                    if (!next) return;
+                    setActiveValue(next.value);
+                    tabButtonRefs.current[firstIndex]?.focus();
+                    return;
+                  }
+
+                  if (event.key === "End") {
+                    event.preventDefault();
+                    const lastIndex = findNextEnabledIndex(items, items.length - 1, -1);
+                    if (lastIndex === -1) return;
+                    const next = items[lastIndex];
+                    if (!next) return;
+                    setActiveValue(next.value);
+                    tabButtonRefs.current[lastIndex]?.focus();
+                    return;
+                  }
+
+                  if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+                  event.preventDefault();
+
+                  const delta = event.key === "ArrowDown" ? 1 : -1;
+                  const nextIndex = findNextEnabledIndex(items, activeIndex, delta);
+                  if (nextIndex === -1) return;
+                  const next = items[nextIndex];
+                  if (!next) return;
+                  setActiveValue(next.value);
+                  tabButtonRefs.current[nextIndex]?.focus();
+                }}
+                className={joinClassNames(
+                  "w-full rounded-md px-3 py-2 text-left text-sm outline-none transition-colors",
+                  "focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-50 dark:focus-visible:ring-zinc-100 dark:focus-visible:ring-offset-zinc-950",
+                  item.disabled &&
+                    "cursor-not-allowed text-zinc-400 dark:text-zinc-600 focus-visible:ring-0 focus-visible:ring-offset-0",
+                  !item.disabled &&
+                    !isActive &&
+                    "text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-900 dark:hover:text-zinc-50",
+                  !item.disabled && isActive && "bg-white font-medium text-zinc-900 shadow-sm dark:bg-zinc-900 dark:text-zinc-50",
+                )}
+              >
+                {item.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="min-w-0 flex-1 p-6">
+        {items.map((item) => {
+          const isActive = item.value === activeValue;
+          const tabId = `settings-nav-tab-${item.value}`;
+          const panelId = `settings-nav-panel-${item.value}`;
+
+          return (
+            <section
+              key={item.value}
+              role="tabpanel"
+              id={panelId}
+              aria-labelledby={tabId}
+              hidden={!isActive}
+              className={joinClassNames(!isActive && "hidden")}
+            >
+              {item.content}
+            </section>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
