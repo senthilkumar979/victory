@@ -50,7 +50,7 @@
 body {
   background: var(--foreground);
   color: var(--foreground);
-  font-family: "Poppins", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .p-5 {
@@ -74,7 +74,6 @@ input:checked {
 }
 
 .orbitron {
-  font-family: "Orbitron", sans-serif !important;
   font-optical-sizing: auto;
   font-style: normal;
 }
