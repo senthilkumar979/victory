@@ -1,20 +1,29 @@
 import { joinClassNames } from '@/utils/tailwindUtils'
 import { useState } from 'react'
+import { GoogleGroups } from '../GoogleGroups'
 import { SettingsNavItem } from '../SettingsNav/SettingNav.types'
 
 export const GeneralSettings = () => {
   const navItems: SettingsNavItem[] = [
-    { value: 'overview', label: 'Overview', content: <></> },
+    {
+      value: 'google-groups',
+      label: 'Google Groups',
+      content: <GoogleGroups />,
+    },
   ]
 
-  const [activeTab, setActiveTab] = useState('overview')
+  const [activeTab, setActiveTab] = useState('google-groups')
 
   const loadActiveContent = () => {
-    return navItems?.find((item) => item?.value === activeTab)?.content
+    // Wrap the content in a stacking context to ensure Modals inside render properly
+    const content = navItems?.find((item) => item?.value === activeTab)?.content
+    return (
+      <div className="relative z-0">{content}</div>
+    )
   }
 
   return (
-    <div className="flex rounded-lg border border-zinc-200 shadow bg-white min-h-[300px]">
+    <div className="relative flex rounded-lg border border-zinc-200 shadow bg-white min-h-[500px]">
       <nav className="w-40 border-r border-zinc-200 bg-zinc-50 py-2 flex flex-col gap-1 shrink-0">
         {navItems.map((item) => {
           const isActive = item.value === activeTab
@@ -41,7 +50,7 @@ export const GeneralSettings = () => {
           )
         })}
       </nav>
-      <section className="flex-1 p-6">{loadActiveContent()}</section>
+      <section className="flex-1 p-6 relative">{loadActiveContent()}</section>
     </div>
   )
 }

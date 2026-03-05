@@ -4,9 +4,15 @@ export interface ButtonTheme {
   text: string;
   tertiary: string;
   primaryOutline: string;
+  error: string;
   secondaryOutline: string;
   textOutline: string;
   tertiaryOutline: string;
+  errorOutline: string;
+  textPrimary: string;
+  textSecondary: string;
+  textTertiary: string;
+  textError: string;
 }
 
 export type BadgeColor =
@@ -58,6 +64,18 @@ export const defaultTheme: Theme = {
       "border border-transparent text-primary bg-transparent hover:border-primary focus-visible:ring-primary",
     tertiaryOutline:
       "border border-muted text-muted-foreground bg-transparent hover:bg-muted text-black focus-visible:ring-muted",
+    error:
+      "bg-red-500 hover:bg-red-500/90 focus-visible:ring-red-500",
+    errorOutline:
+      "border border-red-500 text-red-500-foreground bg-transparent hover:bg-red-500 hover:text-white focus-visible:ring-red-500",
+    textPrimary:
+      "bg-transparent text-primary hover:bg-primary hover:text-white focus-visible:ring-primary",
+    textSecondary:
+      "bg-transparent text-secondary hover:bg-secondary hover:text-white focus-visible:ring-secondary",
+    textTertiary:
+      "bg-transparent text-muted-foreground hover:bg-muted-foreground hover:text-white focus-visible:ring-muted-foreground",
+    textError:
+      "bg-transparent text-red-500 hover:bg-red-500 hover:text-white focus-visible:ring-red-500",
   },
   badge: {
     primary: {
@@ -96,10 +114,10 @@ export const defaultTheme: Theme = {
     },
     error: {
       solid
-        : "bg-error text-error-foreground border border-error/70 shadow-sm",
+        : "bg-red-500 text-red-500-foreground border border-red-500/70 shadow-sm",
       outline:
-        "border border-error text-error bg-transparent shadow-sm bg-error/10",
-      ghost: "bg-transparent text-error border border-transparent",
+        "border border-red-500 text-red-500-foreground bg-transparent shadow-sm bg-red-500/10",
+      ghost: "bg-transparent text-red-500-foreground border border-transparent",
     },
     warning: {
       solid:

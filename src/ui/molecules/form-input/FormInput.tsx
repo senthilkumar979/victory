@@ -1,4 +1,5 @@
 import { FormLabel } from '@/atoms/form-label/FormLabel'
+import { joinClassNames } from '@/utils/tailwindUtils'
 import type { InputHTMLAttributes, ReactNode } from 'react'
 
 type ValidationStatus = 'default' | 'valid' | 'invalid'
@@ -10,15 +11,13 @@ interface FormInputProps
   errorMessage?: ReactNode
   validationStatus?: ValidationStatus
   isRequired?: boolean
+  isDarkMode?: boolean
 }
 
 const baseInputClass =
   'block w-full rounded-md border px-3 py-2 text-sm shadow-sm ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 ' +
   'disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground'
-
-const mergeClasses = (...classes: Array<string | undefined>): string =>
-  classes.filter(Boolean).join(' ')
 
 const getValidationClasses = (
   validationStatus: ValidationStatus,
@@ -42,6 +41,7 @@ export const FormInput = ({
   validationStatus = 'default',
   className,
   isRequired = false,
+  isDarkMode = false,
   ...inputProps
 }: FormInputProps) => {
   const inputId =
@@ -61,12 +61,14 @@ export const FormInput = ({
 
   return (
     <div className="flex w-full flex-col gap-1.5">
-      <FormLabel isRequired={isRequired}>{label}</FormLabel>
+      <FormLabel isRequired={isRequired} isDarkMode={isDarkMode}>
+        {label}
+      </FormLabel>
 
       <div className="relative">
         <input
           id={inputId}
-          className={mergeClasses(baseInputClass, validationClass, className)}
+          className={joinClassNames(baseInputClass, validationClass, className)}
           aria-invalid={validationStatus === 'invalid' || undefined}
           aria-describedby={describedByIds}
           {...inputProps}

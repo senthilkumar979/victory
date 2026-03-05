@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 
 import type {
   ModalBodyProps,
@@ -50,7 +51,9 @@ const ModalRoot = ({
 
   const modalSizeClass = sizeClassMap[size]
 
-  return (
+  if (typeof document === 'undefined') return null
+
+  return createPortal(
     <AnimatePresence>
       {isOpen ? (
         <motion.div
@@ -110,7 +113,8 @@ const ModalRoot = ({
           </motion.div>
         </motion.div>
       ) : null}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   )
 }
 
@@ -119,10 +123,7 @@ const ModalTitle = ({ children }: ModalTitleProps) => (
     <div className="flex flex-col gap-1.5">
       <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-primary/80">
         <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_0_4px_rgba(34,197,94,0.25)]" />
-        <span>System Modal</span>
-      </div>
-      <div className="text-base font-semibold leading-snug text-slate-50 sm:text-lg">
-        {children}
+        <span>{children}</span>
       </div>
     </div>
   </header>
@@ -136,9 +137,7 @@ const ModalBody = ({ children }: ModalBodyProps) => (
 
 const ModalFooter = ({ children }: ModalFooterProps) => (
   <footer className="relative mt-1 flex flex-col gap-2 border-t border-slate-800/70 pt-3 sm:flex-row sm:items-center sm:justify-between sm:pt-4">
-    <span className="text-[11px] uppercase tracking-[0.2em] text-slate-500">
-      Action Center
-    </span>
+    <span className="text-[11px] uppercase tracking-[0.2em] text-slate-500"></span>
     <div className="flex flex-wrap items-center gap-2 sm:justify-end">
       {children}
     </div>

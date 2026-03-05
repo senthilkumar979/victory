@@ -1,3 +1,152 @@
+import { useGoogleGroups } from '@/hooks/useGoogleGroups'
+import { PencilIcon, TrashIcon } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import { Button, TextButton } from '../../../../ui/atoms/button/Button'
+import { AddGoogleGroup } from './AddGoogleGroup'
+import { DeleteGoogleGroup } from './DeleteGoogleGroup'
+import { GoogleGroupFormState } from './GoogleGroup.types'
+
 export const GoogleGroups = () => {
-  return <div>GoogleGroups</div>
+  const { groups, isLoading, error } = useGoogleGroups()
+
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [formState, setFormState] = useState<GoogleGroupFormState | undefined>(
+    undefined,
+  )
+  const [
+    groupToDelete,
+    setGroupToDelete,
+  ] = useState<GoogleGroupFormState | null>(null)
+
+  const isEditing = useMemo(() => Boolean(formState?.id), [formState?.id])
+
+  const handleOpenCreate = () => {
+    setIsFormModalOpen(true)
+  }
+
+  const handleOpenEdit = (group: GoogleGroupFormState) => {
+    setFormState({
+      id: group.id,
+      name: group.name,
+      email: group.email,
+    })
+    setIsFormModalOpen(true)
+  }
+
+  const handleAddOrEditSuccess = () => {
+    setIsFormModalOpen(false)
+    setFormState(undefined)
+  }
+
+  const handleDeleteSuccess = () => {
+    setIsDeleteModalOpen(false)
+    setGroupToDelete(null)
+  }
+
+  const handleOpenDelete = (group: GoogleGroupFormState) => {
+    setGroupToDelete(group)
+    setIsDeleteModalOpen(true)
+  }
+
+  return (
+    <div className="relative">
+      <div className="min-h-[500px] bg-gradient-to-br from-slate-50 via-sky-50 to-indigo-50 px-6 py-8">
+        <div className="mx-auto max-w-3xl rounded-2xl bg-white/80 p-6 shadow-lg ring-1 ring-slate-100 backdrop-blur">
+          <div className="mb-6 flex items-center justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-semibold text-slate-900">
+                Google Groups
+              </h2>
+              <p className="mt-1 text-sm text-slate-500">
+                Manage Google Groups used across the system.
+              </p>
+            </div>
+
+            <Button onClick={handleOpenCreate}>Add group</Button>
+          </div>
+
+          {isLoading && (
+            <div className="mb-4 rounded-md border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+              Loading Google Groups…
+            </div>
+          )}
+
+          {error && (
+            <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+              Failed to load Google Groups. {error}
+            </div>
+          )}
+
+          {!isLoading && !error && groups.length === 0 && (
+            <div className="flex h-32 items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50 text-sm text-slate-500">
+              No Google Groups configured yet.
+            </div>
+          )}
+
+          {groups.length > 0 && (
+            <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
+              <table className="min-w-full divide-y divide-slate-200 bg-white">
+                <thead className="bg-slate-50">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      Name
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      Email
+                    </th>
+                    <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {groups.map((group) => (
+                    <tr key={group.id} className="hover:bg-slate-50/70">
+                      <td className="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-900">
+                        {group.name}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3 text-sm text-slate-600">
+                        <a
+                          href={`mailto:${group.email}`}
+                          className="text-indigo-600 hover:text-indigo-800 hover:underline"
+                        >
+                          {group.email}
+                        </a>
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3 text-right text-sm">
+                        <TextButton
+                          variant="textTertiary"
+                          onClick={() => handleOpenEdit(group)}
+                        >
+                          <PencilIcon className="size-4" />
+                        </TextButton>
+                        <TextButton
+                          variant="textError"
+                          onClick={() => handleOpenDelete(group)}
+                        >
+                          <TrashIcon className="size-4" />
+                        </TextButton>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        <AddGoogleGroup
+          show={isFormModalOpen}
+          groupToEdit={formState ?? undefined}
+          onSucess={handleAddOrEditSuccess}
+        />
+        <DeleteGoogleGroup
+          show={isDeleteModalOpen}
+          groupToDelete={groupToDelete}
+          onDelete={handleDeleteSuccess}
+        />
+      </div>
+    </div>
+  )
 }

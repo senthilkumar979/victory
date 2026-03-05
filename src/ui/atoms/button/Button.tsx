@@ -1,7 +1,7 @@
-import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { defaultTheme, type Theme } from "@/core/theme/theme";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-export type ButtonVariant = "primary" | "secondary" | "text" | "tertiary";
+export type ButtonVariant = "primary" | "secondary" | "text" | "tertiary" | "error" | "textPrimary" | "textSecondary" | "textTertiary" | "textError";
 export type ButtonMode = "solid" | "outline";
 export type ButtonSize = "sm" | "md" | "lg";
 
@@ -42,7 +42,15 @@ const getVariantClasses = (
     return mode === "outline" ? button.tertiaryOutline : button.tertiary;
   }
 
+  if (variant === "error") {
+    return mode === "outline" ? button.errorOutline : button.error;
+  }
+
   if (mode === "outline") return button.primaryOutline;
+
+  if (variant.startsWith("text")) {
+    return button[variant]
+  }
 
   return button.primary;
 };
@@ -76,7 +84,7 @@ export const Button = ({
   );
 };
 
-type VariantButtonProps = Omit<ButtonBaseProps, "variant">;
+type VariantButtonProps = ButtonBaseProps;
 
 export const PrimaryButton = (props: VariantButtonProps) => (
   <Button {...props} variant="primary" />
@@ -87,10 +95,13 @@ export const SecondaryButton = (props: VariantButtonProps) => (
 );
 
 export const TextButton = (props: VariantButtonProps) => (
-  <Button {...props} variant="text" />
-);
+    <Button {...props} variant={props.variant || "textPrimary"} />
+  )
 
 export const TertiaryButton = (props: VariantButtonProps) => (
   <Button {...props} variant="tertiary" />
 );
 
+export const ErrorButton = (props: VariantButtonProps) => (
+  <Button {...props} variant="error" />
+);
