@@ -15,8 +15,8 @@ interface FormInputProps
 }
 
 const baseInputClass =
-  'block w-full rounded-md border px-3 py-2 text-sm shadow-sm ' +
-  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 ' +
+  'block w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm ' +
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0.25 ' +
   'disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground'
 
 const getValidationClasses = (
@@ -65,7 +65,7 @@ export const FormInput = ({
         {label}
       </FormLabel>
 
-      <div className="relative">
+      <div className="relative px-1 py-1">
         <input
           id={inputId}
           className={joinClassNames(baseInputClass, validationClass, className)}
