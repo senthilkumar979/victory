@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 
 import { useAnnouncements } from '@/hooks/useAnnouncements'
+import { usePushSubscription } from '@/hooks/usePushSubscription'
+import { useWebNotification } from '@/hooks/useWebNotification'
 import { FormInput } from '@/molecules/form-input/FormInput'
 import { RichTextEditor } from '@/organisms/rich-text-editor'
 import { Drawer } from '@/ui/organisms/drawer/Drawer'
@@ -23,6 +25,8 @@ export const AnnouncementFormDrawer = ({
   const {
     triggerEmailOnAnnouncement: sendEmail,
   } = useTriggerEmailOnAnnouncement()
+  const { ensureSubscription } = usePushSubscription()
+  const { isSupported, requestPermission, notify } = useWebNotification()
 
   const [formState, setFormState] = useState<AnnouncementFormState>({
     title: '',
@@ -71,6 +75,17 @@ export const AnnouncementFormDrawer = ({
       await updateAnnouncement(formState.id, payload)
     } else {
       await createAnnouncement(payload)
+      await ensureSubscription()
+
+      if (isSupported) {
+        const permission = await requestPermission()
+
+        if (permission === 'granted') {
+          notify('Important announcement | MentorBridge', {
+            body: trimmedTitle,
+          })
+        }
+      }
     }
 
     gooeyToast.success('Announcement saved successfully!', {
@@ -86,25 +101,25 @@ export const AnnouncementFormDrawer = ({
         displayDuration: 2000,
       },
     })
-    setTimeout(() => {
-      gooeyToast.promise(sendEmail(formState), {
-        loading: 'Sending email to all community members...',
-        success: 'Email sent Successfully!',
-        error: 'Something went wrong',
-        description: {
-          success:
-            'Announcement email sent successfully to all community members.',
-          error:
-            'Announcement email failed to send to all community members. Please try again later.',
-        },
-        action: {
-          error: {
-            label: 'Retry',
-            onClick: () => sendEmail(formState),
-          },
-        },
-      })
-    }, 3500)
+    // setTimeout(() => {
+    //   gooeyToast.promise(sendEmail(formState), {
+    //     loading: 'Sending email to all community members...',
+    //     success: 'Email sent Successfully!',
+    //     error: 'Something went wrong',
+    //     description: {
+    //       success:
+    //         'Announcement email sent successfully to all community members.',
+    //       error:
+    //         'Announcement email failed to send to all community members. Please try again later.',
+    //     },
+    //     action: {
+    //       error: {
+    //         label: 'Retry',
+    //         onClick: () => sendEmail(formState),
+    //       },
+    //     },
+    //   })
+    // }, 3500)
 
     onSuccess()
   }

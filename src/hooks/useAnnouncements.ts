@@ -59,6 +59,30 @@ export const useAnnouncements = (): UseAnnouncementsReturn => {
 
         if (insertError) throw insertError
 
+        const broadcastEndpoint = process.env
+          .NEXT_PUBLIC_PUSH_BROADCAST_ENDPOINT
+
+        if (broadcastEndpoint) {
+          try {
+            void fetch(broadcastEndpoint, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                title: payload.title,
+                body: 'A new announcement has been published.',
+                url: '/announcements',
+              }),
+            })
+          } catch (broadcastError) {
+            console.error(
+              'Error broadcasting announcement push notification:',
+              broadcastError,
+            )
+          }
+        }
+
         await fetchAnnouncements()
       } catch (err) {
         console.error('Error creating announcement:', err)
