@@ -1,6 +1,6 @@
 'use client'
 
-import { useCheckIsAuthenticated } from '../../hooks/useCheckIsAuthenticated'
+import { useCheckIsAuthenticated } from '../../../hooks/useCheckIsAuthenticated'
 
 const ProfilePage = () => {
   useCheckIsAuthenticated()

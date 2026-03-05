@@ -1,48 +1,9 @@
 'use client'
 
+import { joinClassNames } from '@/utils/tailwindUtils'
 import { useEffect, useMemo, useRef, useState } from 'react'
-
-export interface SettingsNavItem {
-  value: string
-  label: string
-  content: React.ReactNode
-  disabled?: boolean
-}
-
-export interface SettingsNavProps {
-  items: SettingsNavItem[]
-  'aria-label'?: string
-  className?: string
-  defaultValue?: string
-  value?: string
-  onValueChange?: (value: string) => void
-}
-
-function joinClassNames(
-  ...classes: Array<string | false | null | undefined>
-): string {
-  return classes.filter(Boolean).join(' ')
-}
-
-function findFirstEnabledValue(items: SettingsNavItem[]): string | undefined {
-  return items.find((item) => !item.disabled)?.value
-}
-
-function findNextEnabledIndex(
-  items: SettingsNavItem[],
-  startIndex: number,
-  delta: number,
-): number {
-  if (items.length === 0) return -1
-  const safeStart = Math.min(Math.max(startIndex, 0), items.length - 1)
-
-  for (let step = 1; step <= items.length; step += 1) {
-    const nextIndex = (safeStart + step * delta + items.length) % items.length
-    if (!items[nextIndex]?.disabled) return nextIndex
-  }
-
-  return -1
-}
+import { SettingsNavProps } from './SettingNav.types'
+import { findFirstEnabledValue, findNextEnabledIndex } from './settingsHelper'
 
 export const SettingsNav = ({
   items,
@@ -85,18 +46,13 @@ export const SettingsNav = ({
   }
 
   return (
-    <div
-      className={joinClassNames(
-        'flex w-full overflow-hidden rounded-xl border border-zinc-200 shadow-sm bg-foreground',
-        className,
-      )}
-    >
-      <div className="w-64 shrink-0 border-r border-zinc-200 p-2">
+    <div>
+      <div className="shrink-0 border-r border-zinc-200 p-1 mb-4 bg-zinc border border-zinc-400 rounded-lg">
         <div
           role="tablist"
-          aria-orientation="vertical"
+          aria-orientation="horizontal"
           aria-label={ariaLabel}
-          className="flex flex-col gap-1"
+          className="flex gap-1"
         >
           {items.map((item, index) => {
             const isActive = item.value === activeValue
@@ -181,26 +137,32 @@ export const SettingsNav = ({
           })}
         </div>
       </div>
+      <div
+        className={joinClassNames(
+          'flex w-full overflow-hidden rounded-xl border border-zinc-200 shadow-sm bg-foreground',
+          className,
+        )}
+      >
+        <div className="min-w-0 flex-1 p-6">
+          {items.map((item) => {
+            const isActive = item.value === activeValue
+            const tabId = `settings-nav-tab-${item.value}`
+            const panelId = `settings-nav-panel-${item.value}`
 
-      <div className="min-w-0 flex-1 p-6">
-        {items.map((item) => {
-          const isActive = item.value === activeValue
-          const tabId = `settings-nav-tab-${item.value}`
-          const panelId = `settings-nav-panel-${item.value}`
-
-          return (
-            <section
-              key={item.value}
-              role="tabpanel"
-              id={panelId}
-              aria-labelledby={tabId}
-              hidden={!isActive}
-              className={joinClassNames(!isActive && 'hidden')}
-            >
-              {item.content}
-            </section>
-          )
-        })}
+            return (
+              <section
+                key={item.value}
+                role="tabpanel"
+                id={panelId}
+                aria-labelledby={tabId}
+                hidden={!isActive}
+                className={joinClassNames(!isActive && 'hidden')}
+              >
+                {item.content}
+              </section>
+            )
+          })}
+        </div>
       </div>
     </div>
   )

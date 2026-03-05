@@ -77,3 +77,20 @@ input:checked {
   font-optical-sizing: auto;
   font-style: normal;
 }
+
+.shadow-primary {
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--color-primary) 25%, transparent);
+}
+.shadow-secondary {
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--color-secondary) 25%, transparent);
+}
+.shadow-tertiary {
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--color-tertiary) 25%, transparent);
+}
+.shadow-success {
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--color-success) 25%, transparent);
+}
