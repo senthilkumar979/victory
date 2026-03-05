@@ -128,7 +128,7 @@ export const SettingsNav = ({
                     'text-primary border border-transparent hover:bg-primary-100 hover:text-primary-900 dark:text-primary-300 hover:border-primary dark:hover:border-primary dark:hover:text-primary hover:border-primary-200',
                   !item.disabled &&
                     isActive &&
-                    'bg-primary font-medium text-primary-900 shadow-sm dark:bg-primary-900 dark:text-primary-50',
+                    'bg-primary font-medium text-primary-900 shadow-sm dark:bg-primary-900 dark:text-primary-50 uppercase',
                 )}
               >
                 {item.label}

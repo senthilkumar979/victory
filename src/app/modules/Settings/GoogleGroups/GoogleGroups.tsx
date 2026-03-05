@@ -1,7 +1,7 @@
+import { Button, TextButton } from '@/atoms/button/Button'
 import { useGoogleGroups } from '@/hooks/useGoogleGroups'
 import { PencilIcon, TrashIcon } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { Button, TextButton } from '../../../../ui/atoms/button/Button'
 import { AddGoogleGroup } from './AddGoogleGroup'
 import { DeleteGoogleGroup } from './DeleteGoogleGroup'
 import { GoogleGroupFormState } from './GoogleGroup.types'

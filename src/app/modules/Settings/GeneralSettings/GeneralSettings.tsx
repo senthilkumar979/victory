@@ -18,9 +18,7 @@ export const GeneralSettings = () => {
   const loadActiveContent = () => {
     // Wrap the content in a stacking context to ensure Modals inside render properly
     const content = navItems?.find((item) => item?.value === activeTab)?.content
-    return (
-      <div className="relative z-0">{content}</div>
-    )
+    return <div className="relative z-0">{content}</div>
   }
 
   return (

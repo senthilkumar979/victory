@@ -21,16 +21,9 @@ export const Students = () => {
   })
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 px-6 py-8">
-      <div className="mx-auto max-w-6xl rounded-2xl bg-white/80 p-6 shadow-lg ring-1 ring-slate-100 backdrop-blur">
+    <div className="min-h-screen px-6 py-4">
+      <div className="">
         <div className="mb-6 flex items-center justify-between gap-4">
-          <div>
-            <h2 className="text-lg font-semibold text-slate-900">Students</h2>
-            <p className="mt-1 text-sm text-slate-500">
-              Directory of students with their current roles, batches,
-              companies, and socials.
-            </p>
-          </div>
           {loading && (
             <span className="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
               Loading…

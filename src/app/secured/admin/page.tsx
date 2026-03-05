@@ -18,11 +18,13 @@ const AdminSettingsPage = () => {
       value: 'general',
       label: 'General',
       content: (
-        <div className="space-y-2">
-          <SubTitle>General</SubTitle>
-          <p className="text-sm text-gray-500 mb-4">
-            Manage high-level admin settings and defaults.
-          </p>
+        <div className="space-y-2 ">
+          <div className="border-l-3 border-primary pl-4">
+            <SubTitle>General</SubTitle>
+            <p className="text-sm text-gray-500 mb-4">
+              Manage high-level admin settings and defaults.
+            </p>
+          </div>
           <GeneralSettings />
         </div>
       ),
@@ -32,10 +34,12 @@ const AdminSettingsPage = () => {
       label: 'Security',
       content: (
         <div className="space-y-2">
-          <SubTitle>Security</SubTitle>
-          <p className="text-sm text-gray-500 mb-4">
-            Configure authentication, roles, and access controls.
-          </p>
+          <div className="border-l-3 border-primary pl-4">
+            <SubTitle>Security</SubTitle>
+            <p className="text-sm text-gray-500 mb-4">
+              Configure authentication, roles, and access controls.
+            </p>
+          </div>
         </div>
       ),
     },
@@ -44,10 +48,13 @@ const AdminSettingsPage = () => {
       label: 'Users',
       content: (
         <div className="space-y-2">
-          <SubTitle>Users</SubTitle>
-          <p className="text-sm text-gray-500 mb-4">
-            Manage Student details of the community
-          </p>
+          <div className="border-l-3 border-primary pl-4">
+            <SubTitle>Students</SubTitle>
+            <p className="text-sm text-gray-500 mb-4">
+              Directory of students with their current roles, batches,
+              companies, and social links.
+            </p>
+          </div>
           <Students />
         </div>
       ),
