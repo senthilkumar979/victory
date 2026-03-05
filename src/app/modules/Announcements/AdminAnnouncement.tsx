@@ -89,31 +89,28 @@ export const AdminAnnouncement = () => {
           )}
 
           {announcements.length > 0 && (
-            <div className="overflow-hidden rounded-xl border border-slate-800/80 bg-slate-950/80 shadow-sm">
-              <table className="min-w-full divide-y divide-slate-800/80">
-                <thead className="bg-slate-900/80">
+            <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
+              <table className="min-w-full divide-y divide-slate-200 bg-white">
+                <thead className="bg-slate-50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-400">
+                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                       Title
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-400">
+                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                       Preview
                     </th>
-                    <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-400">
+                    <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60">
+                <tbody className="divide-y divide-slate-100">
                   {announcements.map((announcement) => (
-                    <tr
-                      key={announcement.id}
-                      className="hover:bg-slate-900/80"
-                    >
-                      <td className="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-50">
+                    <tr key={announcement?.id} className="hover:bg-slate-50/70">
+                      <td className="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-900">
                         {announcement.title}
                       </td>
-                      <td className="max-w-md px-4 py-3 text-sm text-slate-300">
+                      <td className="max-w-md px-4 py-3 text-sm text-slate-900">
                         <div
                           className="line-clamp-2"
                           dangerouslySetInnerHTML={{
@@ -121,7 +118,7 @@ export const AdminAnnouncement = () => {
                           }}
                         />
                       </td>
-                      <td className="whitespace-nowrap px-4 py-3 text-right text-sm">
+                      <td className="whitespace-nowrap px-4 py-3 text-right text-sm flex items-center justify-end gap-2">
                         <TextButton
                           variant="textTertiary"
                           onClick={() => handleOpenEdit(announcement)}

@@ -1,0 +1,3 @@
+export const RESEND_TEMPLATE_IDS = {
+  ANNOUNCEMENT: '95caea7c-2d7a-4a03-ac1f-2a790e452663',
+}

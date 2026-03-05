@@ -47,7 +47,7 @@ export const SettingsNav = ({
 
   return (
     <div>
-      <div className="shrink-0 border-r border-zinc-200 p-1 mb-4 bg-zinc border border-zinc-400 rounded-lg">
+      <div className="shrink-0 border-r border-primary-200 p-1 mb-4 bg-zinc border border-primary rounded-lg">
         <div
           role="tablist"
           aria-orientation="horizontal"

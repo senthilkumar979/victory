@@ -44,7 +44,6 @@ export const useStudents = (): UseStudentsReturn => {
       }
 
       if (data) {
-        console.log("Raw data from Supabase:", data[0]); // Debug log
 
         // Transform the data to match ProfileData interface
         const transformedData: ProfileData[] = data.map((student) => ({

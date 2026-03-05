@@ -4,7 +4,9 @@ import { useAnnouncements } from '@/hooks/useAnnouncements'
 import { FormInput } from '@/molecules/form-input/FormInput'
 import { RichTextEditor } from '@/organisms/rich-text-editor'
 import { Drawer } from '@/ui/organisms/drawer/Drawer'
+import { gooeyToast } from 'goey-toast'
 import { Check, XIcon } from 'lucide-react'
+import { useTriggerEmailOnAnnouncement } from '../../../hooks/useTriggerEmailOnAnnouncement'
 import { Button } from '../../../ui/atoms/button/Button'
 import type {
   AnnouncementFormDrawerProps,
@@ -18,6 +20,9 @@ export const AnnouncementFormDrawer = ({
   onSuccess,
 }: AnnouncementFormDrawerProps) => {
   const { createAnnouncement, updateAnnouncement } = useAnnouncements()
+  const {
+    triggerEmailOnAnnouncement: sendEmail,
+  } = useTriggerEmailOnAnnouncement()
 
   const [formState, setFormState] = useState<AnnouncementFormState>({
     title: '',
@@ -67,6 +72,39 @@ export const AnnouncementFormDrawer = ({
     } else {
       await createAnnouncement(payload)
     }
+
+    gooeyToast.success('Announcement saved successfully!', {
+      description: (
+        <div>
+          <strong>{formState.title}</strong> is now live!
+        </div>
+      ),
+      bounce: 0.45,
+      borderColor: '#E0E0E0',
+      borderWidth: 2,
+      timing: {
+        displayDuration: 2000,
+      },
+    })
+    setTimeout(() => {
+      gooeyToast.promise(sendEmail(formState), {
+        loading: 'Sending email to all community members...',
+        success: 'Email sent Successfully!',
+        error: 'Something went wrong',
+        description: {
+          success:
+            'Announcement email sent successfully to all community members.',
+          error:
+            'Announcement email failed to send to all community members. Please try again later.',
+        },
+        action: {
+          error: {
+            label: 'Retry',
+            onClick: () => sendEmail(formState),
+          },
+        },
+      })
+    }, 3500)
 
     onSuccess()
   }

@@ -1,5 +1,6 @@
 import { useGoogleGroups } from '@/hooks/useGoogleGroups'
 import { Modal } from '@/ui/organisms/modal/Modal'
+import { gooeyToast } from 'goey-toast'
 import { useEffect, useState } from 'react'
 import { DeleteGoogleGroupProps } from './GoogleGroup.types'
 
@@ -14,6 +15,19 @@ export const DeleteGoogleGroup = ({
   const handleConfirmDelete = async () => {
     if (!groupToDelete || !groupToDelete.id) return
     await deleteGroup(groupToDelete.id)
+    gooeyToast.success('Google Group deleted successfully!', {
+      description: (
+        <div>
+          <strong>{groupToDelete.name}</strong> is now deleted.
+        </div>
+      ),
+      bounce: 0.45,
+      borderColor: '#E0E0E0',
+      borderWidth: 2,
+      timing: {
+        displayDuration: 6000,
+      },
+    })
     onDelete()
     setIsDeleteModalOpen(false)
   }

@@ -53,11 +53,11 @@ export const GoogleGroups = () => {
 
   return (
     <div className="relative">
-      <div className="min-h-[500px] bg-gradient-to-br from-slate-50 via-sky-50 to-indigo-50 px-2 py-2">
+      <div className="min-h-[500px] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-2 py-2">
         <div className="px-3 py-3">
           <div className="mb-6 flex items-center justify-between gap-4">
             <div>
-              <h2 className="text-lg font-semibold text-slate-900">
+              <h2 className="text-lg font-semibold text-slate-50">
                 Google Groups
               </h2>
               <p className="mt-1 text-sm text-slate-500">
@@ -116,7 +116,7 @@ export const GoogleGroups = () => {
                           {group.email}
                         </a>
                       </td>
-                      <td className="whitespace-nowrap px-4 py-3 text-right text-sm">
+                      <td className="whitespace-nowrap text-right text-sm flex items-center justify-end gap-2">
                         <TextButton
                           variant="textTertiary"
                           onClick={() => handleOpenEdit(group)}

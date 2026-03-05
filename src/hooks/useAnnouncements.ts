@@ -1,31 +1,26 @@
 import { useCallback, useEffect, useState } from 'react'
 
 import { supabase } from '@/lib/supabaseClient'
+import { AnnouncementFormState } from '../app/modules/Announcements/Announcement.types'
 
-interface Announcement {
-  id?: string
-  title: string
-  description: string
-  created_at?: string
-}
 
 interface UseAnnouncementsReturn {
-  announcements: Announcement[]
+  announcements: AnnouncementFormState[]
   isLoading: boolean
   error: string | null
   refetch: () => Promise<void>
   createAnnouncement: (
-    payload: Omit<Announcement, 'id' | 'created_at'>,
+    payload: Omit<AnnouncementFormState, 'id' | 'created_at'>,
   ) => Promise<void>
   updateAnnouncement: (
     id: string,
-    payload: Omit<Announcement, 'id' | 'created_at'>,
+    payload: Omit<AnnouncementFormState, 'id' | 'created_at'>,
   ) => Promise<void>
   deleteAnnouncement: (id: string) => Promise<void>
 }
 
 export const useAnnouncements = (): UseAnnouncementsReturn => {
-  const [announcements, setAnnouncements] = useState<Announcement[]>([])
+  const [announcements, setAnnouncements] = useState<AnnouncementFormState[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -37,11 +32,11 @@ export const useAnnouncements = (): UseAnnouncementsReturn => {
       const { data, error: fetchError } = await supabase
         .from('announcements')
         .select('id, title, description, created_at')
-        .order('created_at', { ascending: false })
+        .order('id', { ascending: false })
 
       if (fetchError) throw fetchError
 
-      setAnnouncements((data ?? []) as Announcement[])
+      setAnnouncements((data ?? []) as AnnouncementFormState[])
     } catch (err) {
       console.error('Error fetching announcements:', err)
       setError(
@@ -53,7 +48,7 @@ export const useAnnouncements = (): UseAnnouncementsReturn => {
   }, [])
 
   const createAnnouncement = useCallback(
-    async (payload: Omit<Announcement, 'id' | 'created_at'>) => {
+    async (payload: Omit<AnnouncementFormState, 'id' | 'created_at'>) => {
       try {
         setIsLoading(true)
         setError(null)
@@ -82,7 +77,7 @@ export const useAnnouncements = (): UseAnnouncementsReturn => {
   const updateAnnouncement = useCallback(
     async (
       id: string,
-      payload: Omit<Announcement, 'id' | 'created_at'>,
+      payload: Omit<AnnouncementFormState, 'id' | 'created_at'>,
     ) => {
       try {
         setIsLoading(true)

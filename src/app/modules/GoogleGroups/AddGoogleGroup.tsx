@@ -1,6 +1,7 @@
 import { useGoogleGroups } from '@/hooks/useGoogleGroups'
 import { FormInput } from '@/molecules/form-input/FormInput'
 import { Modal } from '@/ui/organisms/modal/Modal'
+import { gooeyToast } from 'goey-toast'
 import { useEffect, useState } from 'react'
 import { AddGoogleGroupProps, GoogleGroupFormState } from './GoogleGroup.types'
 
@@ -45,6 +46,19 @@ export const AddGoogleGroup = ({
     } else {
       await createGroup(payload)
     }
+    gooeyToast.success('Google Group saved successfully!', {
+      description: (
+        <div>
+          <strong>{formState.name}</strong> is now available to use!
+        </div>
+      ),
+      bounce: 0.45,
+      borderColor: '#E0E0E0',
+      borderWidth: 2,
+      timing: {
+        displayDuration: 6000,
+      },
+    })
     onSucess()
   }
 

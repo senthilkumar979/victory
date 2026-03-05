@@ -3,10 +3,11 @@ import { NextResponse } from 'next/server'
 
 import { resend } from '@/lib/resend'
 
-interface SendEmailPayload {
+interface SendEmailWithTemplatePayload {
   to: string | string[]
-  subject: string
-  html: string
+  templateId: string
+  subject?: string
+  variables?: Record<string, unknown>
   from?: string
 }
 
@@ -18,31 +19,36 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  let body: SendEmailPayload
+  let body: SendEmailWithTemplatePayload
 
   try {
-    body = (await request.json()) as SendEmailPayload
+    body = (await request.json()) as SendEmailWithTemplatePayload
   } catch {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
   }
 
-  const { to, subject, html, from } = body
+  const { to, subject, templateId, variables, from } = body
 
-  if (!to || !subject || !html) {
+  if (!to || !templateId) {
     return NextResponse.json(
-      { error: 'Missing required fields: to, subject, html' },
+      { error: 'Missing required fields: to, templateId' },
       { status: 400 },
     )
   }
 
-  const fromAddress = from ?? 'senthilkumar@mentorbridge.in'
+  const fromAddress = from ?? 'mail@mentorbridge.in'
 
   try {
     const result = await resend.emails.send({
       from: fromAddress,
       to,
       subject,
-      html,
+      template: {
+        id: templateId,
+        variables:
+          variables as SendEmailWithTemplatePayload['variables'] &
+            Record<string, string | number>,
+      },
     })
 
     if (result.error) {
@@ -55,7 +61,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ id: result.data?.id }, { status: 200 })
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error('Resend email error', error)
+    console.error('Resend template email error', error)
     return NextResponse.json(
       { error: 'Unexpected error while sending email' },
       { status: 500 },

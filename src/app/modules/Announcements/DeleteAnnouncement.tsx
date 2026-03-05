@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { useAnnouncements } from '@/hooks/useAnnouncements'
 import { Modal } from '@/ui/organisms/modal/Modal'
+import { gooeyToast } from 'goey-toast'
 import type { DeleteAnnouncementProps } from './Announcement.types'
 
 export const DeleteAnnouncement = ({
@@ -15,6 +16,19 @@ export const DeleteAnnouncement = ({
   const handleConfirmDelete = async () => {
     if (!announcementToDelete || !announcementToDelete.id) return
     await deleteAnnouncement(announcementToDelete.id)
+    gooeyToast.success('Announcement deleted successfully!', {
+      description: (
+        <div>
+          <strong>{announcementToDelete.title}</strong> is now deleted.
+        </div>
+      ),
+      bounce: 0.45,
+      borderColor: '#E0E0E0',
+      borderWidth: 2,
+      timing: {
+        displayDuration: 6000,
+      },
+    })
     onDelete()
     setIsDeleteModalOpen(false)
   }
@@ -58,4 +72,3 @@ export const DeleteAnnouncement = ({
     </Modal>
   )
 }
-
