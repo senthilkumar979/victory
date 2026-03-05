@@ -36,7 +36,7 @@ export const useStudents = (): UseStudentsReturn => {
 
       const { data, error: fetchError } = await supabase
         .from("students")
-        .select("*")
+        .select("id, name, picture, role, company, email, social_links, batch")
         .order("batch", { ascending: false })
         .order("name", { ascending: true });
       if (fetchError) {
@@ -52,14 +52,8 @@ export const useStudents = (): UseStudentsReturn => {
           picture: student.picture,
           role: student.role,
           company: student.company,
-          summary: student.summary,
           email: student.email,
-          experience: safeJsonParse(student.experience, []),
-          mentorBridgeExp: safeJsonParse(student.mentor_bridge_exp, {}),
-          skillSets: safeJsonParse(student.skill_sets, []),
-          inspirations: safeJsonParse(student.inspirations, []),
           socialLinks: safeJsonParse(student.social_links, {}),
-          resumeLink: student.resume_link,
           batch: student.batch,
         }));
 

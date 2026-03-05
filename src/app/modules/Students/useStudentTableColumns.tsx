@@ -11,10 +11,21 @@ export const useStudentTableColumns = () => {
       {
         accessorKey: 'name',
         header: 'Name',
-        cell: (info) => (
-          <div className="flex flex-col">
+        cell: ({ row }) => (
+          <div className="flex flex-row items-center justify-start gap-2">
+            {row.original.picture ? (
+              <img
+                src={row.original.picture}
+                alt={row.original.name}
+                className="w-10 h-10 rounded-full object-cover"
+              />
+            ) : (
+              <span className="w-10 h-10 rounded-full object-cover flex items-center justify-center border-primary border-2 text-primary">
+                {row.original.name.charAt(0).toUpperCase()}
+              </span>
+            )}
             <span className="text-sm font-sm font-medium text-slate-900 uppercase">
-              {info.getValue<string>()}
+              {row.original.name}
             </span>
           </div>
         ),

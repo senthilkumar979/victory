@@ -28,13 +28,13 @@ export interface ProfileData {
   picture: string;
   role: string;
   company?: string;
-  summary: string;
+  summary?: string;
   email: string;
-  experience: Experience[];
-  mentorBridgeExp: MentorBridgeExp;
-  skillSets: string[];
-  inspirations: string[];
-  socialLinks: SocialLinks;
+  experience?: Experience[];
+  mentorBridgeExp?: MentorBridgeExp;
+  skillSets?: string[];
+  inspirations?: string[];
+  socialLinks?: ISocialLinks;
   resumeLink?: string;
   batch: string;
 }
