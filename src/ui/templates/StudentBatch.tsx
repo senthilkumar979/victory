@@ -16,7 +16,7 @@ export const StudentBatch = ({ batch }: { batch: number }) => {
       <span
         className={`block size-1.5 shrink-0 rounded-full shadow-[0_0_0_3px] bg-${batchColor} shadow-${batchColor}`}
       ></span>
-      {batch}
+      <span className={`text-sm font-medium text-${batchColor}`}>{batch}</span>
     </div>
   )
 }

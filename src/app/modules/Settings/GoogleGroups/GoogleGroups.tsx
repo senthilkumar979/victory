@@ -7,7 +7,7 @@ import { DeleteGoogleGroup } from './DeleteGoogleGroup'
 import { GoogleGroupFormState } from './GoogleGroup.types'
 
 export const GoogleGroups = () => {
-  const { groups, isLoading, error } = useGoogleGroups()
+  const { groups, isLoading, error, refetch } = useGoogleGroups()
 
   const [isFormModalOpen, setIsFormModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
@@ -37,11 +37,13 @@ export const GoogleGroups = () => {
   const handleAddOrEditSuccess = () => {
     setIsFormModalOpen(false)
     setFormState(undefined)
+    refetch()
   }
 
   const handleDeleteSuccess = () => {
     setIsDeleteModalOpen(false)
     setGroupToDelete(null)
+    refetch()
   }
 
   const handleOpenDelete = (group: GoogleGroupFormState) => {
@@ -51,8 +53,8 @@ export const GoogleGroups = () => {
 
   return (
     <div className="relative">
-      <div className="min-h-[500px] bg-gradient-to-br from-slate-50 via-sky-50 to-indigo-50 px-6 py-8">
-        <div className="mx-auto max-w-3xl rounded-2xl bg-white/80 p-6 shadow-lg ring-1 ring-slate-100 backdrop-blur">
+      <div className="min-h-[500px] bg-gradient-to-br from-slate-50 via-sky-50 to-indigo-50 px-2 py-2">
+        <div className="px-3 py-3">
           <div className="mb-6 flex items-center justify-between gap-4">
             <div>
               <h2 className="text-lg font-semibold text-slate-900">

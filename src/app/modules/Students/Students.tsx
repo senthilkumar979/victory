@@ -1,72 +1,18 @@
 'use client'
 
 import {
-  ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useMemo } from 'react'
 
 import { useStudents } from '@/hooks/useStudents'
-import { SocialLinks } from '@/templates/SocialLinks'
-import { StudentBatch } from '@/templates/StudentBatch'
-import type { ProfileData } from '@/types/student.types'
-import { StudentRole } from '../../../ui/templates/StudentRole'
+import { useStudentTableColumns } from './useStudentTableColumns'
 
 export const Students = () => {
   const { students, loading, error } = useStudents()
 
-  const columns: ColumnDef<ProfileData>[] = useMemo(
-    () => [
-      {
-        accessorKey: 'name',
-        header: 'Name',
-        cell: (info) => (
-          <div className="flex flex-col">
-            <span className="text-sm font-sm font-medium text-slate-900 uppercase">
-              {info.getValue<string>()}
-            </span>
-          </div>
-        ),
-      },
-      {
-        accessorKey: 'email',
-        header: 'Email',
-        cell: (info) => {
-          const email = info.getValue<string>()
-          return (
-            <a
-              href={`mailto:${email}`}
-              className="text-sm text-indigo-600 hover:text-indigo-800 hover:underline"
-            >
-              {email}
-            </a>
-          )
-        },
-      },
-      {
-        accessorKey: 'role',
-        header: 'Role',
-        cell: (info) => <StudentRole role={info.getValue<string>()} />,
-      },
-      {
-        accessorKey: 'batch',
-        header: 'Batch',
-        cell: (info) => <StudentBatch batch={info.getValue<number>()} />,
-      },
-      {
-        id: 'socialLinks',
-        header: 'Social',
-        cell: (info) => {
-          const links = info.row.original.socialLinks
-          if (!links) return null
-          return <SocialLinks socialLinks={links} />
-        },
-      },
-    ],
-    [],
-  )
+  const { columns } = useStudentTableColumns()
 
   const table = useReactTable({
     data: students,
@@ -105,16 +51,16 @@ export const Students = () => {
         )}
 
         {students.length > 0 && (
-          <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
-            <table className="min-w-full divide-y divide-slate-200 bg-white">
-              <thead className="bg-slate-50">
+          <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white/80 shadow-[0_18px_45px_rgba(15,23,42,0.08)] ring-1 ring-slate-100/70">
+            <table className="min-w-full divide-y divide-slate-200/70 bg-white/90">
+              <thead className="bg-gradient-to-r from-slate-900 via-slate-900 to-slate-800 text-slate-100">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <tr key={headerGroup.id}>
                     {headerGroup.headers.map((header) => (
                       <th
                         key={header.id}
                         scope="col"
-                        className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"
+                        className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-300 first:pl-5 last:pr-5"
                       >
                         {header.isPlaceholder
                           ? null
@@ -127,16 +73,16 @@ export const Students = () => {
                   </tr>
                 ))}
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100/70 bg-slate-50/40">
                 {table.getRowModel().rows.map((row) => (
                   <tr
                     key={row.id}
-                    className="border-l-2 hover:bg-slate-50/70 hover:border-l-2 hover:border-l-primary"
+                    className="group border-l-2 border-transparent bg-white/40 transition-colors duration-150 odd:bg-white/60 even:bg-slate-50/60 hover:border-l-primary hover:bg-sky-50/80"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <td
                         key={cell.id}
-                        className="whitespace-nowrap px-4 py-3 align-middle"
+                        className="whitespace-nowrap px-4 py-3 align-middle text-sm text-slate-800 first:pl-5 last:pr-5 group-hover:text-slate-900"
                       >
                         {flexRender(
                           cell.column.columnDef.cell,

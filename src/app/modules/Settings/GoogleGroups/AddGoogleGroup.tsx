@@ -45,7 +45,6 @@ export const AddGoogleGroup = ({
     } else {
       await createGroup(payload)
     }
-    await refetch()
     onSucess()
   }
 
