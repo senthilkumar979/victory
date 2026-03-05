@@ -1,5 +1,5 @@
 import { useGoogleGroups } from '@/hooks/useGoogleGroups'
-import { Modal } from '@/ui/molecules/modal/Modal'
+import { Modal } from '@/ui/organisms/modal/Modal'
 import { useEffect, useState } from 'react'
 import { DeleteGoogleGroupProps } from './GoogleGroup.types'
 

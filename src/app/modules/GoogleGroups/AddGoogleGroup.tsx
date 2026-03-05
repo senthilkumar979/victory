@@ -1,6 +1,6 @@
 import { useGoogleGroups } from '@/hooks/useGoogleGroups'
 import { FormInput } from '@/molecules/form-input/FormInput'
-import { Modal } from '@/molecules/modal/Modal'
+import { Modal } from '@/ui/organisms/modal/Modal'
 import { useEffect, useState } from 'react'
 import { AddGoogleGroupProps, GoogleGroupFormState } from './GoogleGroup.types'
 

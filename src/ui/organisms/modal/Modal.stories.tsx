@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Modal } from './Modal'
 
 const meta: Meta<typeof Modal> = {
-  title: 'Molecules/Modal',
+  title: 'Organisms/Modal',
   component: Modal,
   args: {
     size: 'md',

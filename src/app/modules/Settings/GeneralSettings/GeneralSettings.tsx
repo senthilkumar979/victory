@@ -1,7 +1,7 @@
 import { joinClassNames } from '@/utils/tailwindUtils'
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 import { useState } from 'react'
-import { GoogleGroups } from '../GoogleGroups'
+import { GoogleGroups } from '../../GoogleGroups'
 import { SettingsNavItem } from '../SettingsNav/SettingNav.types'
 
 export const GeneralSettings = () => {
