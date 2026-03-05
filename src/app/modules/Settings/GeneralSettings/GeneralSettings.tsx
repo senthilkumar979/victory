@@ -1,6 +1,7 @@
 import { joinClassNames } from '@/utils/tailwindUtils'
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 import { useState } from 'react'
+import { AdminAnnouncement } from '../../Announcements/AdminAnnouncement'
 import { GoogleGroups } from '../../GoogleGroups'
 import { SettingsNavItem } from '../SettingsNav/SettingNav.types'
 
@@ -10,6 +11,11 @@ export const GeneralSettings = () => {
       value: 'google-groups',
       label: 'Google Groups',
       content: <GoogleGroups />,
+    },
+    {
+      value: 'announcements',
+      label: 'Announcements',
+      content: <AdminAnnouncement />,
     },
   ]
 

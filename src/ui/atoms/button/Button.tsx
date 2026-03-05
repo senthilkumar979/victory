@@ -69,7 +69,7 @@ export const Button = ({
   const sizeClass = sizeClasses[size];
 
   const baseClass =
-    "inline-flex items-center justify-center rounded-md font-medium transition-colors cursor-pointer" +
+    "flex gap-2 items-center justify-center rounded-md font-medium transition-colors cursor-pointer" +
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 " +
     "disabled:cursor-not-allowed disabled:opacity-60";
 

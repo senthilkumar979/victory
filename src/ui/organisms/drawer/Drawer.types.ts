@@ -2,7 +2,7 @@ import type { JSX, ReactNode } from 'react'
 
 export type DrawerSide = 'left' | 'right'
 
-export type DrawerSize = 'sm' | 'md' | 'lg' | 'xl'
+export type DrawerSize = 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'xxxl'
 
 export interface DrawerRootProps {
   isOpen: boolean

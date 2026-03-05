@@ -16,6 +16,8 @@ const sizeClassMap: Record<DrawerSize, string> = {
   md: 'max-w-sm',
   lg: 'max-w-md',
   xl: 'max-w-lg',
+  xxl: 'max-w-2xl',
+  xxxl: 'max-w-3xl',
 }
 
 const DrawerRoot = ({

@@ -90,7 +90,64 @@ input:checked {
   box-shadow: 0 0 0 3px
     color-mix(in srgb, var(--color-tertiary) 25%, transparent);
 }
+
 .shadow-success {
   box-shadow: 0 0 0 3px
     color-mix(in srgb, var(--color-success) 25%, transparent);
+}
+
+.ql-toolbar {
+  display: none;
+
+  .ql-formats {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .ql-header {
+    color: #fff;
+
+    .ql-picker-label {
+      color: #fff;
+
+      &:hover {
+        color: var(--primary) !important;
+      }
+    }
+
+    svg {
+      fill: #fff;
+    }
+    .ql-stroke {
+      stroke: #fff !important;
+    }
+  }
+
+  button {
+    color: #fff;
+
+    &:hover {
+      .ql-fill {
+        fill: var(--primary) !important;
+      }
+
+      .ql-stroke {
+        stroke: var(--primary) !important;
+      }
+
+      color: var(--primary) !important;
+    }
+  }
+}
+
+.ql-toolbar:first-of-type {
+  display: flex !important;
+  margin-bottom: 0.5rem;
+}
+
+.ql-tooltip {
+  left: 10px !important;
 }
