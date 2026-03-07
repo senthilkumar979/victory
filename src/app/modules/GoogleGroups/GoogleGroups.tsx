@@ -1,7 +1,7 @@
 import { Button, TextButton } from '@/atoms/button/Button'
 import { useGoogleGroups } from '@/hooks/useGoogleGroups'
 import { PencilIcon, TrashIcon } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { AddGoogleGroup } from './AddGoogleGroup'
 import { DeleteGoogleGroup } from './DeleteGoogleGroup'
 import { GoogleGroupFormState } from './GoogleGroup.types'
@@ -18,8 +18,6 @@ export const GoogleGroups = () => {
     groupToDelete,
     setGroupToDelete,
   ] = useState<GoogleGroupFormState | null>(null)
-
-  const isEditing = useMemo(() => Boolean(formState?.id), [formState?.id])
 
   const handleOpenCreate = () => {
     setIsFormModalOpen(true)
@@ -56,7 +54,7 @@ export const GoogleGroups = () => {
       <div className="min-h-[500px] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-2 py-2">
         <div className="px-3 py-3">
           <div className="mb-6 flex items-center justify-between gap-4">
-            <div>
+            <div className="border-l-3 border-primary pl-4">
               <h2 className="text-lg font-semibold text-slate-50">
                 Google Groups
               </h2>
@@ -69,7 +67,7 @@ export const GoogleGroups = () => {
           </div>
 
           {isLoading && (
-            <div className="mb-4 rounded-md border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+            <div className="mb-4 rounded-md border border-slate-800 bg-slate-900 px-4 py-3 text-sm text-slate-300">
               Loading Google Groups…
             </div>
           )}

@@ -2,7 +2,7 @@
 
 import { UserButton, useUser } from '@clerk/nextjs'
 import { GooeyToaster } from 'goey-toast'
-import { CalendarIcon, HomeIcon, Shield, UserIcon } from 'lucide-react'
+import { BookOpen, CalendarIcon, HomeIcon, Shield, UserIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import 'goey-toast/styles.css'
@@ -45,6 +45,10 @@ export const Navbar = () => {
           <div className="flex items-center gap-6">
             <Link href="/" className={linkClass}>
               <HomeIcon className="w-4 h-4" /> Home
+            </Link>
+            <Link href="/blogs" className={linkClass}>
+              <BookOpen className="w-4 h-4" />
+              Blogs
             </Link>
             <Link href="/secured/profile" className={linkClass}>
               <CalendarIcon className="w-4 h-4" />

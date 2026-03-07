@@ -22,23 +22,30 @@ export const Students = () => {
 
   return (
     <div className="min-h-screen px-6 py-4">
+      <div className="border-l-3 border-primary pl-4 mb-6">
+        <h2 className="text-lg font-semibold text-slate-50">Students</h2>
+        <p className="mt-1 text-sm text-slate-500">
+          Directory of students with their current roles, batches, companies,
+          and social links.
+        </p>
+      </div>
       <div className="">
         <div className="mb-6 flex items-center justify-between gap-4">
           {loading && (
-            <span className="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
-              Loading…
-            </span>
+            <div className="mb-4 rounded-md border border-slate-800 bg-slate-900 px-4 py-3 text-sm text-slate-300 w-full">
+              Loading students …
+            </div>
           )}
         </div>
 
         {error && (
-          <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+          <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 w-full">
             Failed to load students. {error}
           </div>
         )}
 
         {!loading && !error && students.length === 0 && (
-          <div className="flex h-40 items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50 text-sm text-slate-500">
+          <div className="flex h-40 items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50 text-sm text-slate-500 w-full">
             No students found.
           </div>
         )}

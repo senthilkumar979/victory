@@ -53,10 +53,6 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-.p-5 {
-  padding: 1.25rem;
-}
-
 .w-fit-content {
   width: fit-content;
 }
@@ -124,6 +120,10 @@ input:checked {
     .ql-stroke {
       stroke: #fff !important;
     }
+  }
+
+  .p-5 {
+    padding: 1.25rem;
   }
 
   button {

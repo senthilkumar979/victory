@@ -3,6 +3,7 @@ import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 import { useState } from 'react'
 import { AdminAnnouncement } from '../../Announcements/AdminAnnouncement'
 import { GoogleGroups } from '../../GoogleGroups'
+import { Students } from '../../Students/Students'
 import { SettingsNavItem } from '../SettingsNav/SettingNav.types'
 
 export const GeneralSettings = () => {
@@ -16,6 +17,11 @@ export const GeneralSettings = () => {
       value: 'announcements',
       label: 'Announcements',
       content: <AdminAnnouncement />,
+    },
+    {
+      value: 'students',
+      label: 'Students',
+      content: <Students />,
     },
   ]
 

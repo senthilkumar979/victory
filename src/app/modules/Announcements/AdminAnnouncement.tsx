@@ -58,7 +58,7 @@ export const AdminAnnouncement = () => {
       <div className="min-h-[500px] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-2 py-2">
         <div className="px-3 py-3">
           <div className="mb-6 flex items-center justify-between gap-4">
-            <div>
+            <div className="border-l-3 border-primary pl-4">
               <h2 className="text-lg font-semibold text-slate-50">
                 Announcements
               </h2>
@@ -71,19 +71,19 @@ export const AdminAnnouncement = () => {
           </div>
 
           {isLoading && (
-            <div className="mb-4 rounded-md border border-slate-800 bg-slate-900 px-4 py-3 text-sm text-slate-300">
+            <div className="mb-4 rounded-md border border-slate-800 bg-slate-900 px-4 py-3 text-sm text-slate-300 w-full">
               Loading announcements…
             </div>
           )}
 
           {error && (
-            <div className="mb-4 rounded-md border border-red-500/40 bg-red-950/50 px-4 py-3 text-sm text-red-100">
+            <div className="mb-4 rounded-md border border-red-500/40 bg-red-950/50 px-4 py-3 text-sm text-red-100 w-full">
               Failed to load announcements. {error}
             </div>
           )}
 
           {!isLoading && !error && announcements.length === 0 && (
-            <div className="flex h-32 items-center justify-center rounded-xl border border-dashed border-slate-800 bg-slate-900/70 text-sm text-slate-400">
+            <div className="flex h-32 items-center justify-center rounded-xl border border-dashed border-slate-800 bg-slate-900/70 text-sm text-slate-400 w-full">
               No announcements created yet.
             </div>
           )}

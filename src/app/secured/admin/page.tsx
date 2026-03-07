@@ -1,65 +1,11 @@
 'use client'
 
-import { SubTitle } from '@/templates/SubTitle'
 import { Title } from '@/templates/Title'
 import { useCheckIsAuthenticated } from '../../../hooks/useCheckIsAuthenticated'
 import { GeneralSettings } from '../../modules/Settings/GeneralSettings'
-import {
-  SettingsNav,
-  SettingsNavItem,
-} from '../../modules/Settings/SettingsNav'
-import { Students } from '../../modules/Students/Students'
 
 const AdminSettingsPage = () => {
   useCheckIsAuthenticated()
-
-  const items: SettingsNavItem[] = [
-    {
-      value: 'general',
-      label: 'General',
-      content: (
-        <div className="space-y-2 ">
-          <div className="border-l-3 border-primary pl-4">
-            <SubTitle>General</SubTitle>
-            <p className="text-sm text-gray-500 mb-4">
-              Manage high-level admin settings and defaults.
-            </p>
-          </div>
-          <GeneralSettings />
-        </div>
-      ),
-    },
-    {
-      value: 'security',
-      label: 'Security',
-      content: (
-        <div className="space-y-2">
-          <div className="border-l-3 border-primary pl-4">
-            <SubTitle>Security</SubTitle>
-            <p className="text-sm text-gray-500 mb-4">
-              Configure authentication, roles, and access controls.
-            </p>
-          </div>
-        </div>
-      ),
-    },
-    {
-      value: 'users',
-      label: 'Users',
-      content: (
-        <div className="space-y-2">
-          <div className="border-l-3 border-primary pl-4">
-            <SubTitle>Students</SubTitle>
-            <p className="text-sm text-gray-500 mb-4">
-              Directory of students with their current roles, batches,
-              companies, and social links.
-            </p>
-          </div>
-          <Students />
-        </div>
-      ),
-    },
-  ]
 
   return (
     <main className="min-h-screen px-6 py-10">
@@ -73,7 +19,7 @@ const AdminSettingsPage = () => {
           </p>
         </header>
 
-        <SettingsNav items={items} />
+        <GeneralSettings />
       </div>
     </main>
   )
