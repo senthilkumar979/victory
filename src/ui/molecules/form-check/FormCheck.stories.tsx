@@ -20,7 +20,6 @@ const meta: Meta<typeof FormCheck> = {
     type: 'checkbox',
     label: 'Remember me',
     helperText: 'We will keep you signed in on this device.',
-    isRequired: false,
   },
 }
 
@@ -33,7 +32,6 @@ export const Checkbox: Story = {}
 export const CheckboxWithError: Story = {
   args: {
     errorMessage: 'You must accept the terms.',
-    isRequired: true,
   },
 }
 
