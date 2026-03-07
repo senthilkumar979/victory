@@ -12,7 +12,7 @@ export interface BlogCardProps {
 }
 
 export interface AddBlogRequest {
-  url: string;
+  username: string;
 }
 
 export interface AddBlogResponse {
