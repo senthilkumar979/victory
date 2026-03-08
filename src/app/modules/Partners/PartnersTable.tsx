@@ -6,12 +6,14 @@ import type { PartnerFormState } from './Partner.types'
 
 interface PartnersTableProps {
   partners: PartnerFormState[]
+  onRowClick: (partner: PartnerFormState) => void
   onEdit: (partner: PartnerFormState) => void
   onDelete: (partner: PartnerFormState) => void
 }
 
 export const PartnersTable = ({
   partners,
+  onRowClick,
   onEdit,
   onDelete,
 }: PartnersTableProps) => (
@@ -39,6 +41,9 @@ export const PartnersTable = ({
           <th className="px-2 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
             Location
           </th>
+          <th className="px-2 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+            Category
+          </th>
           <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
             <Ellipsis className="size-4" />
           </th>
@@ -46,7 +51,16 @@ export const PartnersTable = ({
       </thead>
       <tbody className="divide-y divide-slate-100">
         {partners.map((partner) => (
-          <tr key={partner.id} className="hover:bg-slate-50/70">
+          <tr
+            key={partner.id}
+            role="button"
+            tabIndex={0}
+            onClick={() => onRowClick(partner)}
+            onKeyDown={(e) =>
+              (e.key === 'Enter' || e.key === ' ') && onRowClick(partner)
+            }
+            className="cursor-pointer hover:bg-slate-50/70"
+          >
             <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-slate-900">
               <b>{partner.name}</b>
             </td>
@@ -67,8 +81,18 @@ export const PartnersTable = ({
             <td className="whitespace-nowrap px-2 py-3 text-sm text-slate-700">
               {partner.location || '—'}
             </td>
-            <td className="whitespace-nowrap px-4 py-3 text-right text-sm">
-              <div className="flex items-center  gap-2">
+            <td className="whitespace-nowrap px-2 py-3 text-sm text-slate-700">
+              {partner.category ? (
+                <Badge color="info">{partner.category}</Badge>
+              ) : (
+                '—'
+              )}
+            </td>
+            <td
+              className="whitespace-nowrap px-4 py-3 text-right text-sm"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center gap-2">
                 <TextButton
                   variant="textTertiary"
                   onClick={() => onEdit(partner)}

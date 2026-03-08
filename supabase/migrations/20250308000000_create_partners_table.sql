@@ -9,6 +9,7 @@ create table if not exists public.partners (
   secondary_email text,
   secondary_contact text,
   designation text,
+  category text,
   description text,
   created_at timestamptz default now()
 );

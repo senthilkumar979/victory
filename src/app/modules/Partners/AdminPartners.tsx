@@ -6,6 +6,7 @@ import { usePartners } from '@/hooks/usePartners'
 
 import type { PartnerFormState } from './Partner.types'
 import { DeletePartner } from './DeletePartner'
+import { PartnerDetailsDrawer } from './PartnerDetailsDrawer'
 import { PartnerFormDrawer } from './PartnerFormDrawer'
 import { PartnersHeader } from './PartnersHeader'
 import { PartnersListStates } from './PartnersListStates'
@@ -20,6 +21,8 @@ export const AdminPartners = () => {
   )
   const [partnerToDelete, setPartnerToDelete] =
     useState<PartnerFormState | null>(null)
+  const [partnerToView, setPartnerToView] =
+    useState<PartnerFormState | null>(null)
 
   const handleOpenCreate = () => {
     setFormState(undefined)
@@ -32,6 +35,7 @@ export const AdminPartners = () => {
       name: partner.name,
       company: partner.company,
       location: partner.location,
+      category: partner.category,
       primaryEmail: partner.primaryEmail,
       primaryContact: partner.primaryContact,
       secondaryEmail: partner.secondaryEmail,
@@ -68,6 +72,12 @@ export const AdminPartners = () => {
     refetch()
   }
 
+  const handleRowClick = (partner: PartnerFormState) => {
+    setPartnerToView(partner)
+  }
+
+  const handleCloseDetails = () => setPartnerToView(null)
+
   const showStates = isLoading || error || partners.length === 0
   const showTable = !isLoading && !error && partners.length > 0
 
@@ -88,6 +98,7 @@ export const AdminPartners = () => {
           {showTable && (
             <PartnersTable
               partners={partners}
+              onRowClick={handleRowClick}
               onEdit={handleOpenEdit}
               onDelete={handleOpenDelete}
             />
@@ -106,6 +117,16 @@ export const AdminPartners = () => {
           partnerToDelete={partnerToDelete}
           onClose={handleDeleteClose}
           onDeleted={handleDeleted}
+        />
+
+        <PartnerDetailsDrawer
+          isOpen={partnerToView != null}
+          partner={partnerToView}
+          onClose={handleCloseDetails}
+          onEdit={(p) => {
+            handleCloseDetails()
+            handleOpenEdit(p)
+          }}
         />
       </div>
     </div>

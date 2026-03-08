@@ -10,6 +10,7 @@ export const partnerFormSchema = z
     secondaryEmail: z.string().trim().optional().or(z.literal('')),
     secondaryContact: z.string().trim().optional().or(z.literal('')),
     designation: z.string().trim().optional().or(z.literal('')),
+    category: z.string().trim().optional().or(z.literal('')),
     description: z.string().trim().optional().or(z.literal('')),
   })
   .refine(

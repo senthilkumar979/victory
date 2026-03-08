@@ -6,7 +6,7 @@ import type { PartnerFormState } from '@/app/modules/Partners/Partner.types'
 
 const PARTNERS_TABLE = 'partners'
 const SELECT_COLS =
-  'id, name, company, location, primary_email, primary_contact, secondary_email, secondary_contact, designation, description'
+  'id, name, company, location, primary_email, primary_contact, secondary_email, secondary_contact, designation, category, description'
 
 interface UsePartnersReturn {
   partners: PartnerFormState[]
@@ -34,6 +34,7 @@ function mapRow(row: Record<string, unknown>): PartnerFormState {
     secondaryEmail: (row.secondary_email as string) ?? '',
     secondaryContact: (row.secondary_contact as string) ?? '',
     designation: (row.designation as string) ?? '',
+    category: (row.category as string) ?? '',
     description: (row.description as string) ?? '',
   }
 }
@@ -48,6 +49,7 @@ function toPayload(form: Omit<PartnerFormState, 'id'>) {
     secondary_email: form.secondaryEmail?.trim() || null,
     secondary_contact: form.secondaryContact?.trim() || null,
     designation: form.designation?.trim() || null,
+    category: form.category?.trim() || null,
     description: form.description?.trim() || null,
   }
 }

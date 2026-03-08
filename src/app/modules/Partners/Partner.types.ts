@@ -8,6 +8,7 @@ export interface PartnerFormState {
   secondaryEmail: string
   secondaryContact: string
   designation: string
+  category: string
   description: string
 }
 
