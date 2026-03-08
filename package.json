@@ -28,6 +28,7 @@
     "react-dom": "19.2.3",
     "react-hook-form": "^7.71.2",
     "react-quill": "^2.0.0",
+    "reactflow": "^11.11.4",
     "resend": "^6.9.3",
     "zod": "^4.3.6"
   },
