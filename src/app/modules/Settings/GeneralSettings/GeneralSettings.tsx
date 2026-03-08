@@ -3,6 +3,7 @@ import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 import { useState } from 'react'
 import { AdminAnnouncement } from '../../Announcements/AdminAnnouncement'
 import { AwardCategories } from '../../AwardCategories'
+import { Awards } from '../../Awards/Awards'
 import { GoogleGroups } from '../../GoogleGroups'
 import { HallOfFame } from '../../HallOfFame/HallOfFame'
 import { Meetings } from '../../Meetings/Meetings'
@@ -40,6 +41,11 @@ export const GeneralSettings = () => {
       value: 'award-categories',
       label: 'Award Categories',
       content: <AwardCategories />,
+    },
+    {
+      value: 'awards',
+      label: 'Awards',
+      content: <Awards />,
     },
   ]
 
