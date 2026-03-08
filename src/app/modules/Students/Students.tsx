@@ -5,14 +5,17 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { useState } from 'react'
 
+import { Button } from '@/atoms/button/Button'
 import { useStudents } from '@/hooks/useStudents'
+import { InviteStudent } from './InviteStudent'
 import { useStudentTableColumns } from './useStudentTableColumns'
 
 export const Students = () => {
-  const { students, loading, error } = useStudents()
-
+  const { students, loading, error, refetch } = useStudents()
   const { columns } = useStudentTableColumns()
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false)
 
   const table = useReactTable({
     data: students,
@@ -20,15 +23,27 @@ export const Students = () => {
     getCoreRowModel: getCoreRowModel(),
   })
 
+  const handleInviteStudents = () => {
+    setIsInviteModalOpen(true)
+  }
+
   return (
     <div className="min-h-screen px-6 py-4">
-      <div className="border-l-3 border-primary pl-4 mb-6">
-        <h2 className="text-lg font-semibold text-slate-50">Students</h2>
-        <p className="mt-1 text-sm text-slate-500">
-          Directory of students with their current roles, batches, companies,
-          and social links.
-        </p>
+      <div className="mb-6 flex items-center justify-between gap-4">
+        <div className="mb-6 border-l-3 border-primary pl-4">
+          <h2 className="text-lg font-semibold text-slate-50">Students</h2>
+          <p className="mt-1 text-sm text-slate-500">
+            Directory of students with their current roles, batches, companies,
+            and social links.
+          </p>
+        </div>
+        <Button onClick={handleInviteStudents}>Invite Student</Button>
       </div>
+      <InviteStudent
+        show={isInviteModalOpen}
+        onClose={() => setIsInviteModalOpen(false)}
+        onSuccess={refetch}
+      />
       <div className="">
         <div className="mb-6 flex items-center justify-between gap-4">
           {loading && (

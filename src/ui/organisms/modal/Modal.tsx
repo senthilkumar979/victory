@@ -26,6 +26,7 @@ const ModalRoot = ({
   showCloseButton = true,
 }: ModalRootProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
+  const prevIsOpen = useRef(false)
 
   useEffect(() => {
     if (!isOpen) return
@@ -36,10 +37,16 @@ const ModalRoot = ({
 
     window.addEventListener('keydown', handleKeyDown)
 
-    if (containerRef.current) containerRef.current.focus()
-
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [isOpen, onClose])
+
+  useEffect(() => {
+    if (isOpen && !prevIsOpen.current) {
+      prevIsOpen.current = true
+      requestAnimationFrame(() => containerRef.current?.focus())
+    }
+    if (!isOpen) prevIsOpen.current = false
+  }, [isOpen])
 
   const handleBackdropClick = () => {
     onClose()
