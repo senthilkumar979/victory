@@ -13,7 +13,9 @@ interface UseMeetingsReturn {
   isLoading: boolean
   error: string | null
   refetch: () => Promise<void>
-  createMeeting: (payload: Omit<MeetingFormState, 'id'>) => Promise<void>
+  createMeeting: (
+    payload: Omit<MeetingFormState, 'id'>,
+  ) => Promise<{ id: string }>
   updateMeeting: (
     id: string,
     payload: Omit<MeetingFormState, 'id'>,
@@ -71,12 +73,16 @@ export const useMeetings = (): UseMeetingsReturn => {
   }, [])
 
   const createMeeting = useCallback(
-    async (payload: Omit<MeetingFormState, 'id'>) => {
-      const { error: insertError } = await supabase
+    async (payload: Omit<MeetingFormState, 'id'>): Promise<{ id: string }> => {
+      const { data, error: insertError } = await supabase
         .from(MEETINGS_TABLE)
         .insert(toPayload(payload))
+        .select('id')
+        .single()
       if (insertError) throw insertError
+      if (!data?.id) throw new Error('Meeting created but no id returned')
       await fetchMeetings()
+      return { id: data.id }
     },
     [fetchMeetings],
   )

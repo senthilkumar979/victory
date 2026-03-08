@@ -1,6 +1,8 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import { useMeetings } from '@/hooks/useMeetings'
 import { Drawer } from '@/ui/organisms/drawer/Drawer'
@@ -10,15 +12,19 @@ import { Check, XIcon } from 'lucide-react'
 import { Button } from '@/atoms/button/Button'
 import type { MeetingFormDrawerProps, MeetingFormState } from './Meeting.types'
 import { MeetingFormFields } from './MeetingFormFields'
+import {
+  meetingFormSchema,
+  type MeetingFormValues,
+} from './meetingFormSchema'
 
-const INITIAL_STATE: MeetingFormState = {
-  title: '',
-  date: '',
-  googleGroupId: '',
-  description: '',
-  meetingLink: '',
-  coverImageUrl: '',
-}
+const toFormValues = (m: MeetingFormState | null): MeetingFormValues => ({
+  title: m?.title ?? '',
+  date: m?.date ?? '',
+  googleGroupId: m?.googleGroupId ?? '',
+  description: m?.description ?? '',
+  meetingLink: m?.meetingLink ?? '',
+  coverImageUrl: m?.coverImageUrl ?? '',
+})
 
 export const MeetingFormDrawer = ({
   isOpen,
@@ -27,55 +33,71 @@ export const MeetingFormDrawer = ({
   onSuccess,
 }: MeetingFormDrawerProps) => {
   const { createMeeting, updateMeeting } = useMeetings()
-  const [formState, setFormState] = useState<MeetingFormState>(INITIAL_STATE)
+  const form = useForm<MeetingFormValues>({
+    resolver: zodResolver(meetingFormSchema),
+    defaultValues: toFormValues(null),
+  })
 
-  // Reset form when drawer opens or when switching to a different meeting to edit
   useEffect(() => {
     if (!isOpen) return
-    const next = meetingToEdit ?? INITIAL_STATE
-    const id = requestAnimationFrame(() => setFormState(next))
-    return () => cancelAnimationFrame(id)
-  }, [isOpen, meetingToEdit])
+    form.reset(toFormValues(meetingToEdit ?? null))
+  }, [isOpen, meetingToEdit, form])
 
   const isEditing = useMemo(() => Boolean(meetingToEdit?.id), [
     meetingToEdit?.id,
   ])
 
-  const handleChange = <K extends keyof MeetingFormState>(
-    field: K,
-    value: MeetingFormState[K],
-  ) => {
-    setFormState((prev) => ({ ...prev, [field]: value }))
-  }
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault()
-    const title = formState.title.trim()
-    const date = formState.date.trim()
-    if (!title || !date) return
-
+  const handleSubmit = form.handleSubmit(async (data) => {
     const payload: Omit<MeetingFormState, 'id'> = {
-      title,
-      date,
-      googleGroupId: formState.googleGroupId.trim(),
-      description: formState.description.trim(),
-      meetingLink: formState.meetingLink.trim(),
-      coverImageUrl: formState.coverImageUrl.trim(),
+      title: data.title.trim(),
+      date: data.date.trim(),
+      googleGroupId: data.googleGroupId.trim(),
+      description: data.description.trim(),
+      meetingLink: (data.meetingLink ?? '').trim(),
+      coverImageUrl: (data.coverImageUrl ?? '').trim(),
     }
 
+    let meetLinkFailed = false
     try {
-      if (isEditing && formState.id) {
-        await updateMeeting(formState.id, payload)
+      if (isEditing && meetingToEdit?.id) {
+        await updateMeeting(meetingToEdit.id, payload)
       } else {
-        await createMeeting(payload)
+        const { id } = await createMeeting(payload)
+        const meetRes = await fetch('/api/meetings/create-google-meet', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: payload.title,
+            date: payload.date,
+            description: payload.description || undefined,
+            attendees: payload.googleGroupId
+              ? [payload.googleGroupId]
+              : ['mentorbridgeindia@gmail.com'],
+          }),
+        })
+        if (meetRes.ok) {
+          const { meetingLink: link } = (await meetRes.json()) as {
+            meetingLink: string
+          }
+          if (link) {
+            await updateMeeting(id, { ...payload, meetingLink: link })
+          }
+        } else {
+          meetLinkFailed = true
+        }
       }
-      gooeyToast.success('Meeting saved successfully.', {
-        description: <span>{title}</span>,
-        bounce: 0.45,
-        borderColor: '#E0E0E0',
-        borderWidth: 2,
-        timing: { displayDuration: 2000 },
-      })
+      gooeyToast.success(
+        meetLinkFailed
+          ? 'Meeting saved. Google Meet link could not be created—add it manually if needed.'
+          : 'Meeting saved successfully.',
+        {
+          description: <span>{payload.title}</span>,
+          bounce: 0.45,
+          borderColor: '#E0E0E0',
+          borderWidth: 2,
+          timing: { displayDuration: meetLinkFailed ? 4000 : 2000 },
+        },
+      )
       onSuccess()
     } catch (err) {
       gooeyToast.error('Failed to save meeting.', {
@@ -86,7 +108,7 @@ export const MeetingFormDrawer = ({
         timing: { displayDuration: 3000 },
       })
     }
-  }
+  })
 
   return (
     <Drawer isOpen={isOpen} onClose={onClose} size="xxl">
@@ -100,12 +122,12 @@ export const MeetingFormDrawer = ({
         {isEditing ? 'Update meeting' : 'Create meeting'}
       </Drawer.Title>
       <Drawer.Body>
-        <form id="meeting-form" className="space-y-4" onSubmit={handleSubmit}>
-          <MeetingFormFields
-            formId="meeting-form"
-            formState={formState}
-            onChange={handleChange}
-          />
+        <form
+          id="meeting-form"
+          className="space-y-4"
+          onSubmit={handleSubmit}
+        >
+          <MeetingFormFields formId="meeting-form" form={form} />
         </form>
       </Drawer.Body>
       <Drawer.Footer>

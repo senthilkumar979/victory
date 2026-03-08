@@ -1,13 +1,56 @@
 'use client'
 
-import { format, parseISO } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { FormLabel } from '@/atoms/form-label/FormLabel'
+import { dateToISTParts } from '@/utils/dateISTUtils'
 import { joinClassNames } from '@/utils/tailwindUtils'
 
 import { Calendar } from './Calendar'
+
+/** Parse value as date or datetime (ISO); returns Date or undefined */
+function parseValue(value: string): Date | undefined {
+  if (!value?.trim()) return undefined
+  const trimmed = value.trim()
+  const parsed = new Date(trimmed)
+  if (Number.isNaN(parsed.getTime())) return undefined
+  return parsed
+}
+
+/** Format Date to ISO string in IST (YYYY-MM-DDTHH:mm:ss+05:30) for form value */
+function toISTISOString(date: Date): string {
+  const p = dateToISTParts(date)
+  const y = p.y
+  const m = (p.m + 1).toString().padStart(2, '0')
+  const d = p.d.toString().padStart(2, '0')
+  const h = p.h.toString().padStart(2, '0')
+  const min = p.min.toString().padStart(2, '0')
+  return `${y}-${m}-${d}T${h}:${min}:00+05:30`
+}
+
+/** Format Date for display: "MMM d, yyyy, HH:mm" in IST (24h) */
+function formatDisplayIST(date: Date): string {
+  const p = dateToISTParts(date)
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ]
+  const mon = months[p.m]
+  const h = p.h.toString().padStart(2, '0')
+  const min = p.min.toString().padStart(2, '0')
+  return `${mon} ${p.d}, ${p.y}, ${h}:${min}`
+}
 
 interface CalendarInputProps {
   id?: string
@@ -26,31 +69,34 @@ const inputBase =
 
 export const CalendarInput = ({
   id,
-  label = 'Date',
+  label = 'Date & time',
   value,
   onChange,
   isDarkMode = false,
-  placeholder = 'Select date',
+  placeholder = 'Select date and time (IST)',
   className,
 }: CalendarInputProps) => {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
 
-  const displayValue = value
-    ? (() => {
-        try {
-          return format(parseISO(value), 'MMM d, yyyy')
-        } catch {
-          return value
-        }
-      })()
-    : ''
+  const selectedDate = useMemo(() => parseValue(value), [value])
 
-  const selectedDate = value ? parseISO(value) : undefined
+  const displayValue = useMemo(() => {
+    if (!selectedDate) return ''
+    try {
+      return formatDisplayIST(selectedDate)
+    } catch {
+      return value
+    }
+  }, [selectedDate, value])
 
   const handleSelect = useCallback(
     (date: Date | undefined) => {
-      onChange(date ? format(date, 'yyyy-MM-dd') : '')
+      if (!date) {
+        onChange('')
+      } else {
+        onChange(toISTISOString(date))
+      }
       setIsOpen(false)
     },
     [onChange],
@@ -104,7 +150,6 @@ export const CalendarInput = ({
           value={displayValue}
           placeholder={placeholder}
           aria-haspopup="dialog"
-          aria-expanded={isOpen}
           aria-label={typeof label === 'string' ? label : 'Date'}
           className={joinClassNames(
             inputBase,
@@ -124,7 +169,7 @@ export const CalendarInput = ({
         </span>
       </div>
       {isOpen && (
-        <div className="absolute left-0 top-full z-50 mt-1.5 opacity-100 bg-black" style={{ width: '50%' }}>
+        <div className="absolute left-0 top-full z-50 mt-1.5 opacity-100 bg-black">
           <Calendar
             selected={selectedDate}
             onSelect={handleSelect}
