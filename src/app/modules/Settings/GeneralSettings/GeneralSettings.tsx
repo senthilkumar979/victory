@@ -2,6 +2,7 @@ import { joinClassNames } from '@/utils/tailwindUtils'
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 import { useState } from 'react'
 import { AdminAnnouncement } from '../../Announcements/AdminAnnouncement'
+import { AwardCategories } from '../../AwardCategories'
 import { GoogleGroups } from '../../GoogleGroups'
 import { HallOfFame } from '../../HallOfFame/HallOfFame'
 import { Meetings } from '../../Meetings/Meetings'
@@ -34,6 +35,11 @@ export const GeneralSettings = () => {
       value: 'students',
       label: 'Students',
       content: <Students />,
+    },
+    {
+      value: 'award-categories',
+      label: 'Award Categories',
+      content: <AwardCategories />,
     },
   ]
 
