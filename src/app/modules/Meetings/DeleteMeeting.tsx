@@ -17,6 +17,23 @@ export const DeleteMeeting = ({
   const handleConfirmDelete = async () => {
     if (!meetingToDelete?.id) return
     try {
+      if (
+        meetingToDelete.meetingLink?.trim().startsWith('https://meet.google.com/') &&
+        meetingToDelete.date
+      ) {
+        try {
+          await fetch('/api/calendar/delete-by-meet-link', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              meetingLink: meetingToDelete.meetingLink,
+              date: meetingToDelete.date,
+            }),
+          })
+        } catch {
+          // Best effort: continue with DB delete even if Google Calendar fails
+        }
+      }
       await deleteMeeting(meetingToDelete.id)
       gooeyToast.success('Meeting deleted successfully.', {
         description: <span>{meetingToDelete.title}</span>,

@@ -120,3 +120,49 @@ export async function createCalendarEventWithMeet(
     null
   )
 }
+
+function normalizeMeetLink(url: string): string {
+  return url.trim().replace(/\/$/, '').toLowerCase()
+}
+
+export async function deleteCalendarEventByMeetLink(
+  calendarId: string,
+  meetingLink: string,
+  meetingDate: string,
+): Promise<boolean> {
+  const link = meetingLink?.trim()
+  if (!link || !link.startsWith('https://meet.google.com/')) return false
+
+  const startDate = new Date(meetingDate)
+  if (Number.isNaN(startDate.getTime())) return false
+
+  const timeMin = new Date(startDate)
+  timeMin.setHours(0, 0, 0, 0)
+  const timeMax = new Date(startDate)
+  timeMax.setDate(timeMax.getDate() + 1)
+  timeMax.setHours(0, 0, 0, 0)
+
+  const normalized = normalizeMeetLink(link)
+  const { data } = await calendar.events.list({
+    calendarId,
+    timeMin: timeMin.toISOString(),
+    timeMax: timeMax.toISOString(),
+    singleEvents: true,
+  })
+
+  const event = (data.items ?? []).find((e) => {
+    const hangout = (e.hangoutLink ?? '') as string
+    const videoUri = e.conferenceData?.entryPoints?.find(
+      (ep) => ep.entryPointType === 'video',
+    )?.uri ?? ''
+    return (
+      normalizeMeetLink(hangout) === normalized ||
+      normalizeMeetLink(videoUri) === normalized
+    )
+  })
+
+  if (!event?.id) return false
+
+  await calendar.events.delete({ calendarId, eventId: event.id, sendUpdates: "all" })
+  return true
+}
