@@ -8,21 +8,18 @@ interface ProfileResumeProps {
 }
 
 export const ProfileResume = ({ resumeLink }: ProfileResumeProps) => (
-  <motion.section
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: '-50px' }}
-    transition={{ duration: 0.4 }}
-    className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-md lg:p-8"
+  <motion.a
+    href={resumeLink}
+    target="_blank"
+    rel="noreferrer"
+    initial={{ opacity: 0, scale: 0.98 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    viewport={{ once: true }}
+    whileHover={{ scale: 1.02 }}
+    whileTap={{ scale: 0.98 }}
+    className="flex items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-primary to-primary/80 px-8 py-5 text-base font-semibold text-white shadow-lg shadow-primary/25 transition-shadow hover:shadow-xl hover:shadow-primary/30"
   >
-    <a
-      href={resumeLink}
-      target="_blank"
-      rel="noreferrer"
-      className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-base font-medium text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
-    >
-      <Download className="size-5" />
-      Download Resume
-    </a>
-  </motion.section>
+    <Download className="size-5" />
+    Download Resume
+  </motion.a>
 )

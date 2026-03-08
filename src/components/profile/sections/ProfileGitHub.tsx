@@ -1,6 +1,6 @@
 'use client'
 
-import { ExternalLink, Github } from 'lucide-react'
+import { ExternalLink, Github, Star } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 interface RepoItem {
@@ -14,21 +14,21 @@ interface RepoItem {
 const DUMMY_REPOS: RepoItem[] = [
   {
     name: 'sample-project',
-    description: 'A full-stack application built with Next.js and Supabase',
+    description: 'Full-stack app with Next.js & Supabase',
     url: 'https://github.com',
     stars: 42,
     language: 'TypeScript',
   },
   {
     name: 'portfolio',
-    description: 'Personal portfolio showcasing projects and experience',
+    description: 'Personal portfolio & projects',
     url: 'https://github.com',
     stars: 28,
     language: 'React',
   },
   {
     name: 'mentor-bridge-contrib',
-    description: 'Contributions to the MentorBridge platform',
+    description: 'Contributions to MentorBridge',
     url: 'https://github.com',
     stars: 15,
     language: 'TypeScript',
@@ -40,29 +40,27 @@ interface ProfileGitHubProps {
 }
 
 export const ProfileGitHub = ({ githubUrl }: ProfileGitHubProps) => (
-  <motion.section
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: '-50px' }}
-    transition={{ duration: 0.4 }}
-    className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-md lg:p-8"
-  >
+  <div>
     <div className="mb-6 flex items-center justify-between">
-      <h2 className="text-xl font-semibold text-slate-900">GitHub</h2>
+      <h2 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-primary">
+        <Github className="size-4" />
+        GitHub
+      </h2>
       {githubUrl && (
-        <a
+        <motion.a
           href={githubUrl}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/5 px-3 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
         >
-          <Github className="size-4" />
           View Profile
-          <ExternalLink className="size-3" />
-        </a>
+          <ExternalLink className="size-3.5" />
+        </motion.a>
       )}
     </div>
-    <div className="space-y-4">
+    <div className="space-y-3">
       {DUMMY_REPOS.map((repo, idx) => (
         <motion.a
           key={repo.name}
@@ -72,30 +70,32 @@ export const ProfileGitHub = ({ githubUrl }: ProfileGitHubProps) => (
           initial={{ opacity: 0, x: -10 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: idx * 0.06 }}
-          whileHover={{ x: 4 }}
-          className="group flex items-start gap-4 rounded-xl border border-slate-100 p-4 transition-colors hover:border-primary/20 hover:bg-slate-50/80"
+          transition={{ delay: idx * 0.05 }}
+          whileHover={{ x: 4, transition: { duration: 0.15 } }}
+          className="group flex items-center gap-4 rounded-xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:border-primary/20 hover:bg-primary/5"
         >
-          <div className="shrink-0 rounded-lg bg-slate-100 p-2">
-            <Github className="size-5 text-slate-600" />
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-800 text-white">
+            <Github className="size-5" />
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="font-semibold text-slate-900 transition-colors group-hover:text-primary">
-              {repo.name}
-            </h3>
+            <h3 className="font-semibold text-slate-900">{repo.name}</h3>
             {repo.description && (
-              <p className="mt-1 text-sm text-slate-600 line-clamp-1">
+              <p className="mt-0.5 line-clamp-1 text-xs text-slate-500">
                 {repo.description}
               </p>
             )}
-            <div className="mt-2 flex flex-wrap gap-3 text-xs text-slate-500">
+            <div className="mt-2 flex gap-4 text-xs text-slate-500">
               {repo.language && <span>{repo.language}</span>}
-              {repo.stars != null && <span>★ {repo.stars}</span>}
+              {repo.stars != null && (
+                <span className="flex items-center gap-1">
+                  <Star className="size-3.5" /> {repo.stars}
+                </span>
+              )}
             </div>
           </div>
-          <ExternalLink className="size-4 shrink-0 text-slate-400" />
+          <ExternalLink className="size-4 shrink-0 text-slate-400 opacity-0 transition-all group-hover:opacity-100 group-hover:text-primary" />
         </motion.a>
       ))}
     </div>
-  </motion.section>
+  </div>
 )

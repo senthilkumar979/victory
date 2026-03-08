@@ -7,14 +7,17 @@ interface ProfilePlaceholderProps {
 }
 
 export const ProfilePlaceholder = ({ title }: ProfilePlaceholderProps) => (
-  <motion.section
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: '-50px' }}
-    transition={{ duration: 0.4 }}
-    className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/30 p-6 lg:p-8"
-  >
-    <h2 className="text-xl font-semibold text-slate-600">{title}</h2>
-    <p className="mt-2 text-sm text-slate-500">Coming soon</p>
-  </motion.section>
+  <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/30 py-12">
+    <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">
+      {title}
+    </h2>
+    <motion.p
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      className="mt-2 text-xs text-slate-400"
+    >
+      Coming soon
+    </motion.p>
+  </div>
 )

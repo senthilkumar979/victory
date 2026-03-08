@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 
+import { BentoCard } from '@/components/profile/BentoCard'
 import { ProfileAbout } from '@/components/profile/sections/ProfileAbout'
 import { ProfileAwards } from '@/components/profile/sections/ProfileAwards'
 import { ProfileBlogs } from '@/components/profile/sections/ProfileBlogs'
@@ -13,6 +14,7 @@ import { ProfileMentorBridge } from '@/components/profile/sections/ProfileMentor
 import { ProfilePlaceholder } from '@/components/profile/sections/ProfilePlaceholder'
 import { ProfileResume } from '@/components/profile/sections/ProfileResume'
 import { ProfileSkills } from '@/components/profile/sections/ProfileSkills'
+import { ProfileStats } from '@/components/profile/sections/ProfileStats'
 import { hasMentorBridgeExp } from '@/components/profile/profile.utils'
 import { useStudentAwards } from '@/hooks/useStudentAwards'
 import { useStudentBlogs } from '@/hooks/useStudentBlogs'
@@ -31,65 +33,99 @@ export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
   const { awards, loading: awardsLoading } = useStudentAwards(student.email)
 
   const showMentorBridge = hasMentorBridgeExp(student.mentorBridgeExp)
-  const mbExp = showMentorBridge ? (student.mentorBridgeExp as Parameters<typeof ProfileMentorBridge>[0]['exp']) : null
+  const mbExp =
+    showMentorBridge
+      ? (student.mentorBridgeExp as Parameters<typeof ProfileMentorBridge>[0]['exp'])
+      : null
+
+  const experienceCount = student.experience?.length ?? 0
+  const skillsCount = student.skillSets?.length ?? 0
 
   return (
-    <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-      <div className="lg:col-span-2 space-y-8">
-        <ProfileHero student={student} />
+    <div className="space-y-10">
+      <ProfileHero student={student} />
 
+      <ProfileStats
+        experienceCount={experienceCount}
+        awardsCount={awards.length}
+        blogsCount={blogs.length}
+        skillsCount={skillsCount}
+      />
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:auto-rows-[minmax(180px,auto)]">
         {student.summary && (
-          <ProfileAbout summary={student.summary} />
+          <BentoCard span="lg" delay={0.05}>
+            <ProfileAbout summary={student.summary} />
+          </BentoCard>
         )}
 
         {student.skillSets && student.skillSets.length > 0 && (
-          <ProfileSkills skills={student.skillSets} />
+          <BentoCard span="md" delay={0.08}>
+            <ProfileSkills skills={student.skillSets} />
+          </BentoCard>
         )}
 
         {student.experience && student.experience.length > 0 && (
-          <ProfileExperience experience={student.experience} />
+          <BentoCard span="xl" delay={0.1}>
+            <ProfileExperience experience={student.experience} />
+          </BentoCard>
         )}
 
         {showMentorBridge && mbExp && (
-          <ProfileMentorBridge exp={mbExp} />
+          <BentoCard span="md" variant="solid" delay={0.12}>
+            <ProfileMentorBridge exp={mbExp} />
+          </BentoCard>
         )}
 
         {student.inspirations && student.inspirations.length > 0 && (
-          <ProfileInspirations inspirations={student.inspirations} />
+          <BentoCard span="md" delay={0.14}>
+            <ProfileInspirations inspirations={student.inspirations} />
+          </BentoCard>
         )}
 
-        <ProfileBlogs blogs={blogs} loading={blogsLoading} />
+        <BentoCard span="lg" delay={0.16}>
+          <ProfileBlogs blogs={blogs} loading={blogsLoading} />
+        </BentoCard>
 
-        <ProfileGitHub githubUrl={student.socialLinks?.gitHub} />
+        <BentoCard span="md" delay={0.18}>
+          <ProfileGitHub githubUrl={student.socialLinks?.gitHub} />
+        </BentoCard>
 
-        <ProfileAwards awards={awards} loading={awardsLoading} />
+        <BentoCard span="md" delay={0.2}>
+          <ProfileAwards awards={awards} loading={awardsLoading} />
+        </BentoCard>
 
-        <ProfilePlaceholder title="Topics Presented" />
-        <ProfilePlaceholder title="Appreciations" />
+        <BentoCard span="md" delay={0.22}>
+          <ProfilePlaceholder title="Topics Presented" />
+        </BentoCard>
+
+        <BentoCard span="md" delay={0.24}>
+          <ProfilePlaceholder title="Appreciations" />
+        </BentoCard>
 
         {student.resumeLink && (
-          <ProfileResume resumeLink={student.resumeLink} />
+          <BentoCard span="md" delay={0.26}>
+            <ProfileResume resumeLink={student.resumeLink} />
+          </BentoCard>
         )}
-      </div>
 
-      <div className="space-y-8">
         <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-          className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-md lg:sticky lg:top-8"
+          transition={{ delay: 0.28 }}
+          className="rounded-[1.5rem] border border-slate-200/80 bg-white p-6 shadow-lg lg:col-span-1 lg:row-span-3 lg:sticky lg:top-8"
         >
-          <h3 className="mb-4 text-lg font-semibold text-slate-900">
+          <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
             Quick Links
           </h3>
-          <div className="space-y-3">
+          <div className="space-y-2">
             {student.resumeLink && (
               <a
                 href={student.resumeLink}
                 target="_blank"
                 rel="noreferrer"
-                className="block rounded-lg border border-slate-200 p-3 text-sm font-medium text-slate-700 transition-colors hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
+                className="block rounded-xl border border-slate-100 px-4 py-3 text-sm font-medium text-slate-700 transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
               >
                 Resume
               </a>
@@ -97,7 +133,7 @@ export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
             {student.email && (
               <a
                 href={`mailto:${student.email}`}
-                className="block rounded-lg border border-slate-200 p-3 text-sm font-medium text-slate-700 transition-colors hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
+                className="block rounded-xl border border-slate-100 px-4 py-3 text-sm font-medium text-slate-700 transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
               >
                 Contact
               </a>
@@ -107,7 +143,7 @@ export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
                 href={student.socialLinks.linkedIn}
                 target="_blank"
                 rel="noreferrer"
-                className="block rounded-lg border border-slate-200 p-3 text-sm font-medium text-slate-700 transition-colors hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
+                className="block rounded-xl border border-slate-100 px-4 py-3 text-sm font-medium text-slate-700 transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
               >
                 LinkedIn
               </a>
@@ -117,7 +153,7 @@ export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
                 href={student.socialLinks.gitHub}
                 target="_blank"
                 rel="noreferrer"
-                className="block rounded-lg border border-slate-200 p-3 text-sm font-medium text-slate-700 transition-colors hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
+                className="block rounded-xl border border-slate-100 px-4 py-3 text-sm font-medium text-slate-700 transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
               >
                 GitHub
               </a>

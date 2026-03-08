@@ -77,8 +77,8 @@ export default function StudentDetailPage() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-slate-50 via-white to-slate-50/50">
-      <div className="mx-auto w-full max-w-[1600px] px-4 py-8 sm:px-6 lg:px-8 xl:px-12">
+    <div className="min-h-screen w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-white to-slate-50">
+      <div className="mx-auto w-full max-w-[1600px] px-4 py-10 sm:px-6 lg:px-10 xl:px-14">
         <Link
           href="/secured/admin"
           className="mb-8 inline-flex items-center text-sm font-medium text-primary transition-colors hover:text-primary/80 hover:underline"

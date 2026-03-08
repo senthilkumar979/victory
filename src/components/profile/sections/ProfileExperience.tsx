@@ -1,5 +1,6 @@
 'use client'
 
+import { ArrowUpRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 import type { Experience } from '@/types/student.types'
@@ -9,44 +10,45 @@ interface ProfileExperienceProps {
 }
 
 export const ProfileExperience = ({ experience }: ProfileExperienceProps) => (
-  <motion.section
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: '-50px' }}
-    transition={{ duration: 0.4 }}
-    className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-md lg:p-8"
-  >
-    <h2 className="mb-6 text-xl font-semibold text-slate-900">
+  <div>
+    <h2 className="mb-6 text-sm font-semibold uppercase tracking-[0.2em] text-primary">
       Professional Experience
     </h2>
-    <div className="space-y-0">
+    <div className="space-y-6">
       {experience.map((exp, idx) => (
         <motion.div
           key={`${exp.company}-${exp.role}-${idx}`}
-          initial={{ opacity: 0, x: -10 }}
+          initial={{ opacity: 0, x: -12 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ delay: idx * 0.08 }}
-          className="relative border-l-2 border-primary/30 pl-6 pb-8 last:pb-0"
+          className="group relative rounded-xl border border-slate-100 bg-gradient-to-br from-slate-50/80 to-white p-5 transition-all hover:border-primary/20 hover:shadow-md"
         >
-          <span className="absolute -left-[5px] top-2 size-2 rounded-full bg-primary" />
-          <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-4 transition-colors hover:border-primary/20">
-            <h3 className="font-semibold text-slate-900">{exp.company}</h3>
-            <p className="text-sm font-medium text-primary">{exp.role}</p>
-            <p className="mt-2 text-sm text-slate-600">{exp.summary}</p>
-            {exp.website && (
-              <a
-                href={exp.website}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-2 inline-block text-sm text-primary hover:underline"
-              >
-                {exp.website}
-              </a>
-            )}
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h3 className="font-bold text-slate-900">{exp.company}</h3>
+              <p className="mt-1 text-sm font-medium text-primary">{exp.role}</p>
+              <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                {exp.summary}
+              </p>
+              {exp.website && (
+                <a
+                  href={exp.website}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:underline"
+                >
+                  Visit
+                  <ArrowUpRight className="size-4" />
+                </a>
+              )}
+            </div>
+            <span className="rounded-lg bg-primary/5 px-2 py-1 text-xs font-medium text-primary">
+              {idx + 1}
+            </span>
           </div>
         </motion.div>
       ))}
     </div>
-  </motion.section>
+  </div>
 )

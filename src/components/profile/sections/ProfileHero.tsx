@@ -1,9 +1,36 @@
 'use client'
 
-import { Download, Github, Globe, Linkedin, Mail } from 'lucide-react'
+import {
+  Download,
+  Github,
+  Globe,
+  Linkedin,
+  Mail,
+  Sparkles,
+} from 'lucide-react'
 import { motion } from 'framer-motion'
 
 import type { ProfileData } from '@/types/student.types'
+
+const container = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
+    },
+  },
+}
+
+const item = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: 'spring' as const, stiffness: 100, damping: 20 },
+  },
+}
 
 interface ProfileHeroProps {
   student: ProfileData
@@ -14,145 +41,158 @@ export const ProfileHero = ({ student }: ProfileHeroProps) => {
 
   return (
     <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-lg"
+      initial="hidden"
+      animate="visible"
+      variants={container}
+      className="relative overflow-hidden rounded-[2rem] border border-white/20 bg-gradient-to-br from-slate-50 via-white to-primary/5 profile-hero-mesh"
     >
-      <div className="flex flex-col gap-8 p-8 sm:flex-row sm:items-center sm:gap-12 lg:p-12">
-        <motion.div
-          initial={{ scale: 0.9 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.2, duration: 0.4 }}
-          className="shrink-0"
-        >
-          {picture ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={picture}
-              alt={name}
-              width={192}
-              height={192}
-              className="size-40 rounded-full object-cover ring-4 ring-primary/20 sm:size-48"
+      <div className="relative z-10 flex flex-col gap-10 p-8 sm:flex-row sm:items-center sm:gap-14 lg:p-14">
+        <motion.div variants={item} className="relative shrink-0">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 25, delay: 0.2 }}
+            className="relative"
+          >
+            {picture ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={picture}
+                alt={name}
+                width={200}
+                height={200}
+                className="relative z-10 size-36 rounded-2xl object-cover shadow-2xl ring-4 ring-white/80 sm:size-44 lg:size-52"
+              />
+            ) : (
+              <div className="relative z-10 flex size-36 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 text-5xl font-bold text-primary shadow-xl ring-4 ring-white/80 sm:size-44 lg:size-52">
+                {name?.charAt(0)?.toUpperCase() ?? '?'}
+              </div>
+            )}
+            <div className="absolute -inset-4 -z-0 rounded-3xl bg-primary/10 blur-2xl" />
+            <motion.div
+              animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.5, 0.3] }}
+              transition={{ duration: 3, repeat: Infinity }}
+              className="absolute -inset-2 -z-0 rounded-2xl bg-primary/20"
             />
-          ) : (
-            <div className="flex size-40 items-center justify-center rounded-full bg-primary/10 text-4xl font-bold text-primary sm:size-48">
-              {name?.charAt(0)?.toUpperCase() ?? '?'}
-            </div>
-          )}
+          </motion.div>
         </motion.div>
-        <div className="min-w-0 flex-1 space-y-4">
+
+        <div className="flex min-w-0 flex-1 flex-col gap-5">
+          <div className="flex items-center gap-2">
+            <motion.span
+              variants={item}
+              className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-primary"
+            >
+              <Sparkles className="size-3.5" />
+              MentorBridge
+            </motion.span>
+            {batch && (
+              <motion.span
+                variants={item}
+                className="rounded-full bg-slate-800/10 px-3 py-1 text-xs font-medium text-slate-600"
+              >
+                Batch {batch}
+              </motion.span>
+            )}
+          </div>
+
           <motion.h1
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl"
+            variants={item}
+            className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl lg:text-6xl"
           >
             {name}
           </motion.h1>
+
           <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.35 }}
-            className="flex flex-wrap gap-2 text-lg text-slate-600"
+            variants={item}
+            className="flex flex-wrap items-center gap-3 text-lg text-slate-600"
           >
             <span className="font-semibold text-primary">{role}</span>
             {company && (
               <>
-                <span aria-hidden>·</span>
-                <span>{company}</span>
+                <span className="text-slate-400">@</span>
+                <span className="font-medium">{company}</span>
               </>
             )}
           </motion.div>
-          {batch && (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="rounded-full bg-secondary/5 px-4 py-1.5 text-sm font-medium text-secondary w-fit"
-            >
-              Batch {batch}
-            </motion.p>
-          )}
+
           {email && (
             <motion.a
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.45 }}
+              variants={item}
               href={`mailto:${email}`}
-              className="inline-flex items-center gap-2 text-sm text-primary transition-colors hover:text-primary/80 hover:underline"
+              className="inline-flex w-fit items-center gap-2 text-sm text-slate-600 transition-colors hover:text-primary"
             >
               <Mail className="size-4" />
               {email}
             </motion.a>
           )}
-          {socialLinks && (socialLinks.linkedIn || socialLinks.gitHub || socialLinks.website) && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="flex flex-wrap items-center gap-2 pt-2"
-            >
-              {socialLinks.linkedIn && (
-                <a
-                  href={socialLinks.linkedIn}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="LinkedIn"
-                  className="rounded-full p-2.5 text-slate-500 transition-colors hover:bg-primary/10 hover:text-primary"
-                >
-                  <Linkedin className="size-5" />
-                </a>
-              )}
-              {socialLinks.gitHub && (
-                <a
-                  href={socialLinks.gitHub}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="GitHub"
-                  className="rounded-full p-2.5 text-slate-500 transition-colors hover:bg-primary/10 hover:text-slate-900"
-                >
-                  <Github className="size-5" />
-                </a>
-              )}
-              {socialLinks.website && (
-                <a
-                  href={socialLinks.website}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Website"
-                  className="rounded-full p-2.5 text-slate-500 transition-colors hover:bg-primary/10 hover:text-primary"
-                >
-                  <Globe className="size-5" />
-                </a>
-              )}
-            </motion.div>
-          )}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.55 }}
-            className="flex flex-wrap gap-3 pt-4"
-          >
+
+          <motion.div variants={item} className="flex flex-wrap items-center gap-3 pt-2">
+            {socialLinks?.linkedIn && (
+              <motion.a
+                href={socialLinks.linkedIn}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="rounded-xl p-2.5 text-slate-500 transition-colors hover:bg-primary/10 hover:text-primary"
+              >
+                <Linkedin className="size-6" />
+              </motion.a>
+            )}
+            {socialLinks?.gitHub && (
+              <motion.a
+                href={socialLinks.gitHub}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="GitHub"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="rounded-xl p-2.5 text-slate-500 transition-colors hover:bg-primary/10 hover:text-slate-900"
+              >
+                <Github className="size-6" />
+              </motion.a>
+            )}
+            {socialLinks?.website && (
+              <motion.a
+                href={socialLinks.website}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Website"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="rounded-xl p-2.5 text-slate-500 transition-colors hover:bg-primary/10 hover:text-primary"
+              >
+                <Globe className="size-6" />
+              </motion.a>
+            )}
+          </motion.div>
+
+          <motion.div variants={item} className="flex flex-wrap gap-4 pt-4">
             {resumeLink && (
-              <a
+              <motion.a
                 href={resumeLink}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-primary/80 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-shadow hover:shadow-xl hover:shadow-primary/30"
               >
                 <Download className="size-4" />
                 View Resume
-              </a>
+              </motion.a>
             )}
             {email && (
-              <a
+              <motion.a
                 href={`mailto:${email}`}
-                className="inline-flex items-center gap-2 rounded-lg border border-primary/40 bg-primary/5 px-5 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center gap-2 rounded-xl border-2 border-slate-200 bg-white/80 px-6 py-3 text-sm font-semibold text-slate-700 backdrop-blur transition-colors hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
               >
                 <Mail className="size-4" />
-                Send Email
-              </a>
+                Contact
+              </motion.a>
             )}
           </motion.div>
         </div>
