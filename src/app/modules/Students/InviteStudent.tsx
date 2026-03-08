@@ -1,10 +1,13 @@
 'use client'
 
 import { PrimaryButton, SecondaryButton } from '@/atoms/button/Button'
-import { FormInput } from '@/molecules/form-input/FormInput'
+import { parseEmails } from '@/utils/emailUtils'
 import { Modal } from '@/ui/organisms/modal/Modal'
 import { gooeyToast } from 'goey-toast'
 import { useState } from 'react'
+import { InviteStudentFormFields } from './InviteStudentFormFields'
+
+type InviteMode = 'single' | 'bulk'
 
 interface InviteStudentProps {
   show: boolean
@@ -17,53 +20,63 @@ export const InviteStudent = ({
   onClose,
   onSuccess,
 }: InviteStudentProps) => {
+  const [mode, setMode] = useState<InviteMode>('single')
   const [email, setEmail] = useState('')
+  const [bulkText, setBulkText] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [bulkProgress, setBulkProgress] = useState<string | null>(null)
+
+  const emails = mode === 'bulk' ? parseEmails(bulkText) : []
+  const canSubmit = mode === 'single' ? email.trim().length > 0 : emails.length > 0
+
+  const sendInvitation = async (addr: string) => {
+    const res = await fetch('/api/invitations/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ emailAddress: addr }),
+    })
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error ?? 'Failed to send invitation')
+  }
 
   const handleSubmitForm = async (event: React.FormEvent) => {
     event.preventDefault()
-
-    const trimmedEmail = email.trim()
-    if (!trimmedEmail) return
-
+    if (!canSubmit) return
     setIsSubmitting(true)
+    setBulkProgress(null)
     try {
-      const res = await fetch('/api/invitations/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ emailAddress: trimmedEmail }),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        throw new Error(data.error ?? 'Failed to send invitation')
+      if (mode === 'single') {
+        await sendInvitation(email.trim())
+        gooeyToast.success('Invitation sent!', {
+          description: <div><strong>{email.trim()}</strong> will receive an email to sign up.</div>,
+          bounce: 0.45, borderColor: '#E0E0E0', borderWidth: 2, timing: { displayDuration: 6000 },
+        })
+        setEmail('')
+        onClose()
+        onSuccess?.()
+      } else {
+        const failed: string[] = []
+        for (let i = 0; i < emails.length; i++) {
+          setBulkProgress(`Inviting ${i + 1} of ${emails.length}…`)
+          try { await sendInvitation(emails[i]) } catch { failed.push(emails[i]) }
+        }
+        setBulkProgress(null)
+        const sent = emails.length - failed.length
+        gooeyToast.success(`${sent} invitation${sent !== 1 ? 's' : ''} sent.`, {
+          description: failed.length
+            ? <>Failed: {failed.slice(0, 3).join(', ')}{failed.length > 3 ? '…' : ''}</>
+            : undefined,
+          bounce: 0.45, borderColor: '#E0E0E0', borderWidth: 2, timing: { displayDuration: 6000 },
+        })
+        setBulkText('')
+        onClose()
+        onSuccess?.()
       }
-
-      gooeyToast.success('Invitation sent!', {
-        description: (
-          <div>
-            <strong>{trimmedEmail}</strong> will receive an email to sign up.
-          </div>
-        ),
-        bounce: 0.45,
-        borderColor: '#E0E0E0',
-        borderWidth: 2,
-        timing: { displayDuration: 6000 },
-      })
-
-      setEmail('')
-      onClose()
-      onSuccess?.()
     } catch (err) {
-      gooeyToast.error(
-        err instanceof Error ? err.message : 'Failed to send invitation',
-        {
-          bounce: 0.45,
-          borderColor: '#E0E0E0',
-          borderWidth: 2,
-        },
-      )
+      setBulkProgress(null)
+      gooeyToast.error(err instanceof Error ? err.message : 'Failed to send invitation', {
+        bounce: 0.45, borderColor: '#E0E0E0', borderWidth: 2,
+      })
     } finally {
       setIsSubmitting(false)
     }
@@ -72,45 +85,36 @@ export const InviteStudent = ({
   const handleClose = () => {
     if (isSubmitting) return
     setEmail('')
+    setBulkText('')
+    setMode('single')
     onClose()
   }
 
   return (
-    <Modal isOpen={show} onClose={handleClose} size="sm" showCloseButton>
+    <Modal isOpen={show} onClose={handleClose} size="md" showCloseButton>
       <Modal.Title>Invite Student</Modal.Title>
       <Modal.Body>
-        <form
-          className="space-y-4"
-          onSubmit={handleSubmitForm}
-          id="invite-student-form"
-        >
-          <FormInput
-            id="invite-email"
-            label="Email address"
-            type="email"
-            isDarkMode
-            placeholder="e.g. student@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+        <form className="space-y-4" onSubmit={handleSubmitForm} id="invite-student-form">
+          <InviteStudentFormFields
+            mode={mode}
+            setMode={setMode}
+            email={email}
+            setEmail={setEmail}
+            bulkText={bulkText}
+            setBulkText={setBulkText}
           />
         </form>
       </Modal.Body>
       <Modal.Footer>
-        <SecondaryButton
-          type="button"
-          onClick={handleClose}
-          disabled={isSubmitting}
-          className="inline-flex items-center rounded-md border border-slate-700/70 bg-slate-900/80 px-3 py-1.5 text-xs font-medium text-slate-200 transition-colors hover:bg-slate-800 disabled:opacity-50"
-        >
+        <SecondaryButton type="button" onClick={handleClose} disabled={isSubmitting}>
           Cancel
         </SecondaryButton>
         <PrimaryButton
           type="submit"
           form="invite-student-form"
-          disabled={isSubmitting || !email.trim()}
-          className="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:opacity-50"
+          disabled={isSubmitting || !canSubmit}
         >
-          {isSubmitting ? 'Sending…' : 'Send invitation'}
+          {isSubmitting ? (bulkProgress ?? 'Sending…') : `Send invitation${mode === 'bulk' && emails.length > 1 ? `s (${emails.length})` : ''}`}
         </PrimaryButton>
       </Modal.Footer>
     </Modal>
