@@ -38,6 +38,7 @@ export const useStudentTableColumns = () => {
           return (
             <a
               href={`mailto:${email}`}
+              onClick={(e) => e.stopPropagation()}
               className="text-sm text-indigo-600 hover:text-indigo-800 hover:underline"
             >
               {email}
@@ -61,7 +62,11 @@ export const useStudentTableColumns = () => {
         cell: (info) => {
           const links = info.row.original.socialLinks
           if (!links) return null
-          return <SocialLinks socialLinks={links} />
+          return (
+            <div onClick={(e) => e.stopPropagation()}>
+              <SocialLinks socialLinks={links} />
+            </div>
+          )
         },
       },
     ],

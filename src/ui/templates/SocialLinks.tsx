@@ -1,4 +1,4 @@
-import { ISocialLinks } from '../../../types/student.types'
+import { ISocialLinks } from '@/types/student.types'
 
 export const SocialLinks = ({ socialLinks }: { socialLinks: ISocialLinks }) => {
   const { linkedIn, gitHub, website } = socialLinks

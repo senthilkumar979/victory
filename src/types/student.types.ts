@@ -30,6 +30,7 @@ export interface ProfileData {
   company?: string;
   summary?: string;
   email: string;
+  mediumUsername?: string;
   experience?: Experience[];
   mentorBridgeExp?: MentorBridgeExp;
   skillSets?: string[];

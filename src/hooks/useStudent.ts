@@ -63,6 +63,7 @@ export const useStudent = (studentId: string): UseStudentReturn => {
           company: data.company,
           summary: data.summary,
           email: data.email,
+          mediumUsername: data.medium_username ?? undefined,
           experience: safeJsonParse(data.experience, []),
           mentorBridgeExp: safeJsonParse(data.mentor_bridge_exp, {}),
           skillSets: safeJsonParse(data.skill_sets, []),

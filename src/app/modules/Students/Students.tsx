@@ -5,6 +5,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 import { Button } from '@/atoms/button/Button'
@@ -13,9 +14,14 @@ import { InviteStudent } from './InviteStudent'
 import { useStudentTableColumns } from './useStudentTableColumns'
 
 export const Students = () => {
+  const router = useRouter()
   const { students, loading, error, refetch } = useStudents()
   const { columns } = useStudentTableColumns()
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false)
+
+  const handleRowClick = (studentId: string) => {
+    router.push(`/student-detail/${studentId}`)
+  }
 
   const table = useReactTable({
     data: students,
@@ -92,7 +98,14 @@ export const Students = () => {
                 {table.getRowModel().rows.map((row) => (
                   <tr
                     key={row.id}
-                    className="group border-l-2 border-transparent bg-white/40 transition-colors duration-150 odd:bg-white/60 even:bg-slate-50/60 hover:border-l-primary hover:bg-sky-50/80"
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => handleRowClick(row.original.id)}
+                    onKeyDown={(e) =>
+                      (e.key === 'Enter' || e.key === ' ') &&
+                      handleRowClick(row.original.id)
+                    }
+                    className="group cursor-pointer border-l-2 border-transparent bg-white/40 transition-colors duration-150 odd:bg-white/60 even:bg-slate-50/60 hover:border-l-primary hover:bg-sky-50/80"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <td

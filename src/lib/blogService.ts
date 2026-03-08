@@ -137,6 +137,40 @@ export async function getBlogsRemaining({
   }
 }
 
+const BLOG_SELECT = 'id, title, author_name, published_date, cover_image_url, link'
+
+/**
+ * Fetches blogs for a student. Uses author_name (student name) or username
+ * column if it exists. Blogs synced from Medium store author_name.
+ */
+export async function getBlogsByStudent(
+  mediumUsername?: string | null,
+  authorName?: string | null,
+): Promise<Blog[]> {
+  if (!mediumUsername && !authorName) return []
+
+  if (authorName) {
+    const { data, error } = await supabase
+      .from('blogs')
+      .select(BLOG_SELECT)
+      .eq('author_name', authorName)
+      .order('published_date', { ascending: false })
+      .limit(20)
+    if (!error && data?.length) return data as Blog[]
+  }
+
+  if (mediumUsername) {
+    const { data, error } = await supabase
+      .from('blogs')
+      .select(BLOG_SELECT)
+      .eq('username', mediumUsername)
+      .order('published_date', { ascending: false })
+      .limit(20)
+    if (!error && data?.length) return data as Blog[]
+  }
+  return []
+}
+
 /**
  * Fetches distinct author names from the blogs table.
  */
