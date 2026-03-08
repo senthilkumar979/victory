@@ -3,6 +3,7 @@ import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 import { useState } from 'react'
 import { AdminAnnouncement } from '../../Announcements/AdminAnnouncement'
 import { GoogleGroups } from '../../GoogleGroups'
+import { HallOfFame } from '../../HallOfFame/HallOfFame'
 import { Meetings } from '../../Meetings/Meetings'
 import { Students } from '../../Students/Students'
 import { SettingsNavItem } from '../SettingsNav/SettingNav.types'
@@ -18,6 +19,11 @@ export const GeneralSettings = () => {
       value: 'announcements',
       label: 'Announcements',
       content: <AdminAnnouncement />,
+    },
+    {
+      value: 'hall-of-fame',
+      label: 'Hall of Fame',
+      content: <HallOfFame />,
     },
     {
       value: 'meetings',
