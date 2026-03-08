@@ -3,6 +3,7 @@ import { PencilIcon, TrashIcon } from 'lucide-react'
 import { TextButton } from '@/atoms/button/Button'
 import { StudentBatch } from '@/templates/StudentBatch'
 
+import Image from 'next/image'
 import type { AwardFormState } from './Award.types'
 import { formatAwardDateDisplay } from './formatAwardDate'
 
@@ -57,7 +58,9 @@ export const AwardsTable = ({
                 {award.student ? (
                   <>
                     {award.student.picture ? (
-                      <img
+                      <Image
+                        width={10}
+                        height={10}
                         src={award.student.picture}
                         alt={award.student.name}
                         className="h-10 w-10 shrink-0 rounded-full object-cover"
@@ -77,8 +80,8 @@ export const AwardsTable = ({
                       </span>
                       {award.student.batch != null &&
                         award.student.batch !== '' && (
-                        <BatchDisplay batch={award.student.batch} />
-                      )}
+                          <BatchDisplay batch={award.student.batch} />
+                        )}
                     </div>
                   </>
                 ) : (
@@ -112,10 +115,7 @@ export const AwardsTable = ({
                 >
                   <PencilIcon className="size-4" />
                 </TextButton>
-                <TextButton
-                  variant="textError"
-                  onClick={() => onDelete(award)}
-                >
+                <TextButton variant="textError" onClick={() => onDelete(award)}>
                   <TrashIcon className="size-4" />
                 </TextButton>
               </div>

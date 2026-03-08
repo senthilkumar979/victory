@@ -7,6 +7,7 @@ import { Awards } from '../../Awards/Awards'
 import { GoogleGroups } from '../../GoogleGroups'
 import { HallOfFame } from '../../HallOfFame/HallOfFame'
 import { Meetings } from '../../Meetings/Meetings'
+import { Partners } from '../../Partners/Partners'
 import { Students } from '../../Students/Students'
 import { SettingsNavItem } from '../SettingsNav/SettingNav.types'
 
@@ -31,6 +32,11 @@ export const GeneralSettings = () => {
       value: 'meetings',
       label: 'Meetings',
       content: <Meetings />,
+    },
+    {
+      value: 'partners',
+      label: 'Partners',
+      content: <Partners />,
     },
     {
       value: 'students',
