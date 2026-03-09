@@ -1,9 +1,10 @@
 import { joinClassNames } from '@/utils/tailwindUtils'
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AdminAnnouncement } from '../../Announcements/AdminAnnouncement'
 import { AwardCategories } from '../../AwardCategories'
 import { Awards } from '../../Awards/Awards'
+import { Presenters } from '../../Presenters/Presenters'
 import { GoogleGroups } from '../../GoogleGroups'
 import { HallOfFame } from '../../HallOfFame/HallOfFame'
 import { AdminMeetings } from '../../Meetings/AdminMeetings'
@@ -53,9 +54,29 @@ export const GeneralSettings = () => {
       label: 'Awards',
       content: <Awards />,
     },
+    {
+      value: 'presenters',
+      label: 'Presenters',
+      content: <Presenters />,
+    },
   ]
 
   const [activeTab, setActiveTab] = useState('google-groups')
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const url = window.location.hash
+      if (url) {
+        setActiveTab(url.slice(1))
+      } else {
+        setActiveTab('google-groups')
+      }
+    }
+    //load the active tab from the url
+    handleHashChange()
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [])
 
   const loadActiveContent = () => {
     // Wrap the content in a stacking context to ensure Modals inside render properly

@@ -79,7 +79,6 @@ export default function RootLayout({
             {children}
             <Footer />
             <ClarityComponent />
-            {children}
             <Analytics />
             <SpeedInsights />
           </LoaderProvider>

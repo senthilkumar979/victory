@@ -18,7 +18,7 @@ export const FooterInfo = () => {
       <div className="flex gap-6 text-sm">
         <Link
           href="/privacy-policy"
-          className="text-black transition-colors hover:text-black-600 flex items-center gap-2"
+          className="text-black transition-colors hover:text-primary flex items-center gap-2"
         >
           <ShieldCheckIcon className="size-4" />
           <span>Privacy Policy</span>
@@ -28,7 +28,7 @@ export const FooterInfo = () => {
         </span>
         <Link
           href="/terms-conditions"
-          className="text-black transition-colors hover:text-black-600 flex items-center gap-2"
+          className="text-black transition-colors hover:text-primary flex items-center gap-2"
         >
           <Signature className="size-4" />
           Terms & Conditions

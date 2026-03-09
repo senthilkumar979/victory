@@ -89,7 +89,7 @@ export default function PrivacyPolicyPage() {
         <PageHeader
           title="Privacy Policy"
           description="Our policies regarding the collection, use, and disclosure of personal information."
-          subtitle="Effective Date: October 11, 2024"
+          subtitle="Effective Date: March 9, 2026"
         />
 
         <motion.div
