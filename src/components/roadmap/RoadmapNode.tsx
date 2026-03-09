@@ -1,16 +1,17 @@
 'use client'
 
-import { Handle, Position, type NodeProps } from 'reactflow'
 import type { RoadmapNodeData } from '@/data/roadmaps'
+import { Check } from 'lucide-react'
+import { Handle, Position, type NodeProps } from 'reactflow'
 
 export interface RoadmapNodeDataWithCompletion extends RoadmapNodeData {
   isCompleted?: boolean
 }
 
 const defaultClasses =
-  'min-w-[180px] rounded-xl border-2 border-muted bg-secondary px-4 py-3 shadow-sm'
+  'min-w-[180px] rounded-xl border-2 border-white bg-secondary px-2 py-2 shadow-sm'
 const completedClasses =
-  'min-w-[180px] rounded-xl border-2 border-green-700 bg-green-500 px-4 py-3 shadow-sm'
+  'min-w-[180px] rounded-xl border-2 border-green-700 bg-success px-2 py-2 shadow-sm'
 
 export const RoadmapNode = ({
   data,
@@ -27,10 +28,11 @@ export const RoadmapNode = ({
         className={`${baseClasses} ${selectedClasses} text-center transition-colors`}
       >
         <span
-          className={`text-sm font-medium ${
+          className={`text-sm flex items-center gap-2 font-medium ${
             isCompleted ? 'text-white' : 'text-foreground'
           }`}
         >
+          {isCompleted ? <Check className="w-4 h-4" /> : ''}
           {data.label}
         </span>
       </div>

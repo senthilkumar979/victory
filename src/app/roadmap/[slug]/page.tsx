@@ -1,17 +1,17 @@
 'use client'
 
-import Link from 'next/link'
-import { useParams } from 'next/navigation'
-import { useState } from 'react'
-import type { Node } from 'reactflow'
+import { Breadcrumbs } from '@/atoms/breadcrumbs/Breadcrumbs'
 import { NodeDrawer } from '@/components/roadmap/NodeDrawer'
 import { RoadmapCanvas } from '@/components/roadmap/RoadmapCanvas'
-import { Breadcrumbs } from '@/ui/atoms/breadcrumbs/Breadcrumbs'
 import {
   getRoadmap,
   type RoadmapNodeData,
 } from '@/data/roadmaps'
 import { useRoadmapProgress } from '@/hooks/useRoadmapProgress'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
+import { useState } from 'react'
+import type { Node } from 'reactflow'
 
 export default function RoadmapSlugPage() {
   const params = useParams()
@@ -58,17 +58,18 @@ export default function RoadmapSlugPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <Breadcrumbs
-        items={[
-          { label: 'Roadmaps', href: '/roadmap' },
-          { label: roadmap.title },
-        ]}
-        className="mb-6"
-      />
-      <h1 className="mb-8 text-2xl font-semibold text-foreground sm:text-3xl">
-        {roadmap.title}
-      </h1>
+    <div className="mx-auto max-w-full px-2 py-3">
+      <div className="flex flex-row items-center justify-between">
+        <Breadcrumbs
+          items={[
+            { label: 'Roadmaps', href: '/roadmap' },
+            { label: roadmap.title },
+          ]}
+        />
+      </div>
+      <h1 className="text-2xl font-semibold text-primary text-center">
+          {roadmap.title}
+        </h1>
       <RoadmapCanvas
         nodes={roadmap.nodes}
         edges={roadmap.edges}

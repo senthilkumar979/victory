@@ -1,12 +1,12 @@
 'use client'
 
+import { Button } from '@/atoms/button/Button'
+import type { RoadmapNodeData } from '@/data/roadmaps'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ExternalLink, Check, X } from 'lucide-react'
+import { Check, ExternalLink, X } from 'lucide-react'
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import type { Node } from 'reactflow'
-import { Button } from '@/atoms/button/Button'
-import type { RoadmapNodeData } from '@/data/roadmaps'
 
 interface NodeDrawerProps {
   node: Node<RoadmapNodeData> | null
@@ -14,11 +14,7 @@ interface NodeDrawerProps {
   onComplete: (node: Node<RoadmapNodeData>) => void
 }
 
-export const NodeDrawer = ({
-  node,
-  onClose,
-  onComplete,
-}: NodeDrawerProps) => {
+export const NodeDrawer = ({ node, onClose, onComplete }: NodeDrawerProps) => {
   useEffect(() => {
     if (!node) return
 
@@ -117,14 +113,16 @@ export const NodeDrawer = ({
                 <Button variant="secondary" size="sm" onClick={onClose}>
                   Close
                 </Button>
-                <Button
-                  variant="primary"
-                  size="sm"
-                  onClick={() => onComplete(node)}
-                  className="gap-2"
-                >
-                  <Check className="size-4" /> Mark as Complete
-                </Button>
+                {!node.data.isCompleted && (
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={() => onComplete(node)}
+                    className="gap-2"
+                  >
+                    <Check className="size-4" /> Mark as Complete
+                  </Button>
+                )}
               </footer>
             </div>
           </motion.aside>

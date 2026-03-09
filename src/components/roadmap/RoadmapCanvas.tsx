@@ -1,23 +1,17 @@
 'use client'
 
-import type { MouseEvent as ReactMouseEvent } from 'react'
-import type { Node, Edge } from 'reactflow'
-import {
-  ReactFlow,
-  Background,
-  Controls,
-  MiniMap,
-  BackgroundVariant,
-} from 'reactflow'
-import { useCallback, useMemo } from 'react'
 import { ROADMAP_NODE_TYPE } from '@/data/roadmaps'
+import type { MouseEvent as ReactMouseEvent } from 'react'
+import { useCallback, useMemo } from 'react'
+import type { Edge, Node } from 'reactflow'
+import { ReactFlow } from 'reactflow'
 import { RoadmapNode } from './RoadmapNode'
 
 interface RoadmapCanvasProps<T> {
   nodes: Node<T>[]
   edges: Edge[]
   completedNodes?: string[]
-  onNodeClick?: (node: Node<T>) => void
+  onNodeClick?: (node: Node<T>, isCompleted: boolean) => void
 }
 
 const nodeTypes = { [ROADMAP_NODE_TYPE]: RoadmapNode }
@@ -28,10 +22,7 @@ export const RoadmapCanvas = <T,>({
   completedNodes = [],
   onNodeClick,
 }: RoadmapCanvasProps<T>) => {
-  const completedSet = useMemo(
-    () => new Set(completedNodes),
-    [completedNodes]
-  )
+  const completedSet = useMemo(() => new Set(completedNodes), [completedNodes])
 
   const styledNodes = useMemo(
     () =>
@@ -42,39 +33,36 @@ export const RoadmapCanvas = <T,>({
           isCompleted: completedSet.has(node.id),
         },
       })),
-    [nodes, completedSet]
+    [nodes, completedSet],
   )
 
   const handleNodeClick = useCallback(
-    (_event: ReactMouseEvent, node: Node<T>) => onNodeClick?.(node),
-    [onNodeClick]
+    (_event: ReactMouseEvent, node: Node<T>) =>
+      onNodeClick?.(node, completedSet.has(node.id)),
+    [onNodeClick, completedSet],
   )
 
   return (
-    <div className="w-full h-[800px] rounded-lg border border-muted overflow-hidden">
+    <div className="h-[100vh]" style={{ margin: '0 20%' }}>
       <ReactFlow
         nodes={styledNodes}
         edges={edges}
         nodeTypes={nodeTypes}
         onNodeClick={handleNodeClick}
         fitView
-        className="bg-background"
-        minZoom={0.1}
-        maxZoom={2}
-      >
-        <Background
-          variant={BackgroundVariant.Lines}
-          gap={16}
-          size={1}
-          className="text-muted"
-        />
-        <Controls className="rounded border border-muted bg-secondary shadow-sm" />
-        <MiniMap
-          className="rounded border border-muted bg-secondary"
-          nodeColor="var(--primary)"
-          maskColor="rgba(0, 0, 0, 0.6)"
-        />
-      </ReactFlow>
+        fitViewOptions={{ maxZoom: 1 }}
+        className="bg-white"
+        zoomOnPinch={false}
+        zoomOnScroll={false}
+        panOnScroll={false}
+        panOnDrag={false}
+        nodesDraggable={false}
+        selectionOnDrag={false}
+        nodesConnectable={false}
+        elementsSelectable={false}
+        preventScrolling={true}
+        snapToGrid={false}
+      />
     </div>
   )
 }

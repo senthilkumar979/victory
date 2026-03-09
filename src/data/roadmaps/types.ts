@@ -9,6 +9,7 @@ export interface RoadmapNodeData {
     title: string
     url: string
   }[]
+  isCompleted?: boolean
 }
 
 export interface RoadmapData {

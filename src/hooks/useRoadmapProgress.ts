@@ -23,11 +23,14 @@ export const useRoadmapProgress = (roadmapSlug: string) => {
           localStorage.removeItem(LEGACY_KEY)
         }
       }
+
       const parsed = stored ? (JSON.parse(stored) as string[]) : []
-      setCompletedNodes(Array.isArray(parsed) ? parsed : [])
+
+      setCompletedNodes((prev) => Array.isArray(parsed) ? parsed : prev)
     } catch {
       setCompletedNodes([])
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storageKey])
 
   useEffect(() => {
