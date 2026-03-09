@@ -1,53 +1,115 @@
 import { useCallback, useEffect, useState } from 'react'
 
-const STORAGE_KEY_PREFIX = 'roadmap-completed-nodes'
-const LEGACY_KEY = 'roadmap-completed-nodes'
+import { supabase } from '@/lib/supabaseClient'
 
-const getStorageKey = (slug: string) =>
-  `${STORAGE_KEY_PREFIX}-${slug}`
+const TABLE_NAME = 'roadmap_completions'
 
-export const useRoadmapProgress = (roadmapSlug: string) => {
+interface RoadmapCompletionRow {
+  id: string
+  completed_nodes: string[]
+}
+
+const parseCompletedNodes = (value: unknown): string[] => {
+  if (!Array.isArray(value)) return []
+  return value.filter((item): item is string => typeof item === 'string')
+}
+
+export const useRoadmapProgress = (roadmapId: string) => {
   const [completedNodes, setCompletedNodes] = useState<string[]>([])
-  const storageKey = getStorageKey(roadmapSlug)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return
+  const fetchCompletions = useCallback(async () => {
+    if (!roadmapId) {
+      setIsLoading(false)
+      return
+    }
 
     try {
-      let stored = localStorage.getItem(storageKey)
-      if (!stored && roadmapSlug === 'typescript') {
-        const legacy = localStorage.getItem(LEGACY_KEY)
-        if (legacy) {
-          stored = legacy
-          localStorage.setItem(storageKey, legacy)
-          localStorage.removeItem(LEGACY_KEY)
-        }
-      }
+      setIsLoading(true)
+      setError(null)
 
-      const parsed = stored ? (JSON.parse(stored) as string[]) : []
+      const { data, error: fetchError } = await supabase
+        .from(TABLE_NAME)
+        .select('id, completed_nodes')
+        .eq('id', roadmapId)
+        .maybeSingle()
 
-      setCompletedNodes((prev) => Array.isArray(parsed) ? parsed : prev)
-    } catch {
+      if (fetchError) throw fetchError
+
+      const row = data as RoadmapCompletionRow | null
+      const nodes = row?.completed_nodes
+        ? parseCompletedNodes(row.completed_nodes)
+        : []
+
+      setCompletedNodes(nodes)
+    } catch (err) {
+      console.error('Error fetching roadmap completions:', err)
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Failed to load roadmap progress',
+      )
       setCompletedNodes([])
+    } finally {
+      setIsLoading(false)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storageKey])
+  }, [roadmapId])
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
+    fetchCompletions()
+  }, [fetchCompletions])
 
-    try {
-      localStorage.setItem(storageKey, JSON.stringify(completedNodes))
-    } catch {
-      // Ignore storage errors (e.g. quota, private mode)
-    }
-  }, [completedNodes, storageKey])
+  const markComplete = useCallback(
+    async (nodeId: string) => {
+      if (!roadmapId) return
 
-  const markComplete = useCallback((nodeId: string) => {
-    setCompletedNodes((prev) =>
-      prev.includes(nodeId) ? prev : [...prev, nodeId]
-    )
-  }, [])
+      setCompletedNodes((prev) =>
+        prev.includes(nodeId) ? prev : [...prev, nodeId],
+      )
 
-  return { completedNodes, markComplete }
+      try {
+        const { data: row, error: fetchErr } = await supabase
+          .from(TABLE_NAME)
+          .select('completed_nodes')
+          .eq('id', roadmapId)
+          .maybeSingle()
+
+        if (fetchErr) throw fetchErr
+
+        const current = row?.completed_nodes
+          ? parseCompletedNodes(row.completed_nodes)
+          : []
+        const nextNodes = current.includes(nodeId)
+          ? current
+          : [...current, nodeId]
+
+        if (row === null) {
+          const { error: insertErr } = await supabase
+            .from(TABLE_NAME)
+            .insert({ id: roadmapId, completed_nodes: nextNodes })
+          if (insertErr) throw insertErr
+        } else {
+          const { error: updateErr } = await supabase
+            .from(TABLE_NAME)
+            .update({ completed_nodes: nextNodes })
+            .eq('id', roadmapId)
+          if (updateErr) throw updateErr
+        }
+      } catch (err) {
+        const message =
+          err && typeof err === 'object' && 'message' in err
+            ? String((err as { message?: unknown }).message)
+            : err instanceof Error
+              ? err.message
+              : 'Failed to save progress'
+        console.error('Error updating roadmap completion:', message, err)
+        setCompletedNodes((prev) => prev.filter((id) => id !== nodeId))
+        setError(message)
+      }
+    },
+    [roadmapId],
+  )
+
+  return { completedNodes, markComplete, isLoading, error, refetch: fetchCompletions }
 }

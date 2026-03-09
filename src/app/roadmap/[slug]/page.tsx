@@ -20,7 +20,12 @@ export default function RoadmapSlugPage() {
 
   const [selectedNode, setSelectedNode] =
     useState<Node<RoadmapNodeData> | null>(null)
-  const { completedNodes, markComplete } = useRoadmapProgress(slug)
+  const {
+    completedNodes,
+    markComplete,
+    isLoading,
+    error,
+  } = useRoadmapProgress(slug)
 
   const handleNodeClick = (node: Node<RoadmapNodeData>) => {
     setSelectedNode(node)
@@ -66,10 +71,23 @@ export default function RoadmapSlugPage() {
             { label: roadmap.title },
           ]}
         />
+        {isLoading && (
+          <span className="text-sm text-muted-foreground">
+            Loading progress…
+          </span>
+        )}
       </div>
       <h1 className="text-2xl font-semibold text-primary text-center">
           {roadmap.title}
         </h1>
+      {error && (
+        <div
+          role="alert"
+          className="mb-4 rounded-lg border border-destructive/50 bg-destructive/10 px-4 py-2 text-sm text-destructive"
+        >
+          {error}
+        </div>
+      )}
       <RoadmapCanvas
         nodes={roadmap.nodes}
         edges={roadmap.edges}

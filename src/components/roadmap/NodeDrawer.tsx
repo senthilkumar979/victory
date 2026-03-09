@@ -3,10 +3,11 @@
 import { Button } from '@/atoms/button/Button'
 import type { RoadmapNodeData } from '@/data/roadmaps'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Check, ExternalLink, X } from 'lucide-react'
+import { Check, CheckCircle, ExternalLink, X } from 'lucide-react'
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import type { Node } from 'reactflow'
+import { Badge } from '../../ui/atoms/badge/Badge'
 
 interface NodeDrawerProps {
   node: Node<RoadmapNodeData> | null
@@ -55,7 +56,7 @@ export const NodeDrawer = ({ node, onClose, onComplete }: NodeDrawerProps) => {
             role="dialog"
             aria-modal="true"
             aria-labelledby={`drawer-title-${node.id}`}
-            className="fixed right-0 top-0 z-[51] flex h-full w-[400px] flex-col border-l border-muted bg-secondary p-6 shadow-xl"
+            className="fixed right-0 top-0 z-[51] flex h-[calc(100%-1rem)] w-[400px] flex-col border-l border-muted bg-secondary p-6 shadow-xl ml-2 mr-2 mt-2 mb-2 rounded-md"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
@@ -64,12 +65,19 @@ export const NodeDrawer = ({ node, onClose, onComplete }: NodeDrawerProps) => {
           >
             <div className="flex flex-1 flex-col overflow-hidden">
               <header className="mb-4 flex items-start justify-between gap-4">
-                <h2
-                  id={`drawer-title-${node.id}`}
-                  className="text-lg font-semibold text-foreground"
-                >
-                  {node.data.label}
-                </h2>
+                <div className="flex items-center gap-2">
+                  <h2
+                    id={`drawer-title-${node.id}`}
+                    className="text-lg font-semibold text-foreground text-primary border-l-2 border-white pl-2"
+                  >
+                    {node.data.label}
+                  </h2>
+                  {node.data.isCompleted && (
+                    <Badge size="sm" color="success">
+                      <CheckCircle className="size-4" /> Completed
+                    </Badge>
+                  )}
+                </div>
                 <button
                   type="button"
                   onClick={onClose}

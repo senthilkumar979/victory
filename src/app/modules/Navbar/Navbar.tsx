@@ -2,10 +2,17 @@
 
 import { UserButton, useUser } from '@clerk/nextjs'
 import { GooeyToaster } from 'goey-toast'
-import { BookOpen, CalendarIcon, HomeIcon, Shield, UserIcon } from 'lucide-react'
+import 'goey-toast/styles.css'
+import {
+  BookOpen,
+  CalendarIcon,
+  HomeIcon,
+  MapIcon,
+  Shield,
+  UserIcon,
+} from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import 'goey-toast/styles.css'
 
 export const Navbar = () => {
   const { user, isLoaded } = useUser()
@@ -53,6 +60,10 @@ export const Navbar = () => {
             <Link href="/secured/profile" className={linkClass}>
               <CalendarIcon className="w-4 h-4" />
               Events
+            </Link>
+            <Link href="/roadmap" className={linkClass}>
+              <MapIcon className="w-4 h-4" />
+              Roadmaps
             </Link>
             <Link href="/secured/profile" className={linkClass}>
               <UserIcon className="w-4 h-4" /> Profile
