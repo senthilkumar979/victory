@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { AlertCircle, Video } from 'lucide-react'
 
 import { useMeetings } from '@/hooks/useMeetings'
+import { Pagination } from '@/app/blogs/components/Pagination'
 
 import type { MeetingFormState } from './Meeting.types'
 import { MeetingCard } from './MeetingCard'
@@ -52,6 +53,8 @@ const ErrorState = ({ message }: { message: string }) => (
   </div>
 )
 
+const PAGE_LIMIT = 30
+
 const EmptyState = () => (
   <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-slate-50/50 px-8 py-16 text-center">
     <Video className="mb-4 size-16 text-slate-300" strokeWidth={1} />
@@ -63,12 +66,23 @@ const EmptyState = () => (
 )
 
 export const MeetingsListView = () => {
+  const [page, setPage] = useState(1)
   const { meetings, isLoading, error } = useMeetings()
-  const [
-    selectedMeeting,
-    setSelectedMeeting,
-  ] = useState<MeetingFormState | null>(null)
+  const [selectedMeeting, setSelectedMeeting] =
+    useState<MeetingFormState | null>(null)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+
+  const { paginatedMeetings, totalPages, effectivePage } = useMemo(() => {
+    const total = meetings.length
+    const pages = Math.max(1, Math.ceil(total / PAGE_LIMIT))
+    const effective = Math.min(Math.max(1, page), pages)
+    const start = (effective - 1) * PAGE_LIMIT
+    return {
+      paginatedMeetings: meetings.slice(start, start + PAGE_LIMIT),
+      totalPages: pages,
+      effectivePage: effective,
+    }
+  }, [meetings, page])
 
   const handleMeetingClick = (meeting: MeetingFormState) => {
     setSelectedMeeting(meeting)
@@ -92,7 +106,7 @@ export const MeetingsListView = () => {
         animate="show"
         className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
       >
-        {meetings.map((meeting) => (
+        {paginatedMeetings.map((meeting) => (
           <motion.div key={meeting.id} variants={item}>
             <MeetingCard
               meeting={meeting}
@@ -101,6 +115,16 @@ export const MeetingsListView = () => {
           </motion.div>
         ))}
       </motion.div>
+
+      {totalPages > 1 && (
+        <div className="mt-10 flex justify-center">
+          <Pagination
+            currentPage={effectivePage}
+            totalPages={totalPages}
+            onPageChange={(p) => setPage(Math.max(1, Math.min(p, totalPages)))}
+          />
+        </div>
+      )}
 
       <MeetingDetailsDrawer
         meeting={selectedMeeting}
