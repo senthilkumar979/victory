@@ -20,10 +20,10 @@ const spanClasses: Record<BentoSpan, string> = {
 }
 
 const variantClasses = {
-  glass: 'bento-glass',
-  solid:
-    'border border-slate-200/80 bg-white shadow-lg shadow-slate-200/20',
-  dark: 'bg-gradient-to-br from-slate-900 to-slate-800 border border-white/5 text-white shadow-xl',
+  glass: 'bento-glass border border-slate-200/80',
+  solid: 'border border-slate-200/80 bg-white shadow-lg shadow-slate-200/20',
+  dark:
+    'bg-gradient-to-br from-slate-900 to-slate-800 border border-white/5 text-white shadow-xl',
 }
 
 export const BentoCard = ({
@@ -45,7 +45,7 @@ export const BentoCard = ({
       damping: 20,
     }}
     whileHover={{ y: -2, transition: { duration: 0.2 } }}
-    className={`rounded-[1.5rem] p-6 transition-shadow hover:shadow-xl lg:p-8 ${spanClasses[span]} ${variantClasses[variant]} ${className}`}
+    className={`rounded-[1.5rem] p-6 border border-primary  transition-shadow hover:shadow-xl lg:p-8 ${spanClasses[span]} ${variantClasses[variant]} ${className}`}
   >
     {children}
   </motion.div>

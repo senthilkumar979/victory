@@ -1,8 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
-
 import { BentoCard } from '@/components/profile/BentoCard'
+import { hasMentorBridgeExp } from '@/components/profile/profile.utils'
 import { ProfileAbout } from '@/components/profile/sections/ProfileAbout'
 import { ProfileAwards } from '@/components/profile/sections/ProfileAwards'
 import { ProfileBlogs } from '@/components/profile/sections/ProfileBlogs'
@@ -12,10 +11,8 @@ import { ProfileHero } from '@/components/profile/sections/ProfileHero'
 import { ProfileInspirations } from '@/components/profile/sections/ProfileInspirations'
 import { ProfileMentorBridge } from '@/components/profile/sections/ProfileMentorBridge'
 import { ProfilePlaceholder } from '@/components/profile/sections/ProfilePlaceholder'
-import { ProfileResume } from '@/components/profile/sections/ProfileResume'
 import { ProfileSkills } from '@/components/profile/sections/ProfileSkills'
 import { ProfileStats } from '@/components/profile/sections/ProfileStats'
-import { hasMentorBridgeExp } from '@/components/profile/profile.utils'
 import { useStudentAwards } from '@/hooks/useStudentAwards'
 import { useStudentBlogs } from '@/hooks/useStudentBlogs'
 
@@ -33,12 +30,13 @@ export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
   const { awards, loading: awardsLoading } = useStudentAwards(student.email)
 
   const showMentorBridge = hasMentorBridgeExp(student.mentorBridgeExp)
-  const mbExp =
-    showMentorBridge
-      ? (student.mentorBridgeExp as Parameters<typeof ProfileMentorBridge>[0]['exp'])
-      : null
+  const mbExp = showMentorBridge
+    ? (student.mentorBridgeExp as Parameters<
+        typeof ProfileMentorBridge
+      >[0]['exp'])
+    : null
 
-  const experienceCount = student.experience?.length ?? 0
+  const repositoriesCount = 12
   const skillsCount = student.skillSets?.length ?? 0
 
   return (
@@ -46,7 +44,7 @@ export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
       <ProfileHero student={student} />
 
       <ProfileStats
-        experienceCount={experienceCount}
+        repositoriesCount={repositoriesCount}
         awardsCount={awards.length}
         blogsCount={blogs.length}
         skillsCount={skillsCount}
@@ -102,64 +100,6 @@ export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
         <BentoCard span="md" delay={0.24}>
           <ProfilePlaceholder title="Appreciations" />
         </BentoCard>
-
-        {student.resumeLink && (
-          <BentoCard span="md" delay={0.26}>
-            <ProfileResume resumeLink={student.resumeLink} />
-          </BentoCard>
-        )}
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.28 }}
-          className="rounded-[1.5rem] border border-slate-200/80 bg-white p-6 shadow-lg lg:col-span-1 lg:row-span-3 lg:sticky lg:top-8"
-        >
-          <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-            Quick Links
-          </h3>
-          <div className="space-y-2">
-            {student.resumeLink && (
-              <a
-                href={student.resumeLink}
-                target="_blank"
-                rel="noreferrer"
-                className="block rounded-xl border border-slate-100 px-4 py-3 text-sm font-medium text-slate-700 transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
-              >
-                Resume
-              </a>
-            )}
-            {student.email && (
-              <a
-                href={`mailto:${student.email}`}
-                className="block rounded-xl border border-slate-100 px-4 py-3 text-sm font-medium text-slate-700 transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
-              >
-                Contact
-              </a>
-            )}
-            {student.socialLinks?.linkedIn && (
-              <a
-                href={student.socialLinks.linkedIn}
-                target="_blank"
-                rel="noreferrer"
-                className="block rounded-xl border border-slate-100 px-4 py-3 text-sm font-medium text-slate-700 transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
-              >
-                LinkedIn
-              </a>
-            )}
-            {student.socialLinks?.gitHub && (
-              <a
-                href={student.socialLinks.gitHub}
-                target="_blank"
-                rel="noreferrer"
-                className="block rounded-xl border border-slate-100 px-4 py-3 text-sm font-medium text-slate-700 transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
-              >
-                GitHub
-              </a>
-            )}
-          </div>
-        </motion.div>
       </div>
     </div>
   )

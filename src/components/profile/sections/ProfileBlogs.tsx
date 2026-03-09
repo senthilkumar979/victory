@@ -1,7 +1,7 @@
 'use client'
 
-import { BookOpen, ExternalLink } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { BookOpen, ExternalLink } from 'lucide-react'
 
 import type { Blog } from '@/types/blog.types'
 
@@ -62,39 +62,36 @@ export const ProfileBlogs = ({ blogs, loading }: ProfileBlogsProps) => {
       <div className="grid gap-4 sm:grid-cols-2">
         {blogs.map((blog, idx) => (
           <motion.a
-            key={blog.id ?? blog.link}
+            key={blog.title}
             href={blog.link}
             target="_blank"
             rel="noreferrer"
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -10 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: idx * 0.06 }}
-            whileHover={{ y: -6, transition: { duration: 0.2 } }}
-            className="group relative block overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition-all hover:border-primary/30 hover:shadow-lg"
+            transition={{ delay: idx * 0.05 }}
+            whileHover={{ x: 4, transition: { duration: 0.15 } }}
+            className="group flex items-center gap-4 rounded-xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:border-primary/20 hover:bg-primary/5"
           >
-            {blog.cover_image_url && (
-              <div className="aspect-[16/9] overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={blog.cover_image_url}
-                  alt=""
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-              </div>
-            )}
-            <div className="p-4">
-              <h3 className="line-clamp-2 font-semibold text-slate-900 transition-colors group-hover:text-primary">
-                {blog.title || 'Untitled'}
-              </h3>
-              <div className="mt-2 flex items-center justify-between">
-                <p className="text-xs text-slate-500">
-                  {formatDate(blog.published_date)}
-                </p>
-                <ExternalLink className="size-4 text-slate-400 opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100 group-hover:text-primary" />
-              </div>
+            <div className="flex size-24 shrink-0 items-center justify-center rounded-lg bg-slate-800 text-white">
+              {blog.cover_image_url && (
+                <div className="flex-shrink-0 w-24 h-24 overflow-hidden rounded-md bg-slate-100 border border-slate-100 flex items-center justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={blog.cover_image_url}
+                    alt=""
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+              )}
             </div>
+            <div className="min-w-0 flex-1">
+              <h3 className="font-semibold text-slate-900">{blog.title}</h3>
+              <p className="text-slate-500 text-sm">
+                {formatDate(blog.published_date)}
+              </p>
+            </div>
+            <ExternalLink className="size-4 shrink-0 text-slate-400 opacity-0 transition-all group-hover:opacity-100 group-hover:text-primary" />
           </motion.a>
         ))}
       </div>

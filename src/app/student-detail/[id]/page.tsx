@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation'
 
 import { StudentProfileView } from '@/components/profile/StudentProfileView'
 import { useStudent } from '@/hooks/useStudent'
+import { Breadcrumbs } from '../../../ui/atoms/breadcrumbs/Breadcrumbs'
 
 export default function StudentDetailPage() {
   const params = useParams()
@@ -79,13 +80,15 @@ export default function StudentDetailPage() {
   return (
     <div className="min-h-screen w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-white to-slate-50">
       <div className="mx-auto w-full max-w-[1600px] px-4 py-10 sm:px-6 lg:px-10 xl:px-14">
-        <Link
-          href="/secured/admin"
-          className="mb-8 inline-flex items-center text-sm font-medium text-primary transition-colors hover:text-primary/80 hover:underline"
-        >
-          ← Back to Students
-        </Link>
-        <StudentProfileView student={student} />
+        <Breadcrumbs
+          items={[
+            { label: 'Students', href: '/secured/admin#students' },
+            { label: student.name, href: `/student-detail/${student.id}` },
+          ]}
+        />
+        <div className="mt-8">
+          <StudentProfileView student={student} />
+        </div>
       </div>
     </div>
   )

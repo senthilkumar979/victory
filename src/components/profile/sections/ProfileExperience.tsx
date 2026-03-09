@@ -27,9 +27,11 @@ export const ProfileExperience = ({ experience }: ProfileExperienceProps) => (
           <div className="flex items-start justify-between gap-4">
             <div>
               <h3 className="font-bold text-slate-900">{exp.company}</h3>
-              <p className="mt-1 text-sm font-medium text-primary">{exp.role}</p>
+              <p className="mt-1 text-sm font-medium text-primary">
+                {exp.role}
+              </p>
               <p className="mt-3 text-sm leading-relaxed text-slate-600">
-                {exp.summary}
+                <span dangerouslySetInnerHTML={{ __html: exp.summary }} />
               </p>
               {exp.website && (
                 <a

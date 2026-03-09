@@ -1,5 +1,6 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import {
   Download,
   Github,
@@ -7,8 +8,8 @@ import {
   Linkedin,
   Mail,
   Sparkles,
+  GraduationCapIcon,
 } from 'lucide-react'
-import { motion } from 'framer-motion'
 
 import type { ProfileData } from '@/types/student.types'
 
@@ -37,7 +38,16 @@ interface ProfileHeroProps {
 }
 
 export const ProfileHero = ({ student }: ProfileHeroProps) => {
-  const { name, picture, role, company, batch, email, socialLinks, resumeLink } = student
+  const {
+    name,
+    picture,
+    role,
+    company,
+    batch,
+    email,
+    socialLinks,
+    resumeLink,
+  } = student
 
   return (
     <motion.section
@@ -51,7 +61,12 @@ export const ProfileHero = ({ student }: ProfileHeroProps) => {
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ type: 'spring', stiffness: 200, damping: 25, delay: 0.2 }}
+            transition={{
+              type: 'spring',
+              stiffness: 200,
+              damping: 25,
+              delay: 0.2,
+            }}
             className="relative"
           >
             {picture ? (
@@ -89,9 +104,10 @@ export const ProfileHero = ({ student }: ProfileHeroProps) => {
             {batch && (
               <motion.span
                 variants={item}
-                className="rounded-full bg-slate-800/10 px-3 py-1 text-xs font-medium text-slate-600"
+                className="rounded-full bg-success px-3 py-1 text-xs font-medium text-white inline-flex items-center gap-1.5"
               >
-                Batch {batch}
+                <GraduationCapIcon className="size-3.5" />
+                Cohort {batch}
               </motion.span>
             )}
           </div>
@@ -127,7 +143,10 @@ export const ProfileHero = ({ student }: ProfileHeroProps) => {
             </motion.a>
           )}
 
-          <motion.div variants={item} className="flex flex-wrap items-center gap-3 pt-2">
+          <motion.div
+            variants={item}
+            className="flex flex-wrap items-center gap-3 pt-2"
+          >
             {socialLinks?.linkedIn && (
               <motion.a
                 href={socialLinks.linkedIn}

@@ -1,7 +1,6 @@
 'use client'
 
 import { Building2 } from 'lucide-react'
-import { motion } from 'framer-motion'
 
 import type { MentorBridgeExp } from '@/types/student.types'
 
@@ -17,7 +16,9 @@ export const ProfileMentorBridge = ({ exp }: ProfileMentorBridgeProps) => (
     </h2>
     <h3 className="font-bold text-slate-900">{exp.company}</h3>
     <p className="text-sm font-medium text-primary">{exp.role}</p>
-    <p className="mt-3 text-sm text-slate-600">{exp.summary}</p>
+    <p className="mt-3 text-sm text-slate-600">
+      <span dangerouslySetInnerHTML={{ __html: exp.summary }} />
+    </p>
     {exp.website && (
       <a
         href={exp.website}
