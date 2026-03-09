@@ -17,6 +17,7 @@ import { useStudentAwards } from '@/hooks/useStudentAwards'
 import { useStudentBlogs } from '@/hooks/useStudentBlogs'
 
 import type { ProfileData } from '@/types/student.types'
+import { ProfilePresentations } from './sections/ProfilePresentations'
 
 interface StudentProfileViewProps {
   student: ProfileData
@@ -94,7 +95,7 @@ export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
         </BentoCard>
 
         <BentoCard span="md" delay={0.22}>
-          <ProfilePlaceholder title="Topics Presented" />
+          <ProfilePresentations studentEmail={student.email} />
         </BentoCard>
 
         <BentoCard span="md" delay={0.24}>

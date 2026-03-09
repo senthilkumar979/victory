@@ -27,3 +27,11 @@ export interface DeletePresenterProps {
   onClose: () => void
   onDeleted: () => void
 }
+
+
+export interface Presenter {
+  id: string
+  presented_by: string
+  presented_date: string
+  topic: string
+}

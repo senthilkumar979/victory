@@ -26,7 +26,10 @@
       "@/molecules/*": ["./src/ui/molecules/*"],
       "@/organisms/*": ["./src/ui/organisms/*"],
       "@/templates/*": ["./src/ui/templates/*"],
-      "@/utils/*": ["./src/utils/*"]
+      "@/utils/*": ["./src/utils/*"],
+      "@/modules/*": ["./src/app/modules/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/app/hooks/*": ["./src/app/hooks/*"]
     }
   },
   "include": [

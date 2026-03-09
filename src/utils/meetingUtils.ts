@@ -12,6 +12,16 @@ export const formatDate = (iso: string): string => {
   }) + ' IST'
 }
 
+export const formatDateWithoutTime = (iso: string): string => {
+  if (!iso) return ''
+  const date = new Date(iso)
+  return date.toLocaleDateString('en-IN', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
+}
+
 export const stripHtml = (html: string): string => {
   if (!html) return ''
   return html
