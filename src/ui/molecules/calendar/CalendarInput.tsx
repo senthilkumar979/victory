@@ -4,7 +4,7 @@ import { CalendarIcon } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { FormLabel } from '@/atoms/form-label/FormLabel'
-import { dateToISTParts } from '@/utils/dateISTUtils'
+import { dateToISTParts, toISTISOString } from '@/utils/dateISTUtils'
 import { joinClassNames } from '@/utils/tailwindUtils'
 
 import { Calendar } from './Calendar'
@@ -16,17 +16,6 @@ function parseValue(value: string): Date | undefined {
   const parsed = new Date(trimmed)
   if (Number.isNaN(parsed.getTime())) return undefined
   return parsed
-}
-
-/** Format Date to ISO string in IST (YYYY-MM-DDTHH:mm:ss+05:30) for form value */
-function toISTISOString(date: Date): string {
-  const p = dateToISTParts(date)
-  const y = p.y
-  const m = (p.m + 1).toString().padStart(2, '0')
-  const d = p.d.toString().padStart(2, '0')
-  const h = p.h.toString().padStart(2, '0')
-  const min = p.min.toString().padStart(2, '0')
-  return `${y}-${m}-${d}T${h}:${min}:00+05:30`
 }
 
 /** Format Date for display: "MMM d, yyyy, HH:mm" in IST (24h) */

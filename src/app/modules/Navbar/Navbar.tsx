@@ -57,7 +57,7 @@ export const Navbar = () => {
               <BookOpen className="w-4 h-4" />
               Blogs
             </Link>
-            <Link href="/secured/profile" className={linkClass}>
+            <Link href="/events" className={linkClass}>
               <CalendarIcon className="w-4 h-4" />
               Events
             </Link>

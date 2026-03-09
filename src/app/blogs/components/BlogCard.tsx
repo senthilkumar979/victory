@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { CalendarIcon } from 'lucide-react'
 
 export interface BlogCardProps {
   id: string | null
@@ -38,7 +39,7 @@ export function BlogCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
       whileHover={{ scale: 1.03 }}
-      className="group h-[300px] overflow-hidden rounded-2xl bg-white shadow-md transition-shadow duration-300 hover:shadow-xl"
+      className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-blue-500/30 bg-secondary bg-gradient-to-br from-blue-500/20 via-cyan-500/10 to-transparent p-4 pb-0 shadow-xl backdrop-blur-sm transition-shadow hover:shadow-2xl"
       style={{ borderRadius: 16 }}
     >
       <a
@@ -49,14 +50,14 @@ export function BlogCard({
         className="flex h-full flex-col"
         aria-label={`Read: ${title ?? 'Untitled'}`}
       >
-        <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
+        <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100 rounded-lg">
           {cover_image_url ? (
-            <div className="h-full w-full overflow-hidden">
+            <div className="h-full w-full overflow-hidden rounded-md">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={cover_image_url}
                 alt=""
-                className="w-full object-cover h-full transition-transform duration-300 ease-out group-hover:scale-[1.08]"
+                className="w-full object-cover h-full transition-transform duration-300 ease-out group-hover:scale-[1.08] rounded-md"
               />
             </div>
           ) : (
@@ -77,21 +78,24 @@ export function BlogCard({
             </div>
           )}
         </div>
-        <div className="flex flex-1 flex-col p-5">
-          <h2 className="text-lg font-semibold leading-snug text-slate-900 line-clamp-2 group-hover:text-primary">
+        <div className="flex flex-1 flex-col p-2 pt-4">
+          <h2 className="text-lg font-semibold leading-snug text-white line-clamp-2 group-hover:text-primary">
             {title || 'Untitled'}
           </h2>
           <div className="mt-3 flex flex-wrap items-center gap-x-2 text-sm text-slate-500">
-            {author_name && <span>{author_name}</span>}
+            {author_name && <span className="text-white">{author_name}</span>}
             {author_name && published_date && (
-              <span aria-hidden className="text-slate-300">
+              <span aria-hidden className="text-white">
                 ·
               </span>
             )}
             {published_date && (
-              <time dateTime={published_date}>
-                {formatDate(published_date)}
-              </time>
+              <>
+                <CalendarIcon className="size-4 text-white" />
+                <time dateTime={published_date} className="text-white">
+                  {formatDate(published_date)}
+                </time>
+              </>
             )}
           </div>
         </div>

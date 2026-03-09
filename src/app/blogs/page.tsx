@@ -6,9 +6,10 @@ import { FeaturedCarousel } from '@/app/blogs/components/FeaturedCarousel'
 import { Next5List } from '@/app/blogs/components/Next5List'
 import { Pagination } from '@/app/blogs/components/Pagination'
 import { useBlogs } from '@/hooks/useBlogs'
-import { Title } from '@/templates/Title'
 import { Alert } from '@/ui/atoms/alert/Alert'
 import { AnimatePresence, motion } from 'framer-motion'
+import { PageMain } from '../../ui/templates/PagaMain'
+import { PageHeader } from '../../ui/templates/PageHeader'
 
 export default function BlogsPage() {
   const {
@@ -30,25 +31,15 @@ export default function BlogsPage() {
   const hasRemaining = totalCount > 10
 
   return (
-    <motion.main
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: 'easeOut' }}
-      className="min-h-screen bg-slate-50"
-    >
+    <PageMain>
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Header */}
-        <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <header className="space-y-1">
-              <Title as="h1" className="text-2xl font-semibold text-primary">
-                Blogs
-              </Title>
-              <p className="text-sm text-secondary">
-                Top stories from our creators.
-              </p>
-            </header>
-          </div>
+        <PageHeader
+          title="Blogs"
+          description="Explore our collection of blogs from our creators."
+          subtitle="Stories and Tutorials"
+        />
+        <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-center lg:justify-end">
           <div className="shrink-0">
             <BlogFilter
               authors={authors}
@@ -188,6 +179,6 @@ export default function BlogsPage() {
           </motion.div>
         )}
       </div>
-    </motion.main>
+    </PageMain>
   )
 }

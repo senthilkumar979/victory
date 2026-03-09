@@ -2,6 +2,7 @@ import { PencilIcon, TrashIcon } from 'lucide-react'
 
 import { TextButton } from '@/atoms/button/Button'
 
+import { CalendarDate } from '@/templates/CalendarDate'
 import type { MeetingFormState } from './Meeting.types'
 
 interface MeetingsTableProps {
@@ -43,7 +44,7 @@ export const MeetingsTable = ({
               {meeting.title}
             </td>
             <td className="whitespace-nowrap px-4 py-3 text-sm text-slate-700">
-              {meeting.date}
+              <CalendarDate date={meeting.date} />
             </td>
             <td className="whitespace-nowrap px-4 py-3 text-sm text-slate-700">
               {meeting.googleGroupId || '—'}

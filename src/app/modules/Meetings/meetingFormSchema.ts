@@ -6,11 +6,11 @@ export const meetingFormSchema = z.object({
   date: z
     .string()
     .trim()
-    .min(1, 'Date is required')
+    .min(1, 'Date and time are required')
     .refine((val) => {
       const parsed = new Date(val)
-      return !Number.isNaN(parsed.getTime()) && parsed.getTime() > Date.now()
-    }, 'Date must be in the future'),
+      return !Number.isNaN(parsed.getTime())
+    }, 'Date and time must be valid'),
   description: z.string().trim().min(1, 'Description is required'),
   meetingLink: z.string().trim().optional().or(z.literal('')),
   coverImageUrl: z.string().trim().optional().or(z.literal('')),

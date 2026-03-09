@@ -34,7 +34,7 @@ export const Students = () => {
   }
 
   return (
-    <div className="min-h-screen px-6 py-4">
+    <div className="min-h-screen px-6">
       <div className="mb-6 flex items-center justify-between gap-4">
         <div className="mb-6 border-l-3 border-primary pl-4">
           <h2 className="text-lg font-semibold text-slate-50">Students</h2>
@@ -51,13 +51,13 @@ export const Students = () => {
         onSuccess={refetch}
       />
       <div className="">
-        <div className="mb-6 flex items-center justify-between gap-4">
-          {loading && (
+        {loading && (
+          <div className="mb-6 flex items-center justify-between gap-4">
             <div className="mb-4 rounded-md border border-slate-800 bg-slate-900 px-4 py-3 text-sm text-slate-300 w-full">
               Loading students …
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {error && (
           <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 w-full">

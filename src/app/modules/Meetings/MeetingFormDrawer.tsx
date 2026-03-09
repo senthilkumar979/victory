@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { useMeetings } from '@/hooks/useMeetings'
+import { toISTTimestamptz } from '@/utils/dateISTUtils'
 import { Drawer } from '@/ui/organisms/drawer/Drawer'
 import { gooeyToast } from 'goey-toast'
 import { Check, XIcon } from 'lucide-react'
@@ -19,7 +20,7 @@ import {
 
 const toFormValues = (m: MeetingFormState | null): MeetingFormValues => ({
   title: m?.title ?? '',
-  date: m?.date ?? '',
+  date: m?.date ? toISTTimestamptz(m.date) : '',
   googleGroupId: m?.googleGroupId ?? '',
   description: m?.description ?? '',
   meetingLink: m?.meetingLink ?? '',
@@ -50,7 +51,7 @@ export const MeetingFormDrawer = ({
   const handleSubmit = form.handleSubmit(async (data) => {
     const payload: Omit<MeetingFormState, 'id'> = {
       title: data.title.trim(),
-      date: data.date.trim(),
+      date: toISTTimestamptz(data.date.trim()),
       googleGroupId: data.googleGroupId.trim(),
       description: data.description.trim(),
       meetingLink: (data.meetingLink ?? '').trim(),

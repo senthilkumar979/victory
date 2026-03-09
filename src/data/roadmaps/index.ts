@@ -1,12 +1,13 @@
-import type { RoadmapData } from './types'
 import { nodeRoadmap } from './node'
 import { reactRoadmap } from './react'
+import type { RoadmapData } from './types'
 import { typescriptRoadmap } from './typescript'
 
+export { ROADMAP_META } from './meta'
+export { nodeRoadmap } from './node'
+export { reactRoadmap } from './react'
 export * from './types'
 export { typescriptRoadmap } from './typescript'
-export { reactRoadmap } from './react'
-export { nodeRoadmap } from './node'
 
 export const ROADMAPS: Record<string, RoadmapData> = {
   typescript: typescriptRoadmap,

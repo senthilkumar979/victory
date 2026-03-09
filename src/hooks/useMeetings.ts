@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
 import { supabase } from '@/lib/supabaseClient'
+import { toISTTimestamptz } from '@/utils/dateISTUtils'
 
 import type { MeetingFormState } from '@/app/modules/Meetings/Meeting.types'
 
@@ -38,7 +39,7 @@ function mapRow(row: Record<string, unknown>): MeetingFormState {
 function toPayload(form: Omit<MeetingFormState, 'id'>) {
   return {
     title: form.title,
-    date: form.date,
+    date: toISTTimestamptz(form.date),
     google_group_id: form.googleGroupId,
     description: form.description,
     meeting_link: form.meetingLink,
