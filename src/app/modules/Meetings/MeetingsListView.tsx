@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { AlertCircle, Video } from 'lucide-react'
 
@@ -67,22 +67,16 @@ const EmptyState = () => (
 
 export const MeetingsListView = () => {
   const [page, setPage] = useState(1)
-  const { meetings, isLoading, error } = useMeetings()
+  const { meetings, totalCount, isLoading, error } = useMeetings({
+    page,
+    pageLimit: PAGE_LIMIT,
+  })
   const [selectedMeeting, setSelectedMeeting] =
     useState<MeetingFormState | null>(null)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
-  const { paginatedMeetings, totalPages, effectivePage } = useMemo(() => {
-    const total = meetings.length
-    const pages = Math.max(1, Math.ceil(total / PAGE_LIMIT))
-    const effective = Math.min(Math.max(1, page), pages)
-    const start = (effective - 1) * PAGE_LIMIT
-    return {
-      paginatedMeetings: meetings.slice(start, start + PAGE_LIMIT),
-      totalPages: pages,
-      effectivePage: effective,
-    }
-  }, [meetings, page])
+  const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_LIMIT))
+  const effectivePage = Math.min(Math.max(1, page), totalPages)
 
   const handleMeetingClick = (meeting: MeetingFormState) => {
     setSelectedMeeting(meeting)
@@ -96,7 +90,31 @@ export const MeetingsListView = () => {
 
   if (isLoading) return <LoadingSkeleton />
   if (error) return <ErrorState message={error} />
-  if (meetings.length === 0) return <EmptyState />
+  if (meetings.length === 0 && totalCount === 0) return <EmptyState />
+
+  if (meetings.length === 0 && totalCount > 0) {
+    return (
+      <>
+        <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/50 px-8 py-12 text-center">
+          <p className="text-slate-600">No meetings on this page.</p>
+          <button
+            type="button"
+            onClick={() => setPage(1)}
+            className="mt-3 text-sm font-medium text-primary hover:underline"
+          >
+            Go to first page
+          </button>
+        </div>
+        <div className="mt-6 flex justify-center">
+          <Pagination
+            currentPage={1}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        </div>
+      </>
+    )
+  }
 
   return (
     <>
@@ -106,7 +124,7 @@ export const MeetingsListView = () => {
         animate="show"
         className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
       >
-        {paginatedMeetings.map((meeting) => (
+        {meetings.map((meeting) => (
           <motion.div key={meeting.id} variants={item}>
             <MeetingCard
               meeting={meeting}
@@ -121,7 +139,7 @@ export const MeetingsListView = () => {
           <Pagination
             currentPage={effectivePage}
             totalPages={totalPages}
-            onPageChange={(p) => setPage(Math.max(1, Math.min(p, totalPages)))}
+            onPageChange={(p) => setPage(Math.max(1, p))}
           />
         </div>
       )}

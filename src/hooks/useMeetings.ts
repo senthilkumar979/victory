@@ -6,11 +6,18 @@ import { toISTTimestamptz } from '@/utils/dateISTUtils'
 import type { MeetingFormState } from '@/app/modules/Meetings/Meeting.types'
 
 const MEETINGS_TABLE = 'meetings'
+const DEFAULT_PAGE_LIMIT = 30
 const SELECT_COLS =
   'id, title, date, google_group_id, description, meeting_link, cover_image_url'
 
+interface UseMeetingsOptions {
+  page?: number
+  pageLimit?: number
+}
+
 interface UseMeetingsReturn {
   meetings: MeetingFormState[]
+  totalCount: number
   isLoading: boolean
   error: string | null
   refetch: () => Promise<void>
@@ -47,8 +54,14 @@ function toPayload(form: Omit<MeetingFormState, 'id'>) {
   }
 }
 
-export const useMeetings = (): UseMeetingsReturn => {
+export const useMeetings = (
+  options: UseMeetingsOptions = {},
+): UseMeetingsReturn => {
+  const { page = 1, pageLimit } = options
+  const usePagination = pageLimit != null && pageLimit > 0
+
   const [meetings, setMeetings] = useState<MeetingFormState[]>([])
+  const [totalCount, setTotalCount] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -56,13 +69,22 @@ export const useMeetings = (): UseMeetingsReturn => {
     try {
       setIsLoading(true)
       setError(null)
-      const { data, error: fetchError } = await supabase
+
+      const query = supabase
         .from(MEETINGS_TABLE)
-        .select(SELECT_COLS)
+        .select(SELECT_COLS, usePagination ? { count: 'exact' } : undefined)
         .order('date', { ascending: false })
 
+      const from = (page - 1) * (pageLimit ?? DEFAULT_PAGE_LIMIT)
+      const to = from + (pageLimit ?? DEFAULT_PAGE_LIMIT) - 1
+      const paginatedQuery = usePagination ? query.range(from, to) : query
+
+      const { data, count, error: fetchError } = await paginatedQuery
+
       if (fetchError) throw fetchError
-      setMeetings((data ?? []).map(mapRow))
+      const rows = (data ?? []).map(mapRow)
+      setMeetings(rows)
+      setTotalCount(usePagination ? (count ?? 0) : rows.length)
     } catch (err) {
       console.error('Error fetching meetings:', err)
       setError(
@@ -71,7 +93,7 @@ export const useMeetings = (): UseMeetingsReturn => {
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }, [page, pageLimit, usePagination])
 
   const createMeeting = useCallback(
     async (payload: Omit<MeetingFormState, 'id'>): Promise<{ id: string }> => {
@@ -118,6 +140,7 @@ export const useMeetings = (): UseMeetingsReturn => {
 
   return {
     meetings,
+    totalCount,
     isLoading,
     error,
     refetch: fetchMeetings,
