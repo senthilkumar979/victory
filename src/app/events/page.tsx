@@ -1,13 +1,12 @@
 'use client'
 
 import { MeetingsListView } from '@/app/modules/Meetings/MeetingsListView'
-import { PageMain } from '@/templates/PagaMain'
 import { PageHeader } from '@/templates/PageHeader'
 
-export default function MeetingsPage() {
+export default function EventsPage() {
   return (
-    <PageMain>
-      <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <main className="relative min-h-screen">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <PageHeader
           title="Meetings"
           description="Join live sessions, watch recordings, and stay connected with the community."
@@ -15,6 +14,6 @@ export default function MeetingsPage() {
         />
         <MeetingsListView />
       </div>
-    </PageMain>
+    </main>
   )
 }

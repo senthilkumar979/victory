@@ -206,3 +206,16 @@ ul {
 .border-success {
   border-color: var(--color-success) !important;
 }
+
+@keyframes partners-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-partners-scroll {
+  animation: partners-scroll 30s linear infinite;
+}

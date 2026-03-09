@@ -4,6 +4,7 @@ import 'reactflow/dist/style.css'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
+import { Footer } from './modules/Footer/Footer'
 import { LoaderProvider } from './modules/Loader/Loader'
 import { Navbar } from './modules/Navbar/Navbar'
 
@@ -46,6 +47,7 @@ export default function RootLayout({
           <LoaderProvider>
             <Navbar />
             {children}
+            <Footer />
           </LoaderProvider>
         </body>
       </html>

@@ -26,10 +26,10 @@ function shouldShowLoaderForUrl(url: string): boolean {
     const parsed = typeof url === 'string' ? url : ''
     if (!parsed) return false
     if (STATIC_ASSET_REGEX.test(parsed)) return false
+    if (parsed.includes('_next') || parsed.includes('next-data')) return false
+    if (parsed.includes('/__nextjs')) return false
     if (parsed.startsWith('/api/')) return true
     if (parsed.includes('supabase')) return true
-    if (parsed.startsWith('/') && !parsed.startsWith('//')) return true
-    if (parsed.startsWith(window.location.origin)) return true
   } catch {
     return false
   }
@@ -40,52 +40,45 @@ interface LoaderProviderProps {
   children: React.ReactNode
 }
 
+const LOADER_MAX_MS = 15_000
+
 export const LoaderProvider = ({ children }: LoaderProviderProps) => {
   const [isShow, setIsShow] = useState(false)
   const countRef = useRef(0)
   const originalFetchRef = useRef<typeof fetch | null>(null)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const show = useCallback(() => {
     countRef.current += 1
     setIsShow(true)
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    timeoutRef.current = setTimeout(() => {
+      countRef.current = 0
+      setIsShow(false)
+      timeoutRef.current = null
+    }, LOADER_MAX_MS)
   }, [])
 
   const hide = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
     countRef.current = Math.max(0, countRef.current - 1)
     if (countRef.current === 0) setIsShow(false)
   }, [])
 
   useEffect(() => {
     if (typeof window === 'undefined') return
-
-    const originalFetch = window.fetch
-    if (originalFetchRef.current) return
-    originalFetchRef.current = originalFetch
-
-    window.fetch = async (
-      input: RequestInfo | URL,
-      init?: RequestInit,
-    ): Promise<Response> => {
-      const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url
-      const shouldShow = shouldShowLoaderForUrl(url)
-
-      if (shouldShow) show()
-
-      try {
-        const response = await originalFetch(input, init)
-        return response
-      } finally {
-        if (shouldShow) hide()
-      }
-    }
-
     return () => {
-      window.fetch = originalFetch
-      originalFetchRef.current = null
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+        timeoutRef.current = null
+      }
       countRef.current = 0
       setIsShow(false)
     }
-  }, [show, hide])
+  }, [])
 
   const value: LoaderContextValue = {
     isShow,

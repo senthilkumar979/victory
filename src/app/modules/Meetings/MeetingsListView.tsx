@@ -45,7 +45,9 @@ const LoadingSkeleton = () => (
 const ErrorState = ({ message }: { message: string }) => (
   <div className="flex flex-col items-center justify-center rounded-2xl border border-red-200 bg-red-50/80 px-8 py-12 text-center">
     <AlertCircle className="mb-4 size-12 text-red-500" />
-    <h3 className="text-lg font-semibold text-slate-900">Failed to load meetings</h3>
+    <h3 className="text-lg font-semibold text-slate-900">
+      Failed to load meetings
+    </h3>
     <p className="mt-2 text-sm text-slate-600">{message}</p>
   </div>
 )
@@ -62,9 +64,10 @@ const EmptyState = () => (
 
 export const MeetingsListView = () => {
   const { meetings, isLoading, error } = useMeetings()
-  const [selectedMeeting, setSelectedMeeting] = useState<MeetingFormState | null>(
-    null,
-  )
+  const [
+    selectedMeeting,
+    setSelectedMeeting,
+  ] = useState<MeetingFormState | null>(null)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   const handleMeetingClick = (meeting: MeetingFormState) => {

@@ -61,7 +61,7 @@ export const Navbar = () => {
               <CalendarIcon className="w-4 h-4" />
               Events
             </Link>
-            <Link href="/roadmap" className={linkClass}>
+            <Link href="/roadmaps" className={linkClass}>
               <MapIcon className="w-4 h-4" />
               Roadmaps
             </Link>

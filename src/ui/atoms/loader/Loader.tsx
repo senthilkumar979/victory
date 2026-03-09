@@ -5,7 +5,7 @@ export interface LoaderProps {
 }
 
 export const Loader = ({ isShow }: LoaderProps) => (
-  <AnimatePresence>
+  <AnimatePresence mode="wait">
       {isShow ? (
         <motion.div
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/70 backdrop-blur-md"
