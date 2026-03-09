@@ -4,6 +4,7 @@ import 'reactflow/dist/style.css'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
+import { LoaderProvider } from './modules/Loader/Loader'
 import { Navbar } from './modules/Navbar/Navbar'
 
 const geistSans = Geist({
@@ -42,8 +43,10 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <Navbar />
-          {children}
+          <LoaderProvider>
+            <Navbar />
+            {children}
+          </LoaderProvider>
         </body>
       </html>
     </ClerkProvider>
