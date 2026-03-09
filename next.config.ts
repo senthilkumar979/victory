@@ -16,6 +16,22 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: '*.supabase.co',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.prod.website-files.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'frigate.ai',
+      },
+      {
+        protocol: 'https',
+        hostname: 'klyonix.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.zohobackstage.com',
+      },
     ],
   },
 };
