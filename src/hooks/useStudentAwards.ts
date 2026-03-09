@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 
 import { supabase } from '@/lib/supabaseClient'
 
 import type { AwardFormState } from '@/app/modules/Awards/Award.types'
+import { AppContext } from '../app/contexts/AppContext'
 
 export interface StudentAwardWithCategory extends AwardFormState {
   categoryName?: string
@@ -29,7 +30,7 @@ export const useStudentAwards = (
   const [awards, setAwards] = useState<StudentAwardWithCategory[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-
+  const { dispatch } = useContext(AppContext)
   const fetchAwards = useCallback(async () => {
     if (!studentEmail?.trim()) {
       setAwards([])
@@ -65,6 +66,7 @@ export const useStudentAwards = (
         categoryName: a.awardCategoryId ? categoryMap[a.awardCategoryId] : undefined,
       }))
       setAwards(enriched)
+      dispatch({ type: 'SET_AWARDS', payload: enriched })
     } catch (err) {
       console.error('Error fetching student awards:', err)
       setError(err instanceof Error ? err.message : 'Failed to fetch awards')
@@ -72,7 +74,7 @@ export const useStudentAwards = (
     } finally {
       setLoading(false)
     }
-  }, [studentEmail])
+  }, [studentEmail, dispatch])
 
   useEffect(() => {
     void fetchAwards()

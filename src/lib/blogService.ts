@@ -137,7 +137,7 @@ export async function getBlogsRemaining({
   }
 }
 
-const BLOG_SELECT = 'id, title, author_name, published_date, cover_image_url, link'
+const BLOG_SELECT = 'id, title, author_name, published_date, cover_image_url, link, username'
 
 /**
  * Fetches blogs for a student. Uses author_name (student name) or username

@@ -5,6 +5,7 @@ export interface Blog {
   published_date: string | null
   cover_image_url: string | null
   link: string
+  username: string | null
 }
 
 export interface BlogCardProps {

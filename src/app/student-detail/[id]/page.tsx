@@ -3,9 +3,9 @@
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
+import { Breadcrumbs } from '@/atoms/breadcrumbs/Breadcrumbs'
 import { StudentProfileView } from '@/components/profile/StudentProfileView'
 import { useStudent } from '@/hooks/useStudent'
-import { Breadcrumbs } from '../../../ui/atoms/breadcrumbs/Breadcrumbs'
 
 export default function StudentDetailPage() {
   const params = useParams()

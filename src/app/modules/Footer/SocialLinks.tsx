@@ -28,6 +28,8 @@ export const SocialLinks = () => {
           <a
             key={label}
             href={href}
+            target="_blank"
+            rel="noreferrer"
             aria-label={label}
             className="flex size-10 items-center justify-center rounded-xl border border-primary/40 bg-white/5 text-slate-400 transition-all hover:border-primary/40 hover:bg-primary/10 hover:text-primary"
           >

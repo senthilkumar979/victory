@@ -6,6 +6,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import 'reactflow/dist/style.css'
 import { ClarityComponent } from '../Clarity'
+import { AppProvider } from './contexts/AppContext'
 import './globals.css'
 import { Footer } from './modules/Footer/Footer'
 import { LoaderProvider } from './modules/Loader/Loader'
@@ -75,12 +76,14 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <LoaderProvider>
-            <Navbar />
-            {children}
-            <Footer />
-            <ClarityComponent />
-            <Analytics />
-            <SpeedInsights />
+            <AppProvider>
+              <Navbar />
+              {children}
+              <Footer />
+              <ClarityComponent />
+              <Analytics />
+              <SpeedInsights />
+            </AppProvider>
           </LoaderProvider>
         </body>
       </html>

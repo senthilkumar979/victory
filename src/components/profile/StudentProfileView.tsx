@@ -10,13 +10,13 @@ import { ProfileGitHub } from '@/components/profile/sections/ProfileGitHub'
 import { ProfileHero } from '@/components/profile/sections/ProfileHero'
 import { ProfileInspirations } from '@/components/profile/sections/ProfileInspirations'
 import { ProfileMentorBridge } from '@/components/profile/sections/ProfileMentorBridge'
-import { ProfilePlaceholder } from '@/components/profile/sections/ProfilePlaceholder'
 import { ProfileSkills } from '@/components/profile/sections/ProfileSkills'
 import { ProfileStats } from '@/components/profile/sections/ProfileStats'
 import { useStudentAwards } from '@/hooks/useStudentAwards'
 import { useStudentBlogs } from '@/hooks/useStudentBlogs'
 
 import type { ProfileData } from '@/types/student.types'
+import { ProfileAppreciations } from './sections/ProfileAppreciations'
 import { ProfilePresentations } from './sections/ProfilePresentations'
 
 interface StudentProfileViewProps {
@@ -81,25 +81,21 @@ export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
             <ProfileInspirations inspirations={student.inspirations} />
           </BentoCard>
         )}
-
         <BentoCard span="lg" delay={0.16}>
           <ProfileBlogs blogs={blogs} loading={blogsLoading} />
         </BentoCard>
-
-        <BentoCard span="md" delay={0.18}>
-          <ProfileGitHub githubUrl={student.socialLinks?.gitHub} />
-        </BentoCard>
-
         <BentoCard span="md" delay={0.2}>
           <ProfileAwards awards={awards} loading={awardsLoading} />
         </BentoCard>
 
+        <BentoCard span="xl" delay={0.18}>
+          <ProfileGitHub githubUrl={student.socialLinks?.gitHub} />
+        </BentoCard>
         <BentoCard span="md" delay={0.22}>
           <ProfilePresentations studentEmail={student.email} />
         </BentoCard>
-
         <BentoCard span="md" delay={0.24}>
-          <ProfilePlaceholder title="Appreciations" />
+          <ProfileAppreciations />
         </BentoCard>
       </div>
     </div>

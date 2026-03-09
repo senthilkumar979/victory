@@ -3,7 +3,9 @@
 import { motion } from 'framer-motion'
 import { Award, BookOpen, Code2, GithubIcon } from 'lucide-react'
 
+import { AppContext } from '@/app/contexts/AppContext'
 import { AnimatedCounter } from '@/components/profile/AnimatedCounter'
+import { useContext } from 'react'
 
 interface ProfileStatsProps {
   repositoriesCount: number
@@ -59,16 +61,12 @@ const statItems = [
   },
 ]
 
-export const ProfileStats = ({
-  repositoriesCount,
-  awardsCount,
-  blogsCount,
-  skillsCount,
-}: ProfileStatsProps) => {
+export const ProfileStats = ({ skillsCount }: ProfileStatsProps) => {
+  const { repositories, awards, blogs } = useContext(AppContext)
   const values = {
-    repositories: repositoriesCount,
-    awards: awardsCount,
-    blogs: blogsCount,
+    repositories: repositories?.length ?? 0,
+    awards: awards?.length ?? 0,
+    blogs: blogs?.length ?? 0,
     skills: skillsCount,
   }
 

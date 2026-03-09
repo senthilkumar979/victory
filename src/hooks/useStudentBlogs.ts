@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 
 import { getBlogsByStudent } from '@/lib/blogService'
 
 import type { Blog } from '@/types/blog.types'
+import { AppContext } from '../app/contexts/AppContext'
 
 interface UseStudentBlogsReturn {
   blogs: Blog[]
@@ -18,7 +19,7 @@ export const useStudentBlogs = (
   const [blogs, setBlogs] = useState<Blog[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-
+  const { dispatch } = useContext(AppContext)
   const fetchBlogs = useCallback(async () => {
     if (!mediumUsername && !authorName) {
       setBlogs([])
@@ -29,7 +30,11 @@ export const useStudentBlogs = (
       setLoading(true)
       setError(null)
       const data = await getBlogsByStudent(mediumUsername, authorName)
-      setBlogs(data)
+      setBlogs(data?.map((blog) => ({
+        ...blog,
+        cover_image_url: blog.cover_image_url?.startsWith('https://cdn-images-1.medium.com') ? blog.cover_image_url : null,
+      })))
+      dispatch({ type: 'SET_BLOGS', payload: data })
     } catch (err) {
       console.error('Error fetching student blogs:', err)
       setError(err instanceof Error ? err.message : 'Failed to fetch blogs')
@@ -37,7 +42,7 @@ export const useStudentBlogs = (
     } finally {
       setLoading(false)
     }
-  }, [mediumUsername, authorName])
+  }, [mediumUsername, authorName, dispatch])
 
   useEffect(() => {
     void fetchBlogs()

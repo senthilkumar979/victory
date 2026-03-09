@@ -13,7 +13,7 @@ const partners = [
 export const PartnersCarousel = () => (
   <div className="border-b border-white/5 py-8">
     <p className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-      Trusted by industry leaders
+      Trusted by our partners
     </p>
     <div className="relative overflow-hidden">
       <div className="absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-primary/10 to-transparent" />
