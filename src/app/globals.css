@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 :root {
   --background: #0b1120;
@@ -218,4 +220,8 @@ ul {
 
 .animate-partners-scroll {
   animation: partners-scroll 30s linear infinite;
+}
+
+[data-isMiddle="true"] .item-middle {
+  color: #fff;
 }

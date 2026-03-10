@@ -5,13 +5,15 @@ import {
   Download,
   Github,
   Globe,
+  GraduationCapIcon,
   Linkedin,
   Mail,
   Sparkles,
-  GraduationCapIcon,
 } from 'lucide-react'
 
 import type { ProfileData } from '@/types/student.types'
+import { Badge } from '../../../ui/atoms/badge/Badge'
+import { FancyText } from '../../ui/fancy-text'
 
 const container = {
   hidden: { opacity: 0 },
@@ -79,8 +81,8 @@ export const ProfileHero = ({ student }: ProfileHeroProps) => {
                 className="relative z-10 size-36 rounded-2xl object-cover shadow-2xl ring-4 ring-white/80 sm:size-44 lg:size-52"
               />
             ) : (
-              <div className="relative z-10 flex size-36 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 text-5xl font-bold text-primary shadow-xl ring-4 ring-white/80 sm:size-44 lg:size-52">
-                {name?.charAt(0)?.toUpperCase() ?? '?'}
+              <div className="relative z-10 flex size-36 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 text-5xl font-bold text-primary shadow-xl ring-4 ring-white/80 sm:size-44 letter-spacing-wide lg:size-52 uppercase">
+                {name ?? '?'}
               </div>
             )}
             <div className="absolute -inset-4 -z-0 rounded-3xl bg-primary/10 blur-2xl" />
@@ -112,24 +114,25 @@ export const ProfileHero = ({ student }: ProfileHeroProps) => {
             )}
           </div>
 
-          <motion.h1
-            variants={item}
-            className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl lg:text-6xl"
+          <FancyText
+            className="text-5xl font-black leading-none text-black/10 dark:text-primary/10 letter-spacing-wide uppercase"
+            fillClassName="text-primary dark:text-primary"
+            stagger={0.06}
+            duration={1.2}
+            delay={0.2}
           >
             {name}
-          </motion.h1>
+          </FancyText>
 
           <motion.div
             variants={item}
             className="flex flex-wrap items-center gap-3 text-lg text-slate-600"
           >
             <span className="font-semibold text-primary">{role}</span>
-            {company && (
-              <>
-                <span className="text-slate-400">@</span>
-                <span className="font-medium">{company}</span>
-              </>
-            )}
+            <span className="text-slate-400">@</span>
+            <Badge color="info" variant="outline">
+              {company ?? 'MentorBridge'}
+            </Badge>
           </motion.div>
 
           {email && (
