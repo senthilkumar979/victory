@@ -2,6 +2,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import 'goey-toast/styles.css'
+import { Toaster } from 'sonner'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import 'reactflow/dist/style.css'
@@ -80,6 +81,7 @@ export default function RootLayout({
               <Navbar />
               {children}
               <Footer />
+              <Toaster position="bottom-right" richColors />
               <ClarityComponent />
               <Analytics />
               <SpeedInsights />

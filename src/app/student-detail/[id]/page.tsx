@@ -4,8 +4,10 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
 import { Breadcrumbs } from '@/atoms/breadcrumbs/Breadcrumbs'
+import { Button } from '@/ui/atoms/button/Button'
 import { StudentProfileView } from '@/components/profile/StudentProfileView'
 import { useStudent } from '@/hooks/useStudent'
+import { Pencil } from 'lucide-react'
 
 export default function StudentDetailPage() {
   const params = useParams()
@@ -80,12 +82,20 @@ export default function StudentDetailPage() {
   return (
     <div className="min-h-screen w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-white to-slate-50">
       <div className="mx-auto w-full max-w-[1600px] px-4 py-10 sm:px-6 lg:px-10 xl:px-14">
-        <Breadcrumbs
-          items={[
-            { label: 'Students', href: '/secured/admin#students' },
-            { label: student.name, href: `/student-detail/${student.id}` },
-          ]}
-        />
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <Breadcrumbs
+            items={[
+              { label: 'Students', href: '/secured/admin#students' },
+              { label: student.name, href: `/student-detail/${student.id}` },
+            ]}
+          />
+          <Link href={`/profile/${student.id}/edit`}>
+            <Button variant="primary" mode="outline" size="sm">
+              <Pencil className="size-4" />
+              Edit Profile
+            </Button>
+          </Link>
+        </div>
         <div className="mt-8">
           <StudentProfileView student={student} />
         </div>

@@ -1,0 +1,54 @@
+import { useCallback } from 'react'
+
+import { supabase } from '@/lib/supabaseClient'
+
+import type { ProfileData } from '@/types/student.types'
+
+interface ProfileUpdatePayload {
+  name: string
+  picture?: string
+  role: string
+  company?: string
+  summary?: string
+  email: string
+  mediumUsername?: string
+  batch: string
+  resumeLink?: string
+  skillSets?: string[]
+  inspirations?: string[]
+  experience?: ProfileData['experience']
+  mentorBridgeExp?: ProfileData['mentorBridgeExp']
+  socialLinks?: ProfileData['socialLinks']
+}
+
+function toSupabasePayload(payload: ProfileUpdatePayload) {
+  return {
+    name: payload.name.trim(),
+    picture: payload.picture?.trim() || null,
+    role: payload.role.trim(),
+    company: payload.company?.trim() || null,
+    summary: payload.summary?.trim() || null,
+    email: payload.email.trim(),
+    medium_username: payload.mediumUsername?.trim() || null,
+    batch: payload.batch.trim(),
+    resume_link: payload.resumeLink?.trim() || null,
+    skill_sets: payload.skillSets ?? null,
+    inspirations: payload.inspirations ?? null,
+    experience: payload.experience ?? null,
+    mentor_bridge_exp: payload.mentorBridgeExp ?? null,
+    social_links: payload.socialLinks ?? null,
+  }
+}
+
+export const useUpdateStudent = () => {
+  const updateStudent = useCallback(async (id: string, payload: ProfileUpdatePayload) => {
+    const { error } = await supabase
+      .from('students')
+      .update(toSupabasePayload(payload))
+      .eq('id', id)
+
+    if (error) throw error
+  }, [])
+
+  return { updateStudent }
+}
