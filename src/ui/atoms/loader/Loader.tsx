@@ -6,13 +6,13 @@ export interface LoaderProps {
 
 export const Loader = ({ isShow }: LoaderProps) => (
   <AnimatePresence mode="wait">
-      {isShow ? (
-        <motion.div
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/70 backdrop-blur-md"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+    {isShow ? (
+      <motion.div
+        className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/70 backdrop-blur-md"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
         aria-live="polite"
         aria-busy="true"
         role="status"
@@ -85,6 +85,6 @@ export const Loader = ({ isShow }: LoaderProps) => (
           </span>
         </div>
       </motion.div>
-      ) : null}
-    </AnimatePresence>
-  )
+    ) : null}
+  </AnimatePresence>
+)

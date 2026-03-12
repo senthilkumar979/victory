@@ -20,7 +20,7 @@ export const Students = () => {
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false)
 
   const handleRowClick = (studentId: string) => {
-    router.push(`/profile/${studentId}/edit`)
+    router.push(`/secured/admin/student/${studentId}`)
   }
 
   const table = useReactTable({
