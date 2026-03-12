@@ -63,9 +63,6 @@ export async function createCalendarEventWithMeet(
 
   const requestId = generateRequestId()
 
-  console.log('attendees', JSON.stringify(params.attendees, null, 2));
-  console.log('prepared attendees', params.attendees?.map((email) => ({ email })));
-
   const resource = {
     summary: params.title,
     description: params.description ?? undefined,
@@ -75,6 +72,9 @@ export async function createCalendarEventWithMeet(
       createRequest: {
         requestId,
         conferenceSolutionKey: { type: 'hangoutsMeet' },
+        conferenceConfiguration: {
+          allowGuestJoin: true
+        }
       },
     },
     attendees: params.attendees?.map((email) => ({ email })) ?? undefined,
@@ -101,9 +101,11 @@ export async function createCalendarEventWithMeet(
       displayName: 'MentorBridge - Admin',
       email: 'mentorbridgeindia@gmail.com',
     },
+    anyoneCanAddSelf: true,
+    guestsCanInviteOthers: true,
+    guestsCanSeeOtherGuests: true,
+    guestsCanSeeEventContent: true,
   }
-
-  console.log('resource', JSON.stringify(resource, null, 2));
 
   const res = await calendar.events.insert({
     calendarId,

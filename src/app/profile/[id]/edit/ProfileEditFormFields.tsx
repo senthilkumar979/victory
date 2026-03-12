@@ -1,31 +1,55 @@
 'use client'
 
+import Image from 'next/image'
+import { useRef } from 'react'
 import { useFieldArray, UseFormReturn } from 'react-hook-form'
 
 import { FormInput } from '@/ui/molecules/form-input/FormInput'
 import { joinClassNames } from '@/utils/tailwindUtils'
-import { Github, Globe, Linkedin, Plus, Rss, Trash2 } from 'lucide-react'
+import {
+  FileText,
+  Github,
+  Globe,
+  ImageIcon,
+  Linkedin,
+  Loader2,
+  Plus,
+  Rss,
+  Trash2,
+} from 'lucide-react'
 
+import { FormLabel } from '@/atoms/form-label/FormLabel'
 import type { ProfileEditFormValues } from './profileEditFormSchema'
+import { useProfileFileUpload } from './useProfileFileUpload'
 
 interface ProfileEditFormFieldsProps {
   formId: string
   form: UseFormReturn<ProfileEditFormValues>
+  studentId: string
 }
 
 const inputBase =
   'block w-full rounded-xl border border-slate-200 bg-white/80 px-4 py-2 text-sm shadow-sm transition-all placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-secondary'
 
+const selectBase =
+  'block w-full rounded-lg border border-slate-200 bg-white/80 px-2 py-2 text-sm shadow-sm transition-all placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-secondary'
+
 export const ProfileEditFormFields = ({
   formId,
   form,
+  studentId,
 }: ProfileEditFormFieldsProps) => {
-  const { register, control, formState } = form
+  const { register, control, formState, setValue } = form
   const { errors } = formState
+  const { uploadFile, uploading, error } = useProfileFileUpload(studentId)
+  const pictureInputRef = useRef<HTMLInputElement>(null)
+  const resumeInputRef = useRef<HTMLInputElement>(null)
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'experience',
   })
+  const pictureUrl = form.watch('picture')
+  const resumeLinkUrl = form.watch('resumeLink')
 
   return (
     <div className="space-y-10">
@@ -58,17 +82,16 @@ export const ProfileEditFormFields = ({
               {...register('email')}
             />
             <div>
-              <label
-                htmlFor={`${formId}-role`}
-                className="mb-1.5 block text-sm font-medium uppercase tracking-wide text-slate-600"
-              >
-                Role / Title<span className="text-red-500">*</span>
-              </label>
+              <FormLabel htmlFor={`${formId}-role`} isRequired>
+                Role / Title
+              </FormLabel>
               <select
                 id={`${formId}-role`}
-                className={joinClassNames(inputBase, 'text-secondary')}
+                className={joinClassNames(
+                  selectBase,
+                  'text-secondary rounded-sm',
+                )}
                 {...register('role')}
-                required
               >
                 <option value="">Select a role</option>
                 <option value="Frontend Engineer">Frontend Engineer</option>
@@ -86,18 +109,16 @@ export const ProfileEditFormFields = ({
             </div>
 
             <div>
-              <label
-                htmlFor={`${formId}-company`}
-                className="mb-1.5 block text-sm font-medium uppercase tracking-wide text-slate-600"
-              >
-                Company
-              </label>
+              <FormLabel htmlFor={`${formId}-company`}>Company</FormLabel>
               <select
                 id={`${formId}-company`}
-                className={joinClassNames(inputBase, 'text-secondary')}
+                className={joinClassNames(selectBase, 'text-secondary')}
                 {...register('company')}
               >
                 <option value="">Select a company</option>
+                <option value="Covai Hello Truck Private Limited">
+                  Covai Hello Truck Private Limited
+                </option>
                 <option value="CloseFuture">CloseFuture</option>
                 <option value="Frigate">Frigate</option>
                 <option value="Klyonix Tech">Klyonix Tech</option>
@@ -109,25 +130,79 @@ export const ProfileEditFormFields = ({
                 <option value="TS Techy">TS Techy</option>
               </select>
             </div>
-            <FormInput
-              id={`${formId}-batch`}
-              label="Cohort Batch"
-              type="text"
-              placeholder="2024"
-              isRequired
-              className="text-secondary"
-              errorMessage={errors.batch?.message}
-              validationStatus={errors.batch ? 'invalid' : 'default'}
-              {...register('batch')}
-            />
-            <FormInput
-              id={`${formId}-picture`}
-              label="Profile Picture URL"
-              type="url"
-              placeholder="https://..."
-              className="text-secondary"
-              {...register('picture')}
-            />
+            <div>
+              <FormLabel htmlFor={`${formId}-batch`} isRequired>
+                Cohort Batch
+              </FormLabel>
+              <select
+                id={`${formId}-batch`}
+                className={joinClassNames(
+                  selectBase,
+                  'text-secondary rounded-sm',
+                )}
+                {...register('batch')}
+                required
+              >
+                <option value="">Select a cohort</option>
+                <option value="2028">2028</option>
+                <option value="2027">2027</option>
+                <option value="2026">2026</option>
+                <option value="2025">2025</option>
+              </select>
+            </div>
+            <div>
+              <FormLabel htmlFor={`${formId}-picture`}>
+                Profile Picture
+              </FormLabel>
+              <div className="flex items-center gap-4">
+                {pictureUrl ? (
+                  <Image
+                    src={pictureUrl}
+                    alt="Profile preview"
+                    width={64}
+                    height={64}
+                    className="size-16 rounded-full object-cover"
+                  />
+                ) : null}
+                <div className="flex-1">
+                  <input
+                    ref={pictureInputRef}
+                    id={`${formId}-picture`}
+                    type="file"
+                    accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0]
+                      if (!file) return
+                      const url = await uploadFile(file, 'picture')
+                      if (url) setValue('picture', url)
+                      e.target.value = ''
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => pictureInputRef.current?.click()}
+                    disabled={uploading === 'picture'}
+                    className={joinClassNames(
+                      inputBase,
+                      'flex cursor-pointer items-center gap-2 text-left',
+                    )}
+                  >
+                    {uploading === 'picture' ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      <ImageIcon className="size-4" />
+                    )}
+                    {uploading === 'picture'
+                      ? 'Uploading...'
+                      : 'Choose image (JPG, PNG)'}
+                  </button>
+                </div>
+              </div>
+              {error && (
+                <span className="mt-1 block text-xs text-red-600">{error}</span>
+              )}
+            </div>
           </div>
           <div>
             <label
@@ -199,14 +274,56 @@ export const ProfileEditFormFields = ({
               />
             </div>
           </div>
-          <FormInput
-            id={`${formId}-resumeLink`}
-            label="Resume URL"
-            type="url"
-            placeholder="https://..."
-            className="text-secondary"
-            {...register('resumeLink')}
-          />
+          <div>
+            <label
+              htmlFor={`${formId}-resumeLink`}
+              className="mb-1.5 block text-sm font-medium uppercase tracking-wide text-slate-600"
+            >
+              Resume
+            </label>
+            <div className="flex flex-col gap-2">
+              <input
+                ref={resumeInputRef}
+                id={`${formId}-resumeLink`}
+                type="file"
+                accept=".pdf,application/pdf"
+                className="hidden"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0]
+                  if (!file) return
+                  const url = await uploadFile(file, 'resume')
+                  if (url) setValue('resumeLink', url)
+                  e.target.value = ''
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => resumeInputRef.current?.click()}
+                disabled={uploading === 'resume'}
+                className={joinClassNames(
+                  inputBase,
+                  'flex cursor-pointer items-center gap-2 text-left',
+                )}
+              >
+                {uploading === 'resume' ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <FileText className="size-4" />
+                )}
+                {uploading === 'resume' ? 'Uploading...' : 'Choose PDF file'}
+              </button>
+              {resumeLinkUrl ? (
+                <a
+                  href={resumeLinkUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-primary hover:underline"
+                >
+                  View current resume
+                </a>
+              ) : null}
+            </div>
+          </div>
         </section>
       </div>
       <div className="grid grid-cols-3 gap-10">

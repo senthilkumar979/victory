@@ -162,7 +162,11 @@ export const ProfileEditForm = ({ student, studentId }: ProfileEditFormProps) =>
         </div>
 
         <div className="p-8 lg:p-12">
-          <ProfileEditFormFields formId="profile-edit-form" form={form} />
+          <ProfileEditFormFields
+            formId="profile-edit-form"
+            form={form}
+            studentId={studentId}
+          />
         </div>
 
         <div className="flex flex-wrap items-center justify-end gap-4 border-t border-slate-200/60 bg-white/40 px-8 py-6 backdrop-blur-sm lg:px-12">
