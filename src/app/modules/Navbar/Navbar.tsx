@@ -10,6 +10,7 @@ import {
   MapIcon,
   Shield,
   UserIcon,
+  UsersIcon,
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -64,6 +65,10 @@ export const Navbar = () => {
             <Link href="/roadmaps" className={linkClass}>
               <MapIcon className="w-4 h-4" />
               Roadmaps
+            </Link>
+            <Link href="/students" className={linkClass}>
+              <UsersIcon className="w-4 h-4" />
+              Students
             </Link>
             <Link href="/secured/profile" className={linkClass}>
               <UserIcon className="w-4 h-4" /> Profile

@@ -209,6 +209,19 @@ ul {
   border-color: var(--color-success) !important;
 }
 
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
 @keyframes partners-scroll {
   0% {
     transform: translateX(0);
