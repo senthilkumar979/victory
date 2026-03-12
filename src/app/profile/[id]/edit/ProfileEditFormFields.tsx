@@ -58,6 +58,59 @@ export const ProfileEditFormFields = ({
           <h3 className="text-sm font-semibold uppercase tracking-widest text-primary">
             Basic Information
           </h3>
+          <div className="flex flex-row justify-start items-center text-center gap-10">
+              <FormLabel htmlFor={`${formId}-picture`}>
+                Profile Picture
+              </FormLabel>
+              <div className="flex items-center gap-4">
+                {pictureUrl ? (
+                  <Image
+                    src={pictureUrl}
+                    alt="Profile preview"
+                    width={64}
+                    height={64}
+                    className="size-16 rounded-full object-cover"
+                  />
+                ) : null}
+                <div className="flex-1">
+                  <input
+                    ref={pictureInputRef}
+                    id={`${formId}-picture`}
+                    type="file"
+                    accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0]
+                      if (!file) return
+                      const url = await uploadFile(file, 'picture')
+                      if (url) setValue('picture', url, { shouldDirty: true })
+                      e.target.value = ''
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => pictureInputRef.current?.click()}
+                    disabled={uploading === 'picture'}
+                    className={joinClassNames(
+                      inputBase,
+                      'flex cursor-pointer items-center gap-2 text-left',
+                    )}
+                  >
+                    {uploading === 'picture' ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      <ImageIcon className="size-4" />
+                    )}
+                    {uploading === 'picture'
+                      ? 'Uploading...'
+                      : 'Choose image (JPG, PNG)'}
+                  </button>
+                </div>
+              </div>
+              {error && (
+                <span className="mt-1 block text-xs text-red-600">{error}</span>
+              )}
+            </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <FormInput
               id={`${formId}-name`}
@@ -197,59 +250,6 @@ export const ProfileEditFormFields = ({
                 </div>
               )}
             />
-            <div>
-              <FormLabel htmlFor={`${formId}-picture`}>
-                Profile Picture
-              </FormLabel>
-              <div className="flex items-center gap-4">
-                {pictureUrl ? (
-                  <Image
-                    src={pictureUrl}
-                    alt="Profile preview"
-                    width={64}
-                    height={64}
-                    className="size-16 rounded-full object-cover"
-                  />
-                ) : null}
-                <div className="flex-1">
-                  <input
-                    ref={pictureInputRef}
-                    id={`${formId}-picture`}
-                    type="file"
-                    accept=".jpg,.jpeg,.png,image/jpeg,image/png"
-                    className="hidden"
-                    onChange={async (e) => {
-                      const file = e.target.files?.[0]
-                      if (!file) return
-                      const url = await uploadFile(file, 'picture')
-                      if (url) setValue('picture', url, { shouldDirty: true })
-                      e.target.value = ''
-                    }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => pictureInputRef.current?.click()}
-                    disabled={uploading === 'picture'}
-                    className={joinClassNames(
-                      inputBase,
-                      'flex cursor-pointer items-center gap-2 text-left',
-                    )}
-                  >
-                    {uploading === 'picture' ? (
-                      <Loader2 className="size-4 animate-spin" />
-                    ) : (
-                      <ImageIcon className="size-4" />
-                    )}
-                    {uploading === 'picture'
-                      ? 'Uploading...'
-                      : 'Choose image (JPG, PNG)'}
-                  </button>
-                </div>
-              </div>
-              {error && (
-                <span className="mt-1 block text-xs text-red-600">{error}</span>
-              )}
-            </div>
           </div>
           <div>
             <label

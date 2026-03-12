@@ -39,9 +39,9 @@ export const ProfileInspirations = ({
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: idx * 0.05 }}
-            className="group flex items-center gap-3 rounded-lg border border-slate-100 px-4 py-2.5 transition-colors hover:border-primary/20 hover:bg-primary/5 w-full"
+            className="group flex items-center gap-3 rounded-lg border border-slate-100 px-4 py-2.5 transition-colors text-slate-600 hover:border-primary/20 hover:bg-primary/5 w-full"
           >
-            <span className="flex size-1.5 shrink-0 rounded-full bg-primary" />
+            <span className="flex size-1.5 shrink-0 rounded-full bg-slate-600 group-hover:bg-primary" />
             <InspirationItem item={item} />
           </motion.li>
         ))}
