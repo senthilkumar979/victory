@@ -71,6 +71,11 @@ export const useStudent = (studentId: string): UseStudentReturn => {
           socialLinks: safeJsonParse(data.social_links, {}),
           resumeLink: data.resume_link,
           batch: data.batch,
+          gender: (() => {
+            const raw = typeof data.gender === 'string' ? data.gender.trim() : ''
+            const g = raw.toUpperCase()
+            return g === 'M' || g === 'F' ? g : undefined
+          })(),
         };
 
         setStudent(transformedStudent);

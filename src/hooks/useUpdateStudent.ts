@@ -13,6 +13,7 @@ interface ProfileUpdatePayload {
   email: string
   mediumUsername?: string
   batch: string
+  gender?: string
   resumeLink?: string
   skillSets?: string[]
   inspirations?: string[]
@@ -35,6 +36,10 @@ function toSupabasePayload(payload: ProfileUpdatePayload) {
     email: payload.email.trim(),
     medium_username: payload.mediumUsername?.trim() || null,
     batch,
+    gender: (() => {
+      const g = payload.gender?.trim().toUpperCase()
+      return g === 'M' || g === 'F' ? g : null
+    })(),
     resume_link: payload.resumeLink?.trim() || null,
     skill_sets: payload.skillSets ?? null,
     inspirations: payload.inspirations ?? null,

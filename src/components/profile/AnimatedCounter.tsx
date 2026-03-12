@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { motion, useSpring } from 'framer-motion'
+import { useEffect, useState } from 'react'
 
 interface AnimatedCounterProps {
   value: number
@@ -32,7 +32,7 @@ export const AnimatedCounter = ({
     <motion.span
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.8 }}
       className={className}
     >
       {prefix}

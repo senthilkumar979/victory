@@ -8,6 +8,7 @@ import { PageHeader } from '@/ui/templates/PageHeader'
 
 import { StudentsCardGrid } from './components/StudentsCardGrid'
 import { StudentsFilter } from './components/StudentsFilter'
+import { StudentStats } from '@/app/students/components/StudentStats'
 
 export default function StudentsPage() {
   const {
@@ -34,6 +35,8 @@ export default function StudentsPage() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="space-y-8"
         >
+          <StudentStats students={students} />
+
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="min-w-0">
               <StudentsFilter

@@ -38,6 +38,7 @@ export interface ProfileData {
   socialLinks?: ISocialLinks;
   resumeLink?: string;
   batch: string;
+  gender?: string;
 }
 
 export interface StudentCardProps {

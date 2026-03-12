@@ -29,6 +29,7 @@ export const profileEditFormSchema = z.object({
   email: z.string().trim().email('Valid email is required'),
   mediumUsername: z.string().trim().optional().or(z.literal('')),
   batch: z.string().trim().min(1, 'Batch is required'),
+  gender: z.enum(['M', 'F']).optional().or(z.literal('')),
   resumeLink: z.string().trim().optional().or(z.literal('')),
   skillSets: z.string().trim().optional().or(z.literal('')),
   inspirations: z.string().trim().optional().or(z.literal('')),

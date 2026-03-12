@@ -30,6 +30,7 @@ function toFormValues(student: ProfileData | null): ProfileEditFormValues {
       email: '',
       mediumUsername: '',
       batch: '',
+      gender: '',
       resumeLink: '',
       skillSets: '',
       inspirations: '',
@@ -46,6 +47,10 @@ function toFormValues(student: ProfileData | null): ProfileEditFormValues {
     email: student.email ?? '',
     mediumUsername: student.mediumUsername ?? '',
     batch: String(student.batch ?? ''),
+    gender: (() => {
+      const g = student.gender?.trim()?.toUpperCase()
+      return g === 'M' || g === 'F' ? g : ''
+    })(),
     resumeLink: student.resumeLink ?? '',
     skillSets: student.skillSets?.join(', ') ?? '',
     inspirations: student.inspirations?.join(', ') ?? '',
@@ -111,6 +116,7 @@ export const ProfileEditForm = ({ student, studentId }: ProfileEditFormProps) =>
         email: data.email,
         mediumUsername: data.mediumUsername || undefined,
         batch: data.batch,
+        gender: data.gender || undefined,
         resumeLink: data.resumeLink || undefined,
         skillSets: skillSets.length > 0 ? skillSets : undefined,
         inspirations: inspirations.length > 0 ? inspirations : undefined,

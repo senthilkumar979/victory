@@ -251,6 +251,29 @@ export const ProfileEditFormFields = ({
                 </div>
               )}
             />
+
+            <Controller
+              name="gender"
+              control={control}
+              render={({ field }) => (
+                <div>
+                  <FormLabel htmlFor={`${formId}-gender`}>Gender</FormLabel>
+                  <select
+                    id={`${formId}-gender`}
+                    className={joinClassNames(selectBase, 'text-secondary')}
+                    ref={field.ref}
+                    name={field.name}
+                    value={String(field.value ?? '')}
+                    onBlur={field.onBlur}
+                    onChange={(e) => field.onChange(e.target.value)}
+                  >
+                    <option value="">Select gender</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                  </select>
+                </div>
+              )}
+            />
           </div>
           <div>
             <label

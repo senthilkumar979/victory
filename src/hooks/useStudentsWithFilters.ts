@@ -31,7 +31,8 @@ const extractFilterOptions = (
   return { cohorts, companies, roles }
 }
 
-const SELECT_COLS = 'id, name, picture, role, company, email, social_links, batch'
+const SELECT_COLS =
+  'id, name, picture, role, company, email, social_links, batch, gender'
 
 export const useStudentsWithFilters = (): UseStudentsWithFiltersReturn => {
   const [students, setStudents] = useState<ProfileData[]>([])
@@ -78,16 +79,23 @@ export const useStudentsWithFilters = (): UseStudentsWithFiltersReturn => {
       if (fetchError) throw fetchError
 
       if (data) {
-        const transformed: ProfileData[] = data.map((s) => ({
-          id: s.id,
-          name: s.name,
-          picture: s.picture,
-          role: s.role,
-          company: s.company,
-          email: s.email,
-          socialLinks: safeJsonParse(s.social_links, {}),
-          batch: s.batch,
-        }))
+        const transformed: ProfileData[] = data.map((s) => {
+          const rawGender =
+            typeof (s as { gender?: string }).gender === 'string'
+              ? (s as { gender?: string }).gender?.trim()
+              : ''
+          return {
+            id: s.id,
+            name: s.name,
+            picture: s.picture,
+            role: s.role,
+            company: s.company,
+            email: s.email,
+            socialLinks: safeJsonParse(s.social_links, {}),
+            batch: s.batch,
+            gender: rawGender || undefined,
+          }
+        })
         setStudents(transformed)
       }
     } catch (err) {
