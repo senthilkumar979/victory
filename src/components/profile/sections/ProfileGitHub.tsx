@@ -2,9 +2,9 @@
 
 import { Badge } from '@/atoms/badge/Badge'
 import { GitHubRepository, useGetRepositories } from '@/hooks/useGetRepositores'
+import { formatDateWithoutTime } from '@/utils/meetingUtils'
 import { motion } from 'framer-motion'
 import { Calendar, ExternalLink, Github, Star } from 'lucide-react'
-import { formatDateWithoutTime } from '../../../utils/meetingUtils'
 
 interface ProfileGitHubProps {
   githubUrl?: string
@@ -15,7 +15,6 @@ export const ProfileGitHub = ({ githubUrl }: ProfileGitHubProps) => {
 
   if (isLoading) return <div>Loading repositories...</div>
   if (error) return <div>Error: {error}</div>
-  if (repositories?.length === 0) return <div>No repositories found.</div>
 
   return (
     <div>
@@ -92,6 +91,12 @@ export const ProfileGitHub = ({ githubUrl }: ProfileGitHubProps) => {
             <ExternalLink className="size-4 shrink-0 text-slate-400 opacity-0 transition-all group-hover:opacity-100 group-hover:text-primary" />
           </motion.a>
         ))}
+        {repositories?.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-12 text-center col-span-2">
+            <Github className="size-12 text-slate-200" />
+            <p className="mt-2 text-sm text-slate-500">No repositories found</p>
+          </div>
+        )}
       </div>
     </div>
   )

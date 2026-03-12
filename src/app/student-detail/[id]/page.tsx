@@ -4,10 +4,24 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
 import { Breadcrumbs } from '@/atoms/breadcrumbs/Breadcrumbs'
-import { Button } from '@/ui/atoms/button/Button'
 import { StudentProfileView } from '@/components/profile/StudentProfileView'
 import { useStudent } from '@/hooks/useStudent'
-import { Pencil } from 'lucide-react'
+import { Button, PrimaryButton } from '@/ui/atoms/button/Button'
+import { Pencil, UserIcon } from 'lucide-react'
+
+const StudentNotFound = ({ message }: { message: string }) => {
+  return (
+    <div className="min-h-screen px-20 py-12">
+      <div className=" flex items-center justify-center gap-5 flex-col rounded-xl border border-slate-200 bg-slate-50 p-10 text-center text-slate-600">
+        <UserIcon className="size-10" />
+        {message}
+        <PrimaryButton onClick={() => window.history.back()} size="sm">
+          Go Back
+        </PrimaryButton>
+      </div>
+    </div>
+  )
+}
 
 export default function StudentDetailPage() {
   const params = useParams()
@@ -15,19 +29,7 @@ export default function StudentDetailPage() {
   const { student, loading, error } = useStudent(id)
 
   if (!id) {
-    return (
-      <div className="min-h-screen px-6 py-8">
-        <div className="rounded-xl border border-red-200 bg-red-50 p-6 text-center text-red-800">
-          Invalid student ID.
-          <Link
-            href="/secured/admin"
-            className="ml-2 font-medium text-primary hover:underline"
-          >
-            Back to Students
-          </Link>
-        </div>
-      </div>
-    )
+    return <StudentNotFound message="Invalid student ID." />
   }
 
   if (loading) {
@@ -49,34 +51,14 @@ export default function StudentDetailPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen px-6 py-8">
-        <div className="rounded-xl border border-red-200 bg-red-50 p-6 text-center text-red-800">
-          {error}
-          <Link
-            href="/secured/admin"
-            className="ml-2 font-medium text-primary hover:underline"
-          >
-            Back to Students
-          </Link>
-        </div>
-      </div>
+      <StudentNotFound
+        message={'Something went wrong while fetching the student.'}
+      />
     )
   }
 
   if (!student) {
-    return (
-      <div className="min-h-screen px-6 py-8">
-        <div className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-center text-slate-600">
-          Student not found.
-          <Link
-            href="/secured/admin"
-            className="ml-2 font-medium text-primary hover:underline"
-          >
-            Back to Students
-          </Link>
-        </div>
-      </div>
-    )
+    return <StudentNotFound message="Student not found." />
   }
 
   return (
