@@ -1,15 +1,17 @@
 'use client'
 
-import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { AlertCircle, Video } from 'lucide-react'
+import { useState } from 'react'
 
-import { useMeetings } from '@/hooks/useMeetings'
 import { Pagination } from '@/app/blogs/components/Pagination'
+import { useMeetings } from '@/hooks/useMeetings'
 
-import type { MeetingFormState } from './Meeting.types'
+import { CurrentWeekCard } from './CurrentWeekCard'
 import { MeetingCard } from './MeetingCard'
 import { MeetingDetailsDrawer } from './MeetingDetailsDrawer'
+import { MeetingStats } from './MeetingStats'
+import type { MeetingFormState } from './Meeting.types'
 
 const container = {
   hidden: { opacity: 0 },
@@ -71,8 +73,10 @@ export const MeetingsListView = () => {
     page,
     pageLimit: PAGE_LIMIT,
   })
-  const [selectedMeeting, setSelectedMeeting] =
-    useState<MeetingFormState | null>(null)
+  const [
+    selectedMeeting,
+    setSelectedMeeting,
+  ] = useState<MeetingFormState | null>(null)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_LIMIT))
@@ -118,6 +122,10 @@ export const MeetingsListView = () => {
 
   return (
     <>
+      <div className="mb-8 space-y-6 flex gap-6 justify-between">
+        <MeetingStats />
+        <CurrentWeekCard />
+      </div>
       <motion.div
         variants={container}
         initial="hidden"

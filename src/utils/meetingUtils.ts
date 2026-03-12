@@ -12,6 +12,17 @@ export const formatDate = (iso: string): string => {
   }) + ' IST'
 }
 
+export const formatTime = (iso: string): string => {
+  if (!iso) return ''
+  const date = new Date(iso)
+  return date.toLocaleTimeString('en-IN', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+    timeZone: 'Asia/Kolkata',
+  })
+}
+
 export const formatDateWithoutTime = (iso: string): string => {
   if (!iso) return ''
   const date = new Date(iso)
