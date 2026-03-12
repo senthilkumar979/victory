@@ -52,7 +52,7 @@ export default function RoadmapSlugPage() {
             Node.
           </p>
           <Link
-            href="/roadmap/typescript"
+            href="/roadmaps/typescript"
             className="text-sm font-medium text-primary hover:underline"
           >
             View TypeScript Roadmap →
@@ -67,7 +67,7 @@ export default function RoadmapSlugPage() {
       <div className="flex flex-row items-center justify-between">
         <Breadcrumbs
           items={[
-            { label: 'Roadmaps', href: '/roadmap' },
+            { label: 'Roadmaps', href: '/roadmaps' },
             { label: roadmap.title },
           ]}
         />

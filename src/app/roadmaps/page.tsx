@@ -51,7 +51,7 @@ export default function RoadmapPage() {
                 className={isFeatured ? 'lg:col-span-2' : 'lg:col-span-1'}
               >
                 <Link
-                  href={`/roadmap/${meta.id}`}
+                  href={`/roadmaps/${meta.id}`}
                   className="group block h-full"
                 >
                   <motion.article
