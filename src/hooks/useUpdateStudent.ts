@@ -22,6 +22,10 @@ interface ProfileUpdatePayload {
 }
 
 function toSupabasePayload(payload: ProfileUpdatePayload) {
+  const batchVal = payload.batch.trim()
+  const batchNum = parseInt(batchVal, 10)
+  const batch = !Number.isNaN(batchNum) ? batchNum : batchVal
+
   return {
     name: payload.name.trim(),
     picture: payload.picture?.trim() || null,
@@ -30,7 +34,7 @@ function toSupabasePayload(payload: ProfileUpdatePayload) {
     summary: payload.summary?.trim() || null,
     email: payload.email.trim(),
     medium_username: payload.mediumUsername?.trim() || null,
-    batch: payload.batch.trim(),
+    batch,
     resume_link: payload.resumeLink?.trim() || null,
     skill_sets: payload.skillSets ?? null,
     inspirations: payload.inspirations ?? null,
@@ -42,12 +46,19 @@ function toSupabasePayload(payload: ProfileUpdatePayload) {
 
 export const useUpdateStudent = () => {
   const updateStudent = useCallback(async (id: string, payload: ProfileUpdatePayload) => {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('students')
       .update(toSupabasePayload(payload))
       .eq('id', id)
+      .select('id')
+      .maybeSingle()
 
     if (error) throw error
+    if (!data) {
+      throw new Error(
+        'No rows were updated. The student may not exist or you may not have permission to update (check RLS policies).'
+      )
+    }
   }, [])
 
   return { updateStudent }

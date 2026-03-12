@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { useRef } from 'react'
-import { useFieldArray, UseFormReturn } from 'react-hook-form'
+import { Controller, useFieldArray, type UseFormReturn } from 'react-hook-form'
 
 import { FormInput } from '@/ui/molecules/form-input/FormInput'
 import { joinClassNames } from '@/utils/tailwindUtils'
@@ -81,75 +81,122 @@ export const ProfileEditFormFields = ({
               validationStatus={errors.email ? 'invalid' : 'default'}
               {...register('email')}
             />
-            <div>
-              <FormLabel htmlFor={`${formId}-role`} isRequired>
-                Role / Title
-              </FormLabel>
-              <select
-                id={`${formId}-role`}
-                className={joinClassNames(
-                  selectBase,
-                  'text-secondary rounded-sm',
-                )}
-                {...register('role')}
-              >
-                <option value="">Select a role</option>
-                <option value="Frontend Engineer">Frontend Engineer</option>
-                <option value="Backend Engineer">Backend Engineer</option>
-                <option value="Full Stack Engineer">Full Stack Engineer</option>
-                <option value="Mobile App Developer">
-                  Mobile App Developer
-                </option>
-              </select>
-              {errors.role && (
-                <span className="mt-1 block text-xs text-red-600">
-                  {errors.role.message}
-                </span>
+            <Controller
+              name="role"
+              control={control}
+              rules={{ required: 'Role is required' }}
+              render={({ field }) => (
+                <div>
+                  <FormLabel htmlFor={`${formId}-role`} isRequired>
+                    Role / Title
+                  </FormLabel>
+                  <select
+                    id={`${formId}-role`}
+                    className={joinClassNames(
+                      selectBase,
+                      'text-secondary rounded-sm',
+                    )}
+                    ref={field.ref}
+                    name={field.name}
+                    value={String(field.value ?? '')}
+                    onBlur={field.onBlur}
+                    onChange={(e) => field.onChange(e.target.value)}
+                    required
+                  >
+                    <option value="">Select a role</option>
+                    <option value="Frontend Engineer">Frontend Engineer</option>
+                    <option value="Backend Engineer">Backend Engineer</option>
+                    <option value="FullStack Engineer">
+                      FullStack Engineer
+                    </option>
+                    <option value="Mobile App Developer">
+                      Mobile App Developer
+                    </option>
+                    <option value="Python Developer">
+                      Python Developer
+                    </option>
+                    <option value="UX Designer">
+                      UX Designer
+                    </option>
+                  </select>
+                  {errors.role && (
+                    <span className="mt-1 block text-xs text-red-600">
+                      {errors.role.message}
+                    </span>
+                  )}
+                </div>
               )}
-            </div>
+            />
 
-            <div>
-              <FormLabel htmlFor={`${formId}-company`}>Company</FormLabel>
-              <select
-                id={`${formId}-company`}
-                className={joinClassNames(selectBase, 'text-secondary')}
-                {...register('company')}
-              >
-                <option value="">Select a company</option>
-                <option value="Covai Hello Truck Private Limited">
-                  Covai Hello Truck Private Limited
-                </option>
-                <option value="CloseFuture">CloseFuture</option>
-                <option value="Frigate">Frigate</option>
-                <option value="Klyonix Tech">Klyonix Tech</option>
-                <option value="MentorBridge">MentorBridge</option>
-                <option value="Sukiran Solutions Private Limited">
-                  Sukiran Solutions Private Limited
-                </option>
-                <option value="Techjays">Techjays</option>
-                <option value="TS Techy">TS Techy</option>
-              </select>
-            </div>
-            <div>
-              <FormLabel htmlFor={`${formId}-batch`} isRequired>
-                Cohort Batch
-              </FormLabel>
-              <select
-                id={`${formId}-batch`}
-                className={joinClassNames(
-                  selectBase,
-                  'text-secondary rounded-sm',
-                )}
-                {...register('batch')}
-                required
-              >
-                <option value="">Select a cohort</option>
-                <option value="2028">2028</option>
-                <option value="2027">2027</option>
-                <option value="2026">2026</option>
-                <option value="2025">2025</option>
-              </select>
-            </div>
+            <Controller
+              name="company"
+              control={control}
+              render={({ field }) => (
+                <div>
+                  <FormLabel htmlFor={`${formId}-company`}>Company</FormLabel>
+                  <select
+                    id={`${formId}-company`}
+                    className={joinClassNames(selectBase, 'text-secondary')}
+                    ref={field.ref}
+                    name={field.name}
+                    value={String(field.value ?? '')}
+                    onBlur={field.onBlur}
+                    onChange={(e) => field.onChange(e.target.value)}
+                  >
+                    <option value="">Select a company</option>
+                    <option value="Covai Hello Truck Private Limited">
+                      Covai Hello Truck Private Limited
+                    </option>
+                    <option value="CloseFuture">CloseFuture</option>
+                    <option value="Frigate">Frigate</option>
+                    <option value="Klyonix Tech">Klyonix Tech</option>
+                    <option value="MentorBridge">MentorBridge</option>
+                    <option value="Sukiran Solutions Private Limited">
+                      Sukiran Solutions Private Limited
+                    </option>
+                    <option value="Techjays">Techjays</option>
+                    <option value="TS Techy">TS Techy</option>
+                  </select>
+                </div>
+              )}
+            />
+
+            <Controller
+              name="batch"
+              control={control}
+              rules={{ required: 'Batch is required' }}
+              render={({ field }) => (
+                <div>
+                  <FormLabel htmlFor={`${formId}-batch`} isRequired>
+                    Cohort Batch
+                  </FormLabel>
+                  <select
+                    id={`${formId}-batch`}
+                    className={joinClassNames(
+                      selectBase,
+                      'text-secondary rounded-sm',
+                    )}
+                    ref={field.ref}
+                    name={field.name}
+                    value={String(field.value ?? '')}
+                    onBlur={field.onBlur}
+                    onChange={(e) => field.onChange(e.target.value)}
+                    required
+                  >
+                    <option value="">Select a cohort</option>
+                    <option value="2028">2028</option>
+                    <option value="2027">2027</option>
+                    <option value="2026">2026</option>
+                    <option value="2025">2025</option>
+                  </select>
+                  {errors.batch && (
+                    <span className="mt-1 block text-xs text-red-600">
+                      {errors.batch.message}
+                    </span>
+                  )}
+                </div>
+              )}
+            />
             <div>
               <FormLabel htmlFor={`${formId}-picture`}>
                 Profile Picture
@@ -175,7 +222,7 @@ export const ProfileEditFormFields = ({
                       const file = e.target.files?.[0]
                       if (!file) return
                       const url = await uploadFile(file, 'picture')
-                      if (url) setValue('picture', url)
+                      if (url) setValue('picture', url, { shouldDirty: true })
                       e.target.value = ''
                     }}
                   />
@@ -292,7 +339,7 @@ export const ProfileEditFormFields = ({
                   const file = e.target.files?.[0]
                   if (!file) return
                   const url = await uploadFile(file, 'resume')
-                  if (url) setValue('resumeLink', url)
+                  if (url) setValue('resumeLink', url, { shouldDirty: true })
                   e.target.value = ''
                 }}
               />

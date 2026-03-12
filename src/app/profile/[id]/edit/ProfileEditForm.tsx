@@ -1,16 +1,16 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
 
-import { Button } from '@/ui/atoms/button/Button'
 import { useUpdateStudent } from '@/hooks/useUpdateStudent'
-import { toast } from 'sonner'
-import { ArrowLeft, Save, Loader2 } from 'lucide-react'
+import { Button } from '@/ui/atoms/button/Button'
 import { motion } from 'framer-motion'
+import { gooeyToast } from 'goey-toast'
+import { ArrowLeft, Loader2, Save } from 'lucide-react'
 
 import type { ProfileData } from '@/types/student.types'
 import { ProfileEditFormFields } from './ProfileEditFormFields'
@@ -40,12 +40,12 @@ function toFormValues(student: ProfileData | null): ProfileEditFormValues {
   return {
     name: student.name ?? '',
     picture: student.picture ?? '',
-    role: student.role ?? '',
+    role: String(student.role ?? ''),
     company: student.company ?? '',
     summary: student.summary ?? '',
     email: student.email ?? '',
     mediumUsername: student.mediumUsername ?? '',
-    batch: student.batch ?? '',
+    batch: String(student.batch ?? ''),
     resumeLink: student.resumeLink ?? '',
     skillSets: student.skillSets?.join(', ') ?? '',
     inspirations: student.inspirations?.join(', ') ?? '',
@@ -78,6 +78,7 @@ export const ProfileEditForm = ({ student, studentId }: ProfileEditFormProps) =>
   const form = useForm<ProfileEditFormValues>({
     resolver: zodResolver(profileEditFormSchema),
     defaultValues: toFormValues(student),
+    mode: 'onTouched',
   })
 
   useEffect(() => {
@@ -118,12 +119,17 @@ export const ProfileEditForm = ({ student, studentId }: ProfileEditFormProps) =>
         socialLinks,
       })
 
-      toast.success('Profile updated successfully.', {
+      gooeyToast.success('Profile updated successfully.', {
         description: `${data.name}'s profile has been saved.`,
+        bounce: 0.45,
+        borderColor: '#E0E0E0',
+        borderWidth: 2,
+        timing: { displayDuration: 5000 },
       })
       router.push(`/student-detail/${studentId}`)
     } catch (err) {
-      toast.error('Failed to update profile.', {
+      console.error(err)
+      gooeyToast.error('Failed to update profile.', {
         description: err instanceof Error ? err.message : 'Please try again.',
       })
     }
