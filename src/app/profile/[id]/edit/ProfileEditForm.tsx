@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { useUpdateStudent } from '@/hooks/useUpdateStudent'
-import { Button } from '@/ui/atoms/button/Button'
+import { Button, PrimaryButton } from '@/ui/atoms/button/Button'
 import { motion } from 'framer-motion'
 import { gooeyToast } from 'goey-toast'
 import { ArrowLeft, Loader2, Save } from 'lucide-react'
@@ -181,9 +181,7 @@ export const ProfileEditForm = ({ student, studentId }: ProfileEditFormProps) =>
               Cancel
             </Button>
           </Link>
-          <Button
-            variant="primary"
-            size="lg"
+          <PrimaryButton
             type="submit"
             form="profile-edit-form"
             disabled={isSubmitting}
@@ -194,7 +192,7 @@ export const ProfileEditForm = ({ student, studentId }: ProfileEditFormProps) =>
               <Save className="size-5" />
             )}
             {isSubmitting ? 'Saving...' : 'Save Changes'}
-          </Button>
+          </PrimaryButton>
         </div>
       </form>
     </motion.div>

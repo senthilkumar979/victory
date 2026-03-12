@@ -5,6 +5,7 @@ import { useRef } from 'react'
 import { Controller, useFieldArray, type UseFormReturn } from 'react-hook-form'
 
 import { FormInput } from '@/ui/molecules/form-input/FormInput'
+import { FormMultiInput } from '@/ui/molecules/form-multi-input/FormMultiInput'
 import { joinClassNames } from '@/utils/tailwindUtils'
 import {
   FileText,
@@ -456,28 +457,54 @@ export const ProfileEditFormFields = ({
           <h3 className="text-sm font-semibold uppercase tracking-widest text-primary">
             Skills & Inspirations
           </h3>
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-slate-600">
-              Skills (comma-separated)
-            </label>
-            <input
-              type="text"
-              placeholder="React, TypeScript, Node.js"
-              className={joinClassNames(inputBase, 'text-secondary')}
-              {...register('skillSets')}
-            />
-          </div>
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-slate-600">
-              Inspirations (comma-separated)
-            </label>
-            <input
-              type="text"
-              placeholder="Books, people, concepts..."
-              className={joinClassNames(inputBase, 'text-secondary')}
-              {...register('inspirations')}
-            />
-          </div>
+          <Controller
+            name="skillSets"
+            control={control}
+            render={({ field }) => (
+              <FormMultiInput
+                id={`${formId}-skillSets`}
+                label="Skills"
+                value={
+                  field.value
+                    ? field.value
+                        .split(',')
+                        .map((s) => s.trim())
+                        .filter(Boolean)
+                    : []
+                }
+                onChange={(tags) => field.onChange(tags.join(', '))}
+                onBlur={field.onBlur}
+                placeholder="React, TypeScript, Node.js"
+                maxTags={15}
+                errorMessage={errors.skillSets?.message}
+                validationStatus={errors.skillSets ? 'invalid' : 'default'}
+              />
+            )}
+          />
+          <Controller
+            name="inspirations"
+            control={control}
+            render={({ field }) => (
+              <FormMultiInput
+                id={`${formId}-inspirations`}
+                label="Inspirations"
+                value={
+                  field.value
+                    ? field.value
+                        .split(',')
+                        .map((s) => s.trim())
+                        .filter(Boolean)
+                    : []
+                }
+                onChange={(tags) => field.onChange(tags.join(', '))}
+                onBlur={field.onBlur}
+                placeholder="Kalam, Sachin, Elon Musk..."
+                maxTags={15}
+                errorMessage={errors.inspirations?.message}
+                validationStatus={errors.inspirations ? 'invalid' : 'default'}
+              />
+            )}
+          />
         </section>
       </div>
     </div>
