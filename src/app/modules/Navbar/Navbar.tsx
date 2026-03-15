@@ -7,6 +7,7 @@ import {
   BookOpen,
   CalendarIcon,
   HomeIcon,
+  ImageIcon,
   MapIcon,
   MedalIcon,
   Shield,
@@ -83,6 +84,13 @@ export const Navbar = () => {
             >
               <CalendarIcon className="w-4 h-4" />
               Events
+            </Link>
+            <Link
+              href="/gallery"
+              className={linkClass + activeLinkClass('gallery')}
+            >
+              <ImageIcon className="w-4 h-4" />
+              Gallery
             </Link>
             <Link
               href="/hall-of-fame"
