@@ -8,22 +8,38 @@ import {
   CalendarIcon,
   HomeIcon,
   MapIcon,
+  MedalIcon,
   Shield,
   UserIcon,
   UsersIcon,
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 export const Navbar = () => {
   const { user, isLoaded } = useUser()
+  const pathname = usePathname()
+  const [activePage, setActivePage] = useState<string>('')
+
+  useEffect(() => {
+    setTimeout(() => {
+      setActivePage(pathname?.split('/').slice(1).join('/') ?? '')
+    }, 10)
+  }, [pathname])
 
   const linkClass =
-    'text-sm font-medium text-slate-700 flex items-center gap-2 hover:underline-offset-10 hover:underline hover:text-primary'
+    'text-sm font-medium flex items-center gap-2 hover:underline-offset-10 hover:underline '
 
   if (!isLoaded || !user) {
     return null
   }
+
+  const activeLinkClass = (page: string) =>
+    page === activePage
+      ? ' text-primary font-bold'
+      : ' text-slate-700 hover:text-primary'
 
   const userName = user.fullName
 
@@ -51,29 +67,54 @@ export const Navbar = () => {
             </div>
           </div>
           <div className="flex items-center gap-6">
-            <Link href="/" className={linkClass}>
+            <Link href="/" className={linkClass + activeLinkClass('/')}>
               <HomeIcon className="w-4 h-4" /> Home
             </Link>
-            <Link href="/blogs" className={linkClass}>
+            <Link
+              href="/blogs"
+              className={linkClass + activeLinkClass('blogs')}
+            >
               <BookOpen className="w-4 h-4" />
               Blogs
             </Link>
-            <Link href="/events" className={linkClass}>
+            <Link
+              href="/events"
+              className={linkClass + activeLinkClass('events')}
+            >
               <CalendarIcon className="w-4 h-4" />
               Events
             </Link>
-            <Link href="/roadmaps" className={linkClass}>
+            <Link
+              href="/hall-of-fame"
+              className={linkClass + activeLinkClass('hall-of-fame')}
+            >
+              <MedalIcon className="w-4 h-4" />
+              Hall of Fame
+            </Link>
+            <Link
+              href="/roadmaps"
+              className={linkClass + activeLinkClass('roadmaps')}
+            >
               <MapIcon className="w-4 h-4" />
               Roadmaps
             </Link>
-            <Link href="/students" className={linkClass}>
+            <Link
+              href="/students"
+              className={linkClass + activeLinkClass('students')}
+            >
               <UsersIcon className="w-4 h-4" />
               Students
             </Link>
-            <Link href="/secured/profile" className={linkClass}>
+            <Link
+              href="/secured/profile"
+              className={linkClass + activeLinkClass('secured/profile')}
+            >
               <UserIcon className="w-4 h-4" /> Profile
             </Link>
-            <Link href="/secured/admin" className={linkClass}>
+            <Link
+              href="/secured/admin"
+              className={linkClass + activeLinkClass('secured/admin')}
+            >
               <Shield className="w-4 h-4" /> Adminstration
             </Link>
           </div>

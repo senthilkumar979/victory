@@ -22,7 +22,6 @@ interface BlogGridProps {
 }
 
 export function BlogGrid({ blogs }: BlogGridProps) {
-  console.log('blogs', blogs)
   return (
     <motion.div
       variants={container}

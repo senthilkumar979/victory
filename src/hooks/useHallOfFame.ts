@@ -39,13 +39,20 @@ export const useHallOfFame = (): UseHallOfFameReturn => {
       const emails = [...new Set(entriesRaw.map((e) => e.student_email))]
       const { data: studentsData } = await supabase
         .from('students')
-        .select('email, name, picture, batch')
+        .select('id, email, name, picture, batch, role, company')
         .in('email', emails)
 
       const studentByEmail = new Map(
         (studentsData ?? []).map((s) => [
           s.email,
-          { name: s.name, picture: s.picture, batch: s.batch },
+          {
+            id: s.id,
+            name: s.name,
+            picture: s.picture,
+            batch: s.batch,
+            role: s.role,
+            company: s.company,
+          },
         ]),
       )
 
@@ -78,7 +85,7 @@ export const useHallOfFame = (): UseHallOfFameReturn => {
           .from('hall_of_fame')
           .insert({
             student_email: payload.student_email,
-            date_of_induction: payload.date_of_induction,
+            date_of_induction: payload.date_of_induction?.toString?.().split('T')[0] ?? payload.date_of_induction,
           })
 
         if (insertError) throw insertError

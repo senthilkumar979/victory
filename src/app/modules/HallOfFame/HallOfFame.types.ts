@@ -1,7 +1,10 @@
 export interface HallOfFameEntryStudent {
+  id?: string
   name: string
   picture: string
   batch: string | number
+  role: string
+  company: string
 }
 
 export interface HallOfFameEntry {
@@ -10,6 +13,8 @@ export interface HallOfFameEntry {
   date_of_induction: string
   created_at?: string
   student?: HallOfFameEntryStudent
+  role?: string
+  company?: string
 }
 
 export interface HallOfFameFormDrawerProps {
