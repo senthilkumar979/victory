@@ -37,7 +37,7 @@ export const useCreateStudentProfile = () => {
       const templateId = RESEND_TEMPLATE_IDS.STUDENT_PROFILE_CREATED
       if (templateId?.trim()) {
         try {
-          await fetch('/api/email/send-with-template', {
+          const res = await fetch('/api/email/send-with-template', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -49,6 +49,10 @@ export const useCreateStudentProfile = () => {
               },
             }),
           })
+          if (!res.ok) {
+            const body = await res.json().catch(() => ({}))
+            console.error('Failed to send student profile email:', res.status, body?.error ?? body)
+          }
         } catch (err) {
           console.error('Failed to send student profile email', err)
         }

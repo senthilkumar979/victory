@@ -54,10 +54,14 @@ export async function POST(request: NextRequest) {
     })
 
     if (result.error) {
-      return NextResponse.json(
-        { error: result.error.message ?? 'Failed to send email' },
-        { status: 502 },
-      )
+      const errorMessage = result.error.message ?? 'Failed to send email'
+      // eslint-disable-next-line no-console
+      console.error('Resend template send failed:', {
+        message: result.error.message,
+        name: result.error.name,
+        statusCode: (result.error as { statusCode?: number }).statusCode,
+      })
+      return NextResponse.json({ error: errorMessage }, { status: 502 })
     }
 
     return NextResponse.json({ id: result.data?.id }, { status: 200 })

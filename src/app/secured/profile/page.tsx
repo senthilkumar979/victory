@@ -3,11 +3,11 @@
 import { useUser } from '@clerk/nextjs'
 import { useEffect, useState } from 'react'
 
-import { Button } from '@/atoms/button/Button'
+import { PrimaryButton } from '@/atoms/button/Button'
 import { useCheckIsAuthenticated } from '@/hooks/useCheckIsAuthenticated'
 import { supabase } from '@/lib/supabaseClient'
 import { ProfileData } from '@/types/student.types'
-import { Pencil } from 'lucide-react'
+import { BotIcon, Pencil } from 'lucide-react'
 import { StudentProfileView } from '../../../components/profile/StudentProfileView'
 import { ProfileEditForm } from '../../profile/[id]/edit/ProfileEditForm'
 
@@ -67,15 +67,20 @@ const ProfilePage = () => {
         ) : (
           <>
             <div className="flex justify-end">
-              <Button
-                variant="primary"
-                mode="outline"
-                size="sm"
-                onClick={() => setIsEditMode(true)}
-              >
-                <Pencil className="size-4" />
-                Edit Profile
-              </Button>
+              <div className="flex items-center gap-2">
+                <PrimaryButton size="sm" mode="outline">
+                  <BotIcon className="size-4" />
+                  Generate Self Intro
+                </PrimaryButton>
+                <PrimaryButton
+                  mode="outline"
+                  size="sm"
+                  onClick={() => setIsEditMode(true)}
+                >
+                  <Pencil className="size-4" />
+                  Edit Profile
+                </PrimaryButton>
+              </div>
             </div>
             <div className="mt-8">
               {student && <StudentProfileView student={student} />}
