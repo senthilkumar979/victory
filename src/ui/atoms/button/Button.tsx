@@ -1,7 +1,7 @@
 import { defaultTheme, type Theme } from "@/core/theme/theme";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-export type ButtonVariant = "primary" | "secondary" | "text" | "tertiary" | "error" | "textPrimary" | "textSecondary" | "textTertiary" | "textError";
+export type ButtonVariant = "primary" | "secondary" | "text" | "tertiary" | "error" | "info"| "textPrimary" | "textSecondary" | "textTertiary" | "textError" | "textInfo" | "textSuccess" | "textWarning";
 export type ButtonMode = "solid" | "outline";
 export type ButtonSize = "sm" | "md" | "lg";
 
@@ -47,6 +47,10 @@ const getVariantClasses = (
   }
 
   if (mode === "outline") return button.primaryOutline;
+
+  if (variant === "info") {
+    return button.textInfo;
+  }
 
   if (variant.startsWith("text")) {
     return button[variant]

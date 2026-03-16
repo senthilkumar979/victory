@@ -4,9 +4,9 @@ import { useState } from 'react'
 
 import { useMeetings } from '@/hooks/useMeetings'
 
-import type { MeetingFormState } from './Meeting.types'
 import { AttendanceTrackerDrawer } from './AttendanceTrackerDrawer'
 import { DeleteMeeting } from './DeleteMeeting'
+import type { MeetingFormState } from './Meeting.types'
 import { MeetingFormDrawer } from './MeetingFormDrawer'
 import { MeetingsHeader } from './MeetingsHeader'
 import { MeetingsListStates } from './MeetingsListStates'
@@ -19,10 +19,14 @@ export const AdminMeetings = () => {
   const [formState, setFormState] = useState<MeetingFormState | undefined>(
     undefined,
   )
-  const [meetingToDelete, setMeetingToDelete] =
-    useState<MeetingFormState | null>(null)
-  const [attendanceMeeting, setAttendanceMeeting] =
-    useState<MeetingFormState | null>(null)
+  const [
+    meetingToDelete,
+    setMeetingToDelete,
+  ] = useState<MeetingFormState | null>(null)
+  const [
+    attendanceMeeting,
+    setAttendanceMeeting,
+  ] = useState<MeetingFormState | null>(null)
 
   const handleOpenCreate = () => {
     setFormState(undefined)
@@ -68,6 +72,14 @@ export const AdminMeetings = () => {
     refetch()
   }
 
+  const handleOpenMeeting = (meeting: MeetingFormState) => {
+    window.open(meeting.meetingLink, '_blank')
+  }
+
+  const handleOpenFeedback = (meeting: MeetingFormState) => {
+    window.open(meeting.feedbackForm, '_blank')
+  }
+
   const handleOpenAttendance = (meeting: MeetingFormState) => {
     setAttendanceMeeting(meeting)
   }
@@ -99,6 +111,8 @@ export const AdminMeetings = () => {
               onEdit={handleOpenEdit}
               onDelete={handleOpenDelete}
               onAttendance={handleOpenAttendance}
+              openMeeting={handleOpenMeeting}
+              openFeedback={handleOpenFeedback}
             />
           )}
         </div>

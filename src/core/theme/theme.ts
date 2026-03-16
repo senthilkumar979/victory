@@ -13,6 +13,10 @@ export interface ButtonTheme {
   textSecondary: string;
   textTertiary: string;
   textError: string;
+  info: string;
+  textInfo: string;
+  textSuccess: string;
+  textWarning: string;
 }
 
 export type BadgeColor =
@@ -76,6 +80,14 @@ export const defaultTheme: Theme = {
       "bg-transparent text-muted-foreground hover:bg-muted-foreground hover:text-white focus-visible:ring-muted-foreground",
     textError:
       "bg-transparent text-red-500 hover:bg-red-500 hover:text-white focus-visible:ring-red-500",
+    info:
+      "bg-info text-info-foreground hover:bg-info hover:text-white focus-visible:ring-info",
+    textInfo:
+      "bg-transparent text-info hover:bg-info hover:text-white focus-visible:ring-info",
+    textSuccess:
+      "bg-transparent text-success hover:bg-success hover:text-white focus-visible:ring-success",
+    textWarning:
+      "bg-transparent text-warning hover:bg-warning hover:text-white focus-visible:ring-warning",
   },
   badge: {
     primary: {

@@ -1,6 +1,12 @@
-import { ClipboardListIcon, ListCheckIcon, PencilIcon, TrashIcon } from 'lucide-react'
+import {
+  ClipboardListIcon,
+  LinkIcon,
+  MessageCircleMoreIcon,
+  PencilIcon,
+  TrashIcon,
+} from 'lucide-react'
 
-import { TextButton } from '@/atoms/button/Button'
+import { Button, TextButton } from '@/atoms/button/Button'
 
 import { CalendarDate } from '@/templates/CalendarDate'
 import type { MeetingFormState } from './Meeting.types'
@@ -10,6 +16,8 @@ interface MeetingsTableProps {
   onEdit: (meeting: MeetingFormState) => void
   onDelete: (meeting: MeetingFormState) => void
   onAttendance: (meeting: MeetingFormState) => void
+  openMeeting: (meeting: MeetingFormState) => void
+  openFeedback: (meeting: MeetingFormState) => void
 }
 
 export const MeetingsTable = ({
@@ -17,6 +25,8 @@ export const MeetingsTable = ({
   onEdit,
   onDelete,
   onAttendance,
+  openMeeting,
+  openFeedback,
 }: MeetingsTableProps) => (
   <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
     <table className="min-w-full divide-y divide-slate-200 bg-white">
@@ -30,9 +40,6 @@ export const MeetingsTable = ({
           </th>
           <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
             Google Group
-          </th>
-          <th className="max-w-xs px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
-            Preview
           </th>
           <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
             Actions
@@ -51,25 +58,10 @@ export const MeetingsTable = ({
             <td className="whitespace-nowrap px-4 py-3 text-sm text-slate-700">
               {meeting.googleGroupId || '—'}
             </td>
-            <td className="max-w-xs px-4 py-3 text-sm text-slate-700">
-              <div
-                className="line-clamp-2"
-                dangerouslySetInnerHTML={{
-                  __html: meeting.description || '—',
-                }}
-              />
-            </td>
             <td className="whitespace-nowrap px-4 py-3 text-right text-sm">
               <div className="flex items-center justify-end gap-2">
                 <TextButton
-                  variant="textTertiary"
-                  onClick={() => onAttendance(meeting)}
-                  aria-label="Mark attendance"
-                >
-                  <ClipboardListIcon className="size-4" />
-                </TextButton>
-                <TextButton
-                  variant="textTertiary"
+                  variant="textSecondary"
                   onClick={() => onEdit(meeting)}
                 >
                   <PencilIcon className="size-4" />
@@ -80,11 +72,28 @@ export const MeetingsTable = ({
                 >
                   <TrashIcon className="size-4" />
                 </TextButton>
+                {meeting?.meetingLink && (
+                  <Button
+                    variant="textInfo"
+                    onClick={() => openMeeting(meeting)}
+                  >
+                    <LinkIcon className="size-4" />
+                  </Button>
+                )}
+                {meeting?.feedbackForm && (
+                  <TextButton
+                    variant="textWarning"
+                    onClick={() => openFeedback(meeting)}
+                  >
+                    <MessageCircleMoreIcon className="size-4" />
+                  </TextButton>
+                )}
                 <TextButton
-                  variant="textSecondary"
+                  variant="textSuccess"
                   onClick={() => onAttendance(meeting)}
+                  aria-label="Mark attendance"
                 >
-                  <ListCheckIcon className="size-4" />
+                  <ClipboardListIcon className="size-4" />
                 </TextButton>
               </div>
             </td>
