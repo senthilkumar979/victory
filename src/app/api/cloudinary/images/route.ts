@@ -30,8 +30,6 @@ export async function GET(request: NextRequest) {
       nodeEnv: process.env.NODE_ENV,
     };
 
-    console.log("Environment debug:", envDebug);
-
     // Validate environment variables
     if (
       !process.env.CLOUDINARY_CLOUD_NAME ||
