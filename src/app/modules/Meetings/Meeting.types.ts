@@ -5,7 +5,16 @@ export interface MeetingFormState {
   googleGroupId: string
   description: string
   meetingLink: string
-  coverImageUrl: string
+  coverImageUrl: string,
+  attendance?: number[]
+}
+
+export interface StudentForAttendance {
+  id: string
+  name: string
+  picture: string
+  batch: string
+  serialNo: number
 }
 
 export interface MeetingFormDrawerProps {

@@ -8,7 +8,7 @@ import type { MeetingFormState } from '@/app/modules/Meetings/Meeting.types'
 const MEETINGS_TABLE = 'meetings'
 const DEFAULT_PAGE_LIMIT = 30
 const SELECT_COLS =
-  'id, title, date, google_group_id, description, meeting_link, cover_image_url'
+  'id, title, date, google_group_id, description, meeting_link, cover_image_url, attendance'
 
 interface UseMeetingsOptions {
   page?: number

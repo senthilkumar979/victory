@@ -1,4 +1,4 @@
-import { PencilIcon, TrashIcon } from 'lucide-react'
+import { ClipboardListIcon, ListCheckIcon, PencilIcon, TrashIcon } from 'lucide-react'
 
 import { TextButton } from '@/atoms/button/Button'
 
@@ -9,12 +9,14 @@ interface MeetingsTableProps {
   meetings: MeetingFormState[]
   onEdit: (meeting: MeetingFormState) => void
   onDelete: (meeting: MeetingFormState) => void
+  onAttendance: (meeting: MeetingFormState) => void
 }
 
 export const MeetingsTable = ({
   meetings,
   onEdit,
   onDelete,
+  onAttendance,
 }: MeetingsTableProps) => (
   <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
     <table className="min-w-full divide-y divide-slate-200 bg-white">
@@ -61,6 +63,13 @@ export const MeetingsTable = ({
               <div className="flex items-center justify-end gap-2">
                 <TextButton
                   variant="textTertiary"
+                  onClick={() => onAttendance(meeting)}
+                  aria-label="Mark attendance"
+                >
+                  <ClipboardListIcon className="size-4" />
+                </TextButton>
+                <TextButton
+                  variant="textTertiary"
                   onClick={() => onEdit(meeting)}
                 >
                   <PencilIcon className="size-4" />
@@ -70,6 +79,12 @@ export const MeetingsTable = ({
                   onClick={() => onDelete(meeting)}
                 >
                   <TrashIcon className="size-4" />
+                </TextButton>
+                <TextButton
+                  variant="textSecondary"
+                  onClick={() => onAttendance(meeting)}
+                >
+                  <ListCheckIcon className="size-4" />
                 </TextButton>
               </div>
             </td>

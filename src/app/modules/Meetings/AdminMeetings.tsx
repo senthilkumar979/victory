@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useMeetings } from '@/hooks/useMeetings'
 
 import type { MeetingFormState } from './Meeting.types'
+import { AttendanceTrackerDrawer } from './AttendanceTrackerDrawer'
 import { DeleteMeeting } from './DeleteMeeting'
 import { MeetingFormDrawer } from './MeetingFormDrawer'
 import { MeetingsHeader } from './MeetingsHeader'
@@ -19,6 +20,8 @@ export const AdminMeetings = () => {
     undefined,
   )
   const [meetingToDelete, setMeetingToDelete] =
+    useState<MeetingFormState | null>(null)
+  const [attendanceMeeting, setAttendanceMeeting] =
     useState<MeetingFormState | null>(null)
 
   const handleOpenCreate = () => {
@@ -65,6 +68,14 @@ export const AdminMeetings = () => {
     refetch()
   }
 
+  const handleOpenAttendance = (meeting: MeetingFormState) => {
+    setAttendanceMeeting(meeting)
+  }
+
+  const handleCloseAttendance = () => {
+    setAttendanceMeeting(null)
+  }
+
   const showStates = isLoading || error || meetings.length === 0
   const showTable = !isLoading && !error && meetings.length > 0
 
@@ -87,6 +98,7 @@ export const AdminMeetings = () => {
               meetings={meetings}
               onEdit={handleOpenEdit}
               onDelete={handleOpenDelete}
+              onAttendance={handleOpenAttendance}
             />
           )}
         </div>
@@ -103,6 +115,12 @@ export const AdminMeetings = () => {
           meetingToDelete={meetingToDelete}
           onClose={handleDeleteClose}
           onDeleted={handleDeleted}
+        />
+
+        <AttendanceTrackerDrawer
+          isOpen={Boolean(attendanceMeeting)}
+          meeting={attendanceMeeting}
+          onClose={handleCloseAttendance}
         />
       </div>
     </div>
