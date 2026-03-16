@@ -9,6 +9,7 @@ interface SendEmailWithTemplatePayload {
   subject?: string
   variables?: Record<string, unknown>
   from?: string
+  cc?: string | string[]
 }
 
 export async function POST(request: NextRequest) {
@@ -27,7 +28,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
   }
 
-  const { to, subject, templateId, variables, from } = body
+  const { to, subject, templateId, variables, from, cc } = body
 
   if (!to || !templateId) {
     return NextResponse.json(
@@ -42,6 +43,7 @@ export async function POST(request: NextRequest) {
     const result = await resend.emails.send({
       from: fromAddress,
       to,
+      cc: cc ?? undefined,
       subject,
       template: {
         id: templateId,

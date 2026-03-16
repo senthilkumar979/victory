@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 export const awardFormSchema = z.object({
   awardedTo: z.string().trim().min(1, 'Recipient email is required'),
+  awardedToName: z.string().trim().optional(),
   awardedOn: z
     .string()
     .trim()

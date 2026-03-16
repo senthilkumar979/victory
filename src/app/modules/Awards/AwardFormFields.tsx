@@ -57,7 +57,10 @@ export const AwardFormFields = ({
             )}
             <UserSearch
               placeholder="Search students by name..."
-              onSelect={(student) => field.onChange(student.email)}
+              onSelect={(student) => {
+                field.onChange(student.email)
+                form.setValue('awardedToName', student.name)
+              }}
             />
             {errors.awardedTo && (
               <p className="mt-1 text-xs text-red-400">

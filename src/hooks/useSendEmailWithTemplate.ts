@@ -5,6 +5,7 @@ interface SendEmailWithTemplatePayload {
   templateId: string
   subject?: string
   variables?: Record<string, unknown>
+  cc?: string | string[]
 }
 
 interface SendEmailWithTemplateResponse {

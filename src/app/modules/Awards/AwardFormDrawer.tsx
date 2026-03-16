@@ -1,15 +1,18 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 
+import { RESEND_TEMPLATE_IDS } from '@/constants/ThirdPartyConstants'
+import { useAwardCategories } from '@/hooks/useAwardCategories'
 import { useAwards } from '@/hooks/useAwards'
+import { useSendEmailWithTemplate } from '@/hooks/useSendEmailWithTemplate'
 import { Drawer } from '@/ui/organisms/drawer/Drawer'
-import { gooeyToast } from 'goey-toast'
 import { Check, XIcon } from 'lucide-react'
 
 import { Button } from '@/atoms/button/Button'
+import { gooeyToast } from 'goey-toast'
 import type { AwardFormDrawerProps, AwardFormState } from './Award.types'
 import { AwardFormFields } from './AwardFormFields'
 import {
@@ -24,6 +27,8 @@ const toFormValues = (a: AwardFormState | null): AwardFormValues => ({
   awardCategoryId: a?.awardCategoryId ?? '',
 })
 
+const CC_EMAIL = 'senthilkumar@mentorbridge.in, mentorbridgeindia@gmail.com'
+
 export const AwardFormDrawer = ({
   isOpen,
   awardToEdit,
@@ -31,6 +36,8 @@ export const AwardFormDrawer = ({
   onSuccess,
 }: AwardFormDrawerProps) => {
   const { createAward, updateAward } = useAwards()
+  const { sendEmail } = useSendEmailWithTemplate()
+  const { categories } = useAwardCategories()
   const form = useForm<AwardFormValues>({
     resolver: zodResolver(awardFormSchema),
     defaultValues: toFormValues(null),
@@ -56,6 +63,26 @@ export const AwardFormDrawer = ({
         await updateAward(awardToEdit.id, payload)
       } else {
         await createAward(payload)
+        const templateId = RESEND_TEMPLATE_IDS.AWARD_WINNER
+        if (templateId?.trim()) {
+          const categoryName =
+            categories.find((c) => c.id === payload.awardCategoryId)
+              ?.name ?? ''
+          try {
+            await sendEmail({
+              to: payload.awardedTo,
+              cc: CC_EMAIL,
+              templateId,
+              subject: 'Congratulations on your Award!',
+              variables: {
+                award_winner: data.awardedToName,
+                award_name: categoryName,
+              },
+            })
+          } catch {
+            // Email failure shouldn't block award creation
+          }
+        }
       }
       gooeyToast.success('Award saved successfully.', {
         description: <span>To {payload.awardedTo}</span>,
