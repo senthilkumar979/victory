@@ -8,7 +8,7 @@ import type { MeetingFormState } from '@/app/modules/Meetings/Meeting.types'
 
 const MEETINGS_TABLE = 'meetings'
 const SELECT_COLS =
-  'id, title, date, google_group_id, description, meeting_link, cover_image_url'
+  'id, title, date, google_group_id, description, meeting_link, cover_image_url, attendance'
 const IST_TIMEZONE = 'Asia/Kolkata'
 
 const DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const
@@ -29,6 +29,11 @@ export interface UseMeetingsForWeekReturn {
 }
 
 function mapRow(row: Record<string, unknown>): MeetingFormState {
+  const arr = (row.attendance ?? []) as unknown[]
+  const attendance = arr
+    .map((n) => Number(n))
+    .filter((n) => !Number.isNaN(n) && n > 0)
+    .sort((a, b) => a - b)
   return {
     id: row.id as string,
     title: (row.title as string) ?? '',
@@ -37,6 +42,7 @@ function mapRow(row: Record<string, unknown>): MeetingFormState {
     description: (row.description as string) ?? '',
     meetingLink: (row.meeting_link as string) ?? '',
     coverImageUrl: (row.cover_image_url as string) ?? '',
+    attendance: attendance.length > 0 ? attendance : undefined,
   }
 }
 

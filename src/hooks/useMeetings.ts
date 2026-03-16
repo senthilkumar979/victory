@@ -32,6 +32,11 @@ interface UseMeetingsReturn {
 }
 
 function mapRow(row: Record<string, unknown>): MeetingFormState {
+  const arr = (row.attendance ?? []) as unknown[]
+  const attendance = arr
+    .map((n) => Number(n))
+    .filter((n) => !Number.isNaN(n) && n > 0)
+    .sort((a, b) => a - b)
   return {
     id: row.id as string,
     title: (row.title as string) ?? '',
@@ -40,6 +45,7 @@ function mapRow(row: Record<string, unknown>): MeetingFormState {
     description: (row.description as string) ?? '',
     meetingLink: (row.meeting_link as string) ?? '',
     coverImageUrl: (row.cover_image_url as string) ?? '',
+    attendance: attendance.length > 0 ? attendance : undefined,
   }
 }
 
