@@ -4,7 +4,8 @@ import { supabase } from '@/lib/supabaseClient'
 
 import type { ProfileData } from '@/types/student.types'
 
-interface ProfileUpdatePayload {
+export interface ProfileUpdatePayload {
+  id?: string
   name: string
   picture?: string
   role: string
@@ -22,12 +23,13 @@ interface ProfileUpdatePayload {
   socialLinks?: ProfileData['socialLinks']
 }
 
-function toSupabasePayload(payload: ProfileUpdatePayload) {
+export function toSupabasePayload(payload: ProfileUpdatePayload) {
   const batchVal = payload.batch.trim()
   const batchNum = parseInt(batchVal, 10)
   const batch = !Number.isNaN(batchNum) ? batchNum : batchVal
 
   return {
+    id: payload.id?.trim() ?? null,
     name: payload.name.trim(),
     picture: payload.picture?.trim() || null,
     role: payload.role.trim(),

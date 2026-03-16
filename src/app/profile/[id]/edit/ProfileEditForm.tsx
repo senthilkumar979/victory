@@ -1,7 +1,6 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
@@ -12,6 +11,7 @@ import { motion } from 'framer-motion'
 import { gooeyToast } from 'goey-toast'
 import { ArrowLeft, Loader2, Save } from 'lucide-react'
 
+import { useCreateStudentProfile } from '@/hooks/useCreateStudentProfile'
 import type { ProfileData } from '@/types/student.types'
 import { ProfileEditFormFields } from './ProfileEditFormFields'
 import {
@@ -73,13 +73,16 @@ function parseCommaList(s: string | undefined): string[] {
 }
 
 interface ProfileEditFormProps {
-  student: ProfileData
+  student: ProfileData | null
   studentId: string
+  email?: string | null
+  onBack?: () => void
 }
 
-export const ProfileEditForm = ({ student, studentId }: ProfileEditFormProps) => {
+export const ProfileEditForm = ({ student, studentId, email, onBack }: ProfileEditFormProps) => {
   const router = useRouter()
   const { updateStudent } = useUpdateStudent()
+  const { createStudentProfile } = useCreateStudentProfile();
   const form = useForm<ProfileEditFormValues>({
     resolver: zodResolver(profileEditFormSchema),
     defaultValues: toFormValues(student),
@@ -87,8 +90,11 @@ export const ProfileEditForm = ({ student, studentId }: ProfileEditFormProps) =>
   })
 
   useEffect(() => {
-    form.reset(toFormValues(student))
-  }, [student, form])
+      form.reset({
+        ...toFormValues(student ?? null),
+        email: email ?? student?.email ?? '',
+      })
+  }, [student, form, email])
 
   const handleSubmit = form.handleSubmit(async (data) => {
     try {
@@ -107,7 +113,7 @@ export const ProfileEditForm = ({ student, studentId }: ProfileEditFormProps) =>
         (e) => e.company?.trim() || e.role?.trim()
       )
 
-      await updateStudent(studentId, {
+      const payload = {
         name: data.name,
         picture: data.picture || undefined,
         role: data.role,
@@ -123,7 +129,13 @@ export const ProfileEditForm = ({ student, studentId }: ProfileEditFormProps) =>
         experience: validExperience?.length ? validExperience : undefined,
         mentorBridgeExp: data.mentorBridgeExp,
         socialLinks,
-      })
+      }
+
+      if(studentId) {
+        await updateStudent(studentId, payload)
+      } else {
+        await createStudentProfile(payload)
+      }
 
       gooeyToast.success('Profile updated successfully.', {
         description: `${data.name}'s profile has been saved.`,
@@ -132,14 +144,21 @@ export const ProfileEditForm = ({ student, studentId }: ProfileEditFormProps) =>
         borderWidth: 2,
         timing: { displayDuration: 5000 },
       })
-      router.push(`/student-detail/${studentId}`)
+      router.back();
     } catch (err) {
-      console.error(err)
       gooeyToast.error('Failed to update profile.', {
         description: err instanceof Error ? err.message : 'Please try again.',
       })
     }
   })
+
+  const handleBack = () => {
+    if(onBack) {
+      onBack()
+    } else {
+      router.back()
+    }
+  }
 
   const isSubmitting = form.formState.isSubmitting
 
@@ -151,12 +170,9 @@ export const ProfileEditForm = ({ student, studentId }: ProfileEditFormProps) =>
       className="space-y-8"
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <Link
-          href={`/student-detail/${studentId}`}
-          className="inline-flex w-fit items-center gap-2 text-sm font-medium text-slate-600 transition-colors hover:text-primary"
-        >
+        <Button variant="textSecondary" type="button" size="md" onClick={handleBack}>
           <ArrowLeft className="size-4" /> Back to profile
-        </Link>
+        </Button>
       </div>
 
       <form
@@ -182,11 +198,9 @@ export const ProfileEditForm = ({ student, studentId }: ProfileEditFormProps) =>
         </div>
 
         <div className="flex flex-wrap items-center justify-end gap-4 border-t border-slate-200/60 bg-white/40 px-8 py-6 backdrop-blur-sm lg:px-12">
-          <Link href={`/student-detail/${studentId}`}>
-            <Button variant="tertiary" type="button" size="md">
+            <Button variant="tertiary" type="button" size="md" onClick={handleBack}>
               Cancel
             </Button>
-          </Link>
           <PrimaryButton
             type="submit"
             form="profile-edit-form"

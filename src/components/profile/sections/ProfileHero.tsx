@@ -82,7 +82,7 @@ export const ProfileHero = ({ student }: ProfileHeroProps) => {
               />
             ) : (
               <div className="relative z-10 flex size-36 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 text-5xl font-bold text-primary shadow-xl ring-4 ring-white/80 sm:size-44 letter-spacing-wide lg:size-52 uppercase">
-                {name ?? '?'}
+                {name?.charAt(0).toUpperCase() ?? '?'}
               </div>
             )}
             <div className="absolute -inset-4 -z-0 rounded-3xl bg-primary/10 blur-2xl" />

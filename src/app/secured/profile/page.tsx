@@ -3,14 +3,16 @@
 import { useUser } from '@clerk/nextjs'
 import { useEffect, useState } from 'react'
 
+import { Button } from '@/atoms/button/Button'
 import { useCheckIsAuthenticated } from '@/hooks/useCheckIsAuthenticated'
 import { supabase } from '@/lib/supabaseClient'
 import { ProfileData } from '@/types/student.types'
+import { Pencil } from 'lucide-react'
 import { StudentProfileView } from '../../../components/profile/StudentProfileView'
+import { ProfileEditForm } from '../../profile/[id]/edit/ProfileEditForm'
 
-const getPrimaryEmail = (
-  user: NonNullable<ReturnType<typeof useUser>['user']>,
-) => {
+const getPrimaryEmail = (user: ReturnType<typeof useUser>['user'] | null) => {
+  if (!user) return null
   const primary = user.emailAddresses.find(
     (e) => e.id === user.primaryEmailAddressId,
   )
@@ -19,22 +21,13 @@ const getPrimaryEmail = (
 
 const ProfilePage = () => {
   useCheckIsAuthenticated()
-  const { user, isLoaded } = useUser()
+  const { user } = useUser()
   const [student, setStudent] = useState<ProfileData | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isEditMode, setIsEditMode] = useState(false)
+
+  const email = getPrimaryEmail(user)
 
   useEffect(() => {
-    if (!isLoaded || !user) {
-      setIsLoading(false)
-      return
-    }
-
-    const email = getPrimaryEmail(user)
-    if (!email) {
-      setIsLoading(false)
-      return
-    }
-
     const fetchStudent = async () => {
       try {
         const { data, error } = await supabase
@@ -42,35 +35,53 @@ const ProfilePage = () => {
           .select('*')
           .eq('email', email)
           .maybeSingle()
-
-        if (error) {
+        if (error || !data?.name) {
           console.error('Error fetching student:', error)
           setStudent(null)
+          setIsEditMode(true)
         } else if (data?.name) {
           setStudent(data)
+          setIsEditMode(false)
         }
-      } finally {
-        setIsLoading(false)
+      } catch (error) {
+        console.error('Error fetching student:', error)
+        setStudent(null)
+        setIsEditMode(true)
       }
     }
 
+    if (!email) return
     fetchStudent()
-  }, [user, isLoaded])
+  }, [email, user])
 
-  return isLoading ? (
-    <p className="text-sm text-zinc-500 dark:text-zinc-400">Loading...</p>
-  ) : student ? (
+  return (
     <div className="min-h-screen w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-white to-slate-50">
       <div className="mx-auto w-full max-w-[1600px] px-4 py-10 sm:px-6 lg:px-10 xl:px-14">
-        <div className="mt-8">
-          <StudentProfileView student={student} />
-        </div>
-      </div>
-    </div>
-  ) : (
-    <div className="min-h-screen w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-white to-slate-50">
-      <div className="mx-auto w-full max-w-[1600px] px-4 py-10 sm:px-6 lg:px-10 xl:px-14">
-        <div className="mt-8 text-slate-500">No student found</div>
+        {isEditMode ? (
+          <ProfileEditForm
+            student={student ?? null}
+            studentId={student?.id ?? ''}
+            email={email}
+            onBack={() => setIsEditMode(false)}
+          />
+        ) : (
+          <>
+            <div className="flex justify-end">
+              <Button
+                variant="primary"
+                mode="outline"
+                size="sm"
+                onClick={() => setIsEditMode(true)}
+              >
+                <Pencil className="size-4" />
+                Edit Profile
+              </Button>
+            </div>
+            <div className="mt-8">
+              {student && <StudentProfileView student={student} />}
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

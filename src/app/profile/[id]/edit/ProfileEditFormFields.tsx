@@ -113,16 +113,24 @@ export const ProfileEditFormFields = ({
               )}
             </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <FormInput
-              id={`${formId}-name`}
-              label="Full Name"
-              type="text"
-              placeholder="John Doe"
-              isRequired
-              className="text-secondary"
-              errorMessage={errors.name?.message}
-              validationStatus={errors.name ? 'invalid' : 'default'}
-              {...register('name')}
+            <Controller
+              name="name"
+              control={control}
+              render={({ field }) => (
+                <FormInput
+                  id={`${formId}-name`}
+                  label="Full Name"
+                  type="text"
+                  placeholder="John Doe"
+                  isRequired
+                  className="text-secondary"
+                  errorMessage={errors.name?.message}
+                  validationStatus={errors.name ? 'invalid' : 'default'}
+                  value={field.value ?? ''}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                />
+              )}
             />
             <FormInput
               id={`${formId}-email`}
@@ -131,6 +139,7 @@ export const ProfileEditFormFields = ({
               placeholder="john@example.com"
               isRequired
               className="text-secondary"
+              readOnly={true}
               errorMessage={errors.email?.message}
               validationStatus={errors.email ? 'invalid' : 'default'}
               {...register('email')}

@@ -68,7 +68,12 @@ export const FormInput = ({
       <div className="relative px-1 py-1">
         <input
           id={inputId}
-          className={joinClassNames(baseInputClass, validationClass, className)}
+          className={joinClassNames(
+            baseInputClass,
+            validationClass,
+            className,
+            inputProps.readOnly ? 'bg-muted/20 cursor-not-allowed pointer-events-none user-select-none' : '',
+          )}
           aria-invalid={validationStatus === 'invalid' || undefined}
           aria-describedby={describedByIds}
           {...inputProps}
