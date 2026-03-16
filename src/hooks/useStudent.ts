@@ -1,28 +1,9 @@
 import { supabase } from "@/lib/supabaseClient";
 import { useCallback, useEffect, useState } from "react";
 import { ProfileData, UseStudentReturn } from "../types/student.types";
+import { safeJsonParse } from "../utils/parseUtils";
 
-// Safe JSON parsing function
-const safeJsonParse = (value: unknown, fallback: unknown = null) => {
-  if (!value) return fallback;
 
-  // If it's already an object/array, return it
-  if (typeof value === "object") {
-    return value;
-  }
-
-  // If it's a string, try to parse it
-  if (typeof value === "string") {
-    try {
-      return JSON.parse(value);
-    } catch (error) {
-      console.warn("Failed to parse JSON:", value, error);
-      return fallback;
-    }
-  }
-
-  return fallback;
-};
 
 export const useStudent = (studentId: string): UseStudentReturn => {
   const [student, setStudent] = useState<ProfileData | null>(null);
@@ -66,8 +47,8 @@ export const useStudent = (studentId: string): UseStudentReturn => {
           mediumUsername: data.medium_username ?? undefined,
           experience: safeJsonParse(data.experience, []),
           mentorBridgeExp: safeJsonParse(data.mentor_bridge_exp, {}),
-          skillSets: safeJsonParse(data.skill_sets, []),
-          inspirations: safeJsonParse(data.inspirations, []),
+          skillSets: safeJsonParse(data.skill_sets, []) as string[],
+          inspirations: safeJsonParse(data.inspirations, []) as string[],
           socialLinks: safeJsonParse(data.social_links, {}),
           resumeLink: data.resume_link,
           batch: data.batch,

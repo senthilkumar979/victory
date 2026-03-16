@@ -39,6 +39,7 @@ export interface ProfileData {
   resumeLink?: string;
   batch: string;
   gender?: string;
+  selfIntro?: string;
 }
 
 export interface StudentCardProps {

@@ -1,14 +1,18 @@
 'use client'
 
 import { useUser } from '@clerk/nextjs'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
-import { PrimaryButton } from '@/atoms/button/Button'
+import { Button, PrimaryButton } from '@/atoms/button/Button'
 import { useCheckIsAuthenticated } from '@/hooks/useCheckIsAuthenticated'
+import { useSelfIntroLimit } from '@/hooks/useSelfIntroLimit'
 import { supabase } from '@/lib/supabaseClient'
 import { ProfileData } from '@/types/student.types'
-import { BotIcon, Pencil } from 'lucide-react'
+import { Drawer } from '@/ui/organisms/drawer/Drawer'
+import { gooeyToast } from 'goey-toast'
+import { BotIcon, Loader2, Pencil } from 'lucide-react'
 import { StudentProfileView } from '../../../components/profile/StudentProfileView'
+import { safeJsonParse } from '../../../utils/parseUtils'
 import { ProfileEditForm } from '../../profile/[id]/edit/ProfileEditForm'
 
 const getPrimaryEmail = (user: ReturnType<typeof useUser>['user'] | null) => {
@@ -24,8 +28,89 @@ const ProfilePage = () => {
   const { user } = useUser()
   const [student, setStudent] = useState<ProfileData | null>(null)
   const [isEditMode, setIsEditMode] = useState(false)
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [selfIntro, setSelfIntro] = useState<string | null>(null)
+  const [isGenerating, setIsGenerating] = useState(false)
+  const { canGenerate, remaining, incrementCount } = useSelfIntroLimit()
 
   const email = getPrimaryEmail(user)
+
+  const handleGenerateSelfIntro = useCallback(async () => {
+    if (!canGenerate) {
+      gooeyToast.error('Daily limit reached', {
+        description:
+          'You can generate up to 2 self-intros per day. Try again tomorrow.',
+        bounce: 0.45,
+        borderColor: '#E0E0E0',
+        borderWidth: 2,
+      })
+      return
+    }
+    if (!student) {
+      gooeyToast.error('Profile not loaded', {
+        description: 'Please wait for your profile to load.',
+        bounce: 0.45,
+        borderColor: '#E0E0E0',
+        borderWidth: 2,
+      })
+      return
+    }
+
+    setIsGenerating(true)
+    try {
+      const res = await fetch('/api/generate-self-intro', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(student),
+      })
+      const data = (await res.json()) as { selfIntro?: string; error?: string }
+
+      if (!res.ok) {
+        throw new Error(data.error ?? 'Failed to generate self-intro')
+      }
+      if (!data.selfIntro) throw new Error('No content generated')
+
+      incrementCount()
+      const introText = data.selfIntro
+      setSelfIntro(introText)
+      setIsDrawerOpen(true)
+
+      const { error } = await supabase
+        .from('students')
+        .update({ self_intro: introText })
+        .eq('id', student.id)
+
+      if (error) {
+        console.error('Failed to save self-intro to profile:', error)
+        gooeyToast.error('Could not save to profile', {
+          description:
+            'Self-intro was generated but not saved. Please try again.',
+          bounce: 0.45,
+          borderColor: '#E0E0E0',
+          borderWidth: 2,
+        })
+      } else {
+        setStudent((prev) => (prev ? { ...prev, selfIntro: introText } : null))
+      }
+    } catch (err) {
+      gooeyToast.error('Failed to generate self-intro', {
+        description: err instanceof Error ? err.message : 'Please try again.',
+        bounce: 0.45,
+        borderColor: '#E0E0E0',
+        borderWidth: 2,
+        timing: { displayDuration: 3000 },
+      })
+    } finally {
+      setIsGenerating(false)
+    }
+  }, [canGenerate, student, incrementCount])
+
+  const openSelfIntroDrawer = useCallback(() => {
+    if (student?.selfIntro) {
+      setSelfIntro(student.selfIntro)
+      setIsDrawerOpen(true)
+    }
+  }, [student?.selfIntro])
 
   useEffect(() => {
     const fetchStudent = async () => {
@@ -40,7 +125,16 @@ const ProfilePage = () => {
           setStudent(null)
           setIsEditMode(true)
         } else if (data?.name) {
-          setStudent(data)
+          setStudent({
+            ...data,
+            experience: safeJsonParse(data.experience, []),
+            mentorBridgeExp: safeJsonParse(data.mentor_bridge_exp, {}),
+            skillSets: safeJsonParse(data.skill_sets, []) as string[],
+            inspirations: safeJsonParse(data.inspirations, []) as string[],
+            socialLinks: safeJsonParse(data.social_links, {}),
+            selfIntro:
+              (data as { self_intro?: string }).self_intro ?? undefined,
+          })
           setIsEditMode(false)
         }
       } catch (error) {
@@ -52,7 +146,7 @@ const ProfilePage = () => {
 
     if (!email) return
     fetchStudent()
-  }, [email, user])
+  }, [email])
 
   return (
     <div className="min-h-screen w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-white to-slate-50">
@@ -68,10 +162,30 @@ const ProfilePage = () => {
           <>
             <div className="flex justify-end">
               <div className="flex items-center gap-2">
-                <PrimaryButton size="sm" mode="outline">
-                  <BotIcon className="size-4" />
-                  Generate Self Intro
-                </PrimaryButton>
+                {student?.selfIntro ? (
+                  <Button
+                    variant="success"
+                    mode="outline"
+                    size="sm"
+                    onClick={openSelfIntroDrawer}
+                  >
+                    Self Introduction
+                  </Button>
+                ) : null}
+                <Button
+                  variant="textInfo"
+                  size="sm"
+                  onClick={handleGenerateSelfIntro}
+                  disabled={isGenerating || !canGenerate}
+                >
+                  {isGenerating ? (
+                    <Loader2 className="size-4 animate-spin" />
+                  ) : (
+                    <BotIcon className="size-4" />
+                  )}
+                  Generate Self Intro{' '}
+                  {remaining > 0 ? `(${remaining} left)` : ''}
+                </Button>
                 <PrimaryButton
                   mode="outline"
                   size="sm"
@@ -88,6 +202,21 @@ const ProfilePage = () => {
           </>
         )}
       </div>
+
+      <Drawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        size="xl"
+      >
+        <Drawer.Title description="AI-generated self-introduction based on your profile.">
+          Self Introduction
+        </Drawer.Title>
+        <Drawer.Body>
+          {selfIntro ? (
+            <div className="whitespace-pre-wrap">{selfIntro}</div>
+          ) : null}
+        </Drawer.Body>
+      </Drawer>
     </div>
   )
 }

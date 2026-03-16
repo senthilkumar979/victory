@@ -95,7 +95,7 @@ const DrawerRoot = ({
                   {showCloseButton ? (
                     <button
                       type="button"
-                      onClick={onClose}
+                      onClick={() => onClose()}
                       className="group absolute right-4 top-4 inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-700/70 bg-slate-900/90 text-slate-300 transition-colors hover:border-primary/60 hover:bg-primary/25 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 focus-visible:ring-offset-slate-950"
                       aria-label="Close drawer"
                     >

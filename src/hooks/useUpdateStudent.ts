@@ -53,6 +53,7 @@ export function toSupabasePayload(payload: ProfileUpdatePayload) {
 
 export const useUpdateStudent = () => {
   const updateStudent = useCallback(async (id: string, payload: ProfileUpdatePayload) => {
+    payload.id = id.trim();
     const { data, error } = await supabase
       .from('students')
       .update(toSupabasePayload(payload))
@@ -60,7 +61,10 @@ export const useUpdateStudent = () => {
       .select('id')
       .maybeSingle()
 
-    if (error) throw error
+    if (error) {
+      console.error('Error updating student:', error)
+      throw error
+    }
     if (!data) {
       throw new Error(
         'No rows were updated. The student may not exist or you may not have permission to update (check RLS policies).'

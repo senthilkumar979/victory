@@ -39,6 +39,7 @@ export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
 
   const repositoriesCount = 12
   const skillsCount = student.skillSets?.length ?? 0
+  console.log('skillsCount', student);
 
   return (
     <div className="space-y-10">

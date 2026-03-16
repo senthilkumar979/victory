@@ -17,6 +17,8 @@ export interface ButtonTheme {
   textInfo: string;
   textSuccess: string;
   textWarning: string;
+  success: string;
+  successOutline: string;
 }
 
 export type BadgeColor =
@@ -88,6 +90,10 @@ export const defaultTheme: Theme = {
       "bg-transparent text-success hover:bg-success hover:text-white focus-visible:ring-success",
     textWarning:
       "bg-transparent text-warning hover:bg-warning hover:text-white focus-visible:ring-warning",
+    success:
+      "bg-success text-success-foreground hover:bg-success/90 focus-visible:ring-success",
+    successOutline:
+      "border border-success text-success bg-transparent hover:bg-success hover:text-white focus-visible:ring-success",
   },
   badge: {
     primary: {
