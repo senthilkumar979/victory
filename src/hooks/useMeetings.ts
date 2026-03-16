@@ -8,7 +8,7 @@ import type { MeetingFormState } from '@/app/modules/Meetings/Meeting.types'
 const MEETINGS_TABLE = 'meetings'
 const DEFAULT_PAGE_LIMIT = 30
 const SELECT_COLS =
-  'id, title, date, google_group_id, description, meeting_link, cover_image_url, attendance'
+  'id, title, date, google_group_id, description, meeting_link, cover_image_url, feedback_form, attendance'
 
 interface UseMeetingsOptions {
   page?: number
@@ -45,12 +45,13 @@ function mapRow(row: Record<string, unknown>): MeetingFormState {
     description: (row.description as string) ?? '',
     meetingLink: (row.meeting_link as string) ?? '',
     coverImageUrl: (row.cover_image_url as string) ?? '',
+    feedbackForm: (row.feedback_form as string) ?? undefined,
     attendance: attendance.length > 0 ? attendance : undefined,
   }
 }
 
 function toPayload(form: Omit<MeetingFormState, 'id'>) {
-  return {
+  const base = {
     title: form.title,
     date: toISTTimestamptz(form.date),
     google_group_id: form.googleGroupId,
@@ -58,6 +59,10 @@ function toPayload(form: Omit<MeetingFormState, 'id'>) {
     meeting_link: form.meetingLink,
     cover_image_url: form.coverImageUrl,
   }
+  if (form.feedbackForm != null) {
+    return { ...base, feedback_form: form.feedbackForm }
+  }
+  return base
 }
 
 export const useMeetings = (

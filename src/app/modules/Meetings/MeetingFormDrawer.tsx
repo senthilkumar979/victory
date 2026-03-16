@@ -64,6 +64,22 @@ export const MeetingFormDrawer = ({
         await updateMeeting(meetingToEdit.id, payload)
       } else {
         const { id } = await createMeeting(payload)
+        const formRes = await fetch('/api/meetings/create-feedback-form', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            meetingId: id,
+            meetingTitle: payload.title,
+          }),
+        })
+        if (formRes.ok) {
+          const { feedbackFormUrl } = (await formRes.json()) as {
+            feedbackFormUrl: string
+          }
+          if (feedbackFormUrl) {
+            await updateMeeting(id, { ...payload, feedbackForm: feedbackFormUrl })
+          }
+        }
         const meetRes = await fetch('/api/meetings/create-google-meet', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

@@ -5,7 +5,8 @@ export interface MeetingFormState {
   googleGroupId: string
   description: string
   meetingLink: string
-  coverImageUrl: string,
+  coverImageUrl: string
+  feedbackForm?: string
   attendance?: number[]
 }
 
