@@ -1,21 +1,22 @@
 'use client'
 
+import { Badge } from '@/atoms/badge/Badge'
 import { Button } from '@/atoms/button/Button'
 import type { RoadmapNodeData } from '@/data/roadmaps'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Check, CheckCircle, ExternalLink, X } from 'lucide-react'
+import { Check, CheckCircle, ExternalLink, X, XCircle } from 'lucide-react'
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import type { Node } from 'reactflow'
-import { Badge } from '../../ui/atoms/badge/Badge'
 
 interface NodeDrawerProps {
   node: Node<RoadmapNodeData> | null
   onClose: () => void
   onComplete: (node: Node<RoadmapNodeData>) => void
+  onIncomplete: (node: Node<RoadmapNodeData>) => void
 }
 
-export const NodeDrawer = ({ node, onClose, onComplete }: NodeDrawerProps) => {
+export const NodeDrawer = ({ node, onClose, onComplete, onIncomplete }: NodeDrawerProps) => {
   useEffect(() => {
     if (!node) return
 
@@ -117,7 +118,7 @@ export const NodeDrawer = ({ node, onClose, onComplete }: NodeDrawerProps) => {
                 )}
               </main>
 
-              <footer className="mt-6 flex gap-3 border-t border-muted pt-4">
+              <footer className="mt-6 flex gap-3 border-t border-muted pt-4 justify-between">
                 <Button variant="secondary" size="sm" onClick={onClose}>
                   Close
                 </Button>
@@ -129,6 +130,16 @@ export const NodeDrawer = ({ node, onClose, onComplete }: NodeDrawerProps) => {
                     className="gap-2"
                   >
                     <Check className="size-4" /> Mark as Complete
+                  </Button>
+                )}
+                {node.data.isCompleted && (
+                  <Button
+                    variant="error"
+                    size="sm"
+                    onClick={() => onIncomplete(node)}
+                    className="gap-2"
+                  >
+                    <XCircle className="size-4" /> Mark as Incomplete
                   </Button>
                 )}
               </footer>

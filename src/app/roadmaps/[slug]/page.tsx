@@ -23,6 +23,7 @@ export default function RoadmapSlugPage() {
   const {
     completedNodes,
     markComplete,
+    unmarkComplete,
     isLoading,
     error,
   } = useRoadmapProgress(slug)
@@ -37,6 +38,11 @@ export default function RoadmapSlugPage() {
 
   const handleComplete = (node: Node<RoadmapNodeData>) => {
     markComplete(node.id)
+    setSelectedNode(null)
+  }
+
+  const handleIncomplete = (node: Node<RoadmapNodeData>) => {
+    unmarkComplete(node.id)
     setSelectedNode(null)
   }
 
@@ -98,6 +104,7 @@ export default function RoadmapSlugPage() {
         node={selectedNode}
         onClose={handleClose}
         onComplete={handleComplete}
+        onIncomplete={handleIncomplete}
       />
     </div>
   )

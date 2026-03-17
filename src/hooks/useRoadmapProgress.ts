@@ -111,5 +111,50 @@ export const useRoadmapProgress = (roadmapId: string) => {
     [roadmapId],
   )
 
-  return { completedNodes, markComplete, isLoading, error, refetch: fetchCompletions }
+  const unmarkComplete = useCallback(
+    async (nodeId: string) => {
+      if (!roadmapId) return
+
+      setCompletedNodes((prev) => prev.filter((id) => id !== nodeId))
+
+      try {
+        const { data: row, error: fetchErr } = await supabase
+          .from(TABLE_NAME)
+          .select('completed_nodes')
+          .eq('id', roadmapId)
+          .maybeSingle()
+
+        if (fetchErr) throw fetchErr
+
+        const current = row?.completed_nodes
+          ? parseCompletedNodes(row.completed_nodes)
+          : []
+        const nextNodes = current.filter((id) => id !== nodeId)
+
+        if (row === null) {
+          return
+        }
+        const { error: updateErr } = await supabase
+          .from(TABLE_NAME)
+          .update({ completed_nodes: nextNodes })
+          .eq('id', roadmapId)
+        if (updateErr) throw updateErr
+      } catch (err) {
+        const message =
+          err && typeof err === 'object' && 'message' in err
+            ? String((err as { message?: unknown }).message)
+            : err instanceof Error
+              ? err.message
+              : 'Failed to save progress'
+        console.error('Error unmarking roadmap completion:', message, err)
+        setCompletedNodes((prev) =>
+          prev.includes(nodeId) ? [...prev, nodeId] : prev,
+        )
+        setError(message)
+      }
+    },
+    [roadmapId],
+  )
+
+  return { completedNodes, markComplete, unmarkComplete, isLoading, error, refetch: fetchCompletions }
 }
