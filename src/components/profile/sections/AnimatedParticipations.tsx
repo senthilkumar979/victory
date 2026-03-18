@@ -3,8 +3,8 @@ import React from 'react'
 import { cn } from '@/lib/utils'
 import { CalendarIcon } from 'lucide-react'
 import Image from 'next/image'
-import { MeetingFormState } from '../../app/modules/Meetings/Meeting.types'
-import { formatDateWithoutTime } from '../../utils/meetingUtils'
+import { MeetingFormState } from '../../../app/modules/Meetings/Meeting.types'
+import { formatDateWithoutTime } from '../../../utils/meetingUtils'
 
 interface AnimatedCanopyProps extends React.HTMLAttributes<HTMLDivElement> {
   vertical?: boolean
@@ -58,13 +58,16 @@ const AnimatedCanopy = ({
 
 const ParticipationCard = ({
   participation,
+  onClick,
 }: {
   participation: MeetingFormState
+  onClick?: (participation: MeetingFormState) => void
 }) => (
   <div
     className={
       'group mx-2 flex h-25 w-80 shrink-0 cursor-pointer overflow-hidden rounded-xl border border-transparent p-3 transition-all bg-gray-900 hover:border-primary/20 dark:bg-gray-950 dark:hover:border-slate-500 hover:bg-primary/80'
     }
+    onClick={() => onClick?.(participation)}
   >
     <div className="flex items-start gap-3">
       <div className="relative h-15 w-15 shrink-0 overflow-hidden rounded-full border-2 border-gray-200 dark:border-gray-600">
@@ -104,11 +107,11 @@ const ParticipationCard = ({
 export const AnimatedParticipations = ({
   data,
   className,
-  cardClassName,
+  onClick,
 }: {
   data: MeetingFormState[]
   className?: string
-  cardClassName?: string
+  onClick?: (participation: MeetingFormState) => void
 }) => (
   <div className={cn('w-full overflow-x-hidden py-4', className)}>
     {[false, true, false].map((reverse, index) => (
@@ -124,7 +127,7 @@ export const AnimatedParticipations = ({
           <ParticipationCard
             key={participation.id}
             participation={participation}
-            className={cardClassName}
+            onClick={onClick}
           />
         ))}
       </AnimatedCanopy>

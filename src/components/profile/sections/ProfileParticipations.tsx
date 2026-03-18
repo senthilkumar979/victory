@@ -6,7 +6,7 @@ import type { MeetingFormState } from '@/app/modules/Meetings/Meeting.types'
 import { MeetingDetailsDrawer } from '@/app/modules/Meetings/MeetingDetailsDrawer'
 import { useFetchParticipationsByUser } from '@/hooks/useFetchParticipationsByUser'
 import { Star } from 'lucide-react'
-import { AnimatedParticipations } from '../../ui/animated-testimonials'
+import { AnimatedParticipations } from './AnimatedParticipations'
 
 interface ProfileParticipationsProps {
   serialNo?: number
@@ -60,8 +60,8 @@ export const ProfileParticipations = ({
       {!isLoading && participations.length > 0 && (
         <AnimatedParticipations
           data={participations}
+          onClick={handleMeetingClick}
           className="space-y-2"
-          cardClassName="flex w-full items-center gap-3 rounded-lg border border-slate-700/50 border-blue-500/30 bg-secondary bg-gradient-to-br from-blue-500/20 via-cyan-500/10 to-transparent p-4 transition-all hover:border-primary/20 hover:bg-primary"
         />
       )}
       <MeetingDetailsDrawer
