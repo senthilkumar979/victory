@@ -90,7 +90,7 @@ export const ProfileBlogs = ({ blogs, loading }: ProfileBlogsProps) => {
           </motion.a>
         )}
       </div>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
         {blogs.map((blog, idx) => (
           <motion.a
             key={blog.link + idx}

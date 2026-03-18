@@ -2,11 +2,11 @@
 
 import { useCallback, useState } from 'react'
 
-import { MeetingDetailsDrawer } from '@/app/modules/Meetings/MeetingDetailsDrawer'
 import type { MeetingFormState } from '@/app/modules/Meetings/Meeting.types'
+import { MeetingDetailsDrawer } from '@/app/modules/Meetings/MeetingDetailsDrawer'
 import { useFetchParticipationsByUser } from '@/hooks/useFetchParticipationsByUser'
-import { formatDateWithoutTime } from '@/utils/meetingUtils'
-import { Calendar, Star } from 'lucide-react'
+import { Star } from 'lucide-react'
+import { AnimatedParticipations } from '../../ui/animated-testimonials'
 
 interface ProfileParticipationsProps {
   serialNo?: number
@@ -58,27 +58,11 @@ export const ProfileParticipations = ({
           </div>
         )}
       {!isLoading && participations.length > 0 && (
-        <ul className="space-y-2">
-          {participations.map((meeting) => (
-            <li key={meeting.id}>
-              <button
-                type="button"
-                onClick={() => handleMeetingClick(meeting)}
-                className="flex w-full items-center gap-3 rounded-lg border border-slate-700/50 border-blue-500/30 bg-secondary bg-gradient-to-br from-blue-500/20 via-cyan-500/10 to-transparent p-4 transition-all hover:border-primary/20 hover:bg-primary"
-              >
-                <div className="min-w-0 flex flex-col gap-2">
-                  <p className="truncate font-medium text-slate-200">
-                    {meeting.title || 'Untitled meeting'}
-                  </p>
-                  <p className="text-white text-sm group-hover:text-white flex items-center gap-2">
-                    <Calendar className="size-4 shrink-0 text-white" />
-                    {formatDateWithoutTime(meeting.date)}
-                  </p>
-                </div>
-              </button>
-            </li>
-          ))}
-        </ul>
+        <AnimatedParticipations
+          data={participations}
+          className="space-y-2"
+          cardClassName="flex w-full items-center gap-3 rounded-lg border border-slate-700/50 border-blue-500/30 bg-secondary bg-gradient-to-br from-blue-500/20 via-cyan-500/10 to-transparent p-4 transition-all hover:border-primary/20 hover:bg-primary"
+        />
       )}
       <MeetingDetailsDrawer
         meeting={selectedMeeting}

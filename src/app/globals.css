@@ -40,6 +40,22 @@
   --color-info-foreground: var(--info-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  @keyframes canopy-x {
+  from {
+    transform: translateX(0);
+    }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes canopy-y {
+  from {
+    transform: translateY(0);
+    }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -237,4 +253,22 @@ ul {
 
 [data-isMiddle="true"] .item-middle {
   color: #fff;
+}
+
+@layer utilities {
+  .animate-canopy-horizontal {
+    animation: canopy-x var(--duration) infinite linear;
+  }
+  .animate-canopy-vertical {
+    animation: canopy-y var(--duration) linear infinite;
+  }
+  .direction-reverse.animate-canopy-horizontal {
+    animation-direction: reverse;
+  }
+  .direction-reverse.animate-canopy-vertical {
+    animation-direction: reverse;
+  }
+  .group:hover .group-hover\:paused {
+    animation-play-state: paused;
+  }
 }

@@ -82,21 +82,22 @@ export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
             <ProfileInspirations inspirations={student.inspirations} />
           </BentoCard>
         )}
-        <BentoCard span="lg" delay={0.16}>
-          <ProfileBlogs blogs={blogs} loading={blogsLoading} />
-        </BentoCard>
-        <BentoCard span="md" delay={0.24}>
-          <ProfileParticipations serialNo={student.serialNo} />
-        </BentoCard>
-
-        <BentoCard span="xl" delay={0.18}>
-          <ProfileGitHub githubUrl={student.socialLinks?.gitHub} />
-        </BentoCard>
-        <BentoCard span="md" delay={0.22}>
+        <BentoCard span="xl" delay={0.22}>
           <ProfilePresentations studentEmail={student.email} />
         </BentoCard>
         <BentoCard span="md" delay={0.2}>
           <ProfileAwards awards={awards} loading={awardsLoading} />
+        </BentoCard>
+        <BentoCard span="full" delay={0.16}>
+          <ProfileBlogs blogs={blogs} loading={blogsLoading} />
+        </BentoCard>
+
+        <BentoCard span="full" delay={0.18}>
+          <ProfileGitHub githubUrl={student.socialLinks?.gitHub} />
+        </BentoCard>
+
+        <BentoCard span="full" delay={0.4}>
+          <ProfileParticipations serialNo={student.serialNo} />
         </BentoCard>
       </div>
     </div>
