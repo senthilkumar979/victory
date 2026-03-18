@@ -78,10 +78,10 @@ export const ProfileHero = ({ student }: ProfileHeroProps) => {
                 alt={name}
                 width={200}
                 height={200}
-                className="relative z-10 size-36 rounded-2xl object-cover shadow-2xl ring-4 ring-white/80 sm:size-44 lg:size-52"
+                className="relative z-10 size-36 rounded-2xl object-cover shadow-2xl ring-4 ring-white/80 sm:size-44 lg:size-52 mx-auto"
               />
             ) : (
-              <div className="relative z-10 flex size-36 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 text-5xl font-bold text-primary shadow-xl ring-4 ring-white/80 sm:size-44 letter-spacing-wide lg:size-52 uppercase">
+              <div className="relative z-10 flex size-36 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 text-5xl font-bold text-primary shadow-xl ring-4 ring-white/80 sm:size-44 letter-spacing-wide lg:size-52 uppercase mx-auto">
                 {name?.charAt(0).toUpperCase() ?? '?'}
               </div>
             )}
@@ -94,8 +94,8 @@ export const ProfileHero = ({ student }: ProfileHeroProps) => {
           </motion.div>
         </motion.div>
 
-        <div className="flex min-w-0 flex-1 flex-col gap-5">
-          <div className="flex items-center gap-2">
+        <div className="flex min-w-0 flex-1 flex-col gap-5 justify-center md:justify-start">
+          <div className="flex items-center gap-2 justify-center md:justify-start">
             <motion.span
               variants={item}
               className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-primary"
@@ -115,7 +115,7 @@ export const ProfileHero = ({ student }: ProfileHeroProps) => {
           </div>
 
           <FancyText
-            className="text-5xl font-black leading-none text-black/10 dark:text-primary/10 letter-spacing-wide uppercase"
+            className="text-3xl md:text-5xl font-black leading-none text-black/10 dark:text-primary/10 letter-spacing-wide uppercase"
             fillClassName="text-primary dark:text-primary"
             stagger={0.06}
             duration={1.2}
@@ -148,7 +148,7 @@ export const ProfileHero = ({ student }: ProfileHeroProps) => {
 
           <motion.div
             variants={item}
-            className="flex flex-wrap items-center gap-3 pt-2"
+            className="flex flex-wrap items-center gap-3 pt-2 justify-center md:justify-start"
           >
             {socialLinks?.linkedIn && (
               <motion.a
@@ -191,7 +191,7 @@ export const ProfileHero = ({ student }: ProfileHeroProps) => {
             )}
           </motion.div>
 
-          <motion.div variants={item} className="flex flex-wrap gap-4 pt-4">
+          <motion.div variants={item} className="flex flex-wrap gap-4 pt-4 justify-center md:justify-start">
             {resumeLink && (
               <motion.a
                 href={resumeLink}

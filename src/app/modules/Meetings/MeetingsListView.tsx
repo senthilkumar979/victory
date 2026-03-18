@@ -122,7 +122,7 @@ export const MeetingsListView = () => {
 
   return (
     <>
-      <div className="mb-8 space-y-6 flex gap-6 justify-between">
+      <div className="mb-8 space-y-6 flex gap-6 flex-col md:flex-row md:justify-between">
         <MeetingStats />
         <CurrentWeekCard />
       </div>

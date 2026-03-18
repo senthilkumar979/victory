@@ -15,6 +15,8 @@ const DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const
 
 export interface WeekDay {
   key: string
+  day: string
+  month: string
   label: string
   date: Date
   dayName: (typeof DAY_NAMES)[number]
@@ -108,8 +110,10 @@ function buildWeekDaysFromMonday(monday: Date): WeekDay[] {
     const month = d.getMonth() + 1
     days.push({
       key,
-      label: `${dayNames[i]} ${pad(day)}/${pad(month)}`,
+      label: `${pad(day)}/${pad(month)}`,
       date: d,
+      day: pad(day),
+      month: pad(month),
       dayName: dayNames[i],
     })
   }

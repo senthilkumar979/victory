@@ -164,10 +164,15 @@ const DayPill = ({ day, isSelected, isToday, onClick }: DayPillProps) => (
     className={`
       shrink-0 rounded-xl px-4 py-2.5 text-sm font-medium transition-all
       ${isSelected ? 'bg-primary text-primary-foreground shadow-md' : 'bg-white/10 text-slate-300 hover:bg-white/20'}
-      ${isToday && !isSelected ? 'ring-1 ring-primary/50' : ''}
+      ${isToday && !isSelected ? 'ring-2 ring-primary' : ''}
     `}
   >
-    {day.label}
+    <span className="hidden md:block">
+      {day.dayName} {day.day}/{day.month}
+      </span>
+    <span className="block md:hidden">
+      {day.day}
+    </span>
   </button>
 )
 
