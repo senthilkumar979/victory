@@ -57,6 +57,7 @@ export const useStudent = (studentId: string): UseStudentReturn => {
             const g = raw.toUpperCase()
             return g === 'M' || g === 'F' ? g : undefined
           })(),
+          serialNo: data.serial_no,
         };
 
         setStudent(transformedStudent);

@@ -16,7 +16,7 @@ import { useStudentAwards } from '@/hooks/useStudentAwards'
 import { useStudentBlogs } from '@/hooks/useStudentBlogs'
 
 import type { ProfileData } from '@/types/student.types'
-import { ProfileAppreciations } from './sections/ProfileAppreciations'
+import { ProfileParticipations } from './sections/ProfileParticipations'
 import { ProfilePresentations } from './sections/ProfilePresentations'
 
 interface StudentProfileViewProps {
@@ -28,6 +28,7 @@ export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
     student.mediumUsername,
     student.name,
   )
+  console.log('student', student)
   const { awards, loading: awardsLoading } = useStudentAwards(student.email)
 
   const showMentorBridge = hasMentorBridgeExp(student.mentorBridgeExp)
@@ -39,7 +40,6 @@ export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
 
   const repositoriesCount = 12
   const skillsCount = student.skillSets?.length ?? 0
-  console.log('skillsCount', student);
 
   return (
     <div className="space-y-10">
@@ -85,8 +85,8 @@ export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
         <BentoCard span="lg" delay={0.16}>
           <ProfileBlogs blogs={blogs} loading={blogsLoading} />
         </BentoCard>
-        <BentoCard span="md" delay={0.2}>
-          <ProfileAwards awards={awards} loading={awardsLoading} />
+        <BentoCard span="md" delay={0.24}>
+          <ProfileParticipations serialNo={student.serialNo} />
         </BentoCard>
 
         <BentoCard span="xl" delay={0.18}>
@@ -95,8 +95,8 @@ export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
         <BentoCard span="md" delay={0.22}>
           <ProfilePresentations studentEmail={student.email} />
         </BentoCard>
-        <BentoCard span="md" delay={0.24}>
-          <ProfileAppreciations />
+        <BentoCard span="md" delay={0.2}>
+          <ProfileAwards awards={awards} loading={awardsLoading} />
         </BentoCard>
       </div>
     </div>

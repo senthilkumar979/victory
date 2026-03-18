@@ -134,6 +134,7 @@ const ProfilePage = () => {
             socialLinks: safeJsonParse(data.social_links, {}),
             selfIntro:
               (data as { self_intro?: string }).self_intro ?? undefined,
+            serialNo: Number((data as { serial_no?: number }).serial_no) || 0,
           })
           setIsEditMode(false)
         }

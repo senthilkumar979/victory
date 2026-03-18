@@ -40,6 +40,7 @@ export interface ProfileData {
   batch: string;
   gender?: string;
   selfIntro?: string;
+  serialNo?: number;
 }
 
 export interface StudentCardProps {

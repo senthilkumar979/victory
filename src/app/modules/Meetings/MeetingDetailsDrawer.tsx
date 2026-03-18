@@ -19,16 +19,23 @@ interface MeetingDetailsDrawerProps {
   meeting: MeetingFormState | null
   isOpen: boolean
   onClose: () => void
+  isHideAttendance?: boolean
 }
 
 export const MeetingDetailsDrawer = ({
   meeting,
   isOpen,
   onClose,
+  isHideAttendance = false,
 }: MeetingDetailsDrawerProps) => {
   const hasLink = meeting ? Boolean(meeting.meetingLink?.trim()) : false
-  const { fetchAttendance } = useMeetingAttendance()
-  const { students, loading, error, fetchStudents } = useStudentsBySerialNumbers()
+  const { fetchAttendance } = useMeetingAttendance(isHideAttendance)
+  const {
+    students,
+    loading,
+    error,
+    fetchStudents,
+  } = useStudentsBySerialNumbers(isHideAttendance)
 
   useEffect(() => {
     if (!isOpen) {
@@ -42,7 +49,7 @@ export const MeetingDetailsDrawer = ({
   }, [isOpen, meeting?.id, fetchAttendance, fetchStudents])
 
   const hasAttendance = students.length > 0
-  const showAttendanceSection = true
+  const showAttendanceSection = !isHideAttendance
 
   return (
     <Drawer isOpen={isOpen} onClose={onClose} size="xl">
@@ -85,9 +92,7 @@ export const MeetingDetailsDrawer = ({
                   )}
                 </div>
                 {loading && (
-                  <p className="text-sm text-slate-500">
-                    Loading attendance…
-                  </p>
+                  <p className="text-sm text-slate-500">Loading attendance…</p>
                 )}
                 {error && (
                   <p className="rounded-lg border border-red-900/40 bg-red-950/30 px-3 py-2 text-sm text-red-300">

@@ -14,13 +14,13 @@ export interface UseMeetingAttendanceReturn {
   updateAttendance: (meetingId: string, attendance: number[]) => Promise<void>
 }
 
-export const useMeetingAttendance = (): UseMeetingAttendanceReturn => {
+export const useMeetingAttendance = (isHideAttendance?: boolean): UseMeetingAttendanceReturn => {
   const [attendance, setAttendance] = useState<number[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const fetchAttendance = useCallback(async (meetingId: string): Promise<number[]> => {
-    if (!meetingId) return []
+    if (!meetingId || isHideAttendance) return []
     try {
       setLoading(true)
       setError(null)

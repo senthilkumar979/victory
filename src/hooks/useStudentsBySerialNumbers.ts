@@ -16,12 +16,18 @@ export interface UseStudentsBySerialNumbersReturn {
 }
 
 export const useStudentsBySerialNumbers =
-  (): UseStudentsBySerialNumbersReturn => {
+  (isHideAttendance?: boolean): UseStudentsBySerialNumbersReturn => {
     const [students, setStudents] = useState<StudentForAttendance[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
     const fetchStudents = useCallback(async (serialNumbers: number[]) => {
+      if (isHideAttendance) {
+        setStudents([])
+        setError(null)
+        return
+      }
+
       const validSerialNos = serialNumbers.filter((n) => n > 0)
       if (validSerialNos.length === 0) {
         setStudents([])
