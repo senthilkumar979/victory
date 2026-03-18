@@ -6,6 +6,7 @@ import { motion } from 'motion/react'
 import Link from 'next/link'
 import { PageMain } from '../../../ui/templates/PagaMain'
 import { TransformationBridge } from './TransformationBridge'
+import { TransformationBridgeMobile } from './TransformationBridgeMobile'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -82,7 +83,11 @@ export const Hero = () => (
             transition={{ duration: 0.6, delay: 0.3 }}
             className="relative order-first flex min-h-[260px] w-full items-center justify-center overflow-hidden sm:min-h-[300px] sm:order-none lg:min-h-[360px]"
           >
-            <TransformationBridge />
+            {window.innerWidth < 768 ? (
+              <TransformationBridgeMobile />
+            ) : (
+              <TransformationBridge />
+            )}
           </motion.div>
         </div>
       </div>
