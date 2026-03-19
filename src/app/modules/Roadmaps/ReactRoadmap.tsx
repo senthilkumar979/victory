@@ -1,6 +1,17 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 
-export const ReactRoadmap = () => {
+export const ReactRoadmap = ({
+  onNodeClick,
+  completedNodes = [],
+}: {
+  onNodeClick: (nodeId: string) => void
+  completedNodes: string[]
+}) => {
+  const isCompleted = useCallback(
+    (nodeId: string) => completedNodes.includes(nodeId),
+    [completedNodes],
+  )
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +33,7 @@ export const ReactRoadmap = () => {
         fill="none"
         stroke="#cea500"
         strokeWidth="3.5"
-        data-edge-id="reactflow__edge-tU4Umtnfu01t9gLlnlK6bz2-y9ToYDix-koRbR6FLydFwy1"
+        data-edge-id="reactflow__edge-tU4Umtnfu01t9gLlnlK6bz2-y1"
         strokeLinecap="round"
         stroke-linejoin="round"
         strokeDasharray="0.8 8"
@@ -555,7 +566,12 @@ export const ReactRoadmap = () => {
           <tspan>CLI Tools</tspan>
         </text>
       </g>
-      <g data-node-id="XDvH2t3AJGevS17uM8TO6" data-type="button" className="main-block">
+      <g
+        data-node-id="XDvH2t3AJGevS17uM8TO6"
+        data-type="button"
+        className="main-block"
+        onClick={() => onNodeClick('XDvH2t3AJGevS17uM8TO6')}
+      >
         <rect
           x="-93.10968546864999"
           y="4.294330238985458"
@@ -583,6 +599,8 @@ export const ReactRoadmap = () => {
         data-title="Vite"
         data-parent-id="tU4Umtnfu01t9gLlnlK6b"
         data-parent-title="CLI Tools"
+        onClick={() => onNodeClick('y9ToYDix-koRbR6FLydFw')}
+        className="child-block"
       >
         <rect
           x="170.39484613528688"
@@ -641,6 +659,8 @@ export const ReactRoadmap = () => {
         data-title="Functional Components"
         data-parent-id="79K4xgljcoSHkCYI1D55O"
         data-parent-title="Components"
+        className="child-block"
+        onClick={() => onNodeClick('8mw4TxlLN4ZKAlLl-_NVV')}
       >
         <rect
           x="-513.6753254557053"
@@ -664,7 +684,11 @@ export const ReactRoadmap = () => {
           <tspan>Functional Components</tspan>
         </text>
       </g>
-      <g data-node-id="HMTUjok_ZAcrP6YobWs3T" data-type="label">
+      <g
+        data-node-id="HMTUjok_ZAcrP6YobWs3T"
+        data-type="label"
+        onClick={() => onNodeClick('HMTUjok_ZAcrP6YobWs3T')}
+      >
         <text
           x="-496.02532545570534"
           y="513.9443302389855"
@@ -680,6 +704,8 @@ export const ReactRoadmap = () => {
         data-node-id="WREBxWSNQDD_6fzpHL6CE"
         data-type="subtopic"
         data-title="JSX"
+        onClick={() => onNodeClick('WREBxWSNQDD_6fzpHL6CE')}
+        className="child-block"
       >
         <rect
           x="-504.6753254557053"
@@ -707,6 +733,8 @@ export const ReactRoadmap = () => {
         data-node-id="RFuy3Eho3mnW1GpP08BVw"
         data-type="subtopic"
         data-title="Props vs State"
+        className="child-block"
+        onClick={() => onNodeClick('RFuy3Eho3mnW1GpP08BVw')}
       >
         <rect
           x="-504.6753254557053"
@@ -734,6 +762,8 @@ export const ReactRoadmap = () => {
         data-node-id="aE6XBgH23135_9QmD4ff2"
         data-type="subtopic"
         data-title="Conditional Rendering"
+        onClick={() => onNodeClick('aE6XBgH23135_9QmD4ff2')}
+        className="child-block"
       >
         <rect
           x="-504.6753254557053"
@@ -761,6 +791,8 @@ export const ReactRoadmap = () => {
         data-node-id="4T59gdcwdXqj9kCuK7cfp"
         data-type="subtopic"
         data-title="Composition"
+        onClick={() => onNodeClick('4T59gdcwdXqj9kCuK7cfp')}
+        className="child-block"
       >
         <rect
           x="-504.6753254557053"
@@ -817,6 +849,8 @@ export const ReactRoadmap = () => {
         data-node-id="8OBlgDRUg-CTgDXY-QHyO"
         data-type="subtopic"
         data-title="Component Lifecycle"
+        onClick={() => onNodeClick('8OBlgDRUg-CTgDXY-QHyO')}
+        className="child-block"
       >
         <rect
           x="306.8246745442947"
@@ -844,6 +878,8 @@ export const ReactRoadmap = () => {
         data-node-id="HeWVCPHqVnnbOn6zIim4K"
         data-type="subtopic"
         data-title="Lists and Keys"
+        onClick={() => onNodeClick('HeWVCPHqVnnbOn6zIim4K')}
+        className="child-block"
       >
         <rect
           x="306.8246745442947"
@@ -871,6 +907,8 @@ export const ReactRoadmap = () => {
         data-node-id="vdumdIglnouf1KyGIGZnc"
         data-type="subtopic"
         data-title="Render Props"
+        onClick={() => onNodeClick('vdumdIglnouf1KyGIGZnc')}
+        className="child-block"
       >
         <rect
           x="306.8246745442947"
@@ -898,6 +936,8 @@ export const ReactRoadmap = () => {
         data-node-id="_zNAOhFWMcWqP4oxNPCXF"
         data-type="subtopic"
         data-title="Refs"
+        onClick={() => onNodeClick('_zNAOhFWMcWqP4oxNPCXF')}
+        className="child-block"
       >
         <rect
           x="306.8246745442947"
@@ -925,6 +965,8 @@ export const ReactRoadmap = () => {
         data-node-id="Nex2HcTOYIbfqUzXyxSMY"
         data-type="subtopic"
         data-title="Events"
+        onClick={() => onNodeClick('Nex2HcTOYIbfqUzXyxSMY')}
+        className="child-block"
       >
         <rect
           x="306.8246745442947"
@@ -952,6 +994,8 @@ export const ReactRoadmap = () => {
         data-node-id="zOENl96GUZRw2PP2KxIck"
         data-type="subtopic"
         data-title="High Order Components"
+        onClick={() => onNodeClick('zOENl96GUZRw2PP2KxIck')}
+        className="child-block"
       >
         <rect
           x="306.8246745442947"
@@ -1004,7 +1048,11 @@ export const ReactRoadmap = () => {
           <tspan>Hooks</tspan>
         </text>
       </g>
-      <g data-node-id="mkmz1JuNsTOR1D4vqilCX" data-type="label">
+      <g
+        data-node-id="mkmz1JuNsTOR1D4vqilCX"
+        data-type="label"
+        onClick={() => onNodeClick('mkmz1JuNsTOR1D4vqilCX')}
+      >
         <text
           x="28.474674544294658"
           y="416.44433023898546"
@@ -1020,6 +1068,8 @@ export const ReactRoadmap = () => {
         data-node-id="YEpkbNzEMzS6wAKg85J_N"
         data-type="subtopic"
         data-title="useState"
+        onClick={() => onNodeClick('YEpkbNzEMzS6wAKg85J_N')}
+        className="child-block"
       >
         <rect
           x="8.324674544294657"
@@ -1047,6 +1097,8 @@ export const ReactRoadmap = () => {
         data-node-id="8OnzX03hkZ9K9i__tjmFX"
         data-type="subtopic"
         data-title="useEffect"
+        onClick={() => onNodeClick('8OnzX03hkZ9K9i__tjmFX')}
+        className="child-block"
       >
         <rect
           x="6.324674544294657"
@@ -1076,6 +1128,8 @@ export const ReactRoadmap = () => {
         data-title="Creating Custom Hooks"
         data-parent-id="LbLQhonBqzxHU6B-L--Vq"
         data-parent-title="Hooks"
+        onClick={() => onNodeClick('HX75SExuzR5AP7TQ94qid')}
+        className="child-block"
       >
         <rect
           x="-248.60515386471317"
@@ -1099,7 +1153,12 @@ export const ReactRoadmap = () => {
           <tspan>Creating Custom Hooks</tspan>
         </text>
       </g>
-      <g data-node-id="EyspErq0ByXTgkgk3SGUz" data-type="label">
+      <g
+        data-node-id="EyspErq0ByXTgkgk3SGUz"
+        data-type="label"
+        onClick={() => onNodeClick('EyspErq0ByXTgkgk3SGUz')}
+        className="child-block"
+      >
         <text
           x="-185.52532545570534"
           y="502.14493540451963"
@@ -1115,6 +1174,8 @@ export const ReactRoadmap = () => {
         data-node-id="dgoDNDtW2_q9R9yhkXrcz"
         data-type="subtopic"
         data-title="useCallback"
+        onClick={() => onNodeClick('dgoDNDtW2_q9R9yhkXrcz')}
+        className="child-block"
       >
         <rect
           x="-240.17532545570535"
@@ -1142,6 +1203,8 @@ export const ReactRoadmap = () => {
         data-node-id="t_laNdMmdLApYszqXRdWg"
         data-type="subtopic"
         data-title="useRef"
+        onClick={() => onNodeClick('t_laNdMmdLApYszqXRdWg')}
+        className="child-block"
       >
         <rect
           x="-109.17532545570535"
@@ -1169,6 +1232,8 @@ export const ReactRoadmap = () => {
         data-node-id="w3bNp7OkehI1gjx8NzlC8"
         data-type="subtopic"
         data-title="useMemo"
+        onClick={() => onNodeClick('w3bNp7OkehI1gjx8NzlC8')}
+        className="child-block"
       >
         <rect
           x="-109.17532545570535"
@@ -1196,6 +1261,8 @@ export const ReactRoadmap = () => {
         data-node-id="v48Mv0wQqjXbvy8x6gDjQ"
         data-type="subtopic"
         data-title="useReducer"
+        onClick={() => onNodeClick('v48Mv0wQqjXbvy8x6gDjQ')}
+        className="child-block"
       >
         <rect
           x="-240.17532545570535"
@@ -1223,6 +1290,8 @@ export const ReactRoadmap = () => {
         data-node-id="D5_O-uElftYGQr_bTU_se"
         data-type="subtopic"
         data-title="useContext"
+        onClick={() => onNodeClick('D5_O-uElftYGQr_bTU_se')}
+        className="child-block"
       >
         <rect
           x="-239.17532545570535"
@@ -1250,6 +1319,8 @@ export const ReactRoadmap = () => {
         data-node-id="FK59Zsm5ENA9g11XWCan_"
         data-type="subtopic"
         data-title="useState"
+        onClick={() => onNodeClick('FK59Zsm5ENA9g11XWCan_')}
+        className="child-block"
       >
         <rect
           x="6.324674544294657"
@@ -1279,6 +1350,8 @@ export const ReactRoadmap = () => {
         data-title="Hooks Best Practices"
         data-parent-id="LbLQhonBqzxHU6B-L--Vq"
         data-parent-title="Hooks"
+        onClick={() => onNodeClick('mkyU0ug8MXxV4biHuOity')}
+        className="child-block"
       >
         <rect
           x="-248.60515386471317"
@@ -1335,6 +1408,8 @@ export const ReactRoadmap = () => {
         data-node-id="zWL8VLx_g0SWubavJDs6i"
         data-type="subtopic"
         data-title="Tanstack Router"
+        onClick={() => onNodeClick('zWL8VLx_g0SWubavJDs6i')}
+        className="child-block"
       >
         <rect
           x="365.3246745442947"
@@ -1364,6 +1439,8 @@ export const ReactRoadmap = () => {
         data-title="React Router"
         data-parent-id="NStw6bi_pPB49K41BFSgo"
         data-parent-title="Routers"
+        onClick={() => onNodeClick('jvp43wFkKlGQX2y7IxkbM')}
+        className="child-block"
       >
         <rect
           x="365.3246745442947"
@@ -1420,6 +1497,8 @@ export const ReactRoadmap = () => {
         data-node-id="10uL0r388lKh8pWYWqRZD"
         data-type="subtopic"
         data-title="Context"
+        onClick={() => onNodeClick('10uL0r388lKh8pWYWqRZD')}
+        className="child-block"
       >
         <rect
           x="84.043201050423"
@@ -1449,6 +1528,8 @@ export const ReactRoadmap = () => {
         data-title="Jotai"
         data-parent-id="I7_mX4h-Yywp1YyTJRKXI"
         data-parent-title="State Management"
+        onClick={() => onNodeClick('yI6XiNW04EL78UL4lkVgd')}
+        className="child-block"
       >
         <rect
           x="84.043201050423"
@@ -1532,6 +1613,8 @@ export const ReactRoadmap = () => {
         data-node-id="KO3viVIJJREtxXxsocN7j"
         data-type="subtopic"
         data-title="Tailwind CSS"
+        onClick={() => onNodeClick('KO3viVIJJREtxXxsocN7j')}
+        className="child-block"
       >
         <rect
           x="-198.67532545570535"
@@ -1588,6 +1671,8 @@ export const ReactRoadmap = () => {
         data-node-id="uqphqAnlcJOLnwHZs5jWu"
         data-type="subtopic"
         data-title="Bootstrap"
+        onClick={() => onNodeClick('uqphqAnlcJOLnwHZs5jWu')}
+        className="child-block"
       >
         <rect
           x="-452.1753254557053"
@@ -1615,6 +1700,8 @@ export const ReactRoadmap = () => {
         data-node-id="gy7eBxPOlwG8BvxHVLDQ9"
         data-type="subtopic"
         data-title="Material UI"
+        onClick={() => onNodeClick('gy7eBxPOlwG8BvxHVLDQ9')}
+        className="child-block"
       >
         <rect
           x="-452.1753254557053"
@@ -1642,6 +1729,8 @@ export const ReactRoadmap = () => {
         data-node-id="njKsYNkwTXPQ1NjlGKXab"
         data-type="subtopic"
         data-title="Shadcn UI"
+        onClick={() => onNodeClick('njKsYNkwTXPQ1NjlGKXab')}
+        className="child-block"
       >
         <rect
           x="-452.1753254557053"
@@ -1669,6 +1758,8 @@ export const ReactRoadmap = () => {
         data-node-id="awoEhwPKjUcR84XGL6Som"
         data-type="subtopic"
         data-title="CSS Modules"
+        onClick={() => onNodeClick('awoEhwPKjUcR84XGL6Som')}
+        className="child-block"
       >
         <rect
           x="-198.67532545570535"
@@ -1698,6 +1789,8 @@ export const ReactRoadmap = () => {
         data-title="Radix UI"
         data-parent-id="MnDgQq9Vcxsu3wDqv5uh2"
         data-parent-title="Headless Component Libraries"
+        onClick={() => onNodeClick('XL9XOV2h0BAuA5cFcM5L_')}
+        className="child-block"
       >
         <rect
           x="-152.17532545570535"
@@ -1727,6 +1820,8 @@ export const ReactRoadmap = () => {
         data-title="React Aria"
         data-parent-id="MnDgQq9Vcxsu3wDqv5uh2"
         data-parent-title="Headless Component Libraries"
+        onClick={() => onNodeClick('RvDfKoa_HIW3QDBfkPv3m')}
+        className="child-block"
       >
         <rect
           x="-152.17532545570535"
@@ -1756,6 +1851,8 @@ export const ReactRoadmap = () => {
         data-title="Ark UI"
         data-parent-id="MnDgQq9Vcxsu3wDqv5uh2"
         data-parent-title="Headless Component Libraries"
+        onClick={() => onNodeClick('kiCTo0U6VgNON8rv_Ktlj')}
+        className="child-block"
       >
         <rect
           x="-152.17532545570535"
@@ -1812,6 +1909,8 @@ export const ReactRoadmap = () => {
         data-node-id="5EPmbiNdP_vhIXclv_GjV"
         data-type="subtopic"
         data-title="Tanstack Query"
+        onClick={() => onNodeClick('5EPmbiNdP_vhIXclv_GjV')}
+        className="child-block"
       >
         <rect
           x="-247.25313927083639"
@@ -1839,6 +1938,8 @@ export const ReactRoadmap = () => {
         data-node-id="ElqWQClryfSYdL7P_mgYK"
         data-type="subtopic"
         data-title="Axios"
+        onClick={() => onNodeClick('ElqWQClryfSYdL7P_mgYK')}
+        className="child-block"
       >
         <rect
           x="-247.25313927083639"
@@ -1866,6 +1967,8 @@ export const ReactRoadmap = () => {
         data-node-id="h49-tjEkKcq7d7ikRHIOx"
         data-type="subtopic"
         data-title="rtk-query"
+        onClick={() => onNodeClick('h49-tjEkKcq7d7ikRHIOx')}
+        className="child-block"
       >
         <rect
           x="-247.25313927083639"
@@ -1934,6 +2037,8 @@ export const ReactRoadmap = () => {
         data-node-id="opa61u9gYgSpoPtxp58wu"
         data-type="subtopic"
         data-title="Jest"
+        onClick={() => onNodeClick('opa61u9gYgSpoPtxp58wu')}
+        className="child-block"
       >
         <rect
           x="136.32467454429465"
@@ -1963,6 +2068,8 @@ export const ReactRoadmap = () => {
         data-title="react-testing-library"
         data-parent-id="e_lwZ-a72-tAan2KDX6k3"
         data-parent-title="Testing"
+        onClick={() => onNodeClick('cQllxv7qGbRtM9O5llgN6')}
+        className="child-block"
       >
         <rect
           x="136.32467454429465"
@@ -1992,6 +2099,8 @@ export const ReactRoadmap = () => {
         data-title="Cypress"
         data-parent-id="e_lwZ-a72-tAan2KDX6k3"
         data-parent-title="Testing"
+        onClick={() => onNodeClick('zN7Ps1puD-YpHbKi1pHH8')}
+        className="child-block"
       >
         <rect
           x="157.82467454429465"
@@ -2050,6 +2159,8 @@ export const ReactRoadmap = () => {
         data-title="Next.js"
         data-parent-id="W-atg_Msa9uPLr6RXAKSb"
         data-parent-title="Frameworks"
+        onClick={() => onNodeClick('HdWq9ue0JdwmwqSIN2OD_')}
+        className="child-block"
       >
         <rect
           x="396.8446952381852"
@@ -2108,6 +2219,8 @@ export const ReactRoadmap = () => {
         data-title="React Hook Form"
         data-parent-id="KHcC5pFN3qLnsbPPKpYd2"
         data-parent-title="Forms"
+        onClick={() => onNodeClick('_5ht0PAdVOJWPzTRS1mVg')}
+        className="child-block"
       >
         <rect
           x="375.8446952381852"
@@ -2164,6 +2277,8 @@ export const ReactRoadmap = () => {
         data-node-id="ElgRwv5LSVg5FXGx-2K2s"
         data-type="subtopic"
         data-title="TypeScript"
+        onClick={() => onNodeClick('ElgRwv5LSVg5FXGx-2K2s')}
+        className="child-block"
       >
         <rect
           x="101.543201050423"
@@ -2193,6 +2308,8 @@ export const ReactRoadmap = () => {
         data-title="Zod"
         data-parent-id="UNlvRp6k3_RDoTAAIEfJ1"
         data-parent-title="Types &amp; Validation"
+        onClick={() => onNodeClick('K3RZ8ESxWCpLKHePF87Hy')}
+        className="child-block"
       >
         <rect
           x="101.543201050423"
@@ -2273,6 +2390,8 @@ export const ReactRoadmap = () => {
         data-node-id="SUeXDkmOLipdRP4fSrZOH"
         data-type="topic"
         data-title="Server APIs"
+        onClick={() => onNodeClick('H6-XGDjs4f-qbv13v5av0')}
+        className="main-block"
       >
         <rect
           x="-211.2035663576449"
@@ -2302,6 +2421,8 @@ export const ReactRoadmap = () => {
         data-title="Framer Motion"
         data-parent-id="bRpeoo9zXrnZ2IHSI7JX4"
         data-parent-title="Animation"
+        onClick={() => onNodeClick('SUeXDkmOLipdRP4fSrZOH')}
+        className="child-block"
       >
         <rect
           x="-515.7395269907199"
@@ -2329,6 +2450,8 @@ export const ReactRoadmap = () => {
         data-node-id="_F3WMxhzaK9F8_-zHDDMF"
         data-type="topic"
         data-title="Suspense"
+        onClick={() => onNodeClick('_F3WMxhzaK9F8_-zHDDMF')}
+        className="main-block"
       >
         <rect
           x="-211.2035663576449"
@@ -2356,6 +2479,8 @@ export const ReactRoadmap = () => {
         data-node-id="DcDggX4OmmwvJGHwuV86t"
         data-type="topic"
         data-title="Portals"
+        onClick={() => onNodeClick('DcDggX4OmmwvJGHwuV86t')}
+        className="main-block"
       >
         <rect
           x="-211.2035663576449"
@@ -2385,6 +2510,8 @@ export const ReactRoadmap = () => {
         data-title="Error Boundaries"
         data-parent-id="bRpeoo9zXrnZ2IHSI7JX4"
         data-parent-title="Animation"
+        onClick={() => onNodeClick('gMHMjsh0i8paLZUH5mDX3')}
+        className="main-block"
       >
         <rect
           x="-211.2035663576449"
@@ -2408,6 +2535,754 @@ export const ReactRoadmap = () => {
           <tspan>Error Boundaries</tspan>
         </text>
       </g>
+      <circle
+        cx="269.0448461352869"
+        cy="138.94433023898546"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('y9ToYDix-koRbR6FLydFw') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M265.0448461352869 138.94433023898546L267.5448461352869 141.94433023898546 272.5448461352869 136.94433023898546"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('y9ToYDix-koRbR6FLydFw') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-514.5253254557053"
+        cy="231.44433023898546"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('8mw4TxlLN4ZKAlLl-_NVV') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-518.5253254557053 231.44433023898546L-516.0253254557053 234.44433023898546 -511.02532545570534 229.44433023898546"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('8mw4TxlLN4ZKAlLl-_NVV') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-505.52532545570534"
+        cy="294.94433023898546"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('WREBxWSNQDD_6fzpHL6CE') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-509.52532545570534 294.94433023898546L-507.02532545570534 297.94433023898546 -502.02532545570534 292.94433023898546"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('WREBxWSNQDD_6fzpHL6CE') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-505.52532545570534"
+        cy="347.94433023898546"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('RFuy3Eho3mnW1GpP08BVw') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-509.52532545570534 347.94433023898546L-507.02532545570534 350.94433023898546 -502.02532545570534 345.94433023898546"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('RFuy3Eho3mnW1GpP08BVw') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-505.52532545570534"
+        cy="400.94433023898546"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('aE6XBgH23135_9QmD4ff2') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-509.52532545570534 400.94433023898546L-507.02532545570534 403.94433023898546 -502.02532545570534 398.94433023898546"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('aE6XBgH23135_9QmD4ff2') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-505.52532545570534"
+        cy="453.94433023898546"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('4T59gdcwdXqj9kCuK7cfp') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-509.52532545570534 453.94433023898546L-507.02532545570534 456.94433023898546 -502.02532545570534 451.94433023898546"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('4T59gdcwdXqj9kCuK7cfp') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="538.4746745442947"
+        cy="302.44433023898546"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('8OBlgDRUg-CTgDXY-QHyO') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M534.4746745442947 302.44433023898546L536.9746745442947 305.44433023898546 541.9746745442947 300.44433023898546"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('8OBlgDRUg-CTgDXY-QHyO') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="538.4746745442947"
+        cy="355.44433023898546"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('HeWVCPHqVnnbOn6zIim4K') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M534.4746745442947 355.44433023898546L536.9746745442947 358.44433023898546 541.9746745442947 353.44433023898546"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('HeWVCPHqVnnbOn6zIim4K') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="538.4746745442947"
+        cy="408.44433023898546"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('vdumdIglnouf1KyGIGZnc') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M534.4746745442947 408.44433023898546L536.9746745442947 411.44433023898546 541.9746745442947 406.44433023898546"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('vdumdIglnouf1KyGIGZnc') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="538.4746745442947"
+        cy="461.44433023898546"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('_zNAOhFWMcWqP4oxNPCXF') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M534.4746745442947 461.44433023898546L536.9746745442947 464.44433023898546 541.9746745442947 459.44433023898546"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('_zNAOhFWMcWqP4oxNPCXF') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="538.4746745442947"
+        cy="514.4443302389855"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('Nex2HcTOYIbfqUzXyxSMY') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M534.4746745442947 514.4443302389855L536.9746745442947 517.4443302389855 541.9746745442947 512.4443302389855"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('Nex2HcTOYIbfqUzXyxSMY') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="538.4746745442947"
+        cy="567.4443302389855"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('zOENl96GUZRw2PP2KxIck') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M534.4746745442947 567.4443302389855L536.9746745442947 570.4443302389855 541.9746745442947 565.4443302389855"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('zOENl96GUZRw2PP2KxIck') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="143.97467454429466"
+        cy="359.44433023898546"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('8OnzX03hkZ9K9i__tjmFX') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M139.97467454429466 359.44433023898546L142.47467454429466 362.44433023898546 147.47467454429466 357.44433023898546"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('8OnzX03hkZ9K9i__tjmFX') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-249.45515386471317"
+        cy="545.0892656435051"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('HX75SExuzR5AP7TQ94qid') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-253.45515386471317 545.0892656435051L-250.95515386471317 548.0892656435051 -245.95515386471317 543.0892656435051"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('HX75SExuzR5AP7TQ94qid') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-241.02532545570534"
+        cy="306.94433023898546"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('dgoDNDtW2_q9R9yhkXrcz') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-245.02532545570534 306.94433023898546L-242.52532545570534 309.94433023898546 -237.52532545570534 304.94433023898546"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('dgoDNDtW2_q9R9yhkXrcz') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-10.525325455705342"
+        cy="306.94433023898546"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('t_laNdMmdLApYszqXRdWg') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-14.525325455705342 306.94433023898546L-12.025325455705342 309.94433023898546 -7.025325455705342 304.94433023898546"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('t_laNdMmdLApYszqXRdWg') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-10.525325455705342"
+        cy="358.94433023898546"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('w3bNp7OkehI1gjx8NzlC8') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-14.525325455705342 358.94433023898546L-12.025325455705342 361.94433023898546 -7.025325455705342 356.94433023898546"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('w3bNp7OkehI1gjx8NzlC8') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-241.02532545570534"
+        cy="358.94433023898546"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('v48Mv0wQqjXbvy8x6gDjQ') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-245.02532545570534 358.94433023898546L-242.52532545570534 361.94433023898546 -237.52532545570534 356.94433023898546"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('v48Mv0wQqjXbvy8x6gDjQ') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-240.02532545570534"
+        cy="410.94433023898546"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('D5_O-uElftYGQr_bTU_se') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-244.02532545570534 410.94433023898546L-241.52532545570534 413.94433023898546 -236.52532545570534 408.94433023898546"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('D5_O-uElftYGQr_bTU_se') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="143.97467454429466"
+        cy="306.44433023898546"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('YEpkbNzEMzS6wAKg85J_N') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M139.97467454429466 306.44433023898546L142.47467454429466 309.44433023898546 147.47467454429466 304.44433023898546"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('YEpkbNzEMzS6wAKg85J_N') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-249.45515386471317"
+        cy="598.0892656435051"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('mkyU0ug8MXxV4biHuOity') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-253.45515386471317 598.0892656435051L-250.95515386471317 601.0892656435051 -245.95515386471317 596.0892656435051"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('mkyU0ug8MXxV4biHuOity') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="538.9746745442947"
+        cy="849.7974386815656"
+        r="9.5"
+        fill="#19a323"
+        id="icon-link"
+        display={isCompleted('zWL8VLx_g0SWubavJDs6i') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M534.9746745442947 849.7974386815656L537.4746745442947 852.7974386815656 542.4746745442947 847.7974386815656"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('zWL8VLx_g0SWubavJDs6i') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="538.9746745442947"
+        cy="796.7974386815656"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('jvp43wFkKlGQX2y7IxkbM') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M534.9746745442947 796.7974386815656L537.4746745442947 799.7974386815656 542.4746745442947 794.7974386815656"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('jvp43wFkKlGQX2y7IxkbM') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="83.193201050423"
+        cy="762.9443302389855"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('10uL0r388lKh8pWYWqRZD') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M79.193201050423 762.9443302389855L81.693201050423 765.9443302389855 86.693201050423 760.9443302389855"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('10uL0r388lKh8pWYWqRZD') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="83.193201050423"
+        cy="815.9443302389855"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('yI6XiNW04EL78UL4lkVgd') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M79.193201050423 815.9443302389855L81.693201050423 818.9443302389855 86.693201050423 813.9443302389855"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('yI6XiNW04EL78UL4lkVgd') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-199.52532545570534"
+        cy="813.9443302389855"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('KO3viVIJJREtxXxsocN7j') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-203.52532545570534 813.9443302389855L-201.02532545570534 816.9443302389855 -196.02532545570534 811.9443302389855"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('KO3viVIJJREtxXxsocN7j') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-453.02532545570534"
+        cy="748.9443302389855"
+        r="9.5"
+        fill="#19a323"
+        id="icon-link"
+        display={isCompleted('uqphqAnlcJOLnwHZs5jWu') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-457.02532545570534 748.9443302389855L-454.52532545570534 751.9443302389855 -449.52532545570534 746.9443302389855"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('uqphqAnlcJOLnwHZs5jWu') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-453.02532545570534"
+        cy="695.9443302389855"
+        r="9.5"
+        fill="#19a323"
+        id="icon-link"
+        display={isCompleted('gy7eBxPOlwG8BvxHVLDQ9') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-457.02532545570534 695.9443302389855L-454.52532545570534 698.9443302389855 -449.52532545570534 693.9443302389855"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('gy7eBxPOlwG8BvxHVLDQ9') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-453.02532545570534"
+        cy="801.9443302389855"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('njKsYNkwTXPQ1NjlGKXab') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-457.02532545570534 801.9443302389855L-454.52532545570534 804.9443302389855 -449.52532545570534 799.9443302389855"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('njKsYNkwTXPQ1NjlGKXab') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-199.52532545570534"
+        cy="760.9443302389855"
+        r="9.5"
+        fill="#19a323"
+        id="icon-link"
+        display={isCompleted('awoEhwPKjUcR84XGL6Som') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-203.52532545570534 760.9443302389855L-201.02532545570534 763.9443302389855 -196.02532545570534 758.9443302389855"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('awoEhwPKjUcR84XGL6Som') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="20.474674544294658"
+        cy="960.4443302389855"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('XL9XOV2h0BAuA5cFcM5L_') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M16.474674544294658 960.4443302389855L18.974674544294658 963.4443302389855 23.974674544294658 958.4443302389855"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('XL9XOV2h0BAuA5cFcM5L_') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="20.474674544294658"
+        cy="1013.4443302389855"
+        r="9.5"
+        fill="#19a323"
+        id="icon-link"
+        display={isCompleted('RvDfKoa_HIW3QDBfkPv3m') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M16.474674544294658 1013.4443302389855L18.974674544294658 1016.4443302389855 23.974674544294658 1011.4443302389855"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('RvDfKoa_HIW3QDBfkPv3m') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="20.474674544294658"
+        cy="1066.4443302389855"
+        r="9.5"
+        fill="#19a323"
+        id="icon-link"
+        display={isCompleted('kiCTo0U6VgNON8rv_Ktlj') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M16.474674544294658 1066.4443302389855L18.974674544294658 1069.4443302389855 23.974674544294658 1064.4443302389855"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('kiCTo0U6VgNON8rv_Ktlj') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-45.39686072916362"
+        cy="1305.976431006493"
+        r="9.5"
+        fill="#19a323"
+        id="icon-link"
+        display={isCompleted('ElqWQClryfSYdL7P_mgYK') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-49.39686072916362 1305.976431006493L-46.89686072916362 1308.976431006493 -41.89686072916362 1303.976431006493"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('ElqWQClryfSYdL7P_mgYK') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-45.39686072916362"
+        cy="1252.476431006493"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('5EPmbiNdP_vhIXclv_GjV') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-49.39686072916362 1252.476431006493L-46.89686072916362 1255.476431006493 -41.89686072916362 1250.476431006493"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('5EPmbiNdP_vhIXclv_GjV') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-46.39686072916362"
+        cy="1358.976431006493"
+        r="9.5"
+        fill="#19a323"
+        id="icon-link"
+        display={isCompleted('h49-tjEkKcq7d7ikRHIOx') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-49.39686072916362 1358.976431006493L-46.89686072916362 1361.976431006493 -41.89686072916362 1356.976431006493"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('h49-tjEkKcq7d7ikRHIOx') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="135.47467454429466"
+        cy="1010.4443302389855"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('opa61u9gYgSpoPtxp58wu') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M131.47467454429466 1010.4443302389855L133.97467454429466 1013.4443302389855 138.97467454429466 1008.4443302389855"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('opa61u9gYgSpoPtxp58wu') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="135.47467454429466"
+        cy="1063.4443302389855"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('cQllxv7qGbRtM9O5llgN6') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M131.47467454429466 1063.4443302389855L133.97467454429466 1066.4443302389855 138.97467454429466 1061.4443302389855"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('cQllxv7qGbRtM9O5llgN6') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="310.47467454429466"
+        cy="1238.4443302389855"
+        r="9.5"
+        fill="#19a323"
+        id="icon-link"
+        display={isCompleted('zN7Ps1puD-YpHbKi1pHH8') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M306.47467454429466 1238.4443302389855L308.97467454429466 1241.4443302389855 313.97467454429466 1236.4443302389855"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('zN7Ps1puD-YpHbKi1pHH8') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="533.4946952381852"
+        cy="1060.4443302389855"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('HdWq9ue0JdwmwqSIN2OD_') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M529.4946952381852 1060.4443302389855L531.9946952381852 1063.4443302389855 536.9946952381852 1058.4443302389855"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('HdWq9ue0JdwmwqSIN2OD_') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="554.4946952381852"
+        cy="1498.1701814857588"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('_5ht0PAdVOJWPzTRS1mVg') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M550.4946952381852 1498.1701814857588L552.9946952381852 1501.1701814857588 557.9946952381852 1496.1701814857588"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('_5ht0PAdVOJWPzTRS1mVg') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="249.193201050423"
+        cy="1401.4581550365865"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('ElgRwv5LSVg5FXGx-2K2s') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M245.193201050423 1401.4581550365865L247.693201050423 1404.4581550365865 252.693201050423 1399.4581550365865"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('ElgRwv5LSVg5FXGx-2K2s') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="249.193201050423"
+        cy="1453.4581550365865"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('K3RZ8ESxWCpLKHePF87Hy') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M245.193201050423 1453.4581550365865L247.693201050423 1456.4581550365865 252.693201050423 1451.4581550365865"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('K3RZ8ESxWCpLKHePF87Hy') ? 'block' : 'none'}
+      ></path>
+      <circle
+        cx="-348.08952699071995"
+        cy="1735.5475484484205"
+        r="9.5"
+        fill="#16a34a"
+        id="icon-link"
+        display={isCompleted('H6-XGDjs4f-qbv13v5av0') ? 'block' : 'none'}
+      ></circle>
+      <path
+        d="M-352.08952699071995 1735.5475484484205L-349.58952699071995 1738.5475484484205 -344.58952699071995 1733.5475484484205"
+        fill="none"
+        stroke="#fff"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        display={isCompleted('H6-XGDjs4f-qbv13v5av0') ? 'block' : 'none'}
+      ></path>
     </svg>
   )
 }

@@ -2,21 +2,25 @@
 
 import { Badge } from '@/atoms/badge/Badge'
 import { Button } from '@/atoms/button/Button'
-import type { RoadmapNodeData } from '@/data/roadmaps'
+import type { RoadmapNodeMeta } from '@/data/roadmaps'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Check, CheckCircle, ExternalLink, X, XCircle } from 'lucide-react'
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import type { Node } from 'reactflow'
 
 interface NodeDrawerProps {
-  node: Node<RoadmapNodeData> | null
+  node: RoadmapNodeMeta | null
   onClose: () => void
-  onComplete: (node: Node<RoadmapNodeData>) => void
-  onIncomplete: (node: Node<RoadmapNodeData>) => void
+  onComplete: (id: string) => void
+  onIncomplete: (id: string) => void
 }
 
-export const NodeDrawer = ({ node, onClose, onComplete, onIncomplete }: NodeDrawerProps) => {
+export const NodeDrawer = ({
+  node,
+  onClose,
+  onComplete,
+  onIncomplete,
+}: NodeDrawerProps) => {
   useEffect(() => {
     if (!node) return
 
@@ -71,9 +75,9 @@ export const NodeDrawer = ({ node, onClose, onComplete, onIncomplete }: NodeDraw
                     id={`drawer-title-${node.id}`}
                     className="text-lg font-semibold text-foreground text-primary border-l-2 border-white pl-2"
                   >
-                    {node.data.label}
+                    {node.title}
                   </h2>
-                  {node.data.isCompleted && (
+                  {node.isCompleted && (
                     <Badge size="sm" color="success">
                       <CheckCircle className="size-4" /> Completed
                     </Badge>
@@ -91,16 +95,16 @@ export const NodeDrawer = ({ node, onClose, onComplete, onIncomplete }: NodeDraw
 
               <main className="flex-1 overflow-y-auto pr-2">
                 <p className="mb-6 text-sm text-muted-foreground">
-                  {node.data.description}
+                  {node.description}
                 </p>
 
-                {node.data.resources.length > 0 && (
+                {node.resources.length > 0 && (
                   <section>
                     <h3 className="mb-3 text-sm font-medium text-foreground">
                       Resources
                     </h3>
                     <ul className="space-y-2">
-                      {node.data.resources.map((resource, index) => (
+                      {node.resources.map((resource, index) => (
                         <li key={index}>
                           <a
                             href={resource.url}
@@ -122,21 +126,21 @@ export const NodeDrawer = ({ node, onClose, onComplete, onIncomplete }: NodeDraw
                 <Button variant="secondary" size="sm" onClick={onClose}>
                   Close
                 </Button>
-                {!node.data.isCompleted && (
+                {!node.isCompleted && (
                   <Button
                     variant="primary"
                     size="sm"
-                    onClick={() => onComplete(node)}
+                    onClick={() => onComplete(node.id)}
                     className="gap-2"
                   >
                     <Check className="size-4" /> Mark as Complete
                   </Button>
                 )}
-                {node.data.isCompleted && (
+                {node.isCompleted && (
                   <Button
                     variant="error"
                     size="sm"
-                    onClick={() => onIncomplete(node)}
+                    onClick={() => onIncomplete(node.id)}
                     className="gap-2"
                   >
                     <XCircle className="size-4" /> Mark as Incomplete

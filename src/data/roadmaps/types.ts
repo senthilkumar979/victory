@@ -1,9 +1,15 @@
-import type { Node, Edge } from 'reactflow'
 
 export const ROADMAP_NODE_TYPE = 'roadmap' as const
 
-export interface RoadmapNodeData {
-  label: string
+export interface RoadmapData {
+  title: string
+  description: string
+  nodes: RoadmapNodeMeta[]
+}
+
+export interface RoadmapNodeMeta {
+  id: string
+  title: string
   description: string
   resources: {
     title: string
@@ -12,8 +18,8 @@ export interface RoadmapNodeData {
   isCompleted?: boolean
 }
 
-export interface RoadmapData {
-  title: string
-  nodes: Node<RoadmapNodeData>[]
-  edges: Edge[]
+
+export interface RoadmapDetailsProps {
+  completedNodes: string[]
+  onNodeClick: (id: string) => void
 }

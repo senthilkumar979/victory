@@ -2,33 +2,48 @@
 
 import { Breadcrumbs } from '@/atoms/breadcrumbs/Breadcrumbs'
 import { NodeDrawer } from '@/components/roadmap/NodeDrawer'
-import { RoadmapCanvas } from '@/components/roadmap/RoadmapCanvas'
 import {
   getRoadmap,
-  type RoadmapNodeData,
+  RoadmapDetailsProps,
+  RoadmapNodeMeta,
 } from '@/data/roadmaps'
 import { useRoadmapProgress } from '@/hooks/useRoadmapProgress'
+import { ReactRoadmap } from '@/modules/Roadmaps/ReactRoadmap'
+import { PageMain } from '@/templates/PagaMain'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
-import type { Node } from 'reactflow'
 
 export default function RoadmapSlugPage() {
   const params = useParams()
   const slug = typeof params?.slug === 'string' ? params.slug : ''
-  const roadmap = getRoadmap(slug)
+  const roadmap = (props: RoadmapDetailsProps) => {
+    switch (slug) {
+      case 'react':
+        return <ReactRoadmap {...props} />
+      default:
+        return null
+    }
+  }
 
-  const [selectedNode, setSelectedNode] =
-    useState<Node<RoadmapNodeData> | null>(null)
+  const roadmapDetails = getRoadmap(slug)
+  console.log(roadmapDetails?.nodes?.map((node) => node.id))
+
+  const [selectedNode, setSelectedNode] = useState<RoadmapNodeMeta | null>(null)
   const {
-    completedNodes,
+    completedNodes = [],
     markComplete,
     unmarkComplete,
     isLoading,
     error,
   } = useRoadmapProgress(slug)
 
-  const handleNodeClick = (node: Node<RoadmapNodeData>) => {
+  const handleNodeClick = (id: string) => {
+    if (!id || !roadmapDetails) return
+
+    const node = roadmapDetails.nodes.find((node) => node.id === id)
+    if (!node) return
+
     setSelectedNode(node)
   }
 
@@ -36,13 +51,13 @@ export default function RoadmapSlugPage() {
     setSelectedNode(null)
   }
 
-  const handleComplete = (node: Node<RoadmapNodeData>) => {
-    markComplete(node.id)
+  const handleComplete = (id: string) => {
+    markComplete(id)
     setSelectedNode(null)
   }
 
-  const handleIncomplete = (node: Node<RoadmapNodeData>) => {
-    unmarkComplete(node.id)
+  const handleIncomplete = (id: string) => {
+    unmarkComplete(id)
     setSelectedNode(null)
   }
 
@@ -54,8 +69,8 @@ export default function RoadmapSlugPage() {
             Roadmap not found
           </h2>
           <p className="mb-4 text-sm text-muted-foreground">
-            The roadmap &quot;{slug}&quot; does not exist. Try TypeScript, React, or
-            Node.
+            The roadmap &quot;{slug}&quot; does not exist. Try TypeScript,
+            React, or Node.
           </p>
           <Link
             href="/roadmaps/typescript"
@@ -69,43 +84,45 @@ export default function RoadmapSlugPage() {
   }
 
   return (
-    <div className="mx-auto max-w-full px-2 py-3">
-      <div className="flex flex-row items-center justify-between">
-        <Breadcrumbs
-          items={[
-            { label: 'Roadmaps', href: '/roadmaps' },
-            { label: roadmap.title },
-          ]}
-        />
-        {isLoading && (
-          <span className="text-sm text-muted-foreground">
-            Loading progress…
-          </span>
-        )}
-      </div>
-      <h1 className="text-2xl font-semibold text-primary text-center">
-          {roadmap.title}
-        </h1>
-      {error && (
-        <div
-          role="alert"
-          className="mb-4 rounded-lg border border-destructive/50 bg-destructive/10 px-4 py-2 text-sm text-destructive"
-        >
-          {error}
+    <PageMain>
+      <div className="mx-auto max-w-full px-2 py-3">
+        <div className="flex flex-row items-center justify-between">
+          <Breadcrumbs
+            items={[
+              { label: 'Roadmaps', href: '/roadmaps' },
+              { label: roadmapDetails?.title },
+            ]}
+          />
+          {isLoading && (
+            <span className="text-sm text-muted-foreground">
+              Loading progress…
+            </span>
+          )}
         </div>
-      )}
-      <RoadmapCanvas
-        nodes={roadmap.nodes}
-        edges={roadmap.edges}
-        completedNodes={completedNodes}
-        onNodeClick={handleNodeClick}
-      />
-      <NodeDrawer
-        node={selectedNode}
-        onClose={handleClose}
-        onComplete={handleComplete}
-        onIncomplete={handleIncomplete}
-      />
-    </div>
+        <h1 className="text-2xl font-semibold text-primary text-center">
+          {roadmapDetails?.title}
+        </h1>
+        {error && (
+          <div
+            role="alert"
+            className="mb-4 rounded-lg border border-destructive/50 bg-destructive/10 px-4 py-2 text-sm text-destructive"
+          >
+            {error}
+          </div>
+        )}
+        <div className="h-fit" style={{ margin: '0 20%' }}>
+          {roadmap({
+            completedNodes: completedNodes || [],
+            onNodeClick: handleNodeClick,
+          })}
+        </div>
+        <NodeDrawer
+          node={selectedNode}
+          onClose={handleClose}
+          onComplete={handleComplete}
+          onIncomplete={handleIncomplete}
+        />
+      </div>
+    </PageMain>
   )
 }
