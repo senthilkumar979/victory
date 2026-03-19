@@ -1,8 +1,8 @@
 import type { RoadmapData } from './types'
 
 export const reactRoadmap: RoadmapData = {
-   title: "React Student Roadmap: From Zero to Hero",
-  description: "React is a JavaScript library for building user interfaces.",
+   title: "React",
+  description: "A library for building user interfaces",
   nodes: [
     {
       id: "iogwMmOvub2ZF4zgg6WyF",
@@ -505,7 +505,7 @@ export const reactRoadmap: RoadmapData = {
       resources: [
         { title: "Axios Documentation", url: "https://axios-http.com/docs/intro", type: "documentation" },
         { title: "Axios + React - freeCodeCamp", url: "https://www.freecodecamp.org/news/how-to-use-axios-with-react", type: "article" },
-        { title: "Axios Example - CodeSandbox", url: "https://codesandbox.io/examples/package/axios", type: "code" }
+        { title: "Axios Example - CodeSandbox", url: "https://codesandbox.io/p/sandbox/axios-fvqlo", type: "code" }
       ]
     },
     {

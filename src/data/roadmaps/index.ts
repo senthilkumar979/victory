@@ -12,7 +12,7 @@ export const ROADMAPS: Record<string, RoadmapData> = {
 }
 
 export type RoadmapSlug = 'typescript' | 'react' | 'node'
-export const ROADMAP_SLUGS: RoadmapSlug[] = ['typescript', 'react', 'node']
+export const ROADMAP_SLUGS: RoadmapSlug[] = ['react']
 
 export const getRoadmap = (slug: string): RoadmapData | null =>
   ROADMAPS[slug] ?? null

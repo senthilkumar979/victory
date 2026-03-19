@@ -99,9 +99,12 @@ export default function RoadmapSlugPage() {
             </span>
           )}
         </div>
-        <h1 className="text-2xl font-semibold text-primary text-center">
+        <h1 className="text-2xl font-semibold text-primary text-center mb-3">
           {roadmapDetails?.title}
         </h1>
+        <p className="text-sm text-slate-500 text-center">
+          {roadmapDetails?.description}
+        </p>
         {error && (
           <div
             role="alert"

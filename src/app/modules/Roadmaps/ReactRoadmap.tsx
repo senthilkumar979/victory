@@ -15,7 +15,7 @@ export const ReactRoadmap = ({
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="-540 -253 1115 2433"
+      viewBox="-540 -133 1115 2233"
       version="1.1"
     >
       <path
@@ -505,37 +505,6 @@ export const ReactRoadmap = ({
         >
           <tspan></tspan>
         </text>
-      </g>
-      <g
-        data-node-id="iogwMmOvub2ZF4zgg6WyF"
-        data-type="title"
-        data-title="React"
-      >
-        <text
-          x="9.04031453135002"
-          y="-123.76957062917046"
-          text-anchor="middle"
-          dominant-baseline="middle"
-          font-size="28"
-          fontWeight="bold"
-          fill="#d53f8c"
-        >
-          <tspan>React</tspan>
-        </text>
-      </g>
-      <g data-node-id="LEijbLyxg4RyutKEM2Y5g" data-type="vertical">
-        <line
-          x1="9.04031453135002"
-          y1="-232.76957062917046"
-          x2="9.04031453135002"
-          y2="-168.76957062917046"
-          style={{
-            strokeLinecap: 'round',
-            strokeWidth: 3.5,
-            stroke: '#0A33FF',
-            strokeDasharray: '0.8 8',
-          }}
-        ></line>
       </g>
       <g
         data-node-id="tU4Umtnfu01t9gLlnlK6b"
