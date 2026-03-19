@@ -4,12 +4,14 @@ import { Badge } from '@/atoms/badge/Badge'
 import { Button } from '@/atoms/button/Button'
 import type { RoadmapNodeMeta } from '@/data/roadmaps'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Check, CheckCircle, ExternalLink, X, XCircle } from 'lucide-react'
+import { Check, CheckCircle, X, XCircle } from 'lucide-react'
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
+import { DrawerResources } from './DrawerResources'
 
 interface NodeDrawerProps {
   node: RoadmapNodeMeta | null
+  isCompleted: boolean
   onClose: () => void
   onComplete: (id: string) => void
   onIncomplete: (id: string) => void
@@ -17,17 +19,16 @@ interface NodeDrawerProps {
 
 export const NodeDrawer = ({
   node,
+  isCompleted,
   onClose,
   onComplete,
   onIncomplete,
 }: NodeDrawerProps) => {
   useEffect(() => {
     if (!node) return
-
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose()
     }
-
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [node, onClose])
@@ -61,7 +62,7 @@ export const NodeDrawer = ({
             role="dialog"
             aria-modal="true"
             aria-labelledby={`drawer-title-${node.id}`}
-            className="fixed right-0 top-0 z-[51] flex h-[calc(100%-1rem)] w-[400px] flex-col border-l border-muted bg-secondary p-6 shadow-xl ml-2 mr-2 mt-2 mb-2 rounded-md"
+            className="fixed right-0 top-0 z-[51] flex h-[calc(100%-1rem)] w-full max-w-[440px] flex-col border-l border-muted bg-secondary shadow-xl ml-2 mr-2 mt-2 mb-2 rounded-lg"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
@@ -69,81 +70,62 @@ export const NodeDrawer = ({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-1 flex-col overflow-hidden">
-              <header className="mb-4 flex items-start justify-between gap-4">
-                <div className="flex items-center gap-2">
-                  <h2
-                    id={`drawer-title-${node.id}`}
-                    className="text-lg font-semibold text-foreground text-primary border-l-2 border-white pl-2"
-                  >
-                    {node.title}
-                  </h2>
-                  {node.isCompleted && (
-                    <Badge size="sm" color="success">
-                      <CheckCircle className="size-4" /> Completed
-                    </Badge>
-                  )}
+              <header className="flex shrink-0 items-start justify-between gap-3 border-b border-muted px-6 py-4">
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <h2
+                      id={`drawer-title-${node.id}`}
+                      className="text-xl font-semibold tracking-tight text-foreground border-l-2 pl-2 border-primary"
+                    >
+                      {node.title}
+                    </h2>
+                    {isCompleted && (
+                      <Badge size="sm" color="success">
+                        <CheckCircle className="size-4" /> Done
+                      </Badge>
+                    )}
+                  </div>
                 </div>
                 <button
                   type="button"
                   onClick={onClose}
-                  className="shrink-0 rounded p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  className="shrink-0 rounded-md p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                   aria-label="Close drawer"
                 >
                   <X className="size-5" />
                 </button>
               </header>
 
-              <main className="flex-1 overflow-y-auto pr-2">
-                <p className="mb-6 text-sm text-muted-foreground">
+              <main className="flex-1 overflow-y-auto px-6 py-5">
+                <p className="mb-6 leading-relaxed text-muted-foreground">
                   {node.description}
                 </p>
-
                 {node.resources.length > 0 && (
-                  <section>
-                    <h3 className="mb-3 text-sm font-medium text-foreground">
-                      Resources
-                    </h3>
-                    <ul className="space-y-2">
-                      {node.resources.map((resource, index) => (
-                        <li key={index}>
-                          <a
-                            href={resource.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 text-sm text-primary transition-colors hover:underline"
-                          >
-                            {resource.title}
-                            <ExternalLink className="size-3.5 shrink-0" />
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </section>
+                  <DrawerResources resources={node.resources} />
                 )}
               </main>
 
-              <footer className="mt-6 flex gap-3 border-t border-muted pt-4 justify-between">
+              <footer className="flex shrink-0 gap-3 border-t border-muted px-6 py-4 justify-between">
                 <Button variant="secondary" size="sm" onClick={onClose}>
                   Close
                 </Button>
-                {!node.isCompleted && (
+                {!isCompleted ? (
                   <Button
                     variant="primary"
                     size="sm"
                     onClick={() => onComplete(node.id)}
                     className="gap-2"
                   >
-                    <Check className="size-4" /> Mark as Complete
+                    <Check className="size-4" /> Mark Complete
                   </Button>
-                )}
-                {node.isCompleted && (
+                ) : (
                   <Button
                     variant="error"
                     size="sm"
                     onClick={() => onIncomplete(node.id)}
                     className="gap-2"
                   >
-                    <XCircle className="size-4" /> Mark as Incomplete
+                    <XCircle className="size-4" /> Mark Incomplete
                   </Button>
                 )}
               </footer>

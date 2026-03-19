@@ -25,7 +25,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-iogwMmOvub2ZF4zgg6WyFx2-XDvH2t3AJGevS17uM8TO6w1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0"
       ></path>
       <path
@@ -35,7 +35,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-tU4Umtnfu01t9gLlnlK6bz2-y1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0.8 8"
       ></path>
       <path
@@ -45,7 +45,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-XDvH2t3AJGevS17uM8TO6x2-tU4Umtnfu01t9gLlnlK6bw2"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0"
       ></path>
       <path
@@ -55,7 +55,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-0uiGsC5SWavNdlFqizkKey2-8mw4TxlLN4ZKAlLl-_NVVz1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0.8 8"
       ></path>
       <path
@@ -65,7 +65,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-tU4Umtnfu01t9gLlnlK6bx2-0uiGsC5SWavNdlFqizkKew2"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0"
       ></path>
       <path
@@ -75,7 +75,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-79K4xgljcoSHkCYI1D55Oz2-0uiGsC5SWavNdlFqizkKey2"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0"
       ></path>
       <path
@@ -85,7 +85,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-0uiGsC5SWavNdlFqizkKey2-thfnymb_UIiKxakKfiua5z1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0"
       ></path>
       <path
@@ -95,7 +95,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-thfnymb_UIiKxakKfiua5y2-HX75SExuzR5AP7TQ94qidz1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0.8 8"
       ></path>
       <path
@@ -105,7 +105,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-thfnymb_UIiKxakKfiua5y2-mkyU0ug8MXxV4biHuOityz1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0.8 8"
       ></path>
       <path
@@ -115,7 +115,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-LbLQhonBqzxHU6B-L--Vqz2-thfnymb_UIiKxakKfiua5y1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0"
       ></path>
       <path
@@ -125,7 +125,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-thfnymb_UIiKxakKfiua5x2-jvp43wFkKlGQX2y7IxkbMw2"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0.8 8"
       ></path>
       <path
@@ -135,7 +135,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-NStw6bi_pPB49K41BFSgoy2-thfnymb_UIiKxakKfiua5z1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0"
       ></path>
       <path
@@ -145,7 +145,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-thfnymb_UIiKxakKfiua5w2-yI6XiNW04EL78UL4lkVgdx1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0.8 8"
       ></path>
       <path
@@ -155,7 +155,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-akVNUPOqaTXaSHoQFlkP_x2-DfrCkbD-HEHwLymv10zb5w2"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0.8 8"
       ></path>
       <path
@@ -165,7 +165,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-I7_mX4h-Yywp1YyTJRKXIy2-DfrCkbD-HEHwLymv10zb5z1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0"
       ></path>
       <path
@@ -175,7 +175,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-DfrCkbD-HEHwLymv10zb5y2-thfnymb_UIiKxakKfiua5z1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0"
       ></path>
       <path
@@ -185,7 +185,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-MnDgQq9Vcxsu3wDqv5uh2z2-XL9XOV2h0BAuA5cFcM5L_y1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0.8 8"
       ></path>
       <path
@@ -195,7 +195,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-MnDgQq9Vcxsu3wDqv5uh2z2-RvDfKoa_HIW3QDBfkPv3my1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0.8 8"
       ></path>
       <path
@@ -205,7 +205,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-MnDgQq9Vcxsu3wDqv5uh2z2-kiCTo0U6VgNON8rv_Ktljy2"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0.8 8"
       ></path>
       <path
@@ -215,7 +215,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-MnDgQq9Vcxsu3wDqv5uh2x2-nK1DhEXBKVhvSR1P_vzgjy2"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0"
       ></path>
       <path
@@ -225,7 +225,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-nK1DhEXBKVhvSR1P_vzgjx2--AKmITUmSGIflJG-eGkm5w1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0.8 8"
       ></path>
       <path
@@ -235,7 +235,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-b4AP2OggxFAwsQtUwiUJJz2-nK1DhEXBKVhvSR1P_vzgjy1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0"
       ></path>
       <path
@@ -245,7 +245,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-nK1DhEXBKVhvSR1P_vzgjw2-cQllxv7qGbRtM9O5llgN6x1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0.8 8"
       ></path>
       <path
@@ -255,7 +255,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-nK1DhEXBKVhvSR1P_vzgjx2-zN7Ps1puD-YpHbKi1pHH8w1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0.8 8"
       ></path>
       <path
@@ -265,7 +265,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-nK1DhEXBKVhvSR1P_vzgjw2-HdWq9ue0JdwmwqSIN2OD_x1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0.8 8"
       ></path>
       <path
@@ -275,7 +275,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-e_lwZ-a72-tAan2KDX6k3z2-nK1DhEXBKVhvSR1P_vzgjy2"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0"
       ></path>
       <path
@@ -285,7 +285,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-W-atg_Msa9uPLr6RXAKSbx2-nK1DhEXBKVhvSR1P_vzgjw2"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0"
       ></path>
       <path
@@ -295,7 +295,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-nK1DhEXBKVhvSR1P_vzgjx2-_5ht0PAdVOJWPzTRS1mVgw1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0.8 8"
       ></path>
       <path
@@ -305,7 +305,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-KHcC5pFN3qLnsbPPKpYd2y2-nK1DhEXBKVhvSR1P_vzgjz1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0"
       ></path>
       <path
@@ -315,7 +315,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-nK1DhEXBKVhvSR1P_vzgjw2-K3RZ8ESxWCpLKHePF87Hyx1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0.8 8"
       ></path>
       <path
@@ -325,7 +325,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-UNlvRp6k3_RDoTAAIEfJ1y2-ydxyne6RzIDPHij1Z3CsNz1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0"
       ></path>
       <path
@@ -335,7 +335,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-ydxyne6RzIDPHij1Z3CsNy2-bRpeoo9zXrnZ2IHSI7JX4w1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0"
       ></path>
       <path
@@ -345,7 +345,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-bRpeoo9zXrnZ2IHSI7JX4x2-H6-XGDjs4f-qbv13v5av0w2"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0.8 8"
       ></path>
       <path
@@ -355,7 +355,7 @@ export const ReactRoadmap = ({
         strokeWidth="3.5"
         data-edge-id="reactflow__edge-bRpeoo9zXrnZ2IHSI7JX4z2-gMHMjsh0i8paLZUH5mDX3y1"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         strokeDasharray="0"
       ></path>
       <g
@@ -2548,8 +2548,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('y9ToYDix-koRbR6FLydFw') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2565,8 +2565,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('8mw4TxlLN4ZKAlLl-_NVV') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2582,8 +2582,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('WREBxWSNQDD_6fzpHL6CE') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2599,8 +2599,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('RFuy3Eho3mnW1GpP08BVw') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2616,8 +2616,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('aE6XBgH23135_9QmD4ff2') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2633,8 +2633,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('4T59gdcwdXqj9kCuK7cfp') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2650,8 +2650,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('8OBlgDRUg-CTgDXY-QHyO') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2667,8 +2667,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('HeWVCPHqVnnbOn6zIim4K') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2684,8 +2684,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('vdumdIglnouf1KyGIGZnc') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2701,8 +2701,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('_zNAOhFWMcWqP4oxNPCXF') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2718,8 +2718,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('Nex2HcTOYIbfqUzXyxSMY') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2735,8 +2735,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('zOENl96GUZRw2PP2KxIck') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2752,8 +2752,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('8OnzX03hkZ9K9i__tjmFX') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2769,8 +2769,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('HX75SExuzR5AP7TQ94qid') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2786,8 +2786,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('dgoDNDtW2_q9R9yhkXrcz') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2803,8 +2803,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('t_laNdMmdLApYszqXRdWg') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2820,8 +2820,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('w3bNp7OkehI1gjx8NzlC8') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2837,8 +2837,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('v48Mv0wQqjXbvy8x6gDjQ') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2854,8 +2854,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('D5_O-uElftYGQr_bTU_se') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2871,8 +2871,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('YEpkbNzEMzS6wAKg85J_N') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2888,8 +2888,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('mkyU0ug8MXxV4biHuOity') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2905,8 +2905,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('zWL8VLx_g0SWubavJDs6i') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2922,8 +2922,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('jvp43wFkKlGQX2y7IxkbM') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2939,8 +2939,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('10uL0r388lKh8pWYWqRZD') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2956,8 +2956,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('yI6XiNW04EL78UL4lkVgd') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2973,8 +2973,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('KO3viVIJJREtxXxsocN7j') ? 'block' : 'none'}
       ></path>
       <circle
@@ -2990,8 +2990,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('uqphqAnlcJOLnwHZs5jWu') ? 'block' : 'none'}
       ></path>
       <circle
@@ -3007,8 +3007,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('gy7eBxPOlwG8BvxHVLDQ9') ? 'block' : 'none'}
       ></path>
       <circle
@@ -3024,8 +3024,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('njKsYNkwTXPQ1NjlGKXab') ? 'block' : 'none'}
       ></path>
       <circle
@@ -3041,8 +3041,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('awoEhwPKjUcR84XGL6Som') ? 'block' : 'none'}
       ></path>
       <circle
@@ -3058,8 +3058,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('XL9XOV2h0BAuA5cFcM5L_') ? 'block' : 'none'}
       ></path>
       <circle
@@ -3075,8 +3075,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('RvDfKoa_HIW3QDBfkPv3m') ? 'block' : 'none'}
       ></path>
       <circle
@@ -3092,8 +3092,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('kiCTo0U6VgNON8rv_Ktlj') ? 'block' : 'none'}
       ></path>
       <circle
@@ -3109,8 +3109,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('ElqWQClryfSYdL7P_mgYK') ? 'block' : 'none'}
       ></path>
       <circle
@@ -3126,8 +3126,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('5EPmbiNdP_vhIXclv_GjV') ? 'block' : 'none'}
       ></path>
       <circle
@@ -3143,8 +3143,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('h49-tjEkKcq7d7ikRHIOx') ? 'block' : 'none'}
       ></path>
       <circle
@@ -3160,8 +3160,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('opa61u9gYgSpoPtxp58wu') ? 'block' : 'none'}
       ></path>
       <circle
@@ -3177,8 +3177,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('cQllxv7qGbRtM9O5llgN6') ? 'block' : 'none'}
       ></path>
       <circle
@@ -3194,8 +3194,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('zN7Ps1puD-YpHbKi1pHH8') ? 'block' : 'none'}
       ></path>
       <circle
@@ -3211,8 +3211,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('HdWq9ue0JdwmwqSIN2OD_') ? 'block' : 'none'}
       ></path>
       <circle
@@ -3228,8 +3228,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('_5ht0PAdVOJWPzTRS1mVg') ? 'block' : 'none'}
       ></path>
       <circle
@@ -3245,8 +3245,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('ElgRwv5LSVg5FXGx-2K2s') ? 'block' : 'none'}
       ></path>
       <circle
@@ -3262,8 +3262,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('K3RZ8ESxWCpLKHePF87Hy') ? 'block' : 'none'}
       ></path>
       <circle
@@ -3279,8 +3279,8 @@ export const ReactRoadmap = ({
         fill="none"
         stroke="#fff"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         display={isCompleted('H6-XGDjs4f-qbv13v5av0') ? 'block' : 'none'}
       ></path>
     </svg>

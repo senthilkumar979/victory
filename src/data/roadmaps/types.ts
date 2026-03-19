@@ -11,11 +11,12 @@ export interface RoadmapNodeMeta {
   id: string
   title: string
   description: string
+  isCompleted?: boolean
   resources: {
     title: string
-    url: string
+    url: string,
+    type?: 'video' | 'article' | 'book' | 'course' | 'code' | 'documentation' | 'other'
   }[]
-  isCompleted?: boolean
 }
 
 

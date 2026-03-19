@@ -118,6 +118,7 @@ export default function RoadmapSlugPage() {
         </div>
         <NodeDrawer
           node={selectedNode}
+          isCompleted={completedNodes.includes(selectedNode?.id || '')}
           onClose={handleClose}
           onComplete={handleComplete}
           onIncomplete={handleIncomplete}
