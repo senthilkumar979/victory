@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { PageMain } from '../../../ui/templates/PagaMain'
 import { TransformationBridge } from './TransformationBridge'
 import { TransformationBridgeMobile } from './TransformationBridgeMobile'
+import { PartnersCarousel } from '../Footer/PartnersCarousel'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -90,6 +91,9 @@ export const Hero = () => (
             )}
           </motion.div>
         </div>
+      </div>
+      <div className="mt-[-10px]">
+        <PartnersCarousel />
       </div>
     </section>
   </PageMain>
