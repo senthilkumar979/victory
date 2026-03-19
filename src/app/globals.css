@@ -291,3 +291,14 @@ ul {
     animation-play-state: paused;
   }
 }
+
+.main-block:hover {
+  rect {
+    fill: color-mix(in srgb, var(--color-primary) 80%, transparent);
+    cursor: help;
+  }
+
+  text {
+    cursor: help;
+  }
+}

@@ -4,7 +4,7 @@ import { ROADMAP_NODE_TYPE } from '@/data/roadmaps'
 import type { MouseEvent as ReactMouseEvent } from 'react'
 import { useCallback, useMemo } from 'react'
 import type { Edge, Node } from 'reactflow'
-import { ReactFlow } from 'reactflow'
+import { ReactRoadmap } from '../../data/roadmaps/ReactRoadmap'
 import { RoadmapNode } from './RoadmapNode'
 
 interface RoadmapCanvasProps<T> {
@@ -43,15 +43,16 @@ export const RoadmapCanvas = <T,>({
   )
 
   return (
-    <div className="h-[100vh]" style={{ margin: '0 20%' }}>
-      <ReactFlow
+    <div className="h-fit" style={{ margin: '0 20%' }}>
+      <ReactRoadmap />
+      {/* <ReactFlow
         nodes={styledNodes}
         edges={edges}
         nodeTypes={nodeTypes}
         onNodeClick={handleNodeClick}
         fitView
         fitViewOptions={{ maxZoom: 1 }}
-        className="bg-white"
+        className="bg-white min-h-[calc(100vh-200px)]"
         zoomOnPinch={false}
         zoomOnScroll={false}
         panOnScroll={false}
@@ -62,7 +63,7 @@ export const RoadmapCanvas = <T,>({
         elementsSelectable={false}
         preventScrolling={true}
         snapToGrid={false}
-      />
+      /> */}
     </div>
   )
 }
