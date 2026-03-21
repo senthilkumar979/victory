@@ -71,18 +71,9 @@ export default function FrameworkExplanation() {
       className="flex h-full min-h-0 w-full flex-col justify-center py-8 lg:py-0"
     >
       <div className="mx-auto w-full max-w-xl space-y-6 lg:mx-0">
-        <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 border border-primary/30"
-          >
-            <span className="text-sm text-primary font-medium flex  justify-center items-center gap-2">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              Learning Framework
-            </span>
-          </motion.div>
+        <p className="mb-14 font-mono text-[11px] font-medium uppercase tracking-[0.35em] bg-primary w-fit p-2 text-white rounded-full">
+            Learning Framework
+        </p>
 
         <div>
           <h2 className="text-4xl font-bold leading-tight text-gray-900 md:text-5xl">

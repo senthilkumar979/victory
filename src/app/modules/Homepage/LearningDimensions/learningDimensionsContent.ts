@@ -65,9 +65,9 @@ export const horizontalPillars: HorizontalPillarItem[] = [
     description: 'Frame ambiguity, test hypotheses, and decide well.',
   },
   {
-    id: 'culture',
-    title: 'Knowledge Culture',
-    description: 'Learn continuously and lift teams around you.',
+    id: 'storytelling',
+    title: 'Storytelling',
+    description: 'Craft compelling narratives, engage audiences, and drive action.',
   },
   {
     id: 'execution',

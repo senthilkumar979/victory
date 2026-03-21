@@ -16,10 +16,9 @@ export default function LearningDimensions() {
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="relative flex justify-center items-center text-center"
       >
-        <div className="text-sm text-primary font-medium flex items-center gap-2 bg-primary/10 border border-primary/30 px-4 py-1.5 rounded-full">
-          <div className="w-2 h-2 bg-primary rounded-full"></div>
+        <p className="mb-2 text-center font-mono text-[11px] font-medium uppercase tracking-[0.35em] bg-primary w-fit p-2 text-center mx-auto text-white rounded-full">
           Learning Dimensions
-        </div>
+        </p>
       </motion.div>
 
       <div className="relative z-10 mx-auto max-w-7xl">
@@ -37,11 +36,12 @@ export default function LearningDimensions() {
             <HorizontalIntelligencePillars />
           </div>
         </div>
-
-        <p className="mx-auto mt-4 max-w-5xl text-center text-lg text-gray-700">
-          Depth builds expertise. Breadth builds adaptability. Together, they
-          create exceptional professionals.
-        </p>
+        <div className="mx-auto mt-16 max-w-2xl border-t border-slate-200/70 pt-10">
+          <p className="text-center font-serif text-lg italic leading-relaxed text-slate-700 md:text-xl">
+            Depth builds expertise. Breadth builds adaptability. Together, they
+            create exceptional professionals.
+          </p>
+        </div>
       </div>
     </section>
   )
