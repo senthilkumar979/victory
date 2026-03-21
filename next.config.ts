@@ -32,6 +32,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: '*.zohobackstage.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'wfkq0nguanh0273r.public.blob.vercel-storage.com',
+      },
     ],
   },
 };
