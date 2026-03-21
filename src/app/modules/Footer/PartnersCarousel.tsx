@@ -3,8 +3,8 @@ import Image from 'next/image'
 const partners = [
   'https://cdn.prod.website-files.com/65db81f1b768e5a874a7f796/6823abc6adba15348385c94b_brand-logo.svg',
   'https://cdn.prod.website-files.com/65f2a5372687678051645610%2F674ff9bec4b490efb213e1b8_Black.png',
-  'https://frigate.ai/wp-content/uploads/2024/03/Frigate-Manufacturing-Services-Logo-scaled.webp',
-  'https://klyonix.com/wp-content/uploads/2025/09/KlyONIX-Logo-Trans-copy.png',
+  'https://91qunajyvl11yxyb.public.blob.vercel-storage.com/Frigate.webp',
+  'https://klyonix.com/assets/klyonix/frontend/assets/logo-C2Ly_RjO.png',
   'https://91qunajyvl11yxyb.public.blob.vercel-storage.com/hello-truck.svg',
   'https://91qunajyvl11yxyb.public.blob.vercel-storage.com/sukiran.png',
   'https://cdn.prod.website-files.com/6433e458ab91bb85baa64649/6434fe08ac4abec17562ea4c_Logo%20Full.png',

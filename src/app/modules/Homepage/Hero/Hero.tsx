@@ -1,11 +1,11 @@
 'use client'
 
 import { cn } from '@/lib/utils'
+import { PageMain } from '@/templates/PagaMain'
 import { GraduationCap } from 'lucide-react'
 import { motion } from 'motion/react'
 import Link from 'next/link'
-import { PageMain } from '../../../ui/templates/PagaMain'
-import { PartnersCarousel } from '../Footer/PartnersCarousel'
+import { PartnersCarousel } from '../../Footer/PartnersCarousel'
 import { TransformationBridge } from './TransformationBridge'
 import { TransformationBridgeMobile } from './TransformationBridgeMobile'
 
