@@ -31,12 +31,12 @@ const itemVariants = {
 
 export const Hero = () => (
   <PageMain>
-    <section className="relative min-h-[85vh] overflow-hidden bg-[#0b1120] hero-mesh sm:min-h-[88vh] lg:min-h-[90vh]">
+    <section className="relative min-h-[85vh] overflow-hidden bg-[#0b1120] hero-mesh sm:min-h-[98vh] lg:min-h-[90vh]">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(99,102,241,0.08),transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_80%_60%,rgba(6,182,212,0.06),transparent_50%)]" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-        <div className="grid items-center gap-8 sm:gap-12 lg:grid-cols-2 lg:gap-16">
+      <div className="relative z-10 mx-auto max-w-8xl px-6 py-4 sm:px-6 sm:py-2 lg:pr-12 lg:px-6 lg:py-20">
+        <div className="grid items-center gap-50 sm:gap-12 md:gap-16 lg:grid-cols-2 lg:gap-2">
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -47,10 +47,12 @@ export const Hero = () => (
               variants={itemVariants}
               className="text-3xl font-extrabold leading-[1.2] tracking-tight text-primary sm:text-4xl sm:leading-[1.15] md:text-5xl lg:text-6xl"
             >
-              Bridging the Gap from{' '}
+              Bridging the Gap from
+              <br />
               <span className="bg-gradient-to-r from-indigo-400 via-sky-400 to-cyan-400 bg-clip-text text-transparent">
                 Rural Classrooms
-              </span>{' '}
+              </span>
+              <br />
               to Global Tech
             </motion.h1>
 
@@ -82,7 +84,7 @@ export const Hero = () => (
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="relative order-first flex min-h-[260px] w-full items-center justify-center overflow-hidden sm:min-h-[300px] sm:order-none lg:min-h-[360px]"
+            className="relative order-first flex w-full items-center justify-center lg:overflow-hidden sm:min-h-[98vh] sm:order-none lg:min-h-[360px]"
           >
             <div className="contents md:hidden">
               <TransformationBridgeMobile />
@@ -93,7 +95,7 @@ export const Hero = () => (
           </motion.div>
         </div>
       </div>
-      <div className="mt-[-50px]">
+      <div className="sm:mt-[150px] lg:mt-[0px]">
         <PartnersCarousel />
       </div>
     </section>
