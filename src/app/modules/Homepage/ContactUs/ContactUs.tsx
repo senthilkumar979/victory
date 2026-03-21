@@ -1,11 +1,10 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import GlobeWireframe from '@/components/ui/globe-wireframe'
-import { SeparatorPro } from '@/components/ui/seperatorpro'
 import { cn } from '@/lib/utils'
-import { ArrowRight, Mail, MessageCircle, Phone } from 'lucide-react'
+import { Mail, MessageCircle, Phone } from 'lucide-react'
 import { motion } from 'motion/react'
+import { ContactUsForm } from './ContactUsForm/ContactUsForm'
 
 const smoothEase = [0.25, 0.1, 0.25, 1] as const
 
@@ -127,74 +126,7 @@ export const ContactUs = ({
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.0, delay: 0.35, ease: smoothEase }}
-            className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-8 flex flex-col gap-5"
-          >
-            <div>
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-0.5">
-                Send a message
-              </h3>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Fill out the form and we&apos;ll get back to you promptly.
-              </p>
-            </div>
-
-            <SeparatorPro variant="dots" />
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-semibold tracking-widest uppercase text-zinc-400 dark:text-zinc-500">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Kumar"
-                  className="w-full bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 outline-none focus:border-rose-400 dark:focus:border-rose-500/50 focus:ring-2 focus:ring-rose-500/10 transition-all duration-200"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-semibold tracking-widest uppercase text-zinc-400 dark:text-zinc-500">
-                  Company
-                </label>
-                <input
-                  type="text"
-                  placeholder="ABC Pvt Ltd"
-                  className="w-full bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 outline-none focus:border-rose-400 dark:focus:border-rose-500/50 focus:ring-2 focus:ring-rose-500/10 transition-all duration-200"
-                />
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <label className="text-xs font-semibold tracking-widest uppercase text-zinc-400 dark:text-zinc-500">
-                Email Address
-              </label>
-              <input
-                type="email"
-                placeholder="kumar@abc.com"
-                className="w-full bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 outline-none focus:border-rose-400 dark:focus:border-rose-500/50 focus:ring-2 focus:ring-rose-500/10 transition-all duration-200"
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <label className="text-xs font-semibold tracking-widest uppercase text-zinc-400 dark:text-zinc-500">
-                Message
-              </label>
-              <textarea
-                placeholder="Type your message here"
-                rows={8}
-                className="w-full bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 rounded-xl px-4 py-3 text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 outline-none focus:border-rose-400 dark:focus:border-rose-500/50 focus:ring-2 focus:ring-rose-500/10 resize-none transition-all duration-200"
-              />
-            </div>
-
-            <Button className="w-fit h-11 px-8 rounded-xl font-semibold text-sm bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-900 group">
-              Submit
-              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-            </Button>
-          </motion.div>
+          <ContactUsForm />
         </div>
       </div>
     </section>
