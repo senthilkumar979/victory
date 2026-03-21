@@ -71,14 +71,23 @@ export default function FrameworkExplanation() {
       className="flex h-full min-h-0 w-full flex-col justify-center py-8 lg:py-0"
     >
       <div className="mx-auto w-full max-w-xl space-y-6 lg:mx-0">
-        <p className="text-sm font-medium uppercase tracking-wider text-indigo-600">
-          MentorBridge Learning Framework
-        </p>
+        <motion.div
+            initial={{ opacity: 0, y: -12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 border border-primary/30"
+          >
+            <span className="text-sm text-primary font-medium flex  justify-center items-center gap-2">
+              <div className="w-2 h-2 bg-primary rounded-full"></div>
+              Learning Framework
+            </span>
+          </motion.div>
 
         <div>
           <h2 className="text-4xl font-bold leading-tight text-gray-900 md:text-5xl">
             Building{' '}
-            <span className="bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-pink-800 via-pink-500 to-primary bg-clip-text text-transparent">
               T-Shaped
             </span>{' '}
             Professionals
@@ -112,6 +121,6 @@ export default function FrameworkExplanation() {
           <strong className="font-semibold text-gray-900">strategically capable</strong>.
         </p>
       </div>
-    </motion.div>
+      </motion.div>
   )
 }

@@ -14,7 +14,7 @@ export const FrameworkDiagramIntersection = ({
   return (
     <div className="relative z-30 flex items-center justify-center py-2">
       <motion.div
-        className="absolute h-36 w-36 rounded-full bg-gradient-to-br from-indigo-500/30 via-cyan-500/20 to-purple-500/25 blur-2xl"
+        className="absolute h-36 w-36 rounded-full bg-gradient-to-br from-[#d53f8c]/35 via-[#f472b6]/22 to-[#be185d]/28 blur-2xl"
         animate={
           reduceMotion
             ? undefined
@@ -24,19 +24,19 @@ export const FrameworkDiagramIntersection = ({
         aria-hidden
       />
       <motion.div
-        className="absolute h-28 w-28 rounded-full border border-indigo-400/40"
+        className="absolute h-28 w-28 rounded-full border border-[#d53f8c]/45"
         animate={reduceMotion ? undefined : { rotate: 360 }}
         transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
         aria-hidden
       />
       <motion.div
-        className="absolute h-32 w-32 rounded-full border border-dashed border-cyan-400/30"
+        className="absolute h-32 w-32 rounded-full border border-dashed border-[#f472b6]/40"
         animate={reduceMotion ? undefined : { rotate: -360 }}
         transition={{ duration: 42, repeat: Infinity, ease: 'linear' }}
         aria-hidden
       />
       <motion.div
-        className="absolute h-[8.5rem] w-[8.5rem] rounded-full bg-gradient-to-br from-indigo-400/25 to-cyan-400/15 opacity-70 blur-md"
+        className="absolute h-[8.5rem] w-[8.5rem] rounded-full bg-gradient-to-br from-[#d53f8c]/28 to-[#fbcfe8]/20 opacity-70 blur-md"
         animate={
           reduceMotion
             ? undefined
@@ -46,7 +46,7 @@ export const FrameworkDiagramIntersection = ({
         aria-hidden
       />
       <motion.div
-        className="relative flex min-h-[7.5rem] min-w-[7.5rem] max-w-[12rem] flex-col items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 via-blue-600 to-cyan-500 px-3 py-2 text-center shadow-[0_0_40px_rgba(99,102,241,0.45),inset_0_1px_0_rgba(255,255,255,0.25)] ring-1 ring-white/30 dark:shadow-[0_0_48px_rgba(34,211,238,0.2)]"
+        className="relative flex min-h-[7.5rem] min-w-[7.5rem] max-w-[12rem] flex-col items-center justify-center rounded-full bg-gradient-to-br from-[#9d174d] via-[#d53f8c] to-[#f472b6] px-3 py-2 text-center shadow-[0_0_40px_rgba(213,63,140,0.45),inset_0_1px_0_rgba(255,255,255,0.25)] ring-1 ring-white/30 dark:shadow-[0_0_48px_rgba(213,63,140,0.28)]"
         animate={
           reduceMotion
             ? undefined

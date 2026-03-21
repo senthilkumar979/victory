@@ -35,13 +35,13 @@ export const FrameworkDiagramHorizontalPills = ({
 }: FrameworkDiagramHorizontalPillsProps) => (
   <div className="relative mb-2 w-full max-w-4xl px-2 md:px-4">
     <div
-      className={`pointer-events-none absolute left-6 right-6 top-1/2 z-0 h-[3px] -translate-y-1/2 rounded-full bg-gradient-to-r from-indigo-500/20 via-purple-500 to-cyan-500/30 blur-sm transition-opacity duration-300 md:left-10 md:right-10 ${
+      className={`pointer-events-none absolute left-6 right-6 top-1/2 z-0 h-[3px] -translate-y-1/2 rounded-full bg-gradient-to-r from-[#d53f8c]/25 via-[#f472b6]/50 to-[#fbcfe8]/40 blur-sm transition-opacity duration-300 md:left-10 md:right-10 ${
         isLinked ? 'opacity-100' : 'opacity-70'
       }`}
       aria-hidden
     />
     <div
-      className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-px w-[72%] max-w-3xl -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-transparent via-indigo-400 to-transparent opacity-90 shadow-[0_0_24px_rgba(129,140,248,0.65)] mt-6 sm:mt-6 lg:mt-0"
+      className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-px w-[72%] max-w-3xl -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-transparent via-[#d53f8c]/80 to-transparent opacity-90 shadow-[0_0_24px_rgba(213,63,140,0.55)] mt-6 sm:mt-6 lg:mt-0"
       aria-hidden
     />
     <motion.ul
@@ -56,8 +56,8 @@ export const FrameworkDiagramHorizontalPills = ({
           <motion.div
             className={`${pillBase} ${
               hoverH === i
-                ? 'scale-[1.06] border-indigo-300/70 shadow-[0_0_28px_rgba(129,140,248,0.45)] ring-2 ring-indigo-400/40 dark:border-indigo-400/50'
-                : 'hover:scale-[1.05] hover:border-indigo-200/60 hover:shadow-[0_0_22px_rgba(129,140,248,0.28)]'
+                ? 'scale-[1.06] border-[#f472b6]/80 shadow-[0_0_28px_rgba(213,63,140,0.45)] ring-2 ring-[#d53f8c]/35 dark:border-[#f472b6]/55'
+                : 'hover:scale-[1.05] hover:border-[#fbcfe8]/90 hover:shadow-[0_0_22px_rgba(213,63,140,0.28)]'
             }`}
             style={{ rotate: horizontalRotationsDeg[i] ?? 0 }}
             animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
@@ -73,7 +73,7 @@ export const FrameworkDiagramHorizontalPills = ({
             aria-label={`Horizontal intelligence: ${label}`}
           >
             <Icon
-              className="h-4 w-4 shrink-0 text-indigo-600 dark:text-indigo-300"
+              className="h-4 w-4 shrink-0 text-[#be185d] dark:text-[#f9a8d4]"
               aria-hidden
             />
             <span className="text-sm font-medium tracking-tight text-gray-900 dark:text-gray-100">

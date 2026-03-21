@@ -3,7 +3,16 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import type { LucideIcon } from 'lucide-react'
 import {
-  BookOpen, Brain, Briefcase, Cloud, Code, Database, DollarSign, MessageCircle, Server, Users,
+  BookOpen,
+  Brain,
+  Briefcase,
+  Cloud,
+  Code,
+  Database,
+  DollarSign,
+  MessageCircle,
+  Server,
+  Users,
 } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { FrameworkDiagramBackdrop } from './FrameworkDiagramBackdrop'
@@ -44,7 +53,7 @@ export default function FrameworkDiagram() {
 
   return (
     <motion.section
-      className="relative isolate w-full overflow-hidden bg-white px-4 py-14 dark:bg-gray-950"
+      className="relative isolate w-full overflow-hidden px-4 py-14 bg-white dark:bg-gray-950 "
       aria-label="MentorBridge T-Shaped Learning Model diagram"
       initial={reduceMotion ? false : 'hidden'}
       animate="show"
@@ -62,10 +71,14 @@ export default function FrameworkDiagram() {
         />
 
         <div
-          className={`relative flex w-full flex-col items-center transition-[filter] duration-300 ease-in-out ${hoverH !== null ? 'drop-shadow-[0_0_20px_rgba(129,140,248,0.35)]' : ''}`}
+          className={`relative flex w-full flex-col items-center transition-[filter] duration-300 ease-in-out ${
+            hoverH !== null
+              ? 'drop-shadow-[0_0_20px_rgba(213,63,140,0.38)]'
+              : ''
+          }`}
         >
           <div
-            className="relative h-10 w-2 overflow-hidden rounded-full bg-gradient-to-b from-indigo-500 via-blue-500 to-cyan-400 shadow-[0_0_18px_rgba(59,130,246,0.55)]"
+            className="relative h-10 w-2 overflow-hidden rounded-full bg-gradient-to-b from-[#9d2164] via-[#d53f8c] to-[#f472b6] shadow-[0_0_18px_rgba(213,63,140,0.55)]"
             aria-hidden
           >
             {!reduceMotion ? (
