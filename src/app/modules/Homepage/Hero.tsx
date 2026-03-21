@@ -5,9 +5,9 @@ import { GraduationCap } from 'lucide-react'
 import { motion } from 'motion/react'
 import Link from 'next/link'
 import { PageMain } from '../../../ui/templates/PagaMain'
+import { PartnersCarousel } from '../Footer/PartnersCarousel'
 import { TransformationBridge } from './TransformationBridge'
 import { TransformationBridgeMobile } from './TransformationBridgeMobile'
-import { PartnersCarousel } from '../Footer/PartnersCarousel'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -84,15 +84,16 @@ export const Hero = () => (
             transition={{ duration: 0.6, delay: 0.3 }}
             className="relative order-first flex min-h-[260px] w-full items-center justify-center overflow-hidden sm:min-h-[300px] sm:order-none lg:min-h-[360px]"
           >
-            {window.innerWidth < 768 ? (
+            <div className="contents md:hidden">
               <TransformationBridgeMobile />
-            ) : (
+            </div>
+            <div className="hidden md:contents">
               <TransformationBridge />
-            )}
+            </div>
           </motion.div>
         </div>
       </div>
-      <div className="mt-[-10px]">
+      <div className="mt-[-50px]">
         <PartnersCarousel />
       </div>
     </section>
