@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 import { cn } from '@/lib/utils'
 
-import { accent, layoutTransition, type MentorKey } from './Mentors'
+import { accent, layoutEase, type MentorKey } from './Mentors'
 import { type Mentor, mentors } from './mentorsContent'
 
 interface MentorPhotoProps {
@@ -21,10 +21,7 @@ export function MentorPhoto({ mentorKey, size }: MentorPhotoProps) {
   const isActive = size === 'active'
 
   return (
-    <motion.div
-      layoutId={`mentor-photo-${mentorKey}`}
-      layout
-      transition={layoutTransition}
+    <div
       className={cn(
         'relative shrink-0',
         isActive ? 'w-full max-w-[420px]' : 'size-28',
@@ -66,7 +63,11 @@ export function MentorPhoto({ mentorKey, size }: MentorPhotoProps) {
           !isActive && 'rounded-xl shadow-[0_10px_28px_-12px_rgba(213,63,140,0.35)]',
         )}
       >
-        <div
+        <motion.div
+          key={mentorKey}
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.34, ease: layoutEase }}
           className={cn(
             'relative w-full',
             isActive ? 'aspect-[4/5]' : 'aspect-square h-full',
@@ -79,6 +80,7 @@ export function MentorPhoto({ mentorKey, size }: MentorPhotoProps) {
             className="object-cover object-center"
             sizes={isActive ? '(max-width: 768px) 100vw, 420px' : '112px'}
             priority={isActive}
+            unoptimized={m.image.startsWith('http')}
           />
           {isActive && (
             <div
@@ -92,8 +94,8 @@ export function MentorPhoto({ mentorKey, size }: MentorPhotoProps) {
               aria-hidden
             />
           )}
-        </div>
+        </motion.div>
       </div>
-    </motion.div>
+    </div>
   )
 }

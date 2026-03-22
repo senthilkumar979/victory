@@ -68,7 +68,7 @@ export default function FrameworkExplanation() {
       initial={reduceMotion ? false : { opacity: 0, x: 40 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-      className="flex h-full min-h-0 w-full flex-col justify-center py-8 lg:py-0"
+      className="flex h-full min-h-0 w-full flex-col justify-center py-8 lg:py-0 px-4 lg:px-0"
     >
       <div className="mx-auto w-full max-w-xl space-y-6 lg:mx-0">
         <p className="mb-14 font-mono text-[11px] font-medium uppercase tracking-[0.35em] bg-primary w-fit p-2 text-white rounded-full">
