@@ -4,6 +4,8 @@ import { PageMain } from '@/ui/templates/PagaMain'
 import { PageHeader } from '@/ui/templates/PageHeader'
 import { Code2, GraduationCap, Shield } from 'lucide-react'
 import { useCallback, useMemo, useState } from 'react'
+import { AgileProductTimelineSection } from './AgileProductTimelineSection'
+import { AgileProductTimelineSectionDescription } from './AgileProductTimelineSectionDescription'
 import { ProductCard } from './ProductCard'
 import { ProductDetailDrawer } from './ProductDetailDrawer'
 import type { Product } from './product.types'
@@ -41,7 +43,7 @@ export const ProductsShowcase = () => {
             and entrepreneurial mindset we cultivate.
           </p>
         </div>
-        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3 mb-20">
           {products.map((product, index) => (
             <ProductCard
               key={product.id}
@@ -50,6 +52,10 @@ export const ProductsShowcase = () => {
               onOpen={open}
             />
           ))}
+        </div>
+        <div className="flex flex-row items-stretch gap-10 lg:gap-12 items-center justify-center">
+          <AgileProductTimelineSectionDescription />
+          <AgileProductTimelineSection />
         </div>
       </div>
       <ProductDetailDrawer
