@@ -1,0 +1,115 @@
+{
+  "products": [
+    {
+      "id": "securosphere",
+      "name": "SecuroSphere",
+      "category": "Security Platform",
+      "tagline": "Enterprise-grade web authentication solution providing comprehensive security infrastructure for modern applications.",
+      "features": [
+        "Multi-Factor Authentication",
+        "Single Sign-On Integration",
+        "Role-Based Access Control",
+        "Real-Time Security Monitoring"
+      ],
+      "impact": "Securing 10,000+ user sessions daily",
+      "websiteUrl": "https://securosphere.mentorbridge.in/",
+      "imageUrl": "https://wfkq0nguanh0273r.public.blob.vercel-storage.com/securosphere-epORkcNMVS6f7iaVAUkYt8mFW1kp3L.png",
+      "detailPageUrl": null,
+      "theme": "emerald",
+      "icon": "shield",
+      "story": {
+        "lead": "SecuroSphere delivers a production-ready authentication layer for teams that need SSO, MFA, and fine-grained access control without compromising on observability or compliance.",
+        "sections": [
+          {
+            "title": "Built for modern applications",
+            "paragraphs": [
+              "Whether you ship SPAs, mobile clients, or internal tools, SecuroSphere centralizes identity so every service speaks the same security language.",
+              "Session monitoring and alerting help operations teams spot anomalies early—supporting thousands of concurrent users with predictable performance."
+            ]
+          },
+          {
+            "title": "Why teams adopt it",
+            "paragraphs": [
+              "Reduce integration time with standards-based SSO, enforce least-privilege with RBAC, and keep auditors happy with clear access trails.",
+              "From first login to ongoing governance, SecuroSphere is designed as infrastructure you can trust at scale."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "stublab",
+      "name": "StubLab",
+      "category": "Developer Tools",
+      "tagline": "AI-powered API testing platform that accelerates development workflows with intelligent mock generation and testing automation.",
+      "features": [
+        "AI-Powered Mock Generation",
+        "Dynamic Response Modeling",
+        "Collaborative Testing Environment",
+        "Version Control Integration"
+      ],
+      "impact": "Used by 500+ development teams",
+      "websiteUrl": "https://stublab.mentorbridge.in/",
+      "imageUrl": "https://91qunajyvl11yxyb.public.blob.vercel-storage.com/stublab.png",
+      "detailPageUrl": "https://www.mentorbridge.in/product-detail/stublab",
+      "theme": "violet",
+      "icon": "code2",
+      "story": {
+        "lead": "StubLab is the stub server platform that lets you mock, test, and prototype APIs instantly—without standing up a backend database. Test faster and smarter with AI-driven dynamic responses.",
+        "sections": [
+          {
+            "title": "API development without the drama",
+            "paragraphs": [
+              "Traditional API work often means waiting on backends, wrestling with inconsistent mock data, and maintaining docs by hand. StubLab removes the database dependency so frontends and QA can move in parallel.",
+              "Reusable models, JWT-based auth, and built-in Swagger generation keep teams aligned while dynamic response rules let you simulate delays, errors, and edge cases on demand."
+            ]
+          },
+          {
+            "title": "Who it is for",
+            "paragraphs": [
+              "Frontend teams start building against realistic contracts immediately. QA engineers exercise production-like behaviors without fragile scripts. Product teams iterate on prototypes with consistent data.",
+              "OpenAI integration helps auto-generate realistic payloads from model descriptions—so your mocks feel like the real thing."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "stupro",
+      "name": "StuPro",
+      "category": "Career Platform",
+      "tagline": "Comprehensive career development platform connecting students with industry opportunities and personalized growth paths.",
+      "features": [
+        "Career Path Guidance",
+        "Skill Assessment & Tracking",
+        "Industry Mentorship Matching",
+        "Job Opportunity Curation"
+      ],
+      "impact": "Helped 1,000+ students find careers",
+      "websiteUrl": "https://stupro.mentorbridge.in/",
+      "detailPageUrl": "https://www.mentorbridge.in/product-detail/stupro",
+      "imageUrl": "https://wfkq0nguanh0273r.public.blob.vercel-storage.com/logo-alone.png",
+      "theme": "amber",
+      "icon": "graduationCap",
+      "story": {
+        "lead": "StuPro is your career wingman—structured, action-based, and designed to move you from student to job-ready professional without endless course-hopping.",
+        "sections": [
+          {
+            "title": "Closing the theory–practice gap",
+            "paragraphs": [
+              "Students face information overload, weak practical skills, and vague career advice. StuPro delivers bite-sized learning, daily challenges, and real coding practice matched to your level.",
+              "Leaderboards, streaks, and curated content make growth feel as engaging as your favorite feed—while staying focused on outcomes that employers care about."
+            ]
+          },
+          {
+            "title": "What you get",
+            "paragraphs": [
+              "Resume and LinkedIn guidance, trending tech and repo discovery, and challenges that build confidence—not just bookmarks.",
+              "Whether you are in college, freshly graduated, or breaking into tech, StuPro turns small daily wins into a credible professional story."
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

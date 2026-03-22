@@ -132,7 +132,7 @@ const DrawerRoot = ({
 
 const DrawerTitle = ({ children, description }: DrawerTitleProps) => (
   <header className="relative flex flex-col gap-1.5 pr-8">
-    <h2 className="text-sm font-semibold tracking-tight text-slate-50 sm:text-base">
+    <h2 className="text-sm font-semibold tracking-tight text-slate-50 sm:text-base font-['Urbanist',system-ui,sans-serif] tracking-wide border-l-2 border-primary pl-2">
       {children}
     </h2>
     {description ? (

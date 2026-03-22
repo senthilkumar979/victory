@@ -5,6 +5,7 @@ import { GooeyToaster } from 'goey-toast'
 import 'goey-toast/styles.css'
 import {
   BookOpen,
+  Brain,
   CalendarIcon,
   HomeIcon,
   ImageIcon,
@@ -112,6 +113,13 @@ export const Navbar = () => {
             >
               <UsersIcon className="w-4 h-4" />
               Students
+            </Link>
+            <Link
+              href="/products"
+              className={linkClass + activeLinkClass('products')}
+            >
+              <Brain className="w-4 h-4" />
+              Products
             </Link>
             <Link
               href="/secured/profile"
