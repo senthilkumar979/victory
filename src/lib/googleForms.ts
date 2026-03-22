@@ -66,7 +66,9 @@ export async function createMeetingFeedbackForm(
     throw new Error(`Google Forms auth failed: ${msg}${hint}`)
   }
   const title = `Feedback: ${meetingTitle}`
+  const description = `Thank you for your active participation in today's discussion regarding ${meetingTitle}. Your insights are vital as we move forward with our next steps. We want to ensure these sessions remain a valuable use of your time. Please share your feedback on the content and format of the meeting. Thanks again for your time and contribution.`
 
+  // Create accepts only info.title; documentTitle, description, items → batchUpdate
   const createRes = await fetch('https://forms.googleapis.com/v1/forms', {
     method: 'POST',
     headers: {
@@ -74,7 +76,7 @@ export async function createMeetingFeedbackForm(
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      info: { title, documentTitle: title, description: `Thank you for your active participation in today’s discussion regarding ${meetingTitle}. Your insights are vital as we move forward with our next steps. We want to ensure these sessions remain a valuable use of your time. Please share your feedback on the content and format of the meeting. Thanks again for your time and contribution.` },
+      info: { title },
     }),
   })
   if (!createRes.ok) {
@@ -89,13 +91,13 @@ export async function createMeetingFeedbackForm(
   const formId = createData.formId
   if (!formId) throw new Error('No formId in create response')
 
-  const requests = FEEDBACK_QUESTIONS.map((q, idx) => {
+  const questionRequests = FEEDBACK_QUESTIONS.map((q, idx) => {
     const item: Record<string, unknown> = {
       title: q.title,
       questionItem: {
         question: {
           required: true,
-          ...(q.scale
+          ...('scale' in q
             ? { scaleQuestion: q.scale }
             : { textQuestion: { paragraph: true } }),
         },
@@ -109,20 +111,47 @@ export async function createMeetingFeedbackForm(
     }
   })
 
-  const batchRes = await fetch(
-    `https://forms.googleapis.com/v1/forms/${formId}:batchUpdate`,
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ requests }),
-    },
-  )
-  if (!batchRes.ok) {
-    const err = await batchRes.text()
-    console.error('Google Forms batchUpdate error:', batchRes.status, err)
+  const formBatchUrl = `https://forms.googleapis.com/v1/forms/${formId}:batchUpdate`
+  const batchHeaders = {
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json',
+  }
+
+  const metaRes = await fetch(formBatchUrl, {
+    method: 'POST',
+    headers: batchHeaders,
+    body: JSON.stringify({
+      requests: [
+        {
+          updateFormInfo: {
+            info: {
+              title,
+              documentTitle: title,
+              description,
+            },
+            updateMask: 'documentTitle,description',
+          },
+        },
+      ],
+    }),
+  })
+  if (!metaRes.ok) {
+    const err = await metaRes.text()
+    console.warn(
+      'Google Forms updateFormInfo (description/title) failed; continuing with questions only:',
+      metaRes.status,
+      err,
+    )
+  }
+
+  const itemsRes = await fetch(formBatchUrl, {
+    method: 'POST',
+    headers: batchHeaders,
+    body: JSON.stringify({ requests: questionRequests }),
+  })
+  if (!itemsRes.ok) {
+    const err = await itemsRes.text()
+    console.error('Google Forms batchUpdate (questions) error:', itemsRes.status, err)
     throw new Error(`Failed to add questions: ${err}`)
   }
 

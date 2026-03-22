@@ -15,7 +15,7 @@ interface UseMeetingsOptions {
   pageLimit?: number
 }
 
-interface UseMeetingsReturn {
+export interface UseMeetingsReturn {
   meetings: MeetingFormState[]
   totalCount: number
   isLoading: boolean

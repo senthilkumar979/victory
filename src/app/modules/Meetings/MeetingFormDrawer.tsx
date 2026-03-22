@@ -4,6 +4,7 @@ import { useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
+import { useManageMeeting } from '@/hooks/useManageMeeting'
 import { useMeetings } from '@/hooks/useMeetings'
 import { toISTTimestamptz } from '@/utils/dateISTUtils'
 import { Drawer } from '@/ui/organisms/drawer/Drawer'
@@ -34,6 +35,10 @@ export const MeetingFormDrawer = ({
   onSuccess,
 }: MeetingFormDrawerProps) => {
   const { createMeeting, updateMeeting } = useMeetings()
+  const { createMeetingWithPipeline } = useManageMeeting({
+    createMeeting,
+    updateMeeting,
+  })
   const form = useForm<MeetingFormValues>({
     resolver: zodResolver(meetingFormSchema),
     defaultValues: toFormValues(null),
@@ -58,72 +63,31 @@ export const MeetingFormDrawer = ({
       coverImageUrl: (data.coverImageUrl ?? '').trim(),
     }
 
-    let meetLinkFailed = false
     try {
       if (isEditing && meetingToEdit?.id) {
         await updateMeeting(meetingToEdit.id, payload)
-      } else {
-        const { id } = await createMeeting(payload)
-        const formRes = await fetch('/api/meetings/create-feedback-form', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            meetingId: id,
-            meetingTitle: payload.title,
-          }),
-        })
-        if (formRes.ok) {
-          const { feedbackFormUrl } = (await formRes.json()) as {
-            feedbackFormUrl: string
-          }
-          if (feedbackFormUrl) {
-            await updateMeeting(id, { ...payload, feedbackForm: feedbackFormUrl })
-          }
-        }
-        const meetRes = await fetch('/api/meetings/create-google-meet', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            title: payload.title,
-            date: payload.date,
-            description: payload.description || undefined,
-            attendees: payload.googleGroupId
-              ? [payload.googleGroupId]
-              : ['mentorbridgeindia@gmail.com'],
-          }),
-        })
-        if (meetRes.ok) {
-          const { meetingLink: link } = (await meetRes.json()) as {
-            meetingLink: string
-          }
-          if (link) {
-            await updateMeeting(id, { ...payload, meetingLink: link })
-          }
-        } else {
-          meetLinkFailed = true
-        }
-      }
-      gooeyToast.success(
-        meetLinkFailed
-          ? 'Meeting saved. Google Meet link could not be created—add it manually if needed.'
-          : 'Meeting saved successfully.',
-        {
-          description: <span>{payload.title}</span>,
+        gooeyToast.success('Meeting saved successfully.', {
+          description: payload.title,
           bounce: 0.45,
           borderColor: '#E0E0E0',
           borderWidth: 2,
-          timing: { displayDuration: meetLinkFailed ? 4000 : 2000 },
-        },
-      )
+          timing: { displayDuration: 2000 },
+        })
+      } else {
+        await createMeetingWithPipeline(payload)
+      }
       onSuccess()
     } catch (err) {
-      gooeyToast.error('Failed to save meeting.', {
-        description: err instanceof Error ? err.message : 'Please try again.',
-        bounce: 0.45,
-        borderColor: '#E0E0E0',
-        borderWidth: 2,
-        timing: { displayDuration: 3000 },
-      })
+      if (isEditing && meetingToEdit?.id) {
+        gooeyToast.error('Failed to save meeting.', {
+          description:
+            err instanceof Error ? err.message : 'Please try again.',
+          bounce: 0.45,
+          borderColor: '#E0E0E0',
+          borderWidth: 2,
+          timing: { displayDuration: 3000 },
+        })
+      }
     }
   })
 

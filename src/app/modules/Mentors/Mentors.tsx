@@ -22,7 +22,7 @@ export default function Mentors() {
   const inactive: Mentor = mentors.find((m) => m.id === inactiveKey)!
 
   return (
-    <section className="relative isolate overflow-hidden bg-gradient-to-br from-white via-pink-50/80 to-white py-16 md:py-24">
+    <section className="relative isolate overflow-hidden bg-gradient-to-br from-white via-pink-50/80 to-white py-8">
       <div
         className="pointer-events-none absolute left-1/4 top-[-8%] h-[26rem] w-[26rem] rounded-full opacity-20 blur-3xl"
         style={{ backgroundColor: accent }}
@@ -36,8 +36,8 @@ export default function Mentors() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
         <header className="mb-12 text-center md:mb-16">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
-            WHO WE ARE
+          <p className="mb-2 text-center font-mono text-[11px] font-medium uppercase tracking-[0.35em] bg-primary w-fit p-2 text-center mx-auto text-white rounded-full">
+            Who We Are
           </p>
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Meet the Mentors Behind{' '}
