@@ -105,7 +105,10 @@ export const ProfileBlogs = ({ blogs, loading }: ProfileBlogsProps) => {
             className="group flex items-center gap-4 rounded-xl border border-slate-100 border-blue-500/30 bg-secondary bg-gradient-to-br from-blue-500/20 via-cyan-500/10 to-transparent p-4 transition-all hover:border-primary/20 hover:bg-primary"
           >
             <div className="flex size-24 shrink-0 items-center justify-center rounded-lg bg-slate-800 text-white">
-              {blog.cover_image_url ? (
+              {blog.cover_image_url &&
+              blog.cover_image_url.startsWith(
+                'https://cdn-images-1.medium.com',
+              ) ? (
                 <div className="flex-shrink-0 w-24 h-24 overflow-hidden rounded-md bg-slate-100 border border-slate-100 flex items-center justify-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img

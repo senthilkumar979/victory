@@ -51,7 +51,10 @@ export function BlogCard({
         aria-label={`Read: ${title ?? 'Untitled'}`}
       >
         <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100 rounded-lg">
-          {cover_image_url ? (
+          {cover_image_url &&
+          cover_image_url.startsWith(
+            'https://cdn-images-1.medium.com',
+          ) ? (
             <div className="h-full w-full overflow-hidden rounded-md">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

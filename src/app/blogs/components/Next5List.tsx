@@ -38,7 +38,10 @@ export function Next5List({ blogs }: Next5ListProps) {
           aria-label={`Read: ${blog.title ?? 'Untitled'}`}
         >
           <div className="h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-slate-100">
-            {blog.cover_image_url ? (
+            {blog.cover_image_url &&
+            blog.cover_image_url.startsWith(
+              'https://cdn-images-1.medium.com',
+            ) ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={blog.cover_image_url}
@@ -46,7 +49,21 @@ export function Next5List({ blogs }: Next5ListProps) {
                 className="h-full w-full object-cover transition group-hover:scale-105"
               />
             ) : (
-              <div className="h-full w-full bg-slate-200" />
+              <div className="flex-shrink-0 w-24 h-24 overflow-hidden rounded-md bg-slate-100 border border-slate-100 flex items-center justify-center">
+                <svg
+                  className="h-14 w-14"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.2}
+                    d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
+                  />
+                </svg>
+              </div>
             )}
           </div>
           <div className="min-w-0 flex-1">
