@@ -48,10 +48,6 @@ const DrawerRoot = ({
     onClose()
   }
 
-  const handleContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation()
-  }
-
   const drawerSizeClass = sizeClassMap[size]
   const isRight = side === 'right'
   const slideInitial = { x: isRight ? 24 : -24 }
@@ -63,15 +59,22 @@ const DrawerRoot = ({
     <AnimatePresence>
       {isOpen ? (
         <motion.div
-          className="fixed inset-0 z-50 flex bg-slate-950/70 backdrop-blur-xl"
+          className="fixed inset-0 z-50"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.18, ease: 'easeOut' }}
-          onClick={handleBackdropClick}
         >
+          {/* Dedicated backdrop: only this layer closes on overlay click. */}
           <div
-            className={`flex h-[calc(100%-10px)] w-full ${
+            role="presentation"
+            className="absolute inset-0 bg-slate-950/70 backdrop-blur-xl"
+            onClick={handleBackdropClick}
+            aria-hidden
+          />
+          {/* Pass-through outside the panel so clicks hit the backdrop, not a full-width row. */}
+          <div
+            className={`relative z-10 flex h-[calc(100%-10px)] w-full pointer-events-none ${
               isRight ? 'justify-end' : 'justify-start'
             }`}
           >
@@ -80,12 +83,11 @@ const DrawerRoot = ({
               role="dialog"
               aria-modal="true"
               tabIndex={-1}
-              className={`relative flex h-[full-100px] w-full ${drawerSizeClass} outline-none`}
+              className={`pointer-events-auto relative flex h-[full-100px] w-full ${drawerSizeClass} outline-none`}
               initial={{ opacity: 0, ...slideInitial, scale: 0.98 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, ...slideExit, scale: 0.99 }}
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-              onClick={handleContainerClick}
             >
               <div className="relative flex h-[full-100px] w-full overflow-hidden rounded-md right-3 top-3 mb-3 bg-gradient-to-br from-primary/30 via-sky-500/20 to-violet-500/30 p-px shadow-[0_0_0_1px_rgba(148,163,184,0.35)] dark:from-primary/40 dark:via-sky-500/25 dark:to-violet-500/35">
                 <div className="relative flex h-[full-100px]  w-full flex-col gap-4 rounded-md bg-slate-950/95 p-5 sm:p-6">
@@ -95,11 +97,17 @@ const DrawerRoot = ({
                   {showCloseButton ? (
                     <button
                       type="button"
-                      onClick={() => onClose()}
-                      className="group absolute right-4 top-4 inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-700/70 bg-slate-900/90 text-slate-300 transition-colors hover:border-primary/60 hover:bg-primary/25 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 focus-visible:ring-offset-slate-950"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        onClose()
+                      }}
+                      className="group absolute right-4 top-4 z-20 inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-700/70 bg-slate-900/90 text-slate-300 transition-colors hover:border-primary/60 hover:bg-primary/25 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 focus-visible:ring-offset-slate-950"
                       aria-label="Close drawer"
                     >
-                      <span className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/40 via-sky-500/40 to-violet-500/40 opacity-0 blur group-hover:opacity-40" />
+                      <span
+                        className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-br from-primary/40 via-sky-500/40 to-violet-500/40 opacity-0 blur group-hover:opacity-40"
+                        aria-hidden
+                      />
                       <span className="relative">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"

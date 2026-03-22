@@ -53,7 +53,7 @@ export const ProductsShowcase = () => {
             />
           ))}
         </div>
-        <div className="flex flex-row items-stretch gap-10 lg:gap-12 items-center justify-center">
+        <div className="flex flex-col lg:flex-row items-stretch gap-10 lg:gap-12 items-center justify-center">
           <AgileProductTimelineSectionDescription />
           <AgileProductTimelineSection />
         </div>

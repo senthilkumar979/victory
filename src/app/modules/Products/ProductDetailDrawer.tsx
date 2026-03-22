@@ -42,7 +42,7 @@ export const ProductDetailDrawer = ({
           <p className="text-center text-base leading-relaxed text-slate-600 dark:text-slate-300">
             {product.story.lead}
           </p>
-          <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-5 dark:border-slate-600/50 dark:bg-slate-800/40">
+          <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-5 border-slate-600/50 bg-slate-800/40">
             <h3 className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-500">
               Highlights
             </h3>
