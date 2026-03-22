@@ -51,7 +51,7 @@ export default function Mentors() {
         </header>
 
         <div className="relative flex min-h-0 flex-col gap-10 md:block md:min-h-[min(520px,70vh)] md:pb-28">
-          <div className="relative z-10 w-full overflow-hidden md:overflow-visible">
+          <div className="relative z-10 w-full overflow-hidden md:overflow-visible mb-10">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={activeMentor}
@@ -106,7 +106,7 @@ export default function Mentors() {
                 whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <div className="mt-10">
+                <div className="mt-5">
                   <MentorPhoto mentorKey={inactiveKey} size="inactive" />
                 </div>
                 <p className="max-w-[7rem] text-center text-sm font-medium text-gray-800">

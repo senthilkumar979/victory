@@ -8,6 +8,7 @@ export interface Mentor {
   description: string
   image: string
   skills: string[]
+  linkedin: string
 }
 
 export function renderHighlightedDescription(
@@ -52,6 +53,7 @@ export const mentors: Mentor[] = [
       'Java',
       'Spring Boot',
     ],
+    linkedin: 'https://www.linkedin.com/in/senthilk979/',
   },
   {
     id: 'dhileepan',
@@ -70,5 +72,6 @@ export const mentors: Mentor[] = [
       'Docker',
       'Kubernetes',
     ],
+    linkedin: 'https://www.linkedin.com/in/dhileepan-dhanapal-31901224/',
   },
 ]

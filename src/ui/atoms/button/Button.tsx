@@ -53,7 +53,7 @@ const getVariantClasses = (
   if (mode === "outline") return button.primaryOutline;
 
   if (variant === "info") {
-    return button.textInfo;
+    return button.info;
   }
 
   if (variant.startsWith("text")) {
@@ -112,4 +112,8 @@ export const TertiaryButton = (props: VariantButtonProps) => (
 
 export const ErrorButton = (props: VariantButtonProps) => (
   <Button {...props} variant="error" />
+);
+
+export const InfoButton = (props: VariantButtonProps) => (
+  <Button {...props} variant="info" />
 );

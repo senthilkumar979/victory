@@ -2,6 +2,8 @@
 
 import { AnimatePresence, motion } from 'framer-motion'
 
+import { Linkedin } from 'lucide-react'
+import { Button, InfoButton } from '../../../ui/atoms/button/Button'
 import { accent, layoutEase, type MentorKey } from './Mentors'
 import { type Mentor } from './mentorsContent'
 
@@ -55,6 +57,11 @@ export default function MentorDetails({ mentor, activeKey }: MentorDetailsProps)
                 </span>
               ))}
             </p>
+            <InfoButton mode="outline"
+              onClick={() => window.open(mentor.linkedin, '_blank')} className="mt-4"
+            >
+              <Linkedin className="size-4" /> View LinkedIn Profile
+            </InfoButton>
           </div>
         </motion.article>
       </AnimatePresence>

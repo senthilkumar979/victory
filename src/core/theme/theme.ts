@@ -14,6 +14,7 @@ export interface ButtonTheme {
   textTertiary: string;
   textError: string;
   info: string;
+  infoOutline: string;
   textInfo: string;
   textSuccess: string;
   textWarning: string;
@@ -84,6 +85,8 @@ export const defaultTheme: Theme = {
       "bg-transparent text-red-500 hover:bg-red-500 hover:text-white focus-visible:ring-red-500",
     info:
       "bg-info text-info-foreground hover:bg-info hover:text-white focus-visible:ring-info",
+    infoOutline:
+      "border border-info text-info bg-transparent hover:bg-info hover:text-white focus-visible:ring-info",
     textInfo:
       "bg-transparent text-info hover:bg-info hover:text-white focus-visible:ring-info",
     textSuccess:
