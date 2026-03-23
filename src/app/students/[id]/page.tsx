@@ -3,6 +3,7 @@
 import { useParams } from 'next/navigation'
 
 import { Breadcrumbs } from '@/atoms/breadcrumbs/Breadcrumbs'
+import { LogSnagPageView } from '@/components/analytics/LogSnagPageView'
 import { StudentProfileView } from '@/components/profile/StudentProfileView'
 import { useStudent } from '@/hooks/useStudent'
 import { StudentNotFound } from '@/templates/StudentNotFound'
@@ -48,6 +49,11 @@ export default function StudentDetailPage() {
   return (
     <div className="min-h-screen w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-white to-slate-50">
       <div className="mx-auto w-full max-w-[1600px] px-4 py-10 sm:px-6 lg:px-10 xl:px-14">
+        <LogSnagPageView
+          channel="profile"
+          description="Secured profile"
+          icon="👤"
+        />
         <Breadcrumbs
           items={[
             { label: 'Students', href: '/students' },

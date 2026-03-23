@@ -11,9 +11,10 @@ import { ProfileData } from '@/types/student.types'
 import { Drawer } from '@/ui/organisms/drawer/Drawer'
 import { gooeyToast } from 'goey-toast'
 import { BotIcon, Loader2, Pencil } from 'lucide-react'
-import { StudentProfileView } from '../../../components/profile/StudentProfileView'
-import { safeJsonParse } from '../../../utils/parseUtils'
-import { ProfileEditForm } from '../../profile/[id]/edit/ProfileEditForm'
+
+import { ProfileEditForm } from '@/app/profile/[id]/edit/ProfileEditForm'
+import { StudentProfileView } from '@/components/profile/StudentProfileView'
+import { safeJsonParse } from '@/utils/parseUtils'
 
 const getPrimaryEmail = (user: ReturnType<typeof useUser>['user'] | null) => {
   if (!user) return null

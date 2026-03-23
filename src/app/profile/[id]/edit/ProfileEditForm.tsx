@@ -11,6 +11,7 @@ import { motion } from 'framer-motion'
 import { gooeyToast } from 'goey-toast'
 import { ArrowLeft, Loader2, Save } from 'lucide-react'
 
+import { LogSnagPageView } from '@/components/analytics/LogSnagPageView'
 import { useCreateStudentProfile } from '@/hooks/useCreateStudentProfile'
 import type { ProfileData } from '@/types/student.types'
 import { ProfileEditFormFields } from './ProfileEditFormFields'
@@ -174,6 +175,11 @@ export const ProfileEditForm = ({ student, studentId, email, onBack }: ProfileEd
           <ArrowLeft className="size-4" /> Back to profile
         </Button>
       </div>
+      <LogSnagPageView
+          channel="profile"
+          description="Profile edit form"
+          icon="👤"
+        />
 
       <form
         id="profile-edit-form"
