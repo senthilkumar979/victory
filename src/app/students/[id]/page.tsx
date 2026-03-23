@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation'
 
 import { Breadcrumbs } from '@/atoms/breadcrumbs/Breadcrumbs'
 import { LogSnagPageView } from '@/components/analytics/LogSnagPageView'
+import { PosthogCaptureOnce } from '@/components/analytics/PosthogCaptureOnce'
 import { StudentProfileView } from '@/components/profile/StudentProfileView'
 import { useStudent } from '@/hooks/useStudent'
 import { StudentNotFound } from '@/templates/StudentNotFound'
@@ -53,6 +54,14 @@ export default function StudentDetailPage() {
           channel="profile"
           description="Secured profile"
           icon="👤"
+        />
+        <PosthogCaptureOnce
+          event="context_page_viewed"
+          properties={{
+            channel: 'profile',
+            description: 'Student public profile',
+            student_id: id,
+          }}
         />
         <Breadcrumbs
           items={[

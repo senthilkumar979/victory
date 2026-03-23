@@ -1,4 +1,5 @@
 import { LogSnagPageView } from '@/components/analytics/LogSnagPageView'
+import { PosthogCaptureOnce } from '@/components/analytics/PosthogCaptureOnce'
 
 import { ContactUs } from './modules/Homepage/ContactUs/ContactUs'
 import { Framework } from './modules/Homepage/Framework/Framework'
@@ -12,6 +13,10 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <LogSnagPageView channel="home" description="Homepage" icon="🏠" />
+      <PosthogCaptureOnce
+        event="context_page_viewed"
+        properties={{ channel: 'home', description: 'Homepage' }}
+      />
       <Hero />
       <Framework />
       <LearningDimensions />

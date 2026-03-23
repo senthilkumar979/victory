@@ -6,6 +6,7 @@ import 'goey-toast/styles.css'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import 'reactflow/dist/style.css'
+import { PosthogRoot } from '@/components/analytics/PosthogRoot'
 import { ClarityComponent } from '../Clarity'
 import { AppProvider } from './contexts/AppContext'
 import './globals.css'
@@ -77,12 +78,14 @@ export default function RootLayout({
         >
           <LoaderProvider>
             <AppProvider>
-              <Navbar />
-              {children}
-              <Footer />
-              <ClarityComponent />
-              <Analytics />
-              <SpeedInsights />
+              <PosthogRoot>
+                <Navbar />
+                {children}
+                <Footer />
+                <ClarityComponent />
+                <Analytics />
+                <SpeedInsights />
+              </PosthogRoot>
             </AppProvider>
           </LoaderProvider>
         </body>

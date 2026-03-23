@@ -2,7 +2,8 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
+import type { FieldErrors } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 
 import { useUpdateStudent } from '@/hooks/useUpdateStudent'
@@ -10,8 +11,10 @@ import { Button, PrimaryButton } from '@/ui/atoms/button/Button'
 import { motion } from 'framer-motion'
 import { gooeyToast } from 'goey-toast'
 import { ArrowLeft, Loader2, Save } from 'lucide-react'
+import { usePostHog } from 'posthog-js/react'
 
 import { LogSnagPageView } from '@/components/analytics/LogSnagPageView'
+import { PosthogCaptureOnce } from '@/components/analytics/PosthogCaptureOnce'
 import { useCreateStudentProfile } from '@/hooks/useCreateStudentProfile'
 import type { ProfileData } from '@/types/student.types'
 import { ProfileEditFormFields } from './ProfileEditFormFields'
@@ -81,6 +84,7 @@ interface ProfileEditFormProps {
 }
 
 export const ProfileEditForm = ({ student, studentId, email, onBack }: ProfileEditFormProps) => {
+  const posthog = usePostHog()
   const router = useRouter()
   const { updateStudent } = useUpdateStudent()
   const { createStudentProfile } = useCreateStudentProfile();
@@ -97,7 +101,33 @@ export const ProfileEditForm = ({ student, studentId, email, onBack }: ProfileEd
       })
   }, [student, form, email])
 
+  const captureButtonClick = useCallback(
+    (button: string, placement?: string) => {
+      posthog.capture('ui_button_clicked', {
+        surface: 'profile_edit',
+        button,
+        ...(placement ? { placement } : {}),
+      })
+    },
+    [posthog],
+  )
+
+  const onValidationError = useCallback(
+    (errors: FieldErrors<ProfileEditFormValues>) => {
+      posthog.capture('profile_form_validation_failed', {
+        fields: Object.keys(errors),
+        field_count: Object.keys(errors).length,
+        student_id: studentId || undefined,
+      })
+    },
+    [posthog, studentId],
+  )
+
   const handleSubmit = form.handleSubmit(async (data) => {
+    posthog.capture('profile_form_submit_started', {
+      is_update: Boolean(studentId),
+      student_id: studentId || undefined,
+    })
     try {
       const skillSets = parseCommaList(data.skillSets)
       const inspirations = parseCommaList(data.inspirations)
@@ -145,15 +175,27 @@ export const ProfileEditForm = ({ student, studentId, email, onBack }: ProfileEd
         borderWidth: 2,
         timing: { displayDuration: 5000 },
       })
+      posthog.capture('profile_form_submit_succeeded', {
+        student_id: studentId || undefined,
+        is_update: Boolean(studentId),
+      })
       router.back();
     } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : typeof err === 'string' ? err : 'unknown'
+      posthog.capture('profile_form_submit_failed', {
+        student_id: studentId || undefined,
+        is_update: Boolean(studentId),
+        error_message: errorMessage.slice(0, 500),
+      })
       gooeyToast.error('Failed to update profile.', {
         description: err instanceof Error ? err.message : 'Please try again.',
       })
     }
-  })
+  }, onValidationError)
 
-  const handleBack = () => {
+  const handleBack = (placement: 'header' | 'footer') => {
+    captureButtonClick('back', placement)
     if(onBack) {
       onBack()
     } else {
@@ -171,7 +213,7 @@ export const ProfileEditForm = ({ student, studentId, email, onBack }: ProfileEd
       className="space-y-8"
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <Button variant="textSecondary" type="button" size="md" onClick={handleBack}>
+        <Button variant="textSecondary" type="button" size="md" onClick={() => handleBack('header')}>
           <ArrowLeft className="size-4" /> Back to profile
         </Button>
       </div>
@@ -180,6 +222,14 @@ export const ProfileEditForm = ({ student, studentId, email, onBack }: ProfileEd
           description="Profile edit form"
           icon="👤"
         />
+      <PosthogCaptureOnce
+        event="context_page_viewed"
+        properties={{
+          channel: 'profile',
+          description: 'Profile edit form',
+          student_id: studentId || undefined,
+        }}
+      />
 
       <form
         id="profile-edit-form"
@@ -204,13 +254,14 @@ export const ProfileEditForm = ({ student, studentId, email, onBack }: ProfileEd
         </div>
 
         <div className="flex flex-wrap items-center justify-end gap-4 border-t border-slate-200/60 bg-white/40 px-8 py-6 backdrop-blur-sm lg:px-12">
-            <Button variant="tertiary" type="button" size="md" onClick={handleBack}>
+            <Button variant="tertiary" type="button" size="md" onClick={() => handleBack('footer')}>
               Cancel
             </Button>
           <PrimaryButton
             type="submit"
             form="profile-edit-form"
             disabled={isSubmitting}
+            onClick={() => captureButtonClick('save_changes')}
           >
             {isSubmitting ? (
               <Loader2 className="size-5 animate-spin" />
