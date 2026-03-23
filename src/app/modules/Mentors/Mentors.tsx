@@ -46,7 +46,7 @@ export default function Mentors() {
           </p>
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Meet the Mentors Behind{' '}
-            <span className="text-[#d53f8c]">MentorBridge</span>
+            <span className="text-primary">MentorBridge</span>
           </h2>
         </header>
 

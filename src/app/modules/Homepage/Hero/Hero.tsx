@@ -84,7 +84,7 @@ export const Hero = () => (
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="relative order-first flex w-full items-center justify-center lg:overflow-hidden sm:min-h-[98vh] sm:order-none lg:min-h-[360px]"
+            className="relative order-first flex w-full items-center justify-center lg:overflow-hidden min-h-[12vh] sm:order-none lg:min-h-[360px]"
           >
             <div className="contents md:hidden">
               <TransformationBridgeMobile />
@@ -95,7 +95,7 @@ export const Hero = () => (
           </motion.div>
         </div>
       </div>
-      <div className="sm:mt-[150px] lg:mt-[0px]">
+      <div className="mt-2sm:mt-[150px] lg:mt-[0px]">
         <PartnersCarousel />
       </div>
     </section>

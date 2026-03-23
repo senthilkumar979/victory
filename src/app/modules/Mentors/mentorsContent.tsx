@@ -44,7 +44,7 @@ export const mentors: Mentor[] = [
     description:
       "Senthil's inspirations, the books he read, and the wisdom from his grandfathers have taught him a valuable lesson: what we give to the world with sincerity and dedication, returns to us in double measure. This understanding led him to mentorship, a support he lacked during his college years. He aspire to be the mentor he once needed, fostering collective growth in a world where material wealth often overshadows human values.",
     image:
-      'https://wfkq0nguanh0273r.public.blob.vercel-storage.com/mentorbridge-pics/prasanna.jpg',
+      'https://91qunajyvl11yxyb.public.blob.vercel-storage.com/Senthil.png',
     skills: [
       'React',
       'Next.js',
@@ -62,7 +62,7 @@ export const mentors: Mentor[] = [
     description:
       'Dhileepan has built a successful career spanning multiple countries and industries, working with leading organizations in both Europe and India. His expertise in Java, Spring, and cloud technologies, combined with his experience in mentoring, makes him an invaluable guide for students entering the IT industry.',
     image:
-      'https://wfkq0nguanh0273r.public.blob.vercel-storage.com/dhileepan.jpg',
+      'https://91qunajyvl11yxyb.public.blob.vercel-storage.com/Dhileepan.png',
     skills: [
       'Java',
       'Spring Boot',

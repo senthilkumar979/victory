@@ -13,10 +13,11 @@ export const NavbarBrand = () => {
         <Image
           src="https://91qunajyvl11yxyb.public.blob.vercel-storage.com/long-logo"
           alt="MentorBridge"
-          width={120}
-          height={60}
-          className="h-5 w-auto min-w-0 opacity-95 transition-[opacity,filter] duration-300 group-hover:opacity-100 sm:h-7"
+          width={150}
+          height={80}
+          className="h-12 w-auto min-w-0 opacity-95 transition-[opacity,filter] duration-300 group-hover:opacity-100 sm:h-12"
           priority
+          unoptimized
         />
       </Link>
     </div>

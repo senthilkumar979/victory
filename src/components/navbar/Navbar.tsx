@@ -86,7 +86,7 @@ export const Navbar = () => {
             aria-hidden
             className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/90 to-transparent opacity-80"
           />
-          <div className="relative mx-auto flex h-16 max-w-9xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
+          <div className="relative mx-auto flex h-20 max-w-9xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
             <div className="flex min-w-0 flex-1 items-center gap-5 lg:gap-8">
               <NavbarBrand />
               <LayoutGroup>
