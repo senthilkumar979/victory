@@ -42,7 +42,7 @@ export default function RoadmapPage() {
             const roadmap = ROADMAPS[slug]
             const meta = ROADMAP_META[slug]
             const Icon = meta.icon
-            const isFeatured = slug === 'typescript'
+            const isFeatured = slug === 'react'
 
             return (
               <motion.div

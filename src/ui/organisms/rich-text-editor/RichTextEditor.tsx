@@ -2,8 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 
-import Quill from 'quill'
-import 'quill/dist/quill.snow.css'
+import type Quill from 'quill'
 
 import { FormLabel } from '../../atoms/form-label/FormLabel'
 import { RichTextEditorProps } from './RichTextEditor.types'
@@ -22,56 +21,78 @@ export const RichTextEditor = ({
   useEffect(() => {
     if (!containerRef.current || quillRef.current) return
 
-    const modules = {
-      toolbar: [
-        [{ header: [1, 2, false] }],
-        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-        [
-          { list: 'ordered' },
-          { list: 'bullet' },
-          { indent: '-1' },
-          { indent: '+1' },
+    let cancelled = false
+    let textChangeHandler: (() => void) | null = null
+
+    const setup = async () => {
+      if (!containerRef.current) return
+
+      const [quillMod] = await Promise.all([
+        import('quill'),
+        import('quill/dist/quill.snow.css'),
+      ])
+
+      if (cancelled || !containerRef.current) return
+
+      const QuillCtor = quillMod.default
+
+      const modules = {
+        toolbar: [
+          [{ header: [1, 2, false] }],
+          ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+          [
+            { list: 'ordered' },
+            { list: 'bullet' },
+            { indent: '-1' },
+            { indent: '+1' },
+          ],
+          ['link'],
+          ['clean'],
         ],
-        ['link'],
-        ['clean'],
-      ],
+      }
+
+      const formats = [
+        'header',
+        'bold',
+        'italic',
+        'underline',
+        'strike',
+        'blockquote',
+        'list',
+        'bullet',
+        'indent',
+        'link',
+      ]
+
+      const quill = new QuillCtor(containerRef.current, {
+        theme: 'snow',
+        modules,
+        formats,
+        placeholder,
+      })
+
+      quillRef.current = quill
+
+      if (value) quill.clipboard.dangerouslyPasteHTML(value)
+
+      textChangeHandler = () => {
+        handleChange(quill.root.innerHTML)
+      }
+
+      quill.on('text-change', textChangeHandler)
     }
 
-    const formats = [
-      'header',
-      'bold',
-      'italic',
-      'underline',
-      'strike',
-      'blockquote',
-      'list',
-      'bullet',
-      'indent',
-      'link',
-    ]
-
-    const quill = new Quill(containerRef.current, {
-      theme: 'snow',
-      modules,
-      formats,
-      placeholder,
-    })
-
-    quillRef.current = quill
-
-    if (value) quill.clipboard.dangerouslyPasteHTML(value)
-
-    const handleTextChange = () => {
-      handleChange(quill.root.innerHTML)
-    }
-
-    quill.on('text-change', handleTextChange)
+    void setup()
 
     return () => {
-      quill.off('text-change', handleTextChange)
+      cancelled = true
+      const q = quillRef.current
+      if (q && textChangeHandler) {
+        q.off('text-change', textChangeHandler)
+      }
       quillRef.current = null
     }
-  }, [handleChange, placeholder, value])
+  }, [handleChange, placeholder])
 
   useEffect(() => {
     if (!quillRef.current) return

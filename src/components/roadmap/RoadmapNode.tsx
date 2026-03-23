@@ -1,10 +1,10 @@
 'use client'
 
-import type { RoadmapNodeData } from '@/data/roadmaps'
+import type { RoadmapNodeMeta } from '@/data/roadmaps'
 import { Check } from 'lucide-react'
 import { Handle, Position, type NodeProps } from 'reactflow'
 
-export interface RoadmapNodeDataWithCompletion extends RoadmapNodeData {
+export interface RoadmapNodeDataWithCompletion extends RoadmapNodeMeta {
   isCompleted?: boolean
 }
 
@@ -33,7 +33,7 @@ export const RoadmapNode = ({
           }`}
         >
           {isCompleted ? <Check className="w-4 h-4" /> : ''}
-          {data.label}
+          {data.title}
         </span>
       </div>
       <Handle type="source" position={Position.Bottom} className="invisible" />

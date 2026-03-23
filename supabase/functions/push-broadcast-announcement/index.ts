@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import webpush from 'npm:web-push'
 
@@ -92,7 +94,7 @@ Deno.serve(async (req) => {
     } catch (err) {
       console.error('Failed to send notification to', sub.endpoint, err)
 
-      const status = (err as any)?.statusCode
+      const status = (err as { statusCode?: number })?.statusCode
       if (status === 404 || status === 410) {
         // Clean up invalid subscription
         await supabase

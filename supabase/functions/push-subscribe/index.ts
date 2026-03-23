@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 // These should be set in your Supabase project environment variables

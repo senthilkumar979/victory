@@ -264,7 +264,7 @@ export const StudentCard = ({ student, index }: StudentCardProps) => {
                 <div className="flex flex-wrap gap-2 justify-center items-center">
                   <AnimatePresence>
                     <motion.div
-                      variants={badgeVariants}
+                      variants={badgeVariants as unknown as Variants}
                       initial="initial"
                       animate="animate"
                       exit="exit"
@@ -277,7 +277,7 @@ export const StudentCard = ({ student, index }: StudentCardProps) => {
                   </AnimatePresence>
                   {batch && (
                     <motion.div
-                      variants={badgeVariants}
+                      variants={badgeVariants as unknown as Variants}
                       initial="initial"
                       animate="animate"
                       exit="exit"

@@ -1,9 +1,9 @@
 'use client'
 
-import { useCheckIsAuthenticated } from '../../../hooks/useCheckIsAuthenticated'
-import { PageMain } from '../../../ui/templates/PagaMain'
-import { PageHeader } from '../../../ui/templates/PageHeader'
-import { GeneralSettings } from '../../modules/Settings/GeneralSettings'
+import { useCheckIsAuthenticated } from '@/hooks/useCheckIsAuthenticated'
+import { GeneralSettings } from '@/modules/Settings/GeneralSettings'
+import { PageMain } from '@/templates/PagaMain'
+import { PageHeader } from '@/templates/PageHeader'
 
 const AdminSettingsPage = () => {
   useCheckIsAuthenticated()

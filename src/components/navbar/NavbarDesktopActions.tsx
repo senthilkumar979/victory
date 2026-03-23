@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import { Briefcase, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 
-import { ExploreDropdown } from './ExploreDropdown'
 import { UserMenu } from './UserMenu'
 
 export interface NavbarDesktopActionsProps {

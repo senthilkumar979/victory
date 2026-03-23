@@ -1,3 +1,4 @@
+import { Navbar } from '@/components/navbar/Navbar'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -10,7 +11,6 @@ import { AppProvider } from './contexts/AppContext'
 import './globals.css'
 import { Footer } from './modules/Footer/Footer'
 import { LoaderProvider } from './modules/Loader/Loader'
-import { Navbar } from '@/components/navbar/Navbar'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
