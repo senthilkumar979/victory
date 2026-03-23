@@ -3,6 +3,7 @@
 import { Badge } from '@/atoms/badge/Badge'
 import { Button } from '@/atoms/button/Button'
 import type { RoadmapNodeMeta } from '@/data/roadmaps'
+import { useUser } from '@clerk/nextjs'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Check, CheckCircle, X, XCircle } from 'lucide-react'
 import { useEffect } from 'react'
@@ -24,6 +25,8 @@ export const NodeDrawer = ({
   onComplete,
   onIncomplete,
 }: NodeDrawerProps) => {
+  const { user } = useUser()
+  const isAdmin = user?.publicMetadata?.isAdmin ?? false
   useEffect(() => {
     if (!node) return
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -109,24 +112,28 @@ export const NodeDrawer = ({
                 <Button variant="secondary" size="sm" onClick={onClose}>
                   Close
                 </Button>
-                {!isCompleted ? (
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    onClick={() => onComplete(node.id)}
-                    className="gap-2"
-                  >
-                    <Check className="size-4" /> Mark Complete
-                  </Button>
-                ) : (
-                  <Button
-                    variant="error"
-                    size="sm"
-                    onClick={() => onIncomplete(node.id)}
-                    className="gap-2"
-                  >
-                    <XCircle className="size-4" /> Mark Incomplete
-                  </Button>
+                {isAdmin && (
+                  <>
+                    {!isCompleted ? (
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => onComplete(node.id)}
+                        className="gap-2"
+                      >
+                        <Check className="size-4" /> Mark Complete
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="error"
+                        size="sm"
+                        onClick={() => onIncomplete(node.id)}
+                        className="gap-2"
+                      >
+                        <XCircle className="size-4" /> Mark Incomplete
+                      </Button>
+                    )}
+                  </>
                 )}
               </footer>
             </div>
