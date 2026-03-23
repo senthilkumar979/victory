@@ -33,7 +33,7 @@ export interface NavUserItem extends NavLinkItem {
 }
 
 export const NAV_MAIN: NavMainItem[] = [
-  { href: '/', label: 'Home', icon: Home },
+  { href: '/', label: '', icon: Home },
   { href: '/students', label: 'Students', icon: Users },
   { href: '/events', label: 'Events', icon: CalendarDays },
   { href: '/roadmaps', label: 'Roadmaps', icon: Map },
