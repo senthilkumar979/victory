@@ -115,7 +115,7 @@ export const ProfileHero = ({ student }: ProfileHeroProps) => {
           </div>
 
           <FancyText
-            className="text-3xl md:text-5xl font-black leading-none text-black/10 dark:text-primary/10 letter-spacing-wide uppercase"
+            className="text-3xl md:text-4xl lg:text-5xl font-black leading-none text-black/10 dark:text-primary/10 letter-spacing-wide uppercase"
             fillClassName="text-primary dark:text-primary"
             stagger={0.06}
             duration={1.2}

@@ -3,153 +3,136 @@
 import { UserButton, useUser } from '@clerk/nextjs'
 import { GooeyToaster } from 'goey-toast'
 import 'goey-toast/styles.css'
-import {
-  BookOpen,
-  Brain,
-  CalendarIcon,
-  HomeIcon,
-  ImageIcon,
-  MapIcon,
-  MedalIcon,
-  Shield,
-  UserIcon,
-  UsersIcon,
-} from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
+import { NavbarMobileDrawer } from './NavbarMobileDrawer'
+import { NavLinks } from './NavLinks'
+
+function isNavActive(pathname: string, href: string): boolean {
+  if (href === '/') return pathname === '/' || pathname === ''
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
+
 export const Navbar = () => {
   const { user, isLoaded } = useUser()
-  const pathname = usePathname()
-  const [activePage, setActivePage] = useState<string>('')
+  const pathname = usePathname() ?? ''
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
-    setTimeout(() => {
-      setActivePage(pathname?.split('/').slice(1).join('/') ?? '')
-    }, 10)
+    const id = requestAnimationFrame(() => {
+      setMobileOpen(false)
+    })
+    return () => cancelAnimationFrame(id)
   }, [pathname])
 
-  const linkClass =
-    'text-sm font-medium flex items-center gap-2 hover:underline-offset-10 hover:underline '
+  useEffect(() => {
+    if (!mobileOpen) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [mobileOpen])
 
-  if (!isLoaded || !user) {
+  useEffect(() => {
+    if (!mobileOpen) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [mobileOpen])
+
+  const linkBaseClass =
+    'text-sm font-medium flex items-center gap-2 rounded-lg px-2 py-2 transition-colors hover:bg-slate-100 hover:underline-offset-4 hover:underline lg:px-1 lg:py-0 lg:hover:bg-transparent'
+
+  const activeClass = (href: string) =>
+    isNavActive(pathname, href)
+      ? 'text-primary font-semibold bg-primary/10 lg:bg-transparent'
+      : 'text-slate-700 hover:text-primary'
+
+  if (!isLoaded) {
     return null
   }
 
-  const activeLinkClass = (page: string) =>
-    page === activePage
-      ? ' text-primary font-bold'
-      : ' text-slate-700 hover:text-primary'
-
-  const userName = user.fullName
+  const userName = user?.fullName
 
   return (
     <>
-      <nav className="w-full bg-white/90 shadow-sm border-b border-slate-100 backdrop-blur z-50">
-        <div className="mx-auto px-6 flex items-center justify-between py-3">
-          <div className="font-bold text-lg text-slate-900 tracking-wide uppercase">
-            <div className="flex-shrink-0">
-              <a
-                href="#home"
-                onClick={(e) => {
-                  e.preventDefault()
-                }}
-                className="flex items-center space-x-2"
-              >
-                <Image
-                  src="https://91qunajyvl11yxyb.public.blob.vercel-storage.com/long-logo"
-                  alt="MentorBridge"
-                  width={120}
-                  height={60}
-                  className="h-8 sm:h-10 w-auto"
-                />
-              </a>
+      <nav className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white/90 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-white/80">
+        <div className="mx-auto flex min-h-[3.25rem] max-w-[100vw] items-center justify-between gap-2 px-3 py-2 sm:min-h-[3.5rem] sm:gap-3 sm:px-4 md:px-6">
+          <div className="min-w-0 flex-shrink">
+            <Link href="/" className="flex items-center gap-2">
+              <Image
+                src="https://91qunajyvl11yxyb.public.blob.vercel-storage.com/long-logo"
+                alt="MentorBridge"
+                width={120}
+                height={60}
+                className="h-7 w-auto sm:h-9 lg:h-10"
+                priority
+              />
+            </Link>
+          </div>
+
+          <div className="hidden min-w-0 flex-1 justify-center lg:flex">
+            <div className="flex max-w-full items-center gap-2 overflow-x-auto overflow-y-hidden py-1 [scrollbar-width:thin] xl:gap-3">
+              <NavLinks
+                linkBaseClass={linkBaseClass}
+                activeClass={activeClass}
+              />
             </div>
           </div>
-          <div className="flex items-center gap-6">
-            <Link href="/" className={linkClass + activeLinkClass('/')}>
-              <HomeIcon className="w-4 h-4" /> Home
-            </Link>
-            <Link
-              href="/blogs"
-              className={linkClass + activeLinkClass('blogs')}
-            >
-              <BookOpen className="w-4 h-4" />
-              Blogs
-            </Link>
-            <Link
-              href="/events"
-              className={linkClass + activeLinkClass('events')}
-            >
-              <CalendarIcon className="w-4 h-4" />
-              Events
-            </Link>
-            <Link
-              href="/gallery"
-              className={linkClass + activeLinkClass('gallery')}
-            >
-              <ImageIcon className="w-4 h-4" />
-              Gallery
-            </Link>
-            <Link
-              href="/hall-of-fame"
-              className={linkClass + activeLinkClass('hall-of-fame')}
-            >
-              <MedalIcon className="w-4 h-4" />
-              Hall of Fame
-            </Link>
-            <Link
-              href="/roadmaps"
-              className={linkClass + activeLinkClass('roadmaps')}
-            >
-              <MapIcon className="w-4 h-4" />
-              Roadmaps
-            </Link>
-            <Link
-              href="/students"
-              className={linkClass + activeLinkClass('students')}
-            >
-              <UsersIcon className="w-4 h-4" />
-              Students
-            </Link>
-            <Link
-              href="/products"
-              className={linkClass + activeLinkClass('products')}
-            >
-              <Brain className="w-4 h-4" />
-              Products
-            </Link>
-            <Link
-              href="/secured/profile"
-              className={linkClass + activeLinkClass('secured/profile')}
-            >
-              <UserIcon className="w-4 h-4" /> Profile
-            </Link>
-            <Link
-              href="/secured/admin"
-              className={linkClass + activeLinkClass('secured/admin')}
-            >
-              <Shield className="w-4 h-4" /> Adminstration
-            </Link>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-slate-700">
-              {userName}
-            </span>
-            <UserButton
-              appearance={{
-                elements: {
-                  avatarBox: 'size-10',
-                  userButtonPopoverCard: 'w-64',
-                  userButtonPopoverFooter: 'flex items-center justify-between',
-                },
-              }}
-            />
-          </div>
+
+          {userName && (
+            <div className="flex flex-shrink-0 items-center gap-1.5 sm:gap-2">
+              <span
+                className="hidden max-w-[100px] truncate text-xs font-medium text-slate-700 sm:max-w-[140px] sm:text-sm md:inline md:max-w-[180px] lg:max-w-[220px]"
+                title={userName ?? undefined}
+              >
+                {userName}
+              </span>
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: 'size-9 sm:size-10',
+                    userButtonPopoverCard: 'w-64',
+                    userButtonPopoverFooter:
+                      'flex items-center justify-between',
+                  },
+                }}
+              />
+              <button
+                type="button"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-800 shadow-sm transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 lg:hidden"
+                aria-expanded={mobileOpen}
+                aria-controls="mobile-nav"
+                aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+                onClick={() => setMobileOpen((o) => !o)}
+              >
+                {mobileOpen ? (
+                  <X className="h-5 w-5" aria-hidden />
+                ) : (
+                  <Menu className="h-5 w-5" aria-hidden />
+                )}
+              </button>
+            </div>
+          )}
         </div>
       </nav>
+
+      {mobileOpen ? (
+        <NavbarMobileDrawer
+          linkBaseClass={linkBaseClass}
+          activeClass={activeClass}
+          onNavigate={() => setMobileOpen(false)}
+          onDismiss={() => setMobileOpen(false)}
+        />
+      ) : null}
+
       <GooeyToaster position="bottom-left" />
     </>
   )

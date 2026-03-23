@@ -74,7 +74,7 @@ export default function BlogsPage() {
               More top stories
             </h2>
             {heroLoading ? (
-              <div className="flex flex-col gap-3">
+              <div className="flex gap-3 flex-col">
                 {[1, 2, 3, 4, 5].map((i) => (
                   <div
                     key={i}

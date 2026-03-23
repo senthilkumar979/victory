@@ -56,7 +56,7 @@ export const MeetingDetailsDrawer = ({
       {meeting && (
         <>
           <Drawer.Title description={formatDate(meeting.date)}>
-            <span className="text-2xl font-bold text-primary border-l-2 border-primary pl-2">
+            <span className="text-2xl font-bold text-primary">
               {meeting.title || 'Untitled meeting'}
             </span>
           </Drawer.Title>
