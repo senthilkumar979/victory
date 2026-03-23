@@ -88,7 +88,7 @@ export async function GET(
     const baseUrl =
       process.env.VERCEL_URL != null
         ? `https://${process.env.VERCEL_URL}`
-        : process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+        : process.env.NEXT_PUBLIC_APP_URL ?? "https://mentorbridge.in";
     const addBlogUrl = `${baseUrl}/api/add-blog`;
 
     const results: SyncBlogsResponse["data"]["results"] = [];

@@ -38,20 +38,20 @@ export async function GET() {
   const user = await currentUser()
 
   if (!user) {
-    return NextResponse.redirect(new URL(SIGN_IN_PATH, process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'), 307)
+    return NextResponse.redirect(new URL(SIGN_IN_PATH, process.env.NEXT_PUBLIC_APP_URL ?? 'https://mentorbridge.in'), 307)
   }
 
   const email = getPrimaryEmail(user)
   if (!email) {
-    return NextResponse.redirect(new URL(PROFILE_PATH, process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'), 307)
+    return NextResponse.redirect(new URL(PROFILE_PATH, process.env.NEXT_PUBLIC_APP_URL ?? 'https://mentorbridge.in'), 307)
   }
 
   const hasStudentEntry = await isUserInStudentsTable(email)
   if (!hasStudentEntry) {
-    return NextResponse.redirect(new URL(PROFILE_PATH, process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'), 307)
+    return NextResponse.redirect(new URL(PROFILE_PATH, process.env.NEXT_PUBLIC_APP_URL ?? 'https://mentorbridge.in'), 307)
   }
 
   const role = getRoleFromMetadata(user.publicMetadata.role)
   const targetPath = getRedirectPathForRole(role) || FALLBACK_PATH
-  return NextResponse.redirect(new URL(targetPath, process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'), 307)
+  return NextResponse.redirect(new URL(targetPath, process.env.NEXT_PUBLIC_APP_URL ?? 'https://mentorbridge.in'), 307)
 }
