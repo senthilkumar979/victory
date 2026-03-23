@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 
+import { gooeyToast } from 'goey-toast'
+
 import { useMeetings } from '@/hooks/useMeetings'
 
 import { AttendanceTrackerDrawer } from './AttendanceTrackerDrawer'
@@ -27,6 +29,9 @@ export const AdminMeetings = () => {
     attendanceMeeting,
     setAttendanceMeeting,
   ] = useState<MeetingFormState | null>(null)
+  const [sendingFeedbackEmailId, setSendingFeedbackEmailId] = useState<
+    string | null
+  >(null)
 
   const handleOpenCreate = () => {
     setFormState(undefined)
@@ -84,6 +89,46 @@ export const AdminMeetings = () => {
     setAttendanceMeeting(meeting)
   }
 
+  const handleSendFeedbackEmail = async (meeting: MeetingFormState) => {
+    if (!meeting.id) return
+    setSendingFeedbackEmailId(meeting.id)
+    try {
+      const res = await fetch(
+        `/api/meetings/${encodeURIComponent(meeting.id)}/send-feedback-email`,
+        { method: 'POST' },
+      )
+      const data = (await res.json().catch(() => ({}))) as {
+        error?: string
+      }
+      if (!res.ok) {
+        gooeyToast.error(data.error ?? 'Failed to send feedback email', {
+          bounce: 0.45,
+          borderColor: '#E0E0E0',
+          borderWidth: 2,
+          timing: { displayDuration: 3500 },
+        })
+        return
+      }
+      gooeyToast.success('Feedback email sent to the Google Group.', {
+        description: meeting.title,
+        bounce: 0.45,
+        borderColor: '#E0E0E0',
+        borderWidth: 2,
+        timing: { displayDuration: 2500 },
+      })
+      await refetch()
+    } catch {
+      gooeyToast.error('Failed to send feedback email', {
+        bounce: 0.45,
+        borderColor: '#E0E0E0',
+        borderWidth: 2,
+        timing: { displayDuration: 3500 },
+      })
+    } finally {
+      setSendingFeedbackEmailId(null)
+    }
+  }
+
   const handleCloseAttendance = () => {
     setAttendanceMeeting(null)
   }
@@ -111,8 +156,10 @@ export const AdminMeetings = () => {
               onEdit={handleOpenEdit}
               onDelete={handleOpenDelete}
               onAttendance={handleOpenAttendance}
+              onSendFeedbackEmail={handleSendFeedbackEmail}
               openMeeting={handleOpenMeeting}
               openFeedback={handleOpenFeedback}
+              sendingFeedbackEmailId={sendingFeedbackEmailId}
             />
           )}
         </div>

@@ -8,7 +8,7 @@ import type { MeetingFormState } from '@/app/modules/Meetings/Meeting.types'
 const MEETINGS_TABLE = 'meetings'
 const DEFAULT_PAGE_LIMIT = 30
 const SELECT_COLS =
-  'id, title, date, google_group_id, description, meeting_link, cover_image_url, feedback_form, attendance'
+  'id, title, date, google_group_id, description, meeting_link, cover_image_url, feedback_form, feedback_email_sent_at, attendance'
 
 interface UseMeetingsOptions {
   page?: number
@@ -46,6 +46,8 @@ function mapRow(row: Record<string, unknown>): MeetingFormState {
     meetingLink: (row.meeting_link as string) ?? '',
     coverImageUrl: (row.cover_image_url as string) ?? '',
     feedbackForm: (row.feedback_form as string) ?? undefined,
+    feedbackEmailSentAt:
+      (row.feedback_email_sent_at as string | null) ?? undefined,
     attendance: attendance.length > 0 ? attendance : undefined,
   }
 }

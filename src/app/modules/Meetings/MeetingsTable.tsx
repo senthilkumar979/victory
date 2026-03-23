@@ -1,6 +1,8 @@
 import {
   ClipboardListIcon,
   LinkIcon,
+  MailCheckIcon,
+  MailIcon,
   MessageCircleMoreIcon,
   PencilIcon,
   TrashIcon,
@@ -16,8 +18,10 @@ interface MeetingsTableProps {
   onEdit: (meeting: MeetingFormState) => void
   onDelete: (meeting: MeetingFormState) => void
   onAttendance: (meeting: MeetingFormState) => void
+  onSendFeedbackEmail: (meeting: MeetingFormState) => void
   openMeeting: (meeting: MeetingFormState) => void
   openFeedback: (meeting: MeetingFormState) => void
+  sendingFeedbackEmailId?: string | null
 }
 
 export const MeetingsTable = ({
@@ -25,8 +29,10 @@ export const MeetingsTable = ({
   onEdit,
   onDelete,
   onAttendance,
+  onSendFeedbackEmail,
   openMeeting,
   openFeedback,
+  sendingFeedbackEmailId,
 }: MeetingsTableProps) => (
   <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
     <table className="min-w-full divide-y divide-slate-200 bg-white">
@@ -87,6 +93,28 @@ export const MeetingsTable = ({
                   >
                     <MessageCircleMoreIcon className="size-4" />
                   </TextButton>
+                )}
+                {meeting?.feedbackForm && meeting?.googleGroupId && (
+                  meeting.feedbackEmailSentAt ? (
+                    <TextButton
+                      variant="textSecondary"
+                      disabled
+                      aria-label="Feedback email already sent"
+                      title="Feedback email already sent"
+                    >
+                      <MailCheckIcon className="size-4 opacity-60" />
+                    </TextButton>
+                  ) : (
+                    <TextButton
+                      variant="textInfo"
+                      disabled={sendingFeedbackEmailId === meeting.id}
+                      onClick={() => onSendFeedbackEmail(meeting)}
+                      aria-label="Send feedback email to Google Group"
+                      title="Send feedback email to Google Group"
+                    >
+                      <MailIcon className="size-4" />
+                    </TextButton>
+                  )
                 )}
                 <TextButton
                   variant="textSuccess"

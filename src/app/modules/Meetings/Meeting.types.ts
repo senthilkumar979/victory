@@ -7,6 +7,8 @@ export interface MeetingFormState {
   meetingLink: string
   coverImageUrl: string
   feedbackForm?: string
+  /** ISO timestamp when feedback email was sent to the Google Group */
+  feedbackEmailSentAt?: string | null
   attendance?: number[]
 }
 
