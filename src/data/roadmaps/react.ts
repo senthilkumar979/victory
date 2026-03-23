@@ -659,16 +659,6 @@ export const reactRoadmap: RoadmapData = {
       ]
     },
     {
-      id: "SUeXDkmOLipdRP4fSrZOH",
-      title: "Server APIs",
-      description: "Integrating React with server features and server components.",
-      resources: [
-        { title: "Server Components", url: "https://react.dev/reference/react/use-server", type: "documentation" },
-        { title: "RSC Deep Dive - Medium", url: "https://medium.com/nextjs/react-server-components", type: "article" },
-        { title: "Next.js RSC Examples", url: "https://nextjs.org/docs/app/building-your-application/rendering/server-components", type: "code" }
-      ]
-    },
-    {
       id: "H6-XGDjs4f-qbv13v5av0",
       title: "Framer Motion",
       description: "Framer Motion is a powerful animation library for React.",

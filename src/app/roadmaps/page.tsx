@@ -96,6 +96,24 @@ export default function RoadmapPage() {
               </motion.div>
             )
           })}
+          <div className="col-span-full flex justify-center mt-4">
+            <div className="relative w-full max-w-md rounded-2xl border border-dashed border-muted bg-secondary p-4 shadow-lg mx-auto flex items-center gap-4 flex-col sm:flex-row">
+              <div className="flex flex-col items-center justify-center flex-shrink-0">
+                <svg width="48" height="48" viewBox="0 0 48 48" className="mb-2 text-muted-foreground" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="3" y="10" width="42" height="28" rx="6" fill="#F5F5F5"/>
+                  <rect x="10" y="17" width="28" height="14" rx="4" fill="#E2E8F0"/>
+                  <path d="M15 26h18M15 22h18" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" />
+                  <circle cx="24" cy="34" r="2" fill="#94A3B8"/>
+                </svg>
+              </div>
+              <div className="text-center sm:text-left">
+                <h3 className="text-lg font-semibold text-foreground mb-1">More roadmaps coming soon</h3>
+                <p className="text-muted-foreground text-sm">
+                  We are working hard to bring you new roadmaps! Stay tuned for updates.
+                </p>
+              </div>
+            </div>
+          </div>
         </motion.div>
       </div>
     </PageMain>

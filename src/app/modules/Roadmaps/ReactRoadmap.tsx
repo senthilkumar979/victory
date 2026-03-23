@@ -2390,7 +2390,7 @@ export const ReactRoadmap = ({
         data-title="Framer Motion"
         data-parent-id="bRpeoo9zXrnZ2IHSI7JX4"
         data-parent-title="Animation"
-        onClick={() => onNodeClick('SUeXDkmOLipdRP4fSrZOH')}
+        onClick={() => onNodeClick('H6-XGDjs4f-qbv13v5av0')}
         className="child-block"
       >
         <rect
