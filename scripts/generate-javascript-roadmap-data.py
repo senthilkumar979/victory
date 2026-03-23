@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regenerate typescript.ts — delegates to generate-roadmap-data.py --slug typescript."""
+"""Regenerate javascript.ts — delegates to generate-roadmap-data.py --slug javascript."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ GEN = Path(__file__).resolve().parent / "generate-roadmap-data.py"
 
 
 def main() -> None:
-    subprocess.check_call([sys.executable, str(GEN), "--slug", "typescript"])
+    subprocess.check_call([sys.executable, str(GEN), "--slug", "javascript"])
 
 
 if __name__ == "__main__":

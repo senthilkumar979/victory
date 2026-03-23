@@ -1,4 +1,4 @@
-import { Braces, Zap } from "lucide-react"
+import { Braces, FileCode, Zap } from "lucide-react"
 import { RoadmapSlug } from "."
 
 export const ROADMAP_META: Record<
@@ -26,5 +26,13 @@ export const ROADMAP_META: Record<
     icon: Braces,
     gradient:
       'from-blue-500/20 via-indigo-500/10 to-transparent border border-blue-500/30',
+  },
+  javascript: {
+    id: 'javascript',
+    description: 'Syntax, the runtime, and the modern JavaScript ecosystem.',
+    accent: 'text-amber-400',
+    icon: FileCode,
+    gradient:
+      'from-amber-500/20 via-yellow-500/10 to-transparent border border-amber-500/30',
   },
 }

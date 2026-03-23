@@ -8,6 +8,7 @@ import {
   RoadmapNodeMeta,
 } from '@/data/roadmaps'
 import { useRoadmapProgress } from '@/hooks/useRoadmapProgress'
+import { JavaScriptRoadmap } from '@/modules/Roadmaps/JavaScriptRoadmap'
 import { ReactRoadmap } from '@/modules/Roadmaps/ReactRoadmap'
 import { TypeScriptRoadmap } from '@/modules/Roadmaps/TypeScriptRoadmap'
 import { PageMain } from '@/templates/PagaMain'
@@ -22,6 +23,7 @@ const ROADMAP_SVGS: Record<
 > = {
   react: ReactRoadmap,
   typescript: TypeScriptRoadmap,
+  javascript: JavaScriptRoadmap,
 }
 
 export default function RoadmapSlugPage() {
@@ -71,8 +73,8 @@ export default function RoadmapSlugPage() {
             Roadmap not found
           </h2>
           <p className="mb-4 text-sm text-muted-foreground">
-            The roadmap &quot;{slug}&quot; does not exist. Try TypeScript,
-            React, or Node.
+            The roadmap &quot;{slug}&quot; does not exist. Try JavaScript,
+            TypeScript, or React.
           </p>
           <Link
             href="/roadmaps/typescript"
