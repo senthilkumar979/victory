@@ -1,8 +1,7 @@
 'use client'
 
-import { cn } from '@/lib/utils'
 import { PageMain } from '@/templates/PagaMain'
-import { GraduationCap } from 'lucide-react'
+import { Briefcase, Sparkles } from 'lucide-react'
 import { motion } from 'motion/react'
 import Link from 'next/link'
 import { PartnersCarousel } from '../../Footer/PartnersCarousel'
@@ -69,13 +68,20 @@ export const Hero = () => (
               className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4 lg:justify-start"
             >
               <Link
-                href="/join"
-                className={cn(
-                  'inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary/60 to-primary/90 px-6 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all hover:shadow-xl hover:shadow-indigo-500/30 hover:brightness-110 sm:w-auto sm:px-8 sm:py-4',
-                )}
+                href="/students"
+                className="group inline-flex cursor-pointer items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-fuchsia-600 px-4 py-2 text-sm font-semibold text-white shadow-[0_8px_24px_-6px_rgba(213,63,140,0.45)] ring-1 ring-white/20 transition-[box-shadow,filter] duration-300 hover:shadow-[0_12px_28px_-6px_rgba(213,63,140,0.55)] hover:brightness-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2"
               >
-                <GraduationCap className="size-5 shrink-0" />
-                Join us today!
+                <Briefcase
+                  className="h-4 w-4 opacity-90"
+                  aria-hidden
+                  strokeWidth={2}
+                />
+                Hire Talents
+                <Sparkles
+                  className="h-3.5 w-3.5 opacity-80"
+                  aria-hidden
+                  strokeWidth={2}
+                />
               </Link>
             </motion.div>
           </motion.div>

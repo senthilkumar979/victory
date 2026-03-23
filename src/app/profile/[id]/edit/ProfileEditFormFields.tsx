@@ -53,27 +53,31 @@ export const ProfileEditFormFields = ({
   const resumeLinkUrl = form.watch('resumeLink')
 
   return (
-    <div className="space-y-10">
-      <div className="grid grid-cols-3 gap-10">
-        <section className="space-y-4 col-span-2">
+    <div className="space-y-6 md:space-y-10">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-10">
+        <section className="space-y-4 lg:col-span-2">
           <h3 className="text-sm font-semibold uppercase tracking-widest text-primary">
             Basic Information
           </h3>
-          <div className="flex flex-row justify-start items-center text-center gap-10">
-              <FormLabel htmlFor={`${formId}-picture`}>
+          <div className="space-y-2">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6 lg:gap-10">
+              <FormLabel
+                className="shrink-0 sm:min-w-[8rem]"
+                htmlFor={`${formId}-picture`}
+              >
                 Profile Picture
               </FormLabel>
-              <div className="flex items-center gap-4">
+              <div className="flex min-w-0 flex-1 flex-wrap items-center gap-4">
                 {pictureUrl ? (
                   <Image
                     src={pictureUrl}
                     alt="Profile preview"
                     width={64}
                     height={64}
-                    className="size-16 rounded-full object-cover"
+                    className="size-16 shrink-0 rounded-full object-cover"
                   />
                 ) : null}
-                <div className="flex-1">
+                <div className="min-w-0 flex-1">
                   <input
                     ref={pictureInputRef}
                     id={`${formId}-picture`}
@@ -94,24 +98,27 @@ export const ProfileEditFormFields = ({
                     disabled={uploading === 'picture'}
                     className={joinClassNames(
                       inputBase,
-                      'flex cursor-pointer items-center gap-2 text-left',
+                      'flex w-full min-w-0 cursor-pointer items-center gap-2 text-left sm:w-auto',
                     )}
                   >
                     {uploading === 'picture' ? (
-                      <Loader2 className="size-4 animate-spin" />
+                      <Loader2 className="size-4 shrink-0 animate-spin" />
                     ) : (
-                      <ImageIcon className="size-4" />
+                      <ImageIcon className="size-4 shrink-0" />
                     )}
-                    {uploading === 'picture'
-                      ? 'Uploading...'
-                      : 'Choose image (JPG, PNG)'}
+                    <span className="truncate">
+                      {uploading === 'picture'
+                        ? 'Uploading...'
+                        : 'Choose image (JPG, PNG)'}
+                    </span>
                   </button>
                 </div>
               </div>
-              {error && (
-                <span className="mt-1 block text-xs text-red-600">{error}</span>
-              )}
             </div>
+            {error ? (
+              <span className="block text-xs text-red-600">{error}</span>
+            ) : null}
+          </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <Controller
               name="name"
@@ -307,7 +314,7 @@ export const ProfileEditFormFields = ({
           <h3 className="text-sm font-semibold uppercase tracking-widest text-primary">
             Social & Links
           </h3>
-          <div className="grid gap-4 sm:grid-cols-1">
+          <div className="grid gap-4">
             <div>
               <label className="mb-1.5 flex items-center gap-2 text-sm font-medium text-slate-600">
                 <Linkedin className="size-4" /> LinkedIn
@@ -382,7 +389,7 @@ export const ProfileEditFormFields = ({
                 disabled={uploading === 'resume'}
                 className={joinClassNames(
                   inputBase,
-                  'flex cursor-pointer items-center gap-2 text-left',
+                  'flex w-full min-w-0 cursor-pointer items-center gap-2 text-left sm:w-auto',
                 )}
               >
                 {uploading === 'resume' ? (
@@ -406,9 +413,9 @@ export const ProfileEditFormFields = ({
           </div>
         </section>
       </div>
-      <div className="grid grid-cols-3 gap-10">
-        <section className="space-y-4 col-span-2">
-          <div className="flex items-center justify-between">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-10">
+        <section className="space-y-4 lg:col-span-2">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <h3 className="text-sm font-semibold uppercase tracking-widest text-primary">
               Professional Experience
             </h3>
@@ -417,7 +424,7 @@ export const ProfileEditFormFields = ({
               onClick={() =>
                 append({ company: '', role: '', summary: '', website: '' })
               }
-              className="flex items-center gap-2 rounded-lg bg-primary/10 px-3 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/20"
+              className="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-lg bg-primary/10 px-3 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/20 sm:self-auto"
             >
               <Plus className="size-4" /> Add
             </button>
@@ -426,9 +433,9 @@ export const ProfileEditFormFields = ({
             {fields.map((field, idx) => (
               <div
                 key={field.id}
-                className="rounded-xl border border-slate-200 bg-white/60 p-5 shadow-sm"
+                className="rounded-xl border border-slate-200 bg-white/60 p-4 shadow-sm sm:p-5"
               >
-                <div className="mb-4 flex items-center justify-between">
+                <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                   <span className="text-xs font-medium text-slate-500">
                     Experience #{idx + 1}
                   </span>

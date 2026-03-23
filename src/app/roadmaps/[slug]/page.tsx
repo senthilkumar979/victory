@@ -9,25 +9,27 @@ import {
 } from '@/data/roadmaps'
 import { useRoadmapProgress } from '@/hooks/useRoadmapProgress'
 import { ReactRoadmap } from '@/modules/Roadmaps/ReactRoadmap'
+import { TypeScriptRoadmap } from '@/modules/Roadmaps/TypeScriptRoadmap'
 import { PageMain } from '@/templates/PagaMain'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
+import type { ComponentType } from 'react'
 import { useState } from 'react'
+
+const ROADMAP_SVGS: Record<
+  string,
+  ComponentType<RoadmapDetailsProps>
+> = {
+  react: ReactRoadmap,
+  typescript: TypeScriptRoadmap,
+}
 
 export default function RoadmapSlugPage() {
   const params = useParams()
   const slug = typeof params?.slug === 'string' ? params.slug : ''
-  const roadmap = (props: RoadmapDetailsProps) => {
-    switch (slug) {
-      case 'react':
-        return <ReactRoadmap {...props} />
-      default:
-        return null
-    }
-  }
 
   const roadmapDetails = getRoadmap(slug)
-  console.log(roadmapDetails?.nodes?.map((node) => node.id))
+  const RoadmapSvg = slug ? ROADMAP_SVGS[slug] : undefined
 
   const [selectedNode, setSelectedNode] = useState<RoadmapNodeMeta | null>(null)
   const {
@@ -61,7 +63,7 @@ export default function RoadmapSlugPage() {
     setSelectedNode(null)
   }
 
-  if (!roadmap) {
+  if (!roadmapDetails) {
     return (
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="rounded-xl border border-muted bg-secondary p-6 text-center">
@@ -114,10 +116,12 @@ export default function RoadmapSlugPage() {
           </div>
         )}
         <div className="h-fit" style={{ margin: '0 20%' }}>
-          {roadmap({
-            completedNodes: completedNodes || [],
-            onNodeClick: handleNodeClick,
-          })}
+          {RoadmapSvg ? (
+            <RoadmapSvg
+              completedNodes={completedNodes || []}
+              onNodeClick={handleNodeClick}
+            />
+          ) : null}
         </div>
         <NodeDrawer
           node={selectedNode}

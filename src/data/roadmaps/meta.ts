@@ -1,4 +1,4 @@
-import { Zap } from "lucide-react"
+import { Braces, Zap } from "lucide-react"
 import { RoadmapSlug } from "."
 
 export const ROADMAP_META: Record<
@@ -18,5 +18,13 @@ export const ROADMAP_META: Record<
     icon: Zap,
     gradient:
       'from-cyan-500/20 via-teal-500/10 to-transparent border border-cyan-500/30',
+  },
+  typescript: {
+    id: 'typescript',
+    description: 'Types, generics, and advanced type-level programming.',
+    accent: 'text-blue-400',
+    icon: Braces,
+    gradient:
+      'from-blue-500/20 via-indigo-500/10 to-transparent border border-blue-500/30',
   },
 }

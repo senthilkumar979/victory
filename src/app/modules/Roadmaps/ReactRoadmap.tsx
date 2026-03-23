@@ -19,16 +19,6 @@ export const ReactRoadmap = ({
       version="1.1"
     >
       <path
-        d="M9.04031453135002,-89.76957062917046 C9.04031453135002,-43.4126201950925 9.04031453135002,-43.4126201950925 9.04031453135002,2.944330238985458"
-        fill="none"
-        stroke="#cea500"
-        strokeWidth="3.5"
-        data-edge-id="reactflow__edge-iogwMmOvub2ZF4zgg6WyFx2-XDvH2t3AJGevS17uM8TO6w1"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeDasharray="0"
-      ></path>
-      <path
         d="M112.54031453135002,139.44433023898546 C140.79258033331845,139.44433023898546 140.79258033331845,139.44433023898546 169.0448461352869,139.44433023898546"
         fill="none"
         stroke="#cea500"
@@ -547,8 +537,8 @@ export const ReactRoadmap = ({
           width="204.3"
           height="46.3"
           rx="5"
-          fill="#D53F8C"
-          stroke="#D53F8C"
+          fill="#1f2937"
+          stroke="#ffffff"
           strokeWidth="2.7"
         ></rect>
         <text
