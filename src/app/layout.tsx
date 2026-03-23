@@ -7,6 +7,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import 'reactflow/dist/style.css'
 import { PosthogRoot } from '@/components/analytics/PosthogRoot'
+import { SentryUserContext } from '@/components/analytics/SentryUserContext'
 import { ClarityComponent } from '../Clarity'
 import { AppProvider } from './contexts/AppContext'
 import './globals.css'
@@ -79,6 +80,7 @@ export default function RootLayout({
           <LoaderProvider>
             <AppProvider>
               <PosthogRoot>
+                <SentryUserContext />
                 <Navbar />
                 {children}
                 <Footer />

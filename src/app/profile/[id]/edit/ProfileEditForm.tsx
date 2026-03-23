@@ -11,6 +11,7 @@ import { Button, PrimaryButton } from '@/ui/atoms/button/Button'
 import { motion } from 'framer-motion'
 import { gooeyToast } from 'goey-toast'
 import { ArrowLeft, Loader2, Save } from 'lucide-react'
+import * as Sentry from '@sentry/nextjs'
 import { usePostHog } from 'posthog-js/react'
 
 import { LogSnagPageView } from '@/components/analytics/LogSnagPageView'
@@ -181,6 +182,13 @@ export const ProfileEditForm = ({ student, studentId, email, onBack }: ProfileEd
       })
       router.back();
     } catch (err) {
+      Sentry.captureException(err, {
+        tags: { area: 'profile_edit_form' },
+        extra: {
+          student_id: studentId || undefined,
+          is_update: Boolean(studentId),
+        },
+      })
       const errorMessage =
         err instanceof Error ? err.message : typeof err === 'string' ? err : 'unknown'
       posthog.capture('profile_form_submit_failed', {
