@@ -1,3 +1,4 @@
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { supabase } from "@/lib/supabaseClient";
 import { AddAllBlogsResponse } from "@/types/blog.types";
 import { NextRequest, NextResponse } from "next/server";
@@ -8,7 +9,14 @@ interface SyncBlogsResponse {
   success: boolean;
   message: string;
   data: {
+    /**
+     * Minimum `serial_no` for this batch (inclusive). Matches the URL segment:
+     * `/api/sync-blogs/61` loads up to PAGE_SIZE students with `serial_no >= 61`.
+     */
     startingIndex: number;
+    pageSize: number;
+    /** Total rows in `students` (same client as the query). */
+    totalStudents: number | null;
     usernamesProcessed: number;
     usernamesSkipped: number;
     totalAdded: number;
@@ -39,6 +47,8 @@ export async function GET(
           message: "Invalid startingIndex",
           data: {
             startingIndex: 0,
+            pageSize: PAGE_SIZE,
+            totalStudents: null,
             usernamesProcessed: 0,
             usernamesSkipped: 0,
             totalAdded: 0,
@@ -50,14 +60,27 @@ export async function GET(
       );
     }
 
-    const offset = startingIndex - 1;
-    const end = offset + PAGE_SIZE - 1;
+    const db = supabaseAdmin ?? supabase;
+    if (!supabaseAdmin) {
+      console.warn(
+        "sync-blogs: SUPABASE_SERVICE_ROLE_KEY is not set; using anon client — RLS may return no rows for server-side requests."
+      );
+    }
 
-    const { data: rows, error: fetchError } = await supabase
+    console.log("startingIndex (serial_no min)", startingIndex);
+
+    const { count: totalStudents } = await db
+      .from("students")
+      .select("*", { count: "exact", head: true });
+
+    const { data: rows, error: fetchError } = await db
       .from("students")
       .select("medium_username")
-      .order("id", { ascending: true })
-      .range(offset, end);
+      .order("serial_no", { ascending: true })
+      .gte("serial_no", startingIndex)
+      .limit(PAGE_SIZE);
+
+    console.log("rows", rows);
 
     if (fetchError) {
       return NextResponse.json(
@@ -66,6 +89,8 @@ export async function GET(
           message: "Failed to fetch students",
           data: {
             startingIndex,
+            pageSize: PAGE_SIZE,
+            totalStudents,
             usernamesProcessed: 0,
             usernamesSkipped: 0,
             totalAdded: 0,
@@ -84,6 +109,8 @@ export async function GET(
           typeof u === "string" && u.trim().length > 0
       )
       .map((u) => u.trim());
+
+    console.log("usernames", usernames);
 
     const baseUrl =
       process.env.VERCEL_URL != null
@@ -124,6 +151,7 @@ export async function GET(
           skipped,
           error: (json.data?.errors ?? []).length > 0 ? json.data.errors.join("; ") : undefined,
         });
+        console.log("added", results);
       } catch (err) {
         results.push({
           username,
@@ -136,11 +164,20 @@ export async function GET(
 
     const usernamesSkipped = (rows ?? []).length - usernames.length;
 
+    const emptyHint =
+      (rows?.length ?? 0) === 0
+        ? !supabaseAdmin
+          ? " No rows — server uses anon Supabase client; set SUPABASE_SERVICE_ROLE_KEY so this API can read all students (bypasses RLS)."
+          : ` No students with serial_no ≥ ${startingIndex} (${totalStudents ?? "?"} row(s) in table).`
+        : "";
+
     return NextResponse.json({
       success: true,
-      message: `Processed ${usernames.length} usernames (${(rows ?? []).length - usernames.length} skipped). Added: ${totalAdded}, Skipped: ${totalSkipped}`,
+      message: `Processed ${usernames.length} usernames (${(rows ?? []).length - usernames.length} skipped). Added: ${totalAdded}, Skipped: ${totalSkipped}.${emptyHint}`,
       data: {
         startingIndex,
+        pageSize: PAGE_SIZE,
+        totalStudents,
         usernamesProcessed: usernames.length,
         usernamesSkipped,
         totalAdded,
@@ -156,6 +193,8 @@ export async function GET(
         message: "An unexpected error occurred",
         data: {
           startingIndex: 0,
+          pageSize: PAGE_SIZE,
+          totalStudents: null,
           usernamesProcessed: 0,
           usernamesSkipped: 0,
           totalAdded: 0,

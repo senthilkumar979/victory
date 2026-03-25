@@ -107,6 +107,8 @@ export async function POST(
 
     const rssData = await fetchMediumRssFeed(trimmedUsername);
 
+    console.log("rssData", rssData);
+
     if (rssData.status !== "ok" || !rssData.items?.length) {
       return NextResponse.json(
         {
@@ -133,10 +135,13 @@ export async function POST(
     >[] = rssData.items.map(rssItemToBlog);
 
     const links = blogs.map((b) => b.link);
+    console.log("links", links);
     const { data: existingRows } = await supabase
       .from("blogs")
       .select("link")
       .in("link", links);
+
+    console.log("existingRows", existingRows);
 
     const existingLinks = new Set(
       (existingRows ?? []).map((row: { link: string }) => row.link)
@@ -148,7 +153,11 @@ export async function POST(
     let added = 0;
 
     if (toInsert.length > 0) {
-      const { error } = await supabase.from("blogs").insert(toInsert);
+      const updatedBlogs = toInsert.map((b) => ({
+        ...b,
+        username: trimmedUsername,
+      }));
+      const { error } = await supabase.from("blogs").insert(updatedBlogs);
 
       if (error) {
         if (error.code === "23505") {
