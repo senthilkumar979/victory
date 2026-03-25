@@ -320,7 +320,7 @@ export const JavaRoadmap = ({
         <rect
           x={1023.6752013753893}
           y={1691.3659477948859}
-          width={192.3}
+          width={212.3}
           height={165.3}
           rx={5}
           fill="#ffffff"
