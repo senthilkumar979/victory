@@ -257,6 +257,7 @@ export const ProfileEditFormFields = ({
                     <option value="Covai Hello Truck Private Limited">
                       Covai Hello Truck Private Limited
                     </option>
+                    <option value="Codifi">Codifi</option>
                     <option value="CloseFuture">CloseFuture</option>
                     <option value="Frigate">Frigate</option>
                     <option value="Klyonix Tech">Klyonix Tech</option>
