@@ -8,8 +8,9 @@ import { PartnersCarousel } from '../../Footer/PartnersCarousel'
 import { TransformationBridge } from './TransformationBridge'
 import { TransformationBridgeMobile } from './TransformationBridgeMobile'
 
+// Parent stays visible so LCP (hero h1) is not hidden until JS/hydration.
 const containerVariants = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 1 },
   visible: {
     opacity: 1,
     transition: {
@@ -42,10 +43,7 @@ export const Hero = () => (
             animate="visible"
             className="flex flex-col items-center text-center lg:items-start lg:text-left"
           >
-            <motion.h1
-              variants={itemVariants}
-              className="text-3xl font-extrabold leading-[1.2] tracking-tight text-primary sm:text-4xl sm:leading-[1.15] md:text-5xl lg:text-6xl"
-            >
+            <h1 className="text-3xl font-extrabold leading-[1.2] tracking-tight text-primary sm:text-4xl sm:leading-[1.15] md:text-5xl lg:text-6xl">
               Bridging the Gap from
               <br />
               <span className="bg-gradient-to-r from-indigo-400 via-sky-400 to-cyan-400 bg-clip-text text-transparent">
@@ -53,7 +51,7 @@ export const Hero = () => (
               </span>
               <br />
               to Global Tech
-            </motion.h1>
+            </h1>
 
             <motion.p
               variants={itemVariants}
@@ -101,7 +99,7 @@ export const Hero = () => (
           </motion.div>
         </div>
       </div>
-      <div className="mt-2sm:mt-[150px] lg:mt-[0px]">
+      <div className="mt-2 sm:mt-[150px] lg:mt-[0px]">
         <PartnersCarousel />
       </div>
     </section>

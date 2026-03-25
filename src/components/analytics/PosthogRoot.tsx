@@ -24,6 +24,8 @@ export const PosthogRoot = ({ children }: PosthogRootProps) => {
         capture_pageview: false,
         capture_pageleave: true,
         persistence: 'localStorage+cookie',
+        disable_session_recording:
+          process.env.NEXT_PUBLIC_POSTHOG_DISABLE_SESSION_RECORDING === 'true',
       }}
     >
       <Suspense fallback={null}>

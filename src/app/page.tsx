@@ -1,13 +1,26 @@
+import dynamic from 'next/dynamic'
+
 import { LogSnagPageView } from '@/components/analytics/LogSnagPageView'
 import { PosthogCaptureOnce } from '@/components/analytics/PosthogCaptureOnce'
 
-import { ContactUs } from './modules/Homepage/ContactUs/ContactUs'
-import { Framework } from './modules/Homepage/Framework/Framework'
 import { Hero } from './modules/Homepage/Hero/Hero'
-import LearningDimensions from './modules/Homepage/LearningDimensions/LearningDimensions'
-import MissionVision from './modules/Homepage/MissionVision/MissionVision'
-import { JobPlacements } from './modules/Homepage/Placements/JobPlacements'
-import Mentors from './modules/Mentors/Mentors'
+
+const Framework = dynamic(() =>
+  import('./modules/Homepage/Framework/Framework').then((m) => m.Framework),
+)
+const LearningDimensions = dynamic(
+  () => import('./modules/Homepage/LearningDimensions/LearningDimensions'),
+)
+const Mentors = dynamic(() => import('./modules/Mentors/Mentors'))
+const MissionVision = dynamic(
+  () => import('./modules/Homepage/MissionVision/MissionVision'),
+)
+const JobPlacements = dynamic(() =>
+  import('./modules/Homepage/Placements/JobPlacements').then((m) => m.JobPlacements),
+)
+const ContactUs = dynamic(() =>
+  import('./modules/Homepage/ContactUs/ContactUs').then((m) => m.ContactUs),
+)
 
 export default function Home() {
   return (

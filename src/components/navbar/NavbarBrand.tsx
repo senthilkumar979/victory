@@ -15,9 +15,9 @@ export const NavbarBrand = () => {
           alt="MentorBridge"
           width={150}
           height={80}
+          sizes="(max-width: 640px) 240px, 280px"
           className="h-12 w-auto min-w-0 opacity-95 transition-[opacity,filter] duration-300 group-hover:opacity-100 sm:h-12"
           priority
-          unoptimized
         />
       </Link>
     </div>
