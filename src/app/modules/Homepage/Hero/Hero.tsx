@@ -88,7 +88,7 @@ export const Hero = () => (
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="relative order-first flex w-full items-center justify-center lg:overflow-hidden min-h-[12vh] sm:order-none lg:min-h-[360px]"
+            className="relative flex w-full items-center justify-center lg:overflow-hidden min-h-[12vh] lg:min-h-[360px]"
           >
             <div className="contents md:hidden">
               <TransformationBridgeMobile />

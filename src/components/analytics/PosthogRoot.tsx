@@ -26,6 +26,11 @@ export const PosthogRoot = ({ children }: PosthogRootProps) => {
         persistence: 'localStorage+cookie',
         disable_session_recording:
           process.env.NEXT_PUBLIC_POSTHOG_DISABLE_SESSION_RECORDING === 'true',
+        disable_surveys:
+          process.env.NEXT_PUBLIC_POSTHOG_ENABLE_SURVEYS !== 'true',
+        capture_dead_clicks:
+          process.env.NEXT_PUBLIC_POSTHOG_DEAD_CLICKS === 'true',
+        advanced_disable_feature_flags_on_first_load: true,
       }}
     >
       <Suspense fallback={null}>

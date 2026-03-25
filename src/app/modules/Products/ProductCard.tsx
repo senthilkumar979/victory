@@ -54,7 +54,7 @@ export const ProductCard = ({ product, index, onOpen }: ProductCardProps) => {
           </span>
         </div>
         <h2
-          className={`font-['Urbanist',system-ui,sans-serif] text-2xl font-bold tracking-tight ${theme.text} letter-spacing-wide`}
+          className={`font-urbanist text-2xl font-bold tracking-tight ${theme.text} letter-spacing-wide`}
         >
           {product.name}
         </h2>

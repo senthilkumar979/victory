@@ -20,9 +20,8 @@ export const PageHeader = ({
         {subtitle}
       </p>
       <h1
-        className="font-bold tracking-tight text-primary letter-spacing-wide"
+        className="font-bungee-tint font-bold tracking-tight text-primary letter-spacing-wide"
         style={{
-          fontFamily: '"Bungee Tint", system-ui, sans-serif',
           fontSize: 'clamp(2.5rem, 8vw, 4.5rem)',
           lineHeight: 1.1,
           background:

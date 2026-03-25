@@ -1,5 +1,7 @@
 'use client'
 
+import 'reactflow/dist/style.css'
+
 import { ROADMAP_NODE_TYPE } from '@/data/roadmaps'
 import type { MouseEvent as ReactMouseEvent } from 'react'
 import { useCallback, useMemo } from 'react'

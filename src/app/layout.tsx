@@ -5,8 +5,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import Script from 'next/script'
 import 'goey-toast/styles.css'
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
-import 'reactflow/dist/style.css'
+import { Bungee_Tint, Geist, Geist_Mono, Urbanist } from 'next/font/google'
 import { PosthogRoot } from '@/components/analytics/PosthogRoot'
 import { SentryUserContext } from '@/components/analytics/SentryUserContext'
 import { ClarityComponent } from '../Clarity'
@@ -23,6 +22,22 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+})
+
+const bungeeTint = Bungee_Tint({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-bungee-tint',
+  display: 'swap',
+  preload: false,
+})
+
+const urbanist = Urbanist({
+  subsets: ['latin'],
+  variable: '--font-urbanist',
+  display: 'swap',
+  weight: ['500', '600', '700'],
+  preload: false,
 })
 
 export const metadata: Metadata = {
@@ -64,16 +79,11 @@ export default function RootLayout({
       signUpUrl="/sign-up"
       taskUrls={{ 'reset-password': '/session-tasks/reset-password' }}
     >
-      <html lang="en">
-        <head>
-          <link
-            href="https://fonts.googleapis.com/css2?family=Bungee+Tint&family=Fira+Code:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
-            rel="stylesheet"
-          />
-        </head>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+      <html
+        lang="en"
+        className={`${geistSans.variable} ${geistMono.variable} ${bungeeTint.variable} ${urbanist.variable}`}
+      >
+        <body className="antialiased">
           <LoaderProvider>
             <AppProvider>
               <PosthogRoot>

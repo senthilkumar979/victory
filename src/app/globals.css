@@ -71,7 +71,15 @@
 body {
   background: var(--foreground);
   color: var(--foreground);
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+.font-bungee-tint {
+  font-family: var(--font-bungee-tint), system-ui, sans-serif;
+}
+
+.font-urbanist {
+  font-family: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
 }
 
 .w-fit-content {

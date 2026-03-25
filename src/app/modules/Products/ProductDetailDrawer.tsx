@@ -59,7 +59,7 @@ export const ProductDetailDrawer = ({
           </div>
           {product.story.sections.map((section) => (
             <section key={section.title}>
-              <h3 className="mb-3 font-['Urbanist',system-ui,sans-serif] text-lg font-bold text-slate-900 dark:text-slate-50">
+              <h3 className="font-urbanist mb-3 text-lg font-bold text-slate-900 dark:text-slate-50">
                 {section.title}
               </h3>
               <div className="space-y-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">

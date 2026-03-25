@@ -4,6 +4,15 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactCompiler: true,
   productionBrowserSourceMaps: true,
+  experimental: {
+    optimizePackageImports: [
+      'lucide-react',
+      'motion/react',
+      'framer-motion',
+      '@radix-ui/react-slot',
+      '@radix-ui/react-separator',
+    ],
+  },
   async headers() {
     return [
       {
