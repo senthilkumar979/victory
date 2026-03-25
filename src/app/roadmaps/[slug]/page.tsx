@@ -8,6 +8,7 @@ import {
   RoadmapNodeMeta,
 } from '@/data/roadmaps'
 import { useRoadmapProgress } from '@/hooks/useRoadmapProgress'
+import { JavaRoadmap } from '@/modules/Roadmaps/JavaRoadmap'
 import { JavaScriptRoadmap } from '@/modules/Roadmaps/JavaScriptRoadmap'
 import { ReactRoadmap } from '@/modules/Roadmaps/ReactRoadmap'
 import { TypeScriptRoadmap } from '@/modules/Roadmaps/TypeScriptRoadmap'
@@ -24,6 +25,7 @@ const ROADMAP_SVGS: Record<
   react: ReactRoadmap,
   typescript: TypeScriptRoadmap,
   javascript: JavaScriptRoadmap,
+  java: JavaRoadmap,
 }
 
 export default function RoadmapSlugPage() {
