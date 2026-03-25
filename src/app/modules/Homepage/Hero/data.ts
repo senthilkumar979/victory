@@ -14,7 +14,7 @@ export const CARDS: TransformationCardData[] = [
     studentDept: 'ECE Department',
     studentCollege: 'SSM College of Engineering & Technology',
     professionalRole: 'Fullstack Engineer',
-    professionalCompany: 'Frigate Solutions Private Limited',
+    professionalCompany: 'Frigate',
     picture: 'https://wfkq0nguanh0273r.public.blob.vercel-storage.com/mentorbridge-pics/Subash.jpg',
   },
   {
@@ -38,7 +38,7 @@ export const CARDS: TransformationCardData[] = [
     studentDept: 'CSE Department',
     studentCollege: 'SSM College of Engineering & Technology',
     professionalRole: 'Frontend Engineer',
-    professionalCompany: 'HelloTruck Private Limited',
+    professionalCompany: 'Covai HelloTruck Pvt Ltd',
     picture: 'https://wfkq0nguanh0273r.public.blob.vercel-storage.com/mentorbridge-pics/jeyaraman.jpg',
   },
   {
@@ -46,7 +46,7 @@ export const CARDS: TransformationCardData[] = [
     studentDept: 'CSE Department',
     studentCollege: 'SSM College of Engineering & Technology',
     professionalRole: 'Frontend Engineer',
-    professionalCompany: 'Klyonix Tech Private Limited',
+    professionalCompany: 'Klyonix',
     picture: 'https://wfkq0nguanh0273r.public.blob.vercel-storage.com/mentorbridge-pics/Jeyashree.jpg',
   },
   {
@@ -70,7 +70,7 @@ export const CARDS: TransformationCardData[] = [
     studentDept: 'CSE Department',
     studentCollege: 'SSM College of Engineering & Technology',
     professionalRole: 'Frontend Engineer',
-    professionalCompany: 'Klyonix Tech Private Limited',
+    professionalCompany: 'Klyonix',
     picture: 'https://wfkq0nguanh0273r.public.blob.vercel-storage.com/mentorbridge-pics/kajalakshmi.jpeg',
   },
   {

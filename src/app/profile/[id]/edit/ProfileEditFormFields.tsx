@@ -254,16 +254,16 @@ export const ProfileEditFormFields = ({
                     onChange={(e) => field.onChange(e.target.value)}
                   >
                     <option value="">Select a company</option>
-                    <option value="Covai Hello Truck Private Limited">
-                      Covai Hello Truck Private Limited
+                    <option value="Covai Hello Truck Pvt Ltd">
+                      Covai Hello Truck Pvt Ltd
                     </option>
                     <option value="Codifi">Codifi</option>
                     <option value="CloseFuture">CloseFuture</option>
                     <option value="Frigate">Frigate</option>
                     <option value="Klyonix Tech">Klyonix Tech</option>
                     <option value="MentorBridge">MentorBridge</option>
-                    <option value="Sukiran Solutions Private Limited">
-                      Sukiran Solutions Private Limited
+                    <option value="Sukiran Solutions Pvt Ltd">
+                      Sukiran Solutions Pvt Ltd
                     </option>
                     <option value="Techjays">Techjays</option>
                     <option value="TS Techy">TS Techy</option>

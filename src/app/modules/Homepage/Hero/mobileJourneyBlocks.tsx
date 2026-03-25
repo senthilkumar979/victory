@@ -2,6 +2,7 @@
 
 import { motion, type Variants } from 'motion/react'
 import Image from 'next/image'
+import { COMPANY_LOGOS } from '../../../../constants/CompanyConstants'
 import type { TransformationCardData } from './Hero.types'
 import { springPop } from './transformationJourneyMotion'
 import { useJourneyReducedMotion } from './useJourneyReducedMotion'
@@ -94,17 +95,13 @@ export const MobileJourneyHiredCard = ({
         </motion.p>
         <motion.p
           variants={lineVariants}
-          className="mt-1 w-fit border-l-2 border-white px-2 py-1 text-sm text-white"
+          className="mt-1 w-fit border-l-2 text-center border-white px-2 py-1 text-xs text-white"
         >
           {data.professionalRole}
         </motion.p>
         <motion.div variants={lineVariants} className="mt-2 flex items-center gap-2">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-slate-700/50 text-xs font-bold text-white">
-            {data.professionalCompany.slice(0, 2)}
+          <div className="flex shrink-0 items-center justify-center rounded-lg font-bold"><Image src={COMPANY_LOGOS.find(company => company.name === data.professionalCompany)?.logo as string} alt={data.professionalCompany} width={60} height={60} />
           </div>
-          <p className="truncate text-xs font-medium text-white">
-            {data.professionalCompany}
-          </p>
         </motion.div>
         </div>
       </motion.div>

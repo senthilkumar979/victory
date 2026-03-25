@@ -35,8 +35,8 @@ export const Hero = () => (
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(99,102,241,0.08),transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_80%_60%,rgba(6,182,212,0.06),transparent_50%)]" />
 
-      <div className="relative z-10 mx-auto max-w-8xl px-6 py-4 sm:px-6 sm:py-2 lg:pr-12 lg:px-6 lg:py-20">
-        <div className="grid items-center gap-50 sm:gap-12 md:gap-16 lg:grid-cols-2 lg:gap-2">
+      <div className="relative z-10 mx-auto max-w-8xl px-6 py-20 sm:px-6 sm:py-60 md:py-0 lg:pr-12 lg:px-6 lg:py-20">
+        <div className="grid items-center gap-10 sm:gap-12 md:gap-16 lg:grid-cols-2 lg:gap-2">
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -99,7 +99,7 @@ export const Hero = () => (
           </motion.div>
         </div>
       </div>
-      <div className="mt-2 sm:mt-[150px] lg:mt-[0px]">
+      <div className="mt-[100px] md:mt-[0px]">
         <PartnersCarousel />
       </div>
     </section>

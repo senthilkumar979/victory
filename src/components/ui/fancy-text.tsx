@@ -1,16 +1,16 @@
-'use client';
+'use client'
 
-import React, { useLayoutEffect, useRef, useState } from 'react';
-import { motion } from 'motion/react';
-import { cn } from '@/lib/utils';
+import React, { useLayoutEffect, useRef, useState } from 'react'
+import { motion } from 'motion/react'
+import { cn } from '@/lib/utils'
 
 interface FancyTextProps {
-  children: string;
-  className?: string;
-  fillClassName?: string;
-  stagger?: number;
-  duration?: number;
-  delay?: number;
+  children: string
+  className?: string
+  fillClassName?: string
+  stagger?: number
+  duration?: number
+  delay?: number
 }
 
 const FancyText = React.forwardRef<HTMLSpanElement, FancyTextProps>(
@@ -25,21 +25,27 @@ const FancyText = React.forwardRef<HTMLSpanElement, FancyTextProps>(
     },
     ref,
   ) => {
-    const spanRef = useRef<HTMLSpanElement>(null);
-    const finalRef = (ref ?? spanRef) as React.RefObject<HTMLSpanElement>;
+    const spanRef = useRef<HTMLSpanElement>(null)
+    const finalRef = (ref ?? spanRef) as React.RefObject<HTMLSpanElement>
 
-    const chars = children.split('');
-    const [hideBase, setHideBase] = useState(false);
-    const [isSmall, setIsSmall] = useState(false);
+    const chars = children.split('')
+    const [hideBase, setHideBase] = useState(false)
+    const [isSmall, setIsSmall] = useState(false)
 
     useLayoutEffect(() => {
-      if (!finalRef.current) return;
-      const size = parseFloat(getComputedStyle(finalRef.current).fontSize);
-      setIsSmall(size < 28);
-    }, [finalRef]);
+      if (!finalRef.current) return
+      const size = parseFloat(getComputedStyle(finalRef.current).fontSize)
+      setIsSmall(size < 28)
+    }, [finalRef])
 
     return (
-      <span ref={finalRef} className='relative inline-block'>
+      <span
+        ref={finalRef}
+        className={cn(
+          'relative inline-block',
+          children?.length > 18 ? 'w-full' : '',
+        )}
+      >
         <span
           className={cn(className)}
           style={{ opacity: hideBase && isSmall ? 0 : 1 }}
@@ -47,7 +53,7 @@ const FancyText = React.forwardRef<HTMLSpanElement, FancyTextProps>(
           {children}
         </span>
 
-        <span className='absolute inset-0 flex overflow-hidden'>
+        <span className="absolute inset-0 flex overflow-hidden flex-wrap w-full">
           {chars.map((char, i) => (
             <motion.span
               key={i}
@@ -60,7 +66,7 @@ const FancyText = React.forwardRef<HTMLSpanElement, FancyTextProps>(
                 ease: [0.25, 0.1, 0.25, 1],
               }}
               onAnimationComplete={() => {
-                if (i === chars.length - 1 && isSmall) setHideBase(true);
+                if (i === chars.length - 1 && isSmall) setHideBase(true)
               }}
               style={{
                 display: 'inline-block',
@@ -72,9 +78,9 @@ const FancyText = React.forwardRef<HTMLSpanElement, FancyTextProps>(
           ))}
         </span>
       </span>
-    );
+    )
   },
-);
+)
 
-FancyText.displayName = 'FancyText';
-export { FancyText };
+FancyText.displayName = 'FancyText'
+export { FancyText }

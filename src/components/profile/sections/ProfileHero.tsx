@@ -11,8 +11,10 @@ import {
   Sparkles,
 } from 'lucide-react'
 
+import { Badge } from '@/atoms/badge/Badge'
 import type { ProfileData } from '@/types/student.types'
-import { Badge } from '../../../ui/atoms/badge/Badge'
+import Image from 'next/image'
+import { COMPANY_LOGOS } from '../../../constants/CompanyConstants'
 import { FancyText } from '../../ui/fancy-text'
 
 const container = {
@@ -113,20 +115,35 @@ export const ProfileHero = ({ student }: ProfileHeroProps) => {
               </motion.span>
             )}
           </div>
-
-          <FancyText
-            className="text-3xl md:text-4xl lg:text-5xl font-black leading-none text-black/10 dark:text-primary/10 letter-spacing-wide uppercase"
-            fillClassName="text-primary dark:text-primary"
-            stagger={0.06}
-            duration={1.2}
-            delay={0.2}
-          >
-            {name}
-          </FancyText>
+          <div className="flex items-center flex-col gap-5 md:flex-row justify-center md:justify-between flex-wrap">
+            <FancyText
+              className="text-3xl md:text-4xl lg:text-5xl font-black leading-none text-black/10 dark:text-primary/10 letter-spacing-wide uppercase"
+              fillClassName="text-primary dark:text-primary"
+              stagger={0.06}
+              duration={1.2}
+              delay={0.2}
+            >
+              {name}
+            </FancyText>
+            {company && company !== 'MentorBridge' && (
+              <Image
+                src={
+                  COMPANY_LOGOS.find(
+                    (logoDetail: { name: string; logo: string }) =>
+                      logoDetail.name.toLowerCase() === company.toLowerCase(),
+                  )?.logo as string
+                }
+                alt={company}
+                width={50}
+                height={50}
+                className="w-40 h-auto object-cover mt-2 rounded-sm"
+              />
+            )}
+          </div>
 
           <motion.div
             variants={item}
-            className="flex flex-wrap items-center gap-3 text-lg text-slate-600"
+            className="flex flex-wrap items-center gap-3 text-lg text-slate-600 justify-center md:justify-start"
           >
             <span className="font-semibold text-primary">{role}</span>
             <span className="text-slate-400">@</span>
@@ -139,7 +156,7 @@ export const ProfileHero = ({ student }: ProfileHeroProps) => {
             <motion.a
               variants={item}
               href={`mailto:${email}`}
-              className="inline-flex w-fit items-center gap-2 text-sm text-slate-600 transition-colors hover:text-primary"
+              className="flex items-center gap-2 text-sm text-slate-600 transition-colors hover:text-primary justify-center md:justify-start"
             >
               <Mail className="size-4" />
               {email}
@@ -191,7 +208,10 @@ export const ProfileHero = ({ student }: ProfileHeroProps) => {
             )}
           </motion.div>
 
-          <motion.div variants={item} className="flex flex-wrap gap-4 pt-4 justify-center md:justify-start">
+          <motion.div
+            variants={item}
+            className="flex flex-wrap gap-4 pt-4 justify-center md:justify-start"
+          >
             {resumeLink && (
               <motion.a
                 href={resumeLink}
