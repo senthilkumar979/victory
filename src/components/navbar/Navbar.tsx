@@ -111,7 +111,7 @@ export const Navbar = () => {
               </LayoutGroup>
             </div>
 
-            <NavbarDesktopActions pathname={pathname} reduceMotion={reduce} />
+            <NavbarDesktopActions pathname={pathname} />
 
             <motion.button
               type="button"

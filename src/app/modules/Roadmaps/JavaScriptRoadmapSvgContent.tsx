@@ -16,7 +16,7 @@ export function JavaScriptRoadmapSvgContent({
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="-545 -253 1101 2904"
+      viewBox="-545 -133 1101 2904"
       version="1.1"
       style={{ fontFamily: 'ui-sans-serif, system-ui, sans-serif' }}
       className="h-auto w-full max-w-full"
@@ -771,16 +771,6 @@ export function JavaScriptRoadmapSvgContent({
         stroke="#cea500"
         strokeWidth={3.5}
       />
-      <path
-        d="M-112.45968546864998,2249.2304293708294 C-112.45968546864998,2342.807753210821 -113.45968546864992,2342.807753210821 -113.45968546864992,2436.385077050813"
-        fill="none"
-        data-edge-id="reactflow__edge-rc5WzBBOm2cus-rQl8EOEx2-GV_zWF6rSWg5bqgiXhOEfw1"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeDasharray={0}
-        stroke="#cea500"
-        strokeWidth={3.5}
-      />
       <g data-node-id="RT5Y79D2bHy6PsH_R3ErB" data-type="vertical">
         <line
           x1={296.0025092677304}
@@ -790,7 +780,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.75,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: 0,
           }}
         />
@@ -804,7 +794,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.75,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -818,7 +808,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -832,7 +822,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -846,7 +836,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -860,7 +850,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -874,7 +864,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -888,7 +878,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -902,7 +892,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.75,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: 0,
           }}
         />
@@ -916,7 +906,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -930,7 +920,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -944,7 +934,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.75,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: 0,
           }}
         />
@@ -958,7 +948,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -972,7 +962,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -989,7 +979,7 @@ export function JavaScriptRoadmapSvgContent({
           height={271.3}
           rx={5}
           fill="#ffffff"
-          stroke="#000000"
+          stroke="#ffffff"
           strokeWidth={2.7}
         />
         <text
@@ -1015,7 +1005,7 @@ export function JavaScriptRoadmapSvgContent({
           height={105.3}
           rx={5}
           fill="#ffffff"
-          stroke="#000000"
+          stroke="#ffffff"
           strokeWidth={2.7}
         />
         <text
@@ -1038,7 +1028,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -1052,7 +1042,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -1069,7 +1059,7 @@ export function JavaScriptRoadmapSvgContent({
           height={273.3}
           rx={5}
           fill="#ffffff"
-          stroke="#000000"
+          stroke="#ffffff"
           strokeWidth={2.7}
         />
         <text
@@ -1092,7 +1082,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -1106,7 +1096,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -1120,7 +1110,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -1134,7 +1124,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -1148,7 +1138,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -1162,55 +1152,7 @@ export function JavaScriptRoadmapSvgContent({
           style={{
             strokeLinecap: 'round',
             strokeWidth: 3.5,
-            stroke: '#2B78E4',
-            strokeDasharray: '0.8 8',
-          }}
-        />
-      </g>
-      <g
-        data-node-id="iogwMmOvub2ZF4zgg6WyF"
-        data-type="title"
-        data-title="JavaScript"
-        onClick={() => onNodeClick('iogwMmOvub2ZF4zgg6WyF')}
-        style={{ cursor: 'pointer' }}
-      >
-        <text
-          x={-4.95968546864998}
-          y={-121.26957062917046}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontSize={28}
-          fill="black"
-        >
-          <tspan>JavaScript</tspan>
-        </text>
-        <circle
-          cx="-26.95968546864998"
-          cy="-121.26957062917046"
-          r="9.5"
-          fill="#16a34a"
-          display={isCompleted('iogwMmOvub2ZF4zgg6WyF') ? 'block' : 'none'}
-        />
-        <path
-          d="M-30.95968546864998 -121.26957062917046L-28.45968546864998 -118.26957062917046L-22.95968546864998 -123.26957062917046"
-          fill="none"
-          stroke="#fff"
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          display={isCompleted('iogwMmOvub2ZF4zgg6WyF') ? 'block' : 'none'}
-        />
-      </g>
-      <g data-node-id="LEijbLyxg4RyutKEM2Y5g" data-type="vertical">
-        <line
-          x1={-4.95968546864998}
-          y1={-230.76957062917046}
-          x2={-4.95968546864998}
-          y2={-166.76957062917046}
-          style={{
-            strokeLinecap: 'round',
-            strokeWidth: 3.5,
-            stroke: '#0A33FF',
+            stroke: '#cea500',
             strokeDasharray: '0.8 8',
           }}
         />
@@ -1230,9 +1172,8 @@ export function JavaScriptRoadmapSvgContent({
           width={241.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('6khAD6mzZ9S96JJuC5_j6') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('6khAD6mzZ9S96JJuC5_j6') ? 3.5 : 2.7}
+          fill="#d53f8c"
+          stroke="white"
         />
         <text
           x={-4.95968546864998}
@@ -1240,7 +1181,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Introduction to JavaScript</tspan>
         </text>
@@ -1260,8 +1201,8 @@ export function JavaScriptRoadmapSvgContent({
           width={214.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('UBB-8hUcwo4Mfd0cmEcdA') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('UBB-8hUcwo4Mfd0cmEcdA') ? 3.5 : 2.7}
         />
         <text
@@ -1270,7 +1211,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>What is JavaScript</tspan>
         </text>
@@ -1290,8 +1231,8 @@ export function JavaScriptRoadmapSvgContent({
           width={214.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('l-GKzcsBNA0r6Jax8hwnP') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('l-GKzcsBNA0r6Jax8hwnP') ? 3.5 : 2.7}
         />
         <text
@@ -1300,7 +1241,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>History of JavaScript</tspan>
         </text>
@@ -1320,8 +1261,8 @@ export function JavaScriptRoadmapSvgContent({
           width={214.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('SFPsWnVpZBAw3_re7op4h') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('SFPsWnVpZBAw3_re7op4h') ? 3.5 : 2.7}
         />
         <text
@@ -1330,7 +1271,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>JavaScript Versions</tspan>
         </text>
@@ -1350,8 +1291,8 @@ export function JavaScriptRoadmapSvgContent({
           width={214.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('uXsWIUUxtc4H_iRx3uZv0') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('uXsWIUUxtc4H_iRx3uZv0') ? 3.5 : 2.7}
         />
         <text
@@ -1360,7 +1301,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>How to run JavaScript</tspan>
         </text>
@@ -1380,8 +1321,8 @@ export function JavaScriptRoadmapSvgContent({
           width={239.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('BqbAWt--Guqex-rrb4ZUv') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('BqbAWt--Guqex-rrb4ZUv') ? 3.5 : 2.7}
         />
         <text
@@ -1390,7 +1331,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Variable Declarations</tspan>
         </text>
@@ -1410,8 +1351,8 @@ export function JavaScriptRoadmapSvgContent({
           width={239.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('Lb5jLF91WO5V5CWpifciW') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('Lb5jLF91WO5V5CWpifciW') ? 3.5 : 2.7}
         />
         <text
@@ -1420,7 +1361,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Hoisting</tspan>
         </text>
@@ -1440,8 +1381,8 @@ export function JavaScriptRoadmapSvgContent({
           width={239.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('HfieG3v3wnmpZDfNwEJvZ') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('HfieG3v3wnmpZDfNwEJvZ') ? 3.5 : 2.7}
         />
         <text
@@ -1450,7 +1391,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Variable Naming Rules</tspan>
         </text>
@@ -1470,8 +1411,8 @@ export function JavaScriptRoadmapSvgContent({
           width={239.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('7iMJuaB7yKlSIbT4dBe5L') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('7iMJuaB7yKlSIbT4dBe5L') ? 3.5 : 2.7}
         />
         <text
@@ -1480,7 +1421,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Variable Scopes</tspan>
         </text>
@@ -1498,8 +1439,8 @@ export function JavaScriptRoadmapSvgContent({
           width={73.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('JSjeM8qnBg4onXq9mn5gB') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('JSjeM8qnBg4onXq9mn5gB') ? 3.5 : 2.7}
         />
         <text
@@ -1508,7 +1449,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>var</tspan>
         </text>
@@ -1526,8 +1467,8 @@ export function JavaScriptRoadmapSvgContent({
           width={68.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('kDRa9G3pMp0Cb0mqYUawM') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('kDRa9G3pMp0Cb0mqYUawM') ? 3.5 : 2.7}
         />
         <text
@@ -1536,7 +1477,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>let</tspan>
         </text>
@@ -1554,8 +1495,8 @@ export function JavaScriptRoadmapSvgContent({
           width={85.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('q85z6x1Lc-yLWepwtIT2_') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('q85z6x1Lc-yLWepwtIT2_') ? 3.5 : 2.7}
         />
         <text
@@ -1564,7 +1505,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>const</tspan>
         </text>
@@ -1582,8 +1523,8 @@ export function JavaScriptRoadmapSvgContent({
           width={68.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('uqEzHYx13Y2EpvTTRzykn') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('uqEzHYx13Y2EpvTTRzykn') ? 3.5 : 2.7}
         />
         <text
@@ -1592,7 +1533,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Block</tspan>
         </text>
@@ -1610,8 +1551,8 @@ export function JavaScriptRoadmapSvgContent({
           width={88.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('YMT7O6lrMSMtNo0EnmsnQ') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('YMT7O6lrMSMtNo0EnmsnQ') ? 3.5 : 2.7}
         />
         <text
@@ -1620,7 +1561,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Function</tspan>
         </text>
@@ -1638,8 +1579,8 @@ export function JavaScriptRoadmapSvgContent({
           width={68.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('oC4o6GLEES_nUgCJu9Q6I') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('oC4o6GLEES_nUgCJu9Q6I') ? 3.5 : 2.7}
         />
         <text
@@ -1648,7 +1589,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Global</tspan>
         </text>
@@ -1666,8 +1607,8 @@ export function JavaScriptRoadmapSvgContent({
           width={241.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('kvActjpU4FUJdrmuFoFEe') ? '#16a34a' : 'black'}
+          fill="#d53f8c"
+          stroke="white"
           strokeWidth={isCompleted('kvActjpU4FUJdrmuFoFEe') ? 3.5 : 2.7}
         />
         <text
@@ -1676,7 +1617,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>All about Variables</tspan>
         </text>
@@ -1696,8 +1637,8 @@ export function JavaScriptRoadmapSvgContent({
           width={134.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('-jbPPuEXacBR0d0CWPHgd') ? '#16a34a' : 'black'}
+          fill="#d53f8c"
+          stroke="white"
           strokeWidth={isCompleted('-jbPPuEXacBR0d0CWPHgd') ? 3.5 : 2.7}
         />
         <text
@@ -1706,7 +1647,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Data Types</tspan>
         </text>
@@ -1724,8 +1665,8 @@ export function JavaScriptRoadmapSvgContent({
           width={98.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('1RcwBHU3jzx0YxxUGZic4') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('1RcwBHU3jzx0YxxUGZic4') ? 3.5 : 2.7}
         />
         <text
@@ -1734,7 +1675,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>string</tspan>
         </text>
@@ -1752,9 +1693,8 @@ export function JavaScriptRoadmapSvgContent({
           width={98.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('ZLs0NKM0lrnOy5ATDhlk0') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('ZLs0NKM0lrnOy5ATDhlk0') ? 3.5 : 2.7}
+          fill="#0ea5e9"
+          stroke="white"
         />
         <text
           x={-356.9974907322696}
@@ -1762,7 +1702,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>undefined</tspan>
         </text>
@@ -1780,8 +1720,8 @@ export function JavaScriptRoadmapSvgContent({
           width={98.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('GZ_SXsWmP7AsXRTc4WUMw') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('GZ_SXsWmP7AsXRTc4WUMw') ? 3.5 : 2.7}
         />
         <text
@@ -1790,7 +1730,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>number</tspan>
         </text>
@@ -1808,8 +1748,8 @@ export function JavaScriptRoadmapSvgContent({
           width={98.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('6lUF0neW1piiP1RsaVxEX') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('6lUF0neW1piiP1RsaVxEX') ? 3.5 : 2.7}
         />
         <text
@@ -1818,7 +1758,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>bigint</tspan>
         </text>
@@ -1836,8 +1776,8 @@ export function JavaScriptRoadmapSvgContent({
           width={98.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('b1HvkoWA2t4kt8mS6FySm') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('b1HvkoWA2t4kt8mS6FySm') ? 3.5 : 2.7}
         />
         <text
@@ -1846,7 +1786,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>boolean</tspan>
         </text>
@@ -1864,8 +1804,8 @@ export function JavaScriptRoadmapSvgContent({
           width={98.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('CxyNyFMuTLS3owtRMgClD') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('CxyNyFMuTLS3owtRMgClD') ? 3.5 : 2.7}
         />
         <text
@@ -1874,7 +1814,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>null</tspan>
         </text>
@@ -1892,8 +1832,8 @@ export function JavaScriptRoadmapSvgContent({
           width={202.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('R6ICrk6vjoBxx5nRGo4Jg') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('R6ICrk6vjoBxx5nRGo4Jg') ? 3.5 : 2.7}
         />
         <text
@@ -1902,7 +1842,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Symbol</tspan>
         </text>
@@ -1934,8 +1874,8 @@ export function JavaScriptRoadmapSvgContent({
           width={166.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('xe8HZ8Mt1fK8yJMcDPYHJ') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('xe8HZ8Mt1fK8yJMcDPYHJ') ? 3.5 : 2.7}
         />
         <text
@@ -1944,7 +1884,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Object</tspan>
         </text>
@@ -1962,8 +1902,8 @@ export function JavaScriptRoadmapSvgContent({
           width={216.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('0I6dJE0ygXPGjeRAe8AtT') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('0I6dJE0ygXPGjeRAe8AtT') ? 3.5 : 2.7}
         />
         <text
@@ -1972,7 +1912,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Object Prototype</tspan>
         </text>
@@ -1990,8 +1930,8 @@ export function JavaScriptRoadmapSvgContent({
           width={216.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('Xge6eru1hRGobnOEHLZqv') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('Xge6eru1hRGobnOEHLZqv') ? 3.5 : 2.7}
         />
         <text
@@ -2000,7 +1940,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Prototypal Inheritance</tspan>
         </text>
@@ -2020,8 +1960,8 @@ export function JavaScriptRoadmapSvgContent({
           width={166.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('RRACLQ6-aopkxImIp3Toc') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('RRACLQ6-aopkxImIp3Toc') ? 3.5 : 2.7}
         />
         <text
@@ -2030,7 +1970,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>typeof operator</tspan>
         </text>
@@ -2050,9 +1990,8 @@ export function JavaScriptRoadmapSvgContent({
           width={160.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('D95ndkkwmT5X_HqboEn6E') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('D95ndkkwmT5X_HqboEn6E') ? 3.5 : 2.7}
+          fill="#0ea5e9"
+          stroke="white"
         />
         <text
           x={328.5025092677304}
@@ -2060,7 +1999,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Built-in Objects</tspan>
         </text>
@@ -2080,9 +2019,8 @@ export function JavaScriptRoadmapSvgContent({
           width={175.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('XPmBieVCXvL3WbWkYRoKr') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('XPmBieVCXvL3WbWkYRoKr') ? 3.5 : 2.7}
+          fill="#d53f8c"
+          stroke="white"
         />
         <text
           x={-37.95968546864998}
@@ -2090,7 +2028,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Type Casting</tspan>
         </text>
@@ -2110,9 +2048,8 @@ export function JavaScriptRoadmapSvgContent({
           width={267.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('_Bo2YZqZ_gY35SLPML4T6') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('_Bo2YZqZ_gY35SLPML4T6') ? 3.5 : 2.7}
+          fill="#0ea5e9"
+          stroke="white"
         />
         <text
           x={-389.4974907322696}
@@ -2120,7 +2057,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Type Conversion vs Coercion</tspan>
         </text>
@@ -2140,9 +2077,8 @@ export function JavaScriptRoadmapSvgContent({
           width={267.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('1xhjrRN-Rfekei2JwwU7Y') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('1xhjrRN-Rfekei2JwwU7Y') ? 3.5 : 2.7}
+          fill="#0ea5e9"
+          stroke="white"
         />
         <text
           x={-389.4974907322696}
@@ -2150,7 +2086,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Explicit Type Casting</tspan>
         </text>
@@ -2170,9 +2106,8 @@ export function JavaScriptRoadmapSvgContent({
           width={267.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('pP42K_eH4RCdUdUS8BJlP') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('pP42K_eH4RCdUdUS8BJlP') ? 3.5 : 2.7}
+          fill="#0ea5e9"
+          stroke="white"
         />
         <text
           x={-389.4974907322696}
@@ -2180,7 +2115,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Implicit Type Casting</tspan>
         </text>
@@ -2200,9 +2135,8 @@ export function JavaScriptRoadmapSvgContent({
           width={169.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('ADarwihuI2nBq1C3U7-Zr') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('ADarwihuI2nBq1C3U7-Zr') ? 3.5 : 2.7}
+          fill="#d53f8c"
+          stroke="white"
         />
         <text
           x={227.50250926773037}
@@ -2210,7 +2144,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Data Structures</tspan>
         </text>
@@ -2230,8 +2164,8 @@ export function JavaScriptRoadmapSvgContent({
           width={195.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('rhJrrqkRqy2Qw_he4SPGz') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('rhJrrqkRqy2Qw_he4SPGz') ? 3.5 : 2.7}
         />
         <text
@@ -2240,7 +2174,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Keyed Collections</tspan>
         </text>
@@ -2260,8 +2194,8 @@ export function JavaScriptRoadmapSvgContent({
           width={125.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('Xc0jL4rafpI-ixIaAxo9O') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('Xc0jL4rafpI-ixIaAxo9O') ? 3.5 : 2.7}
         />
         <text
@@ -2270,7 +2204,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Map</tspan>
         </text>
@@ -2290,8 +2224,8 @@ export function JavaScriptRoadmapSvgContent({
           width={125.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('6icsjC4aisDgPWasVuCOt') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('6icsjC4aisDgPWasVuCOt') ? 3.5 : 2.7}
         />
         <text
@@ -2300,7 +2234,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Weak Map</tspan>
         </text>
@@ -2320,8 +2254,8 @@ export function JavaScriptRoadmapSvgContent({
           width={125.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('sciU68E13mcfL577y6Vim') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('sciU68E13mcfL577y6Vim') ? 3.5 : 2.7}
         />
         <text
@@ -2330,7 +2264,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Set</tspan>
         </text>
@@ -2350,9 +2284,8 @@ export function JavaScriptRoadmapSvgContent({
           width={125.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('DSFzj61N9ojz29mjExhVa') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('DSFzj61N9ojz29mjExhVa') ? 3.5 : 2.7}
+          fill="#0ea5e9"
+          stroke="white"
         />
         <text
           x={469.1719904951085}
@@ -2360,7 +2293,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Weak Set</tspan>
         </text>
@@ -2380,8 +2313,8 @@ export function JavaScriptRoadmapSvgContent({
           width={195.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('lBOGoHZrmnIRatvryDwTm') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('lBOGoHZrmnIRatvryDwTm') ? 3.5 : 2.7}
         />
         <text
@@ -2390,7 +2323,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Indexed Collections</tspan>
         </text>
@@ -2410,8 +2343,8 @@ export function JavaScriptRoadmapSvgContent({
           width={142.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('8X1mdQ3NDBVOZZWBbAFRE') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('8X1mdQ3NDBVOZZWBbAFRE') ? 3.5 : 2.7}
         />
         <text
@@ -2420,7 +2353,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Typed Arrays</tspan>
         </text>
@@ -2440,8 +2373,8 @@ export function JavaScriptRoadmapSvgContent({
           width={142.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('NZedBxG9B9TRVOf2QE2yL') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('NZedBxG9B9TRVOf2QE2yL') ? 3.5 : 2.7}
         />
         <text
@@ -2450,7 +2383,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Arrays</tspan>
         </text>
@@ -2468,8 +2401,8 @@ export function JavaScriptRoadmapSvgContent({
           width={193.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('JwLGAuSOTyZ5BHSqeBDU6') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('JwLGAuSOTyZ5BHSqeBDU6') ? 3.5 : 2.7}
         />
         <text
@@ -2478,7 +2411,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Structured Data</tspan>
         </text>
@@ -2496,8 +2429,8 @@ export function JavaScriptRoadmapSvgContent({
           width={68.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('bFNvtHp97OzKnPJgr7WaH') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('bFNvtHp97OzKnPJgr7WaH') ? 3.5 : 2.7}
         />
         <text
@@ -2506,7 +2439,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>JSON</tspan>
         </text>
@@ -2526,8 +2459,8 @@ export function JavaScriptRoadmapSvgContent({
           width={209.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('23Xa6q5VvRVlzc6Dx8vST') ? '#16a34a' : 'black'}
+          fill="#d53f8c"
+          stroke="white"
           strokeWidth={isCompleted('23Xa6q5VvRVlzc6Dx8vST') ? 3.5 : 2.7}
         />
         <text
@@ -2536,7 +2469,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Equality Comparisons</tspan>
         </text>
@@ -2554,8 +2487,8 @@ export function JavaScriptRoadmapSvgContent({
           width={58.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('RonBj1htt6jnBt3W7zoTA') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('RonBj1htt6jnBt3W7zoTA') ? 3.5 : 2.7}
         />
         <text
@@ -2564,7 +2497,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>==</tspan>
         </text>
@@ -2582,8 +2515,8 @@ export function JavaScriptRoadmapSvgContent({
           width={58.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('lJwcc6JoUIQoiQ6FkV2KW') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('lJwcc6JoUIQoiQ6FkV2KW') ? 3.5 : 2.7}
         />
         <text
@@ -2592,7 +2525,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>===</tspan>
         </text>
@@ -2610,8 +2543,8 @@ export function JavaScriptRoadmapSvgContent({
           width={109.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('ATma3bLKdmWY_WTsPIKxh') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('ATma3bLKdmWY_WTsPIKxh') ? 3.5 : 2.7}
         />
         <text
@@ -2620,7 +2553,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Object.is</tspan>
         </text>
@@ -2650,8 +2583,8 @@ export function JavaScriptRoadmapSvgContent({
           width={184.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('PLallt_T33W6bUEn0Hc3W') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('PLallt_T33W6bUEn0Hc3W') ? 3.5 : 2.7}
         />
         <text
@@ -2660,7 +2593,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>isLooselyEqual</tspan>
         </text>
@@ -2678,8 +2611,8 @@ export function JavaScriptRoadmapSvgContent({
           width={184.3}
           height={47.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('pcILon_Jjm2_XS10iUJ0E') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('pcILon_Jjm2_XS10iUJ0E') ? 3.5 : 2.7}
         />
         <text
@@ -2688,7 +2621,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>isStrictlyEqual</tspan>
         </text>
@@ -2706,8 +2639,8 @@ export function JavaScriptRoadmapSvgContent({
           width={184.3}
           height={47.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('fL3B2hkTgMb0oEwMiWJtK') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('fL3B2hkTgMb0oEwMiWJtK') ? 3.5 : 2.7}
         />
         <text
@@ -2716,7 +2649,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>SameValueZero</tspan>
         </text>
@@ -2748,8 +2681,8 @@ export function JavaScriptRoadmapSvgContent({
           width={286.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('YD-2l_amfqqqCdtc_Zdzo') ? '#16a34a' : 'black'}
+          fill="#d53f8c"
+          stroke="white"
           strokeWidth={isCompleted('YD-2l_amfqqqCdtc_Zdzo') ? 3.5 : 2.7}
         />
         <text
@@ -2758,7 +2691,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Loops and Iterations</tspan>
         </text>
@@ -2776,8 +2709,8 @@ export function JavaScriptRoadmapSvgContent({
           width={104.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('2M211rcaPSWbZ-sPoSEVR') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('2M211rcaPSWbZ-sPoSEVR') ? 3.5 : 2.7}
         />
         <text
@@ -2786,7 +2719,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>for</tspan>
         </text>
@@ -2804,8 +2737,8 @@ export function JavaScriptRoadmapSvgContent({
           width={104.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('57lO_3uxJaWsFXS-0J1AK') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('57lO_3uxJaWsFXS-0J1AK') ? 3.5 : 2.7}
         />
         <text
@@ -2814,7 +2747,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>do...while</tspan>
         </text>
@@ -2832,8 +2765,8 @@ export function JavaScriptRoadmapSvgContent({
           width={104.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('9-MpHmzK_IiCi6IcvAlGM') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('9-MpHmzK_IiCi6IcvAlGM') ? 3.5 : 2.7}
         />
         <text
@@ -2842,7 +2775,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>while</tspan>
         </text>
@@ -2860,8 +2793,8 @@ export function JavaScriptRoadmapSvgContent({
           width={171.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('cq3vvFZoNnAAZJ6oEBUwb') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('cq3vvFZoNnAAZJ6oEBUwb') ? 3.5 : 2.7}
         />
         <text
@@ -2870,7 +2803,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>for...in loop</tspan>
         </text>
@@ -2888,8 +2821,8 @@ export function JavaScriptRoadmapSvgContent({
           width={171.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('FBz6h_AmTJBXoBN-a38a5') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('FBz6h_AmTJBXoBN-a38a5') ? 3.5 : 2.7}
         />
         <text
@@ -2898,7 +2831,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>for...of loop</tspan>
         </text>
@@ -2916,8 +2849,8 @@ export function JavaScriptRoadmapSvgContent({
           width={171.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('4oHFzn7R7xLxfuLpsJjr-') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('4oHFzn7R7xLxfuLpsJjr-') ? 3.5 : 2.7}
         />
         <text
@@ -2926,7 +2859,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>break / continue</tspan>
         </text>
@@ -2944,8 +2877,8 @@ export function JavaScriptRoadmapSvgContent({
           width={145.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('3tckJ2Sci7z-sNx9jx9eF') ? '#16a34a' : 'black'}
+          fill="#d53f8c"
+          stroke="white"
           strokeWidth={isCompleted('3tckJ2Sci7z-sNx9jx9eF') ? 3.5 : 2.7}
         />
         <text
@@ -2954,7 +2887,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Control Flow</tspan>
         </text>
@@ -2974,8 +2907,8 @@ export function JavaScriptRoadmapSvgContent({
           width={222.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('34TKGxV9YziOWMh9rT_KE') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('34TKGxV9YziOWMh9rT_KE') ? 3.5 : 2.7}
         />
         <text
@@ -2984,7 +2917,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Exceptional Handling</tspan>
         </text>
@@ -3004,8 +2937,8 @@ export function JavaScriptRoadmapSvgContent({
           width={223.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('ttCsd2_H2SuRivCjGv1OX') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('ttCsd2_H2SuRivCjGv1OX') ? 3.5 : 2.7}
         />
         <text
@@ -3014,7 +2947,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Conditional Statements</tspan>
         </text>
@@ -3032,8 +2965,8 @@ export function JavaScriptRoadmapSvgContent({
           width={106.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('ndbDXAx6bL4lZmpXv16Y_') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('ndbDXAx6bL4lZmpXv16Y_') ? 3.5 : 2.7}
         />
         <text
@@ -3042,7 +2975,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>if...else</tspan>
         </text>
@@ -3060,8 +2993,8 @@ export function JavaScriptRoadmapSvgContent({
           width={101.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('H_QlcUlavKKfcNK8CYAvb') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('H_QlcUlavKKfcNK8CYAvb') ? 3.5 : 2.7}
         />
         <text
@@ -3070,7 +3003,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Switch</tspan>
         </text>
@@ -3090,8 +3023,8 @@ export function JavaScriptRoadmapSvgContent({
           width={222.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('ReGIniyLYl5hGExchrJd2') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('ReGIniyLYl5hGExchrJd2') ? 3.5 : 2.7}
         />
         <text
@@ -3100,7 +3033,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>throw statement</tspan>
         </text>
@@ -3118,9 +3051,8 @@ export function JavaScriptRoadmapSvgContent({
           width={222.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('rbjEZe5vxCJ8reI1oZ-jf') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('rbjEZe5vxCJ8reI1oZ-jf') ? 3.5 : 2.7}
+          fill="#0ea5e9"
+          stroke="white"
         />
         <text
           x={422.77559437185573}
@@ -3128,7 +3060,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>try/catch/finally</tspan>
         </text>
@@ -3146,8 +3078,8 @@ export function JavaScriptRoadmapSvgContent({
           width={222.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('-z-4VTaC3tOThqChgyoMs') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('-z-4VTaC3tOThqChgyoMs') ? 3.5 : 2.7}
         />
         <text
@@ -3156,7 +3088,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Error Objects</tspan>
         </text>
@@ -3176,8 +3108,8 @@ export function JavaScriptRoadmapSvgContent({
           width={234.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('_6vZa43gWjxO2OcD1iCCQ') ? '#16a34a' : 'black'}
+          fill="#d53f8c"
+          stroke="white"
           strokeWidth={isCompleted('_6vZa43gWjxO2OcD1iCCQ') ? 3.5 : 2.7}
         />
         <text
@@ -3186,7 +3118,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Expressions &amp; Operators</tspan>
         </text>
@@ -3206,8 +3138,8 @@ export function JavaScriptRoadmapSvgContent({
           width={221.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('IvBtUzIGnkgGXrJjqmjf4') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('IvBtUzIGnkgGXrJjqmjf4') ? 3.5 : 2.7}
         />
         <text
@@ -3216,7 +3148,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Assignment Operators</tspan>
         </text>
@@ -3236,8 +3168,8 @@ export function JavaScriptRoadmapSvgContent({
           width={221.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('-v4_V4UuoZSgUk2sqOCim') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('-v4_V4UuoZSgUk2sqOCim') ? 3.5 : 2.7}
         />
         <text
@@ -3246,7 +3178,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Comparison Operators</tspan>
         </text>
@@ -3266,8 +3198,8 @@ export function JavaScriptRoadmapSvgContent({
           width={221.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('0PK1NwlgkNe2Vf-We4uLH') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('0PK1NwlgkNe2Vf-We4uLH') ? 3.5 : 2.7}
         />
         <text
@@ -3276,7 +3208,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Arithmetic Operators</tspan>
         </text>
@@ -3296,8 +3228,8 @@ export function JavaScriptRoadmapSvgContent({
           width={221.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('ghjNJW67Wj5L5QK46xwL-') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('ghjNJW67Wj5L5QK46xwL-') ? 3.5 : 2.7}
         />
         <text
@@ -3306,7 +3238,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Bitwise Operators</tspan>
         </text>
@@ -3326,8 +3258,8 @@ export function JavaScriptRoadmapSvgContent({
           width={221.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('bo4SvzU4BrPl3c99zW7Y5') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('bo4SvzU4BrPl3c99zW7Y5') ? 3.5 : 2.7}
         />
         <text
@@ -3336,7 +3268,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Logical Operators</tspan>
         </text>
@@ -3356,8 +3288,8 @@ export function JavaScriptRoadmapSvgContent({
           width={221.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('udoz0DZi7f-vm30dSnYKu') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('udoz0DZi7f-vm30dSnYKu') ? 3.5 : 2.7}
         />
         <text
@@ -3366,7 +3298,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>BigInt Operators</tspan>
         </text>
@@ -3386,9 +3318,8 @@ export function JavaScriptRoadmapSvgContent({
           width={221.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('c38b6t5f17Zg2O2yg3eFP') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('c38b6t5f17Zg2O2yg3eFP') ? 3.5 : 2.7}
+          fill="#0ea5e9"
+          stroke="white"
         />
         <text
           x={-409.6276397705078}
@@ -3396,7 +3327,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>String Operators</tspan>
         </text>
@@ -3416,9 +3347,8 @@ export function JavaScriptRoadmapSvgContent({
           width={221.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('640mk-m5mB90Mme-7jcXV') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('640mk-m5mB90Mme-7jcXV') ? 3.5 : 2.7}
+          fill="#0ea5e9"
+          stroke="white"
         />
         <text
           x={-409.6276397705078}
@@ -3426,7 +3356,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Conditional Operators</tspan>
         </text>
@@ -3446,8 +3376,8 @@ export function JavaScriptRoadmapSvgContent({
           width={221.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('6_8EwyZY2jBkZr7xnfRY3') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('6_8EwyZY2jBkZr7xnfRY3') ? 3.5 : 2.7}
         />
         <text
@@ -3456,7 +3386,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Comma Operators</tspan>
         </text>
@@ -3476,8 +3406,8 @@ export function JavaScriptRoadmapSvgContent({
           width={221.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('k9rSR-YQ8B_iRcXNm2btP') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('k9rSR-YQ8B_iRcXNm2btP') ? 3.5 : 2.7}
         />
         <text
@@ -3486,7 +3416,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Unary Operators</tspan>
         </text>
@@ -3504,9 +3434,8 @@ export function JavaScriptRoadmapSvgContent({
           width={132.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('k8bJH9qydZm8I9rhH7rXw') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('k8bJH9qydZm8I9rhH7rXw') ? 3.5 : 2.7}
+          fill="#d53f8c"
+          stroke="white"
         />
         <text
           x={-136.7816601458129}
@@ -3514,7 +3443,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Functions</tspan>
         </text>
@@ -3534,9 +3463,8 @@ export function JavaScriptRoadmapSvgContent({
           width={240.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('R1D4fsZliHv7wIo8Tj-kp') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('R1D4fsZliHv7wIo8Tj-kp') ? 3.5 : 2.7}
+          fill="#0ea5e9"
+          stroke="white"
         />
         <text
           x={131.26672552017453}
@@ -3544,7 +3472,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Function Parameters</tspan>
         </text>
@@ -3564,8 +3492,8 @@ export function JavaScriptRoadmapSvgContent({
           width={240.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('fr0NChxMXLpJizyMhXcXS') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('fr0NChxMXLpJizyMhXcXS') ? 3.5 : 2.7}
         />
         <text
@@ -3574,7 +3502,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Arrow Functions</tspan>
         </text>
@@ -3594,8 +3522,8 @@ export function JavaScriptRoadmapSvgContent({
           width={240.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('YZlCoPvZuX5MmpLOTj5d4') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('YZlCoPvZuX5MmpLOTj5d4') ? 3.5 : 2.7}
         />
         <text
@@ -3604,7 +3532,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>IIFEs</tspan>
         </text>
@@ -3624,8 +3552,8 @@ export function JavaScriptRoadmapSvgContent({
           width={240.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('QLC7bW-qHskLH2HOA-Sko') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('QLC7bW-qHskLH2HOA-Sko') ? 3.5 : 2.7}
         />
         <text
@@ -3634,7 +3562,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>arguments object</tspan>
         </text>
@@ -3654,9 +3582,8 @@ export function JavaScriptRoadmapSvgContent({
           width={240.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('ISNzEYtrWe2v0R7Xfl5k-') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('ISNzEYtrWe2v0R7Xfl5k-') ? 3.5 : 2.7}
+          fill="#0ea5e9"
+          stroke="white"
         />
         <text
           x={131.26672552017453}
@@ -3664,7 +3591,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Scope &amp; Function Stack</tspan>
         </text>
@@ -3684,9 +3611,8 @@ export function JavaScriptRoadmapSvgContent({
           width={240.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('s8wUJivWmetysJ8bt9FBC') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('s8wUJivWmetysJ8bt9FBC') ? 3.5 : 2.7}
+          fill="#0ea5e9"
+          stroke="white"
         />
         <text
           x={131.26672552017453}
@@ -3694,7 +3620,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Built-in Functions</tspan>
         </text>
@@ -3712,8 +3638,8 @@ export function JavaScriptRoadmapSvgContent({
           width={161.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('8X8mRl-puL0Lp43dO5mha') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('8X8mRl-puL0Lp43dO5mha') ? 3.5 : 2.7}
         />
         <text
@@ -3722,7 +3648,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Default Params</tspan>
         </text>
@@ -3740,8 +3666,8 @@ export function JavaScriptRoadmapSvgContent({
           width={73.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('-_6q0bIjQrvAaCWrVkASO') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('-_6q0bIjQrvAaCWrVkASO') ? 3.5 : 2.7}
         />
         <text
@@ -3750,7 +3676,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Rest</tspan>
         </text>
@@ -3770,8 +3696,8 @@ export function JavaScriptRoadmapSvgContent({
           width={163.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('YJGhhFuWmFvhRKOg6nwON') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('YJGhhFuWmFvhRKOg6nwON') ? 3.5 : 2.7}
         />
         <text
@@ -3780,7 +3706,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Recursion</tspan>
         </text>
@@ -3800,8 +3726,8 @@ export function JavaScriptRoadmapSvgContent({
           width={163.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('q7b5iMJ1Lfka5A-K-YcaN') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('q7b5iMJ1Lfka5A-K-YcaN') ? 3.5 : 2.7}
         />
         <text
@@ -3810,7 +3736,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Lexical Scoping</tspan>
         </text>
@@ -3830,8 +3756,8 @@ export function JavaScriptRoadmapSvgContent({
           width={163.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('itS6B12I8I1KNCPvc0KCQ') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('itS6B12I8I1KNCPvc0KCQ') ? 3.5 : 2.7}
         />
         <text
@@ -3840,7 +3766,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Closures</tspan>
         </text>
@@ -3858,8 +3784,8 @@ export function JavaScriptRoadmapSvgContent({
           width={132.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('Xw8lb0xCWKmNs4KZfhBUy') ? '#16a34a' : 'black'}
+          fill="#d53f8c"
+          stroke="white"
           strokeWidth={isCompleted('Xw8lb0xCWKmNs4KZfhBUy') ? 3.5 : 2.7}
         />
         <text
@@ -3868,7 +3794,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Strict Mode</tspan>
         </text>
@@ -3886,8 +3812,8 @@ export function JavaScriptRoadmapSvgContent({
           width={198.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('fm2CuL1IZp3hnrLrPUX7U') ? '#16a34a' : 'black'}
+          fill="#d53f8c"
+          stroke="white"
           strokeWidth={isCompleted('fm2CuL1IZp3hnrLrPUX7U') ? 3.5 : 2.7}
         />
         <text
@@ -3896,7 +3822,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Using (this) keyword</tspan>
         </text>
@@ -3916,9 +3842,8 @@ export function JavaScriptRoadmapSvgContent({
           width={187.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('3E5MuxPvEJU-dwgTrbQAR') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('3E5MuxPvEJU-dwgTrbQAR') ? 3.5 : 2.7}
+          fill="#0ea5e9"
+          stroke="white"
         />
         <text
           x={-426.6276397705078}
@@ -3926,7 +3851,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>in a method</tspan>
         </text>
@@ -3946,8 +3871,8 @@ export function JavaScriptRoadmapSvgContent({
           width={187.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('azsXq6Y5iCvQDgTWZpWQ3') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('azsXq6Y5iCvQDgTWZpWQ3') ? 3.5 : 2.7}
         />
         <text
@@ -3956,7 +3881,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>in a function</tspan>
         </text>
@@ -3976,8 +3901,8 @@ export function JavaScriptRoadmapSvgContent({
           width={187.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('qps2Mdm-lwa4Wr0IxKm0C') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('qps2Mdm-lwa4Wr0IxKm0C') ? 3.5 : 2.7}
         />
         <text
@@ -3986,7 +3911,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>using it alone</tspan>
         </text>
@@ -4006,8 +3931,8 @@ export function JavaScriptRoadmapSvgContent({
           width={187.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('JVbEBtVrTTFnTF3_yUIAC') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('JVbEBtVrTTFnTF3_yUIAC') ? 3.5 : 2.7}
         />
         <text
@@ -4016,7 +3941,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>in event handlers</tspan>
         </text>
@@ -4036,8 +3961,8 @@ export function JavaScriptRoadmapSvgContent({
           width={187.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('P0190rTm2wLQmCzWOKour') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('P0190rTm2wLQmCzWOKour') ? 3.5 : 2.7}
         />
         <text
@@ -4046,7 +3971,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>in arrow functions</tspan>
         </text>
@@ -4064,8 +3989,8 @@ export function JavaScriptRoadmapSvgContent({
           width={198.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('EAN6DCiCfSq04R4vKgZ0q') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('EAN6DCiCfSq04R4vKgZ0q') ? 3.5 : 2.7}
         />
         <text
@@ -4074,7 +3999,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Function Borrowing</tspan>
         </text>
@@ -4092,8 +4017,8 @@ export function JavaScriptRoadmapSvgContent({
           width={198.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('p2NhSwPYMtRiPRHjPaqmX') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('p2NhSwPYMtRiPRHjPaqmX') ? 3.5 : 2.7}
         />
         <text
@@ -4102,7 +4027,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Explicit Binding</tspan>
         </text>
@@ -4120,8 +4045,8 @@ export function JavaScriptRoadmapSvgContent({
           width={53.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('gsyY3Oa3Jf0W5K_lyqBYO') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('gsyY3Oa3Jf0W5K_lyqBYO') ? 3.5 : 2.7}
         />
         <text
@@ -4130,7 +4055,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>call</tspan>
         </text>
@@ -4148,8 +4073,8 @@ export function JavaScriptRoadmapSvgContent({
           width={68.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('-BtF34cEzI6J8sZCDRlRE') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('-BtF34cEzI6J8sZCDRlRE') ? 3.5 : 2.7}
         />
         <text
@@ -4158,7 +4083,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>apply</tspan>
         </text>
@@ -4176,8 +4101,8 @@ export function JavaScriptRoadmapSvgContent({
           width={58.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('dbercnxXVTJXMpYSDNGb2') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('dbercnxXVTJXMpYSDNGb2') ? 3.5 : 2.7}
         />
         <text
@@ -4186,7 +4111,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>bind</tspan>
         </text>
@@ -4206,8 +4131,8 @@ export function JavaScriptRoadmapSvgContent({
           width={237.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('sFOqx6_7poVIVuXhJVY0E') ? '#16a34a' : 'black'}
+          fill="#d53f8c"
+          stroke="white"
           strokeWidth={isCompleted('sFOqx6_7poVIVuXhJVY0E') ? 3.5 : 2.7}
         />
         <text
@@ -4216,7 +4141,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Asynchronous JavaScript</tspan>
         </text>
@@ -4234,9 +4159,8 @@ export function JavaScriptRoadmapSvgContent({
           width={130.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('_bs5NNHVdHLWGBmpYwHMi') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('_bs5NNHVdHLWGBmpYwHMi') ? 3.5 : 2.7}
+          fill="#0ea5e9"
+          stroke="white"
         />
         <text
           x={173.05738234743455}
@@ -4244,7 +4168,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Event Loop</tspan>
         </text>
@@ -4262,9 +4186,8 @@ export function JavaScriptRoadmapSvgContent({
           width={129.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('wXypuqEmFLIubx-QQvDIr') ? '#16a34a' : 'black'}
-          strokeWidth={isCompleted('wXypuqEmFLIubx-QQvDIr') ? 3.5 : 2.7}
+          fill="#0ea5e9"
+          stroke="white"
         />
         <text
           x={174.6719904951085}
@@ -4272,7 +4195,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>setTimeout</tspan>
         </text>
@@ -4290,8 +4213,8 @@ export function JavaScriptRoadmapSvgContent({
           width={129.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('jaC3XXudd7OBKwwCpoPFf') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('jaC3XXudd7OBKwwCpoPFf') ? 3.5 : 2.7}
         />
         <text
@@ -4300,7 +4223,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>setInterval</tspan>
         </text>
@@ -4320,8 +4243,8 @@ export function JavaScriptRoadmapSvgContent({
           width={144.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('D8oGY7pdviRByaz6c9sU6') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('D8oGY7pdviRByaz6c9sU6') ? 3.5 : 2.7}
         />
         <text
@@ -4330,7 +4253,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Callbacks</tspan>
         </text>
@@ -4350,8 +4273,8 @@ export function JavaScriptRoadmapSvgContent({
           width={144.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('yXSF5gGST7l2X-4z1g0d_') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('yXSF5gGST7l2X-4z1g0d_') ? 3.5 : 2.7}
         />
         <text
@@ -4360,7 +4283,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Promises</tspan>
         </text>
@@ -4378,8 +4301,8 @@ export function JavaScriptRoadmapSvgContent({
           width={144.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('PJSdqvh5OBwPCNpn3q_S5') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('PJSdqvh5OBwPCNpn3q_S5') ? 3.5 : 2.7}
         />
         <text
@@ -4388,7 +4311,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Callback Hell</tspan>
         </text>
@@ -4408,8 +4331,8 @@ export function JavaScriptRoadmapSvgContent({
           width={144.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('Dn872mgexmxoLtbkIgIgz') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('Dn872mgexmxoLtbkIgIgz') ? 3.5 : 2.7}
         />
         <text
@@ -4418,7 +4341,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>async/await</tspan>
         </text>
@@ -4436,8 +4359,8 @@ export function JavaScriptRoadmapSvgContent({
           width={184.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('q6vciQb_Jk-Up16Pk5NeE') ? '#16a34a' : 'black'}
+          fill="#d53f8c"
+          stroke="white"
           strokeWidth={isCompleted('q6vciQb_Jk-Up16Pk5NeE') ? 3.5 : 2.7}
         />
         <text
@@ -4446,7 +4369,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Working with APIs</tspan>
         </text>
@@ -4466,8 +4389,8 @@ export function JavaScriptRoadmapSvgContent({
           width={186.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('kL5rfWxXe4J44ENru1uJS') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('kL5rfWxXe4J44ENru1uJS') ? 3.5 : 2.7}
         />
         <text
@@ -4476,7 +4399,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Fetch</tspan>
         </text>
@@ -4494,8 +4417,8 @@ export function JavaScriptRoadmapSvgContent({
           width={186.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('LiuhBE7dIlkoWkthSoCsa') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('LiuhBE7dIlkoWkthSoCsa') ? 3.5 : 2.7}
         />
         <text
@@ -4504,7 +4427,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>XMLHTTPRequest</tspan>
         </text>
@@ -4524,8 +4447,8 @@ export function JavaScriptRoadmapSvgContent({
           width={98.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('F_Lrj0F7UXriqJ0mhwxCy') ? '#16a34a' : 'black'}
+          fill="#d53f8c"
+          stroke="white"
           strokeWidth={isCompleted('F_Lrj0F7UXriqJ0mhwxCy') ? 3.5 : 2.7}
         />
         <text
@@ -4534,7 +4457,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Classes</tspan>
         </text>
@@ -4554,8 +4477,8 @@ export function JavaScriptRoadmapSvgContent({
           width={233.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('TZ8XGdykSJjKBjX6Nivwo') ? '#16a34a' : 'black'}
+          fill="#d53f8c"
+          stroke="white"
           strokeWidth={isCompleted('TZ8XGdykSJjKBjX6Nivwo') ? 3.5 : 2.7}
         />
         <text
@@ -4564,7 +4487,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Iterators and Generators</tspan>
         </text>
@@ -4584,8 +4507,8 @@ export function JavaScriptRoadmapSvgContent({
           width={212.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('hLnJlwnECFbVMeFpH0M5Q') ? '#16a34a' : 'black'}
+          fill="#d53f8c"
+          stroke="white"
           strokeWidth={isCompleted('hLnJlwnECFbVMeFpH0M5Q') ? 3.5 : 2.7}
         />
         <text
@@ -4594,7 +4517,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Modules in JavaScript</tspan>
         </text>
@@ -4612,8 +4535,8 @@ export function JavaScriptRoadmapSvgContent({
           width={132.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('4EXeGkOpfAViB9Uo4zL6O') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('4EXeGkOpfAViB9Uo4zL6O') ? 3.5 : 2.7}
         />
         <text
@@ -4622,7 +4545,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>CommonJS</tspan>
         </text>
@@ -4642,8 +4565,8 @@ export function JavaScriptRoadmapSvgContent({
           width={132.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('jLNmYeo20Mbu4WRvVgvwU') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('jLNmYeo20Mbu4WRvVgvwU') ? 3.5 : 2.7}
         />
         <text
@@ -4652,7 +4575,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>ESM</tspan>
         </text>
@@ -4672,8 +4595,8 @@ export function JavaScriptRoadmapSvgContent({
           width={212.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('MatU4SthAAhByJ40XdZQn') ? '#16a34a' : 'black'}
+          fill="#d53f8c"
+          stroke="white"
           strokeWidth={isCompleted('MatU4SthAAhByJ40XdZQn') ? 3.5 : 2.7}
         />
         <text
@@ -4682,7 +4605,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Memory Management</tspan>
         </text>
@@ -4702,8 +4625,8 @@ export function JavaScriptRoadmapSvgContent({
           width={186.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('ZR2WfH1cerA-V_kaPwRvm') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('ZR2WfH1cerA-V_kaPwRvm') ? 3.5 : 2.7}
         />
         <text
@@ -4712,7 +4635,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Memory Lifecycle</tspan>
         </text>
@@ -4730,8 +4653,8 @@ export function JavaScriptRoadmapSvgContent({
           width={132.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('bhuGtcyqPFKu-900aESYz') ? '#16a34a' : 'black'}
+          fill="#d53f8c"
+          stroke="white"
           strokeWidth={isCompleted('bhuGtcyqPFKu-900aESYz') ? 3.5 : 2.7}
         />
         <text
@@ -4740,7 +4663,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>DOM APIs</tspan>
         </text>
@@ -4758,8 +4681,8 @@ export function JavaScriptRoadmapSvgContent({
           width={186.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('KKyX8N4lTgN0w-Khm6Ztq') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('KKyX8N4lTgN0w-Khm6Ztq') ? 3.5 : 2.7}
         />
         <text
@@ -4768,7 +4691,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Garbage Collection</tspan>
         </text>
@@ -4788,8 +4711,8 @@ export function JavaScriptRoadmapSvgContent({
           width={230.3}
           height={46.3}
           rx={5}
-          fill="#fdff00"
-          stroke={isCompleted('rc5WzBBOm2cus-rQl8EOE') ? '#16a34a' : 'black'}
+          fill="#d53f8c"
+          stroke="white"
           strokeWidth={isCompleted('rc5WzBBOm2cus-rQl8EOE') ? 3.5 : 2.7}
         />
         <text
@@ -4798,7 +4721,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Using Browser DevTools</tspan>
         </text>
@@ -4818,8 +4741,8 @@ export function JavaScriptRoadmapSvgContent({
           width={244.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('dhEtcgv7G9fNV-AUNJdWk') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('dhEtcgv7G9fNV-AUNJdWk') ? 3.5 : 2.7}
         />
         <text
@@ -4828,7 +4751,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Debugging Issues</tspan>
         </text>
@@ -4848,8 +4771,8 @@ export function JavaScriptRoadmapSvgContent({
           width={244.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('BA_ArmZMnVMaL_zl3W3Pt') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('BA_ArmZMnVMaL_zl3W3Pt') ? 3.5 : 2.7}
         />
         <text
@@ -4858,7 +4781,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Debugging Memory Leaks</tspan>
         </text>
@@ -4878,8 +4801,8 @@ export function JavaScriptRoadmapSvgContent({
           width={244.3}
           height={46.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('ECxISKUAU7js_JsfSHzud') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('ECxISKUAU7js_JsfSHzud') ? 3.5 : 2.7}
         />
         <text
@@ -4888,7 +4811,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>Debugging Performance</tspan>
         </text>
@@ -4906,8 +4829,8 @@ export function JavaScriptRoadmapSvgContent({
           width={184.3}
           height={47.3}
           rx={5}
-          fill="#ffe599"
-          stroke={isCompleted('nfMrC0eoXZl72H4o3VFEP') ? '#16a34a' : 'black'}
+          fill="#0ea5e9"
+          stroke="white"
           strokeWidth={isCompleted('nfMrC0eoXZl72H4o3VFEP') ? 3.5 : 2.7}
         />
         <text
@@ -4916,7 +4839,7 @@ export function JavaScriptRoadmapSvgContent({
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={17}
-          fill="#000000"
+          fill="#ffffff"
         >
           <tspan>SameValue</tspan>
         </text>
