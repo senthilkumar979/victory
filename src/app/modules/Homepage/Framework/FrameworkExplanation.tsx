@@ -71,7 +71,7 @@ export default function FrameworkExplanation() {
       className="flex h-full min-h-0 w-full flex-col justify-center py-8 lg:py-0 px-4 lg:px-0"
     >
       <div className="mx-auto w-full max-w-xl space-y-6 lg:mx-0">
-        <p className="mb-14 font-mono text-[11px] font-medium uppercase tracking-[0.35em] bg-primary w-fit p-2 text-white rounded-full">
+        <p className="mb-14 font-mono text-[11px] font-medium uppercase tracking-[0.35em] bg-primary-strong w-fit p-2 text-white rounded-full">
             Learning Framework
         </p>
 

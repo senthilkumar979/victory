@@ -2,6 +2,7 @@ import { Navbar } from '@/components/navbar/Navbar'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import Script from 'next/script'
 import 'goey-toast/styles.css'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
@@ -69,10 +70,6 @@ export default function RootLayout({
             href="https://fonts.googleapis.com/css2?family=Bungee+Tint&family=Fira+Code:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
             rel="stylesheet"
           />
-          <script
-            src="https://t.contentsquare.net/uxa/5027a5ad08b17.js"
-            async
-          ></script>
         </head>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -85,6 +82,10 @@ export default function RootLayout({
                 {children}
                 <Footer />
                 <ClarityComponent />
+                <Script
+                  src="https://t.contentsquare.net/uxa/5027a5ad08b17.js"
+                  strategy="lazyOnload"
+                />
                 <Analytics />
                 <SpeedInsights />
               </PosthogRoot>

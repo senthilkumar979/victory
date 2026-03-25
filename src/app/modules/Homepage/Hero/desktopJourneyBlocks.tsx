@@ -34,15 +34,15 @@ export const DesktopJourneyStudentPanel = ({
       >
         <motion.span
           variants={lineVariants}
-          className="inline-flex w-fit rounded-full bg-primary/20 px-2.5 py-0.5 text-xs font-semibold text-primary"
+          className="inline-flex w-fit rounded-full bg-primary/20 px-2.5 py-0.5 text-xs font-semibold text-primary-strong"
         >
           Student
         </motion.span>
         <div className="flex items-center gap-2 justify-center flex-col">
         <Image src={data.picture} alt={data.name} width={100} height={100} className="w-10 h-10 object-cover rounded-full" />
-        <motion.h4 variants={lineVariants} className="mt-1 font-semibold text-info">
+        <motion.p variants={lineVariants} className="mt-1 font-semibold text-info">
           {data.name}
-        </motion.h4>
+        </motion.p>
         <motion.p variants={lineVariants} className="text-sm text-slate-400">
           {data.studentDept}
         </motion.p>
@@ -84,7 +84,7 @@ export const DesktopJourneyHiredPanel = ({
         {MENTOR_BRIDGE.labelHired}
       </motion.p>
       <motion.div
-        className="flex h-full flex-col gap-2 rounded-lg border border-primary/35 bg-primary p-4 shadow-[0_16px_48px_-12px_rgba(79,70,229,0.4)]"
+        className="flex h-full flex-col gap-2 rounded-lg border border-primary-strong/35 bg-primary-strong p-4 shadow-[0_16px_48px_-12px_rgba(79,70,229,0.4)]"
         variants={containerVariants}
         initial="hidden"
         animate={showOutcome ? 'show' : 'hidden'}
@@ -97,9 +97,9 @@ export const DesktopJourneyHiredPanel = ({
         </motion.span>
         <div className="flex items-center gap-2 justify-center flex-col">
         <Image src={data.picture} alt={data.name} width={100} height={100} className="w-10 h-10 object-cover rounded-full" />
-        <motion.h4 variants={lineVariants} className="mt-1 font-semibold text-white">
+        <motion.p variants={lineVariants} className="mt-1 font-semibold text-white">
           {data.name}
-        </motion.h4>
+        </motion.p>
         <motion.p
           variants={lineVariants}
           className="w-fit border-l-2 border-white px-2 py-1 text-sm text-white"

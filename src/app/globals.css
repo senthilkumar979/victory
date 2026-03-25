@@ -6,6 +6,8 @@
   --background: #0b1120;
   --foreground: #f9fafb;
   --primary: #d53f8c;
+  /* Darker pink for small text and badges on white (WCAG AA) */
+  --primary-strong: #9d2765;
   --primary-foreground: #fdf2f8;
   --secondary: #111827;
   --secondary-foreground: #f9fafb;
@@ -25,6 +27,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
+  --color-primary-strong: var(--primary-strong);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);

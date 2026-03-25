@@ -38,7 +38,7 @@ export default function MissionVision() {
         transition={{ duration: dur, ease }}
         className="relative mx-auto max-w-7xl px-6 py-24"
       >
-        <p className="mb-14 text-center font-mono text-[11px] font-medium uppercase tracking-[0.35em] bg-primary w-fit p-2 text-center mx-auto text-white rounded-full">
+        <p className="mb-14 text-center font-mono text-[11px] font-medium uppercase tracking-[0.35em] bg-primary-strong w-fit p-2 text-center mx-auto text-white rounded-full">
           {c.sectionKicker}
         </p>
 
@@ -58,14 +58,14 @@ export default function MissionVision() {
             </span>
             <div className="relative overflow-hidden rounded-[1.35rem] border border-slate-200/90 bg-white/85 p-8 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.12)] backdrop-blur-md transition-all duration-300 ease-out before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-pink-400/40 before:to-transparent hover:-translate-y-1 hover:shadow-[0_32px_90px_-28px_rgba(237, 58, 237, 0.18)]">
               <div className="mb-6 flex items-center gap-3">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-slate-200/80 bg-slate-50/90 text-primary shadow-sm transition-transform duration-300 ease-out group-hover:-rotate-[8deg]">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-slate-200/80 bg-slate-50/90 text-primary-strong shadow-sm transition-transform duration-300 ease-out group-hover:-rotate-[8deg]">
                   <Compass className="h-6 w-6" strokeWidth={1.5} aria-hidden />
                 </div>
                 <span className="font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-slate-500">
                   {c.mission.zone}
                 </span>
               </div>
-              <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+              <p className="text-sm font-semibold uppercase tracking-wider text-primary-strong">
                 {c.mission.eyebrow}
               </p>
               <h2 className="mt-2 text-balance text-3xl font-bold tracking-tight text-slate-900 md:text-[2rem] md:leading-[1.2]">
@@ -100,14 +100,14 @@ export default function MissionVision() {
               <div className="pointer-events-none absolute -right-16 top-0 h-48 w-48 rounded-full bg-gradient-to-br from-fuchsia-400/25 via-purple-400/15 to-transparent blur-2xl" />
               <div className="pointer-events-none absolute -left-10 bottom-0 h-40 w-40 rounded-full bg-pink-400/15 blur-3xl" />
               <div className="relative mb-6 flex items-center gap-3">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-violet-200/70 text-primary shadow-sm transition-transform duration-300 ease-out group-hover:rotate-[10deg]">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-violet-200/70 text-primary-strong shadow-sm transition-transform duration-300 ease-out group-hover:rotate-[10deg]">
                   <Sparkles className="h-6 w-6" strokeWidth={1.5} aria-hidden />
                 </div>
                 <span className="font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-slate-500">
                   {c.vision.zone}
                 </span>
               </div>
-              <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+              <p className="text-sm font-semibold uppercase tracking-wider text-primary-strong">
                 {c.vision.eyebrow}
               </p>
               <h2 className="mt-2 text-balance bg-gradient-to-r from-purple-900 via-pink-900 to-primary bg-clip-text text-3xl font-bold tracking-tight text-transparent md:text-[2rem] md:leading-[1.2]">

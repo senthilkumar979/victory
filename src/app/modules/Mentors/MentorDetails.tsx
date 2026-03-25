@@ -52,7 +52,7 @@ export default function MentorDetails({ mentor, activeKey }: MentorDetailsProps)
             </p>
             <p className="flex flex-wrap gap-2 mt-3">
               {mentor.skills.map((skill) => (
-                <span key={skill} className="rounded-full bg-primary/10 px-2 py-1 text-sm font-medium text-primary">
+                <span key={skill} className="rounded-full bg-primary/10 px-2 py-1 text-sm font-medium text-primary-strong">
                   {skill}
                 </span>
               ))}

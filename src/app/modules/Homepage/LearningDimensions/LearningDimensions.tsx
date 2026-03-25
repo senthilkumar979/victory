@@ -16,7 +16,7 @@ export default function LearningDimensions() {
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="relative flex justify-center items-center text-center"
       >
-        <p className="mb-2 text-center font-mono text-[11px] font-medium uppercase tracking-[0.35em] bg-primary w-fit p-2 text-center mx-auto text-white rounded-full">
+        <p className="mb-2 text-center font-mono text-[11px] font-medium uppercase tracking-[0.35em] bg-primary-strong w-fit p-2 text-center mx-auto text-white rounded-full">
           Learning Dimensions
         </p>
       </motion.div>

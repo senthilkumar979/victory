@@ -75,7 +75,7 @@ export function MentorPhoto({ mentorKey, size }: MentorPhotoProps) {
         >
           <Image
             src={m.image}
-            alt={`Portrait of ${m.name}`}
+            alt={isActive ? `Portrait of ${m.name}` : ''}
             fill
             className="object-cover object-center"
             sizes={isActive ? '(max-width: 768px) 100vw, 420px' : '112px'}

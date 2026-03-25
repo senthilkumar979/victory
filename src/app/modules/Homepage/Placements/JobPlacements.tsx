@@ -49,7 +49,7 @@ export const JobPlacements = () => {
           transition={{ duration: reduce ? 0.2 : 0.65, ease }}
           className="mx-auto mb-14 max-w-3xl text-center sm:mb-18 flex flex-col items-center justify-center"
         >
-          <p className="mb-5 text-center font-mono text-[11px] font-medium uppercase tracking-[0.35em] bg-primary w-fit p-2 text-center mx-auto text-white rounded-full">
+          <p className="mb-5 text-center font-mono text-[11px] font-medium uppercase tracking-[0.35em] bg-primary-strong w-fit p-2 text-center mx-auto text-white rounded-full">
             Placements
           </p>
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">

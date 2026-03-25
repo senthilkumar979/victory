@@ -41,12 +41,12 @@ export default function Mentors() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
         <header className="mb-12 text-center md:mb-16">
-          <p className="mb-2 mx-auto w-fit rounded-full bg-primary p-2 text-center font-mono text-[11px] font-medium uppercase tracking-[0.35em] text-white">
+          <p className="mb-2 mx-auto w-fit rounded-full bg-primary-strong p-2 text-center font-mono text-[11px] font-medium uppercase tracking-[0.35em] text-white">
             Who We Are
           </p>
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Meet the Mentors Behind{' '}
-            <span className="text-primary">MentorBridge</span>
+            <span className="text-primary-strong">MentorBridge</span>
           </h2>
         </header>
 
