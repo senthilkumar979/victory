@@ -2,8 +2,8 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { useCallback, useEffect } from 'react'
-import type { FieldErrors } from 'react-hook-form'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import type { FieldErrors, Resolver } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 
 import { useUpdateStudent } from '@/hooks/useUpdateStudent'
@@ -59,8 +59,22 @@ function toFormValues(student: ProfileData | null): ProfileEditFormValues {
     resumeLink: student.resumeLink ?? '',
     skillSets: student.skillSets?.join(', ') ?? '',
     inspirations: student.inspirations?.join(', ') ?? '',
-    experience: student.experience ?? [],
-    mentorBridgeExp: student.mentorBridgeExp,
+    experience: (student.experience ?? []).map((e) => ({
+      company: e.company ?? '',
+      role: e.role ?? '',
+      summary: e.summary ?? '',
+      website: e.website ?? '',
+    })),
+    mentorBridgeExp: (() => {
+      const m = student.mentorBridgeExp
+      if (!m) return undefined
+      return {
+        company: m.company ?? '',
+        role: m.role ?? '',
+        summary: m.summary ?? '',
+        website: m.website ?? '',
+      }
+    })(),
     socialLinks: {
       linkedIn: student.socialLinks?.linkedIn ?? '',
       gitHub: student.socialLinks?.gitHub ?? '',
@@ -77,20 +91,106 @@ function parseCommaList(s: string | undefined): string[] {
     .filter(Boolean)
 }
 
+const toastSurface = {
+  bounce: 0.45,
+  borderColor: '#E0E0E0',
+  borderWidth: 2,
+} as const
+
+function humanizeValidatorMessage(raw: string): string {
+  const msg = raw.trim()
+  if (/expected string,\s*received undefined/i.test(msg)) {
+    return 'A field is empty or missing. Check all sections (including experience blocks) and try again.'
+  }
+  if (/expected string,\s*received null/i.test(msg)) {
+    return 'A field has an invalid empty value. Please review the form and try again.'
+  }
+  return msg
+}
+
+function collectFormErrorMessages(errors: FieldErrors<ProfileEditFormValues>): string[] {
+  const out: string[] = []
+  const walk = (node: unknown): void => {
+    if (!node || typeof node !== 'object') return
+    const n = node as Record<string, unknown>
+    const msg = n.message
+    if (typeof msg === 'string' && msg.trim()) out.push(humanizeValidatorMessage(msg))
+    for (const [key, val] of Object.entries(n)) {
+      if (
+        key === 'message' ||
+        key === 'ref' ||
+        key === 'type' ||
+        key === 'types' ||
+        key === 'root'
+      )
+        continue
+      if (val && typeof val === 'object') {
+        if (Array.isArray(val)) {
+          for (const item of val) walk(item)
+        } else {
+          walk(val)
+        }
+      }
+    }
+  }
+  walk(errors)
+  return [...new Set(out)]
+}
+
+function getThrownMessage(err: unknown): string {
+  if (err instanceof Error) return err.message
+  if (typeof err === 'string') return err
+  if (err && typeof err === 'object' && 'message' in err) {
+    const m = (err as { message: unknown }).message
+    if (typeof m === 'string' && m.trim()) return m
+  }
+  return 'Please try again.'
+}
+
 interface ProfileEditFormProps {
   student: ProfileData | null
   studentId: string
   email?: string | null
   onBack?: () => void
+  /** Called after a successful save (e.g. refetch student so uploads have an id). */
+  onSaveSuccess?: () => void | Promise<void>
 }
 
-export const ProfileEditForm = ({ student, studentId, email, onBack }: ProfileEditFormProps) => {
+export const ProfileEditForm = ({
+  student,
+  studentId,
+  email,
+  onBack,
+  onSaveSuccess,
+}: ProfileEditFormProps) => {
   const posthog = usePostHog()
   const router = useRouter()
   const { updateStudent } = useUpdateStudent()
-  const { createStudentProfile } = useCreateStudentProfile();
+  const { createStudentProfile } = useCreateStudentProfile()
+  const [uploadStudentId, setUploadStudentId] = useState<string | null>(null)
+  /** Vercel Blob URLs from file pick; not written to Supabase until Save succeeds. */
+  const [stagedPictureUrl, setStagedPictureUrl] = useState<string | null>(null)
+  const [stagedResumeUrl, setStagedResumeUrl] = useState<string | null>(null)
+  const resolvedStudentId = studentId?.trim() || uploadStudentId || ''
+
+  useEffect(() => {
+    if (studentId?.trim()) setUploadStudentId(null)
+  }, [studentId])
+
+  const prevLoadedStudentIdRef = useRef<string | undefined>(undefined)
+  useEffect(() => {
+    const id = student?.id
+    const prev = prevLoadedStudentIdRef.current
+    if (prev !== undefined && id !== undefined && prev !== id) {
+      setStagedPictureUrl(null)
+      setStagedResumeUrl(null)
+    }
+    prevLoadedStudentIdRef.current = id
+  }, [student?.id])
   const form = useForm<ProfileEditFormValues>({
-    resolver: zodResolver(profileEditFormSchema),
+    resolver: zodResolver(
+      profileEditFormSchema,
+    ) as Resolver<ProfileEditFormValues>,
     defaultValues: toFormValues(student),
     mode: 'onTouched',
   })
@@ -120,6 +220,20 @@ export const ProfileEditForm = ({ student, studentId, email, onBack }: ProfileEd
         field_count: Object.keys(errors).length,
         student_id: studentId || undefined,
       })
+      const messages = collectFormErrorMessages(errors)
+      const maxShown = 6
+      const shown = messages.slice(0, maxShown)
+      const suffix =
+        messages.length > maxShown ? ` (+${messages.length - maxShown} more)` : ''
+      const description =
+        shown.length > 0
+          ? `${shown.join(' · ')}${suffix}`
+          : 'Please check the highlighted fields and try again.'
+      gooeyToast.error('Could not save profile', {
+        description,
+        ...toastSurface,
+        timing: { displayDuration: 7000 },
+      })
     },
     [posthog, studentId],
   )
@@ -132,22 +246,22 @@ export const ProfileEditForm = ({ student, studentId, email, onBack }: ProfileEd
     try {
       const skillSets = parseCommaList(data.skillSets)
       const inspirations = parseCommaList(data.inspirations)
-      const socialLinks =
-        data.socialLinks?.linkedIn || data.socialLinks?.gitHub || data.socialLinks?.website
-          ? {
-              linkedIn: data.socialLinks.linkedIn || '',
-              gitHub: data.socialLinks.gitHub || '',
-              website: data.socialLinks.website || '',
-            }
-          : undefined
+      const socialLinks = {
+        linkedIn: data.socialLinks?.linkedIn?.trim() ?? '',
+        gitHub: data.socialLinks?.gitHub?.trim() ?? '',
+        website: data.socialLinks?.website?.trim() ?? '',
+      }
 
-      const validExperience = data.experience?.filter(
-        (e) => e.company?.trim() || e.role?.trim()
+      const validExperience = data.experience.filter(
+        (e) => e.company.trim() || e.role.trim(),
       )
+
+      const pictureToSave = (stagedPictureUrl ?? data.picture)?.trim() || ''
+      const resumeToSave = (stagedResumeUrl ?? data.resumeLink)?.trim() || ''
 
       const payload = {
         name: data.name,
-        picture: data.picture || undefined,
+        picture: pictureToSave || undefined,
         role: data.role,
         company: data.company || undefined,
         summary: data.summary || undefined,
@@ -155,7 +269,7 @@ export const ProfileEditForm = ({ student, studentId, email, onBack }: ProfileEd
         mediumUsername: data.mediumUsername || undefined,
         batch: data.batch,
         gender: data.gender || undefined,
-        resumeLink: data.resumeLink || undefined,
+        resumeLink: resumeToSave || undefined,
         skillSets: skillSets.length > 0 ? skillSets : undefined,
         inspirations: inspirations.length > 0 ? inspirations : undefined,
         experience: validExperience?.length ? validExperience : undefined,
@@ -163,24 +277,28 @@ export const ProfileEditForm = ({ student, studentId, email, onBack }: ProfileEd
         socialLinks,
       }
 
-      if(studentId) {
+      if (studentId?.trim()) {
         await updateStudent(studentId, payload)
       } else {
-        await createStudentProfile(payload)
+        const created = await createStudentProfile(payload)
+        if (created?.id) setUploadStudentId(created.id)
       }
+
+      setStagedPictureUrl(null)
+      setStagedResumeUrl(null)
 
       gooeyToast.success('Profile updated successfully.', {
         description: `${data.name}'s profile has been saved.`,
-        bounce: 0.45,
-        borderColor: '#E0E0E0',
-        borderWidth: 2,
+        ...toastSurface,
         timing: { displayDuration: 5000 },
       })
       posthog.capture('profile_form_submit_succeeded', {
         student_id: studentId || undefined,
         is_update: Boolean(studentId),
       })
-      router.back();
+      if (onSaveSuccess) await onSaveSuccess()
+      if (onBack) onBack()
+      else router.back()
     } catch (err) {
       Sentry.captureException(err, {
         tags: { area: 'profile_edit_form' },
@@ -189,26 +307,30 @@ export const ProfileEditForm = ({ student, studentId, email, onBack }: ProfileEd
           is_update: Boolean(studentId),
         },
       })
-      const errorMessage =
-        err instanceof Error ? err.message : typeof err === 'string' ? err : 'unknown'
+      const errorMessage = getThrownMessage(err)
       posthog.capture('profile_form_submit_failed', {
         student_id: studentId || undefined,
         is_update: Boolean(studentId),
         error_message: errorMessage.slice(0, 500),
       })
       gooeyToast.error('Failed to update profile.', {
-        description: err instanceof Error ? err.message : 'Please try again.',
+        description: errorMessage,
+        ...toastSurface,
+        timing: { displayDuration: 7000 },
       })
     }
   }, onValidationError)
 
   const handleBack = (placement: 'header' | 'footer') => {
     captureButtonClick('back', placement)
-    if(onBack) {
-      onBack()
-    } else {
-      router.back()
-    }
+    setStagedPictureUrl(null)
+    setStagedResumeUrl(null)
+    form.reset({
+      ...toFormValues(student ?? null),
+      email: email ?? student?.email ?? '',
+    })
+    if (onBack) onBack()
+    else router.back()
   }
 
   const isSubmitting = form.formState.isSubmitting
@@ -241,6 +363,7 @@ export const ProfileEditForm = ({ student, studentId, email, onBack }: ProfileEd
 
       <form
         id="profile-edit-form"
+        noValidate
         onSubmit={handleSubmit}
         className="overflow-hidden rounded-[2rem] border border-white/20 bg-gradient-to-br from-slate-50 via-white to-primary/5 shadow-xl profile-hero-mesh"
       >
@@ -257,7 +380,11 @@ export const ProfileEditForm = ({ student, studentId, email, onBack }: ProfileEd
           <ProfileEditFormFields
             formId="profile-edit-form"
             form={form}
-            studentId={studentId}
+            studentId={resolvedStudentId}
+            stagedPictureUrl={stagedPictureUrl}
+            stagedResumeUrl={stagedResumeUrl}
+            onStagedPictureUrl={setStagedPictureUrl}
+            onStagedResumeUrl={setStagedResumeUrl}
           />
         </div>
 

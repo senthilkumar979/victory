@@ -47,7 +47,14 @@ export function toSupabasePayload(payload: ProfileUpdatePayload) {
     inspirations: payload.inspirations ?? null,
     experience: payload.experience ?? null,
     mentor_bridge_exp: payload.mentorBridgeExp ?? null,
-    social_links: payload.socialLinks ?? null,
+    social_links:
+      payload.socialLinks !== undefined
+        ? {
+            linkedIn: payload.socialLinks.linkedIn?.trim() ?? '',
+            gitHub: payload.socialLinks.gitHub?.trim() ?? '',
+            website: payload.socialLinks?.website?.trim() ?? '',
+          }
+        : null,
   }
 }
 

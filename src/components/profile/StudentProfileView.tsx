@@ -28,7 +28,6 @@ export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
     student.mediumUsername,
     student.name,
   )
-  console.log('student', student)
   const { awards, loading: awardsLoading } = useStudentAwards(student.email)
 
   const showMentorBridge = hasMentorBridgeExp(student.mentorBridgeExp)

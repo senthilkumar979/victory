@@ -5,7 +5,7 @@ const RESUME_EXT = '.pdf'
 const PICTURE_EXTS = ['.jpg', '.jpeg', '.png'] as const
 const PROFILE_PREFIX = 'profiles/'
 
-const IMAGE_CONTENT_TYPES = ['image/jpeg', 'image/png']
+const IMAGE_CONTENT_TYPES = ['image/jpeg', 'image/jpg', 'image/png']
 const PDF_CONTENT_TYPE = ['application/pdf']
 
 function getConfigForPathname(pathname: string): {

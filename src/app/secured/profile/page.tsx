@@ -24,6 +24,24 @@ const getPrimaryEmail = (user: ReturnType<typeof useUser>['user'] | null) => {
   return primary?.emailAddress ?? user.emailAddresses[0]?.emailAddress ?? null
 }
 
+function mapSupabaseStudentRowToProfile(
+  data: Record<string, unknown>,
+): ProfileData {
+  return {
+    ...((data as unknown) as ProfileData),
+    experience: safeJsonParse(data.experience, []),
+    mentorBridgeExp: safeJsonParse(data.mentor_bridge_exp, {}),
+    skillSets: safeJsonParse(data.skill_sets, []) as string[],
+    inspirations: safeJsonParse(data.inspirations, []) as string[],
+    socialLinks: safeJsonParse(data.social_links, {}),
+    selfIntro: (data as { self_intro?: string }).self_intro ?? undefined,
+    serialNo: Number((data as { serial_no?: number }).serial_no) || 0,
+    resumeLink: (data as { resume_link?: string }).resume_link ?? undefined,
+    mediumUsername:
+      (data as { medium_username?: string }).medium_username ?? undefined,
+  }
+}
+
 const ProfilePage = () => {
   useCheckIsAuthenticated()
   const { user } = useUser()
@@ -35,6 +53,17 @@ const ProfilePage = () => {
   const { canGenerate, remaining, incrementCount } = useSelfIntroLimit()
 
   const email = getPrimaryEmail(user)
+
+  const refreshStudentAfterSave = useCallback(async () => {
+    if (!email) return
+    const { data, error } = await supabase
+      .from('students')
+      .select('*')
+      .eq('email', email)
+      .maybeSingle()
+    if (error || !data?.name) return
+    setStudent(mapSupabaseStudentRowToProfile(data as Record<string, unknown>))
+  }, [email])
 
   const handleGenerateSelfIntro = useCallback(async () => {
     if (!canGenerate) {
@@ -126,17 +155,9 @@ const ProfilePage = () => {
           setStudent(null)
           setIsEditMode(true)
         } else if (data?.name) {
-          setStudent({
-            ...data,
-            experience: safeJsonParse(data.experience, []),
-            mentorBridgeExp: safeJsonParse(data.mentor_bridge_exp, {}),
-            skillSets: safeJsonParse(data.skill_sets, []) as string[],
-            inspirations: safeJsonParse(data.inspirations, []) as string[],
-            socialLinks: safeJsonParse(data.social_links, {}),
-            selfIntro:
-              (data as { self_intro?: string }).self_intro ?? undefined,
-            serialNo: Number((data as { serial_no?: number }).serial_no) || 0,
-          })
+          setStudent(
+            mapSupabaseStudentRowToProfile(data as Record<string, unknown>),
+          )
           setIsEditMode(false)
         }
       } catch (error) {
@@ -158,6 +179,7 @@ const ProfilePage = () => {
             student={student ?? null}
             studentId={student?.id ?? ''}
             email={email}
+            onSaveSuccess={refreshStudentAfterSave}
             onBack={() => setIsEditMode(false)}
           />
         ) : (

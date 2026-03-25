@@ -1,41 +1,62 @@
 import { z } from 'zod'
 
+/** Coerce missing API/RHF values to '' then trim (avoids "expected string, received undefined"). */
+const trimmed = z
+  .string()
+  .default('')
+  .transform((s) => s.trim())
+
+const trimmedRequired = (message: string) =>
+  trimmed.pipe(z.string().min(1, message))
+
+const emailField = trimmed.pipe(
+  z.string().min(1, 'Email is required').email('Enter a valid email address'),
+)
+
+const genderField = z
+  .string()
+  .default('')
+  .transform((s) => s.trim().toUpperCase())
+  .refine((v) => v === '' || v === 'M' || v === 'F', {
+    message: 'Choose Male, Female, or leave gender blank',
+  })
+
 const experienceItemSchema = z.object({
-  company: z.string().trim(),
-  role: z.string().trim(),
-  summary: z.string().trim(),
-  website: z.string().trim().optional().or(z.literal('')),
+  company: trimmed,
+  role: trimmed,
+  summary: trimmed,
+  website: trimmed,
 })
 
 const mentorBridgeExpSchema = z.object({
-  company: z.string().trim(),
-  role: z.string().trim(),
-  summary: z.string().trim(),
-  website: z.string().trim().optional().or(z.literal('')),
+  company: trimmed,
+  role: trimmed,
+  summary: trimmed,
+  website: trimmed,
 })
 
 const socialLinksSchema = z.object({
-  linkedIn: z.string().trim().optional().or(z.literal('')),
-  gitHub: z.string().trim().optional().or(z.literal('')),
-  website: z.string().trim().optional().or(z.literal('')),
+  linkedIn: trimmed,
+  gitHub: trimmed,
+  website: trimmed,
 })
 
 export const profileEditFormSchema = z.object({
-  name: z.string().trim().min(1, 'Name is required'),
-  picture: z.string().trim().optional().or(z.literal('')),
-  role: z.string().trim().min(1, 'Role is required'),
-  company: z.string().trim().optional().or(z.literal('')),
-  summary: z.string().trim().optional().or(z.literal('')),
-  email: z.string().trim().email('Valid email is required'),
-  mediumUsername: z.string().trim().optional().or(z.literal('')),
-  batch: z.string().trim().min(1, 'Batch is required'),
-  gender: z.enum(['M', 'F']).optional().or(z.literal('')),
-  resumeLink: z.string().trim().optional().or(z.literal('')),
-  skillSets: z.string().trim().optional().or(z.literal('')),
-  inspirations: z.string().trim().optional().or(z.literal('')),
-  experience: z.array(experienceItemSchema).optional(),
+  name: trimmedRequired('Full name is required'),
+  picture: trimmed,
+  role: trimmedRequired('Please select your role or title'),
+  company: trimmed,
+  summary: trimmed,
+  email: emailField,
+  mediumUsername: trimmed,
+  batch: trimmedRequired('Cohort batch is required'),
+  gender: genderField,
+  resumeLink: trimmed,
+  skillSets: trimmed,
+  inspirations: trimmed,
+  experience: z.array(experienceItemSchema).default([]),
   mentorBridgeExp: mentorBridgeExpSchema.optional(),
   socialLinks: socialLinksSchema.optional(),
 })
 
-export type ProfileEditFormValues = z.infer<typeof profileEditFormSchema>
+export type ProfileEditFormValues = z.output<typeof profileEditFormSchema>

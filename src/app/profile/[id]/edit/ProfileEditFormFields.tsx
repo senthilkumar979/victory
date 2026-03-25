@@ -1,7 +1,6 @@
 'use client'
 
-import Image from 'next/image'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { Controller, useFieldArray, type UseFormReturn } from 'react-hook-form'
 
 import { FormInput } from '@/ui/molecules/form-input/FormInput'
@@ -12,6 +11,7 @@ import {
   Github,
   Globe,
   ImageIcon,
+  Info,
   Linkedin,
   Loader2,
   Plus,
@@ -27,6 +27,11 @@ interface ProfileEditFormFieldsProps {
   formId: string
   form: UseFormReturn<ProfileEditFormValues>
   studentId: string
+  /** Vercel URL after upload; persisted to DB only when parent submits Save. */
+  stagedPictureUrl: string | null
+  stagedResumeUrl: string | null
+  onStagedPictureUrl: (url: string | null) => void
+  onStagedResumeUrl: (url: string | null) => void
 }
 
 const inputBase =
@@ -39,10 +44,16 @@ export const ProfileEditFormFields = ({
   formId,
   form,
   studentId,
+  stagedPictureUrl,
+  stagedResumeUrl,
+  onStagedPictureUrl,
+  onStagedResumeUrl,
 }: ProfileEditFormFieldsProps) => {
-  const { register, control, formState, setValue } = form
+  const { register, control, formState } = form
   const { errors } = formState
   const { uploadFile, uploading, error } = useProfileFileUpload(studentId)
+  const hasStudentId = Boolean(studentId?.trim())
+  const [pictureLocalSrc, setPictureLocalSrc] = useState<string | null>(null)
   const pictureInputRef = useRef<HTMLInputElement>(null)
   const resumeInputRef = useRef<HTMLInputElement>(null)
   const { fields, append, remove } = useFieldArray({
@@ -51,9 +62,32 @@ export const ProfileEditFormFields = ({
   })
   const pictureUrl = form.watch('picture')
   const resumeLinkUrl = form.watch('resumeLink')
+  const pictureDisplaySrc = pictureLocalSrc || stagedPictureUrl || pictureUrl
+  const resumeDisplayUrl = stagedResumeUrl || resumeLinkUrl
 
   return (
     <div className="space-y-6 md:space-y-10">
+      {error ? (
+        <div
+          className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+          role="alert"
+        >
+          {error}
+        </div>
+      ) : null}
+      {!hasStudentId ? (
+        <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950 w-fit text-center mx-auto flex gap-2 items-center font-semibold">
+          <Info className="size-4" />
+          <span>
+            Save your profile once to enable photo and resume uploads.
+          </span>
+        </div>
+      ) : (
+        <p className="text-xs text-slate-500">
+          Files upload to storage as soon as you choose them. Your profile record is updated only
+          when you click Save changes.
+        </p>
+      )}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-10">
         <section className="space-y-4 lg:col-span-2">
           <h3 className="text-sm font-semibold uppercase tracking-widest text-primary">
@@ -68,9 +102,9 @@ export const ProfileEditFormFields = ({
                 Profile Picture
               </FormLabel>
               <div className="flex min-w-0 flex-1 flex-wrap items-center gap-4">
-                {pictureUrl ? (
-                  <Image
-                    src={pictureUrl}
+                {pictureDisplaySrc ? (
+                  <img
+                    src={pictureDisplaySrc}
                     alt="Profile preview"
                     width={64}
                     height={64}
@@ -87,18 +121,27 @@ export const ProfileEditFormFields = ({
                     onChange={async (e) => {
                       const file = e.target.files?.[0]
                       if (!file) return
-                      const url = await uploadFile(file, 'picture')
-                      if (url) setValue('picture', url, { shouldDirty: true })
-                      e.target.value = ''
+                      let objectUrl: string | null = null
+                      try {
+                        objectUrl = URL.createObjectURL(file)
+                        setPictureLocalSrc(objectUrl)
+                        const url = await uploadFile(file, 'picture')
+                        if (url) onStagedPictureUrl(url)
+                      } finally {
+                        if (objectUrl) URL.revokeObjectURL(objectUrl)
+                        setPictureLocalSrc(null)
+                        e.target.value = ''
+                      }
                     }}
                   />
                   <button
                     type="button"
                     onClick={() => pictureInputRef.current?.click()}
-                    disabled={uploading === 'picture'}
+                    disabled={!hasStudentId || uploading === 'picture'}
                     className={joinClassNames(
                       inputBase,
                       'flex w-full min-w-0 cursor-pointer items-center gap-2 text-left sm:w-auto',
+                      !hasStudentId && 'cursor-not-allowed opacity-60',
                     )}
                   >
                     {uploading === 'picture' ? (
@@ -115,9 +158,6 @@ export const ProfileEditFormFields = ({
                 </div>
               </div>
             </div>
-            {error ? (
-              <span className="block text-xs text-red-600">{error}</span>
-            ) : null}
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <Controller
@@ -379,17 +419,18 @@ export const ProfileEditFormFields = ({
                   const file = e.target.files?.[0]
                   if (!file) return
                   const url = await uploadFile(file, 'resume')
-                  if (url) setValue('resumeLink', url, { shouldDirty: true })
+                  if (url) onStagedResumeUrl(url)
                   e.target.value = ''
                 }}
               />
               <button
                 type="button"
                 onClick={() => resumeInputRef.current?.click()}
-                disabled={uploading === 'resume'}
+                disabled={!hasStudentId || uploading === 'resume'}
                 className={joinClassNames(
                   inputBase,
                   'flex w-full min-w-0 cursor-pointer items-center gap-2 text-left sm:w-auto',
+                  !hasStudentId && 'cursor-not-allowed opacity-60',
                 )}
               >
                 {uploading === 'resume' ? (
@@ -399,14 +440,14 @@ export const ProfileEditFormFields = ({
                 )}
                 {uploading === 'resume' ? 'Uploading...' : 'Choose PDF file'}
               </button>
-              {resumeLinkUrl ? (
+              {resumeDisplayUrl ? (
                 <a
-                  href={resumeLinkUrl}
+                  href={resumeDisplayUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs text-primary hover:underline"
                 >
-                  View current resume
+                  {stagedResumeUrl ? 'Preview uploaded resume (save to keep)' : 'View current resume'}
                 </a>
               ) : null}
             </div>

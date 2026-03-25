@@ -3,23 +3,38 @@
 import { useState, useCallback } from 'react'
 import { upload } from '@vercel/blob/client'
 
+/** Immediate Vercel Blob upload on file pick; DB write is only on profile Save (parent form). */
 const UPLOAD_URL = '/api/profile/upload'
 const PROFILE_PREFIX = 'profiles/'
 
 type UploadType = 'resume' | 'picture'
 
-const EXT_MAP: Record<UploadType, Record<string, string>> = {
-  resume: { 'application/pdf': 'pdf' },
-  picture: {
-    'image/jpeg': 'jpeg',
-    'image/jpg': 'jpg',
-    'image/png': 'png',
-  },
+const RESUME_NAME_EXT = /\.pdf$/i
+
+function extFromPictureFilename(name: string): string | null {
+  const m = name.toLowerCase().match(/\.(jpe?g|png)$/)
+  if (!m) return null
+  if (m[1] === 'jpeg' || m[1] === 'jpg') return 'jpg'
+  return 'png'
+}
+
+function extFromResumeFilename(name: string): string | null {
+  return RESUME_NAME_EXT.test(name) ? 'pdf' : null
 }
 
 function getExt(file: File, type: UploadType): string | null {
-  const map = EXT_MAP[type]
-  return map[file.type] ?? null
+  if (type === 'resume') {
+    const fromName = extFromResumeFilename(file.name)
+    if (fromName) return fromName
+    if (file.type === 'application/pdf') return 'pdf'
+    return null
+  }
+  const fromName = extFromPictureFilename(file.name)
+  if (fromName) return fromName
+  const t = file.type.toLowerCase()
+  if (t === 'image/jpeg' || t === 'image/jpg') return 'jpg'
+  if (t === 'image/png') return 'png'
+  return null
 }
 
 export const useProfileFileUpload = (studentId: string) => {
@@ -28,7 +43,12 @@ export const useProfileFileUpload = (studentId: string) => {
 
   const uploadFile = useCallback(
     async (file: File, type: UploadType): Promise<string | null> => {
-      if (!studentId) return null
+      if (!studentId?.trim()) {
+        setError(
+          'Save your profile once first — uploads need your student ID. After saving, try again.',
+        )
+        return null
+      }
       setError(null)
       setUploading(type)
 
