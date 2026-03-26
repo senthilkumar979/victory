@@ -1,14 +1,16 @@
+'use client'
+
+import { DropdownMenu } from 'radix-ui'
 import {
   ClipboardListIcon,
   LinkIcon,
   MailCheckIcon,
   MailIcon,
   MessageCircleMoreIcon,
+  MoreVerticalIcon,
   PencilIcon,
   TrashIcon,
 } from 'lucide-react'
-
-import { Button, TextButton } from '@/atoms/button/Button'
 
 import { CalendarDate } from '@/templates/CalendarDate'
 import type { MeetingFormState } from './Meeting.types'
@@ -22,6 +24,115 @@ interface MeetingsTableProps {
   openMeeting: (meeting: MeetingFormState) => void
   openFeedback: (meeting: MeetingFormState) => void
   sendingFeedbackEmailId?: string | null
+}
+
+const menuItemClass =
+  'flex cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-sm text-slate-700 outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[highlighted]:bg-slate-100'
+
+const menuContentClass =
+  'z-50 min-w-[13rem] overflow-hidden rounded-lg border border-slate-200 bg-white p-1 shadow-lg'
+
+interface MeetingRowActionsProps {
+  meeting: MeetingFormState
+  onEdit: (meeting: MeetingFormState) => void
+  onDelete: (meeting: MeetingFormState) => void
+  onAttendance: (meeting: MeetingFormState) => void
+  onSendFeedbackEmail: (meeting: MeetingFormState) => void
+  openMeeting: (meeting: MeetingFormState) => void
+  openFeedback: (meeting: MeetingFormState) => void
+  sendingFeedbackEmailId?: string | null
+}
+
+const MeetingRowActions = ({
+  meeting,
+  onEdit,
+  onDelete,
+  onAttendance,
+  onSendFeedbackEmail,
+  openMeeting,
+  openFeedback,
+  sendingFeedbackEmailId,
+}: MeetingRowActionsProps) => {
+  const hasFeedbackPipeline =
+    Boolean(meeting.feedbackForm) && Boolean(meeting.googleGroupId)
+  const isSendingFeedback = sendingFeedbackEmailId === meeting.id
+
+  return (
+    <DropdownMenu.Root modal={false}>
+      <DropdownMenu.Trigger
+        type="button"
+        className="inline-flex size-9 items-center justify-center rounded-md text-slate-600 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-1"
+        aria-label={`Actions for ${meeting.title}`}
+      >
+        <MoreVerticalIcon className="size-4 shrink-0" />
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          className={menuContentClass}
+          align="end"
+          sideOffset={6}
+        >
+          <DropdownMenu.Item
+            className={menuItemClass}
+            onSelect={() => onEdit(meeting)}
+          >
+            <PencilIcon className="size-4 shrink-0 text-slate-500" />
+            Edit
+          </DropdownMenu.Item>
+          {meeting.meetingLink ? (
+            <DropdownMenu.Item
+              className={menuItemClass}
+              onSelect={() => openMeeting(meeting)}
+            >
+              <LinkIcon className="size-4 shrink-0 text-slate-500" />
+              Open meeting link
+            </DropdownMenu.Item>
+          ) : null}
+          {meeting.feedbackForm ? (
+            <DropdownMenu.Item
+              className={menuItemClass}
+              onSelect={() => openFeedback(meeting)}
+            >
+              <MessageCircleMoreIcon className="size-4 shrink-0 text-slate-500" />
+              Open feedback
+            </DropdownMenu.Item>
+          ) : null}
+          {hasFeedbackPipeline ? (
+            meeting.feedbackEmailSentAt ? (
+              <DropdownMenu.Item className={menuItemClass} disabled>
+                <MailCheckIcon className="size-4 shrink-0 text-slate-400" />
+                Feedback email sent
+              </DropdownMenu.Item>
+            ) : (
+              <DropdownMenu.Item
+                className={menuItemClass}
+                disabled={isSendingFeedback}
+                onSelect={() => onSendFeedbackEmail(meeting)}
+              >
+                <MailIcon className="size-4 shrink-0 text-slate-500" />
+                {isSendingFeedback ? 'Sending…' : 'Send feedback email'}
+              </DropdownMenu.Item>
+            )
+          ) : null}
+          <DropdownMenu.Item
+            className={menuItemClass}
+            onSelect={() => onAttendance(meeting)}
+          >
+            <ClipboardListIcon className="size-4 shrink-0 text-slate-500" />
+            Mark attendance
+          </DropdownMenu.Item>
+          <DropdownMenu.Separator className="my-1 h-px bg-slate-200" />
+          <DropdownMenu.Item
+            className={`${menuItemClass} text-red-600 data-[highlighted]:bg-red-50 data-[highlighted]:text-red-700`}
+            onSelect={() => onDelete(meeting)}
+          >
+            <TrashIcon className="size-4 shrink-0" />
+            Delete
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
+  )
 }
 
 export const MeetingsTable = ({
@@ -47,7 +158,7 @@ export const MeetingsTable = ({
           <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
             Google Group
           </th>
-          <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <th className="w-14 px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
             Actions
           </th>
         </tr>
@@ -64,65 +175,18 @@ export const MeetingsTable = ({
             <td className="whitespace-nowrap px-4 py-3 text-sm text-slate-700">
               {meeting.googleGroupId || '—'}
             </td>
-            <td className="whitespace-nowrap px-4 py-3 text-right text-sm">
-              <div className="flex items-center justify-end gap-2">
-                <TextButton
-                  variant="textSecondary"
-                  onClick={() => onEdit(meeting)}
-                >
-                  <PencilIcon className="size-4" />
-                </TextButton>
-                <TextButton
-                  variant="textError"
-                  onClick={() => onDelete(meeting)}
-                >
-                  <TrashIcon className="size-4" />
-                </TextButton>
-                {meeting?.meetingLink && (
-                  <Button
-                    variant="textInfo"
-                    onClick={() => openMeeting(meeting)}
-                  >
-                    <LinkIcon className="size-4" />
-                  </Button>
-                )}
-                {meeting?.feedbackForm && (
-                  <TextButton
-                    variant="textWarning"
-                    onClick={() => openFeedback(meeting)}
-                  >
-                    <MessageCircleMoreIcon className="size-4" />
-                  </TextButton>
-                )}
-                {meeting?.feedbackForm && meeting?.googleGroupId && (
-                  meeting.feedbackEmailSentAt ? (
-                    <TextButton
-                      variant="textSecondary"
-                      disabled
-                      aria-label="Feedback email already sent"
-                      title="Feedback email already sent"
-                    >
-                      <MailCheckIcon className="size-4 opacity-60" />
-                    </TextButton>
-                  ) : (
-                    <TextButton
-                      variant="textInfo"
-                      disabled={sendingFeedbackEmailId === meeting.id}
-                      onClick={() => onSendFeedbackEmail(meeting)}
-                      aria-label="Send feedback email to Google Group"
-                      title="Send feedback email to Google Group"
-                    >
-                      <MailIcon className="size-4" />
-                    </TextButton>
-                  )
-                )}
-                <TextButton
-                  variant="textSuccess"
-                  onClick={() => onAttendance(meeting)}
-                  aria-label="Mark attendance"
-                >
-                  <ClipboardListIcon className="size-4" />
-                </TextButton>
+            <td className="whitespace-nowrap px-4 py-3 text-right align-middle">
+              <div className="flex justify-end">
+                <MeetingRowActions
+                  meeting={meeting}
+                  onEdit={onEdit}
+                  onDelete={onDelete}
+                  onAttendance={onAttendance}
+                  onSendFeedbackEmail={onSendFeedbackEmail}
+                  openMeeting={openMeeting}
+                  openFeedback={openFeedback}
+                  sendingFeedbackEmailId={sendingFeedbackEmailId}
+                />
               </div>
             </td>
           </tr>

@@ -1,6 +1,11 @@
 'use client'
 
-import { Controller, type UseFormReturn } from 'react-hook-form'
+import { useEffect } from 'react'
+import {
+  Controller,
+  useWatch,
+  type UseFormReturn,
+} from 'react-hook-form'
 
 import { FormLabel } from '@/atoms/form-label/FormLabel'
 import { useGoogleGroups } from '@/hooks/useGoogleGroups'
@@ -22,9 +27,29 @@ export const MeetingFormFields = ({
   formId,
   form,
 }: MeetingFormFieldsProps) => {
-  const { register, control, formState } = form
+  const { register, control, formState, setValue } = form
   const { errors } = formState
   const { groups, isLoading, error } = useGoogleGroups()
+  const googleGroupIdWatch = useWatch({ control, name: 'googleGroupId' })
+
+  /** DB may store google_groups.id while the select uses group.email as value */
+  useEffect(() => {
+    const gid = googleGroupIdWatch
+    if (!gid || groups.length === 0) return
+    if (groups.some((g) => g.email === gid)) return
+    const byId = groups.find((g) => g.id === gid)
+    if (byId) {
+      setValue('googleGroupId', byId.email, { shouldDirty: false })
+    }
+  }, [googleGroupIdWatch, groups, setValue])
+
+  const showOrphanGroupOption =
+    Boolean(googleGroupIdWatch) &&
+    !isLoading &&
+    !groups.some(
+      (g) =>
+        g.email === googleGroupIdWatch || g.id === googleGroupIdWatch,
+    )
 
   return (
     <div className="space-y-4">
@@ -68,29 +93,43 @@ export const MeetingFormFields = ({
         >
           Google Group
         </FormLabel>
-        <select
-          id={`${formId}-googleGroupId`}
-          disabled={isLoading}
-          className={joinClassNames(
-            selectBase,
-            'border-slate-600 bg-slate-800 text-slate-100 disabled:cursor-not-allowed disabled:opacity-60',
-            errors.googleGroupId && 'border-red-500',
+        <Controller
+          name="googleGroupId"
+          control={control}
+          render={({ field }) => (
+            <select
+              id={`${formId}-googleGroupId`}
+              disabled={isLoading}
+              className={joinClassNames(
+                selectBase,
+                'border-slate-600 bg-slate-800 text-slate-100 disabled:cursor-not-allowed disabled:opacity-60',
+                errors.googleGroupId && 'border-red-500',
+              )}
+              aria-invalid={Boolean(errors.googleGroupId || error)}
+              aria-describedby={
+                errors.googleGroupId || error
+                  ? `${formId}-googleGroupId-error`
+                  : undefined
+              }
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              ref={field.ref}
+            >
+              <option value="">Select a group</option>
+              {showOrphanGroupOption && googleGroupIdWatch ? (
+                <option value={googleGroupIdWatch}>
+                  {googleGroupIdWatch} (not in directory)
+                </option>
+              ) : null}
+              {groups.map((group) => (
+                <option key={group.id ?? group.email} value={group.email}>
+                  {group.name} | ({group.email})
+                </option>
+              ))}
+            </select>
           )}
-          aria-invalid={Boolean(errors.googleGroupId || error)}
-          aria-describedby={
-            errors.googleGroupId || error
-              ? `${formId}-googleGroupId-error`
-              : undefined
-          }
-          {...register('googleGroupId')}
-        >
-          <option value="">Select a group</option>
-          {groups.map((group) => (
-            <option key={group.id ?? group.email} value={group.email}>
-              {group.name} | ({group.email})
-            </option>
-          ))}
-        </select>
+        />
         {(errors.googleGroupId || error) && (
           <p
             id={`${formId}-googleGroupId-error`}

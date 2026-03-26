@@ -18,7 +18,7 @@ export const SpringBootRoadmap = ({
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="-731 0 1093 1769"
+      viewBox="-731 0 1093 1369"
       version="1.1"
       style={{ fontFamily: 'ui-sans-serif, system-ui, sans-serif' }}
       className="h-auto w-full max-w-full"
