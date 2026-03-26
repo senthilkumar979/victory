@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server'
 import { sendMeetingFeedbackEmailForMeetingId } from '@/lib/meetingFeedbackEmail'
 
 export async function POST(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { userId } = await auth()
@@ -14,7 +14,17 @@ export async function POST(
   }
 
   const { id } = await params
-  const result = await sendMeetingFeedbackEmailForMeetingId(id)
+  let forceResend = false
+  try {
+    const body = (await request.json()) as { forceResend?: boolean }
+    forceResend = Boolean(body?.forceResend)
+  } catch {
+    /* empty body is fine */
+  }
+
+  const result = await sendMeetingFeedbackEmailForMeetingId(id, {
+    forceResend,
+  })
 
   if (!result.ok) {
     return NextResponse.json({ error: result.error }, { status: result.status })

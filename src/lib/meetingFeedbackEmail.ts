@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabaseClient'
 
 export async function sendMeetingFeedbackEmailForMeetingId(
   meetingId: string,
+  options?: { forceResend?: boolean },
 ): Promise<
   | { ok: true; sentAt: string }
   | { ok: false; error: string; status: number }
@@ -43,7 +44,7 @@ export async function sendMeetingFeedbackEmailForMeetingId(
     return { ok: false, error: 'Meeting not found', status: 404 }
   }
 
-  if (row.feedback_email_sent_at) {
+  if (row.feedback_email_sent_at && !options?.forceResend) {
     return {
       ok: false,
       error: 'Feedback email was already sent for this meeting',

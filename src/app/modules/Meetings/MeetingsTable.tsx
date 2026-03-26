@@ -3,8 +3,8 @@
 import { DropdownMenu } from 'radix-ui'
 import {
   ClipboardListIcon,
+  FilePlus2Icon,
   LinkIcon,
-  MailCheckIcon,
   MailIcon,
   MessageCircleMoreIcon,
   MoreVerticalIcon,
@@ -20,14 +20,28 @@ interface MeetingsTableProps {
   onEdit: (meeting: MeetingFormState) => void
   onDelete: (meeting: MeetingFormState) => void
   onAttendance: (meeting: MeetingFormState) => void
-  onSendFeedbackEmail: (meeting: MeetingFormState) => void
+  /** When `forceResend` is true, server allows another send after one was already recorded */
+  onSendFeedbackEmail: (
+    meeting: MeetingFormState,
+    forceResend?: boolean,
+  ) => void
+  onCreateFeedbackForm: (meeting: MeetingFormState) => void
   openMeeting: (meeting: MeetingFormState) => void
   openFeedback: (meeting: MeetingFormState) => void
   sendingFeedbackEmailId?: string | null
+  creatingFeedbackFormId?: string | null
 }
 
-const menuItemClass =
-  'flex cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-sm text-slate-700 outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[highlighted]:bg-slate-100'
+const menuItemBase =
+  'flex cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50'
+
+const menuItemEdit = `${menuItemBase} text-secondary data-[highlighted]:bg-secondary/30 data-[highlighted]:text-secondary`
+const menuItemLink = `${menuItemBase} text-sky-700 data-[highlighted]:bg-sky-50 data-[highlighted]:text-sky-900`
+const menuItemCreateForm = `${menuItemBase} text-violet-700 data-[highlighted]:bg-violet-50 data-[highlighted]:text-violet-900`
+const menuItemFeedback = `${menuItemBase} text-amber-700 data-[highlighted]:bg-amber-50 data-[highlighted]:text-amber-900`
+const menuItemEmail = `${menuItemBase} text-teal-700 data-[highlighted]:bg-teal-50 data-[highlighted]:text-teal-900`
+const menuItemAttendance = `${menuItemBase} text-info data-[highlighted]:bg-info/30 data-[highlighted]:text-info`
+const menuItemDelete = `${menuItemBase} text-red-600 data-[highlighted]:bg-red-50 data-[highlighted]:text-red-700`
 
 const menuContentClass =
   'z-50 min-w-[13rem] overflow-hidden rounded-lg border border-slate-200 bg-white p-1 shadow-lg'
@@ -37,10 +51,15 @@ interface MeetingRowActionsProps {
   onEdit: (meeting: MeetingFormState) => void
   onDelete: (meeting: MeetingFormState) => void
   onAttendance: (meeting: MeetingFormState) => void
-  onSendFeedbackEmail: (meeting: MeetingFormState) => void
+  onSendFeedbackEmail: (
+    meeting: MeetingFormState,
+    forceResend?: boolean,
+  ) => void
+  onCreateFeedbackForm: (meeting: MeetingFormState) => void
   openMeeting: (meeting: MeetingFormState) => void
   openFeedback: (meeting: MeetingFormState) => void
   sendingFeedbackEmailId?: string | null
+  creatingFeedbackFormId?: string | null
 }
 
 const MeetingRowActions = ({
@@ -49,13 +68,16 @@ const MeetingRowActions = ({
   onDelete,
   onAttendance,
   onSendFeedbackEmail,
+  onCreateFeedbackForm,
   openMeeting,
   openFeedback,
   sendingFeedbackEmailId,
+  creatingFeedbackFormId,
 }: MeetingRowActionsProps) => {
-  const hasFeedbackPipeline =
+  const canSendFeedbackEmail =
     Boolean(meeting.feedbackForm) && Boolean(meeting.googleGroupId)
   const isSendingFeedback = sendingFeedbackEmailId === meeting.id
+  const isCreatingForm = creatingFeedbackFormId === meeting.id
 
   return (
     <DropdownMenu.Root modal={false}>
@@ -73,60 +95,71 @@ const MeetingRowActions = ({
           sideOffset={6}
         >
           <DropdownMenu.Item
-            className={menuItemClass}
+            className={menuItemEdit}
             onSelect={() => onEdit(meeting)}
           >
-            <PencilIcon className="size-4 shrink-0 text-slate-500" />
+            <PencilIcon className="size-4 shrink-0 text-secondary" />
             Edit
           </DropdownMenu.Item>
           {meeting.meetingLink ? (
             <DropdownMenu.Item
-              className={menuItemClass}
+              className={menuItemLink}
               onSelect={() => openMeeting(meeting)}
             >
-              <LinkIcon className="size-4 shrink-0 text-slate-500" />
+              <LinkIcon className="size-4 shrink-0 text-sky-600" />
               Open meeting link
             </DropdownMenu.Item>
           ) : null}
-          {meeting.feedbackForm ? (
+          {!meeting.feedbackForm ? (
             <DropdownMenu.Item
-              className={menuItemClass}
+              className={menuItemCreateForm}
+              disabled={isCreatingForm || !meeting.id}
+              onSelect={() => onCreateFeedbackForm(meeting)}
+            >
+              <FilePlus2Icon className="size-4 shrink-0 text-violet-600" />
+              {isCreatingForm ? 'Creating form…' : 'Create feedback form'}
+            </DropdownMenu.Item>
+          ) : (
+            <DropdownMenu.Item
+              className={menuItemFeedback}
               onSelect={() => openFeedback(meeting)}
             >
-              <MessageCircleMoreIcon className="size-4 shrink-0 text-slate-500" />
-              Open feedback
+              <MessageCircleMoreIcon className="size-4 shrink-0 text-amber-600" />
+              Open feedback form
+            </DropdownMenu.Item>
+          )}
+          {canSendFeedbackEmail ? (
+            <DropdownMenu.Item
+              className={menuItemEmail}
+              disabled={isSendingFeedback}
+              onSelect={() =>
+                onSendFeedbackEmail(
+                  meeting,
+                  Boolean(meeting.feedbackEmailSentAt),
+                )
+              }
+            >
+              <MailIcon className="size-4 shrink-0 text-teal-600" />
+              {isSendingFeedback
+                ? 'Sending…'
+                : meeting.feedbackEmailSentAt
+                ? 'Send feedback email again'
+                : 'Send feedback email'}
             </DropdownMenu.Item>
           ) : null}
-          {hasFeedbackPipeline ? (
-            meeting.feedbackEmailSentAt ? (
-              <DropdownMenu.Item className={menuItemClass} disabled>
-                <MailCheckIcon className="size-4 shrink-0 text-slate-400" />
-                Feedback email sent
-              </DropdownMenu.Item>
-            ) : (
-              <DropdownMenu.Item
-                className={menuItemClass}
-                disabled={isSendingFeedback}
-                onSelect={() => onSendFeedbackEmail(meeting)}
-              >
-                <MailIcon className="size-4 shrink-0 text-slate-500" />
-                {isSendingFeedback ? 'Sending…' : 'Send feedback email'}
-              </DropdownMenu.Item>
-            )
-          ) : null}
           <DropdownMenu.Item
-            className={menuItemClass}
+            className={menuItemAttendance}
             onSelect={() => onAttendance(meeting)}
           >
-            <ClipboardListIcon className="size-4 shrink-0 text-slate-500" />
+            <ClipboardListIcon className="size-4 shrink-0 text-info" />
             Mark attendance
           </DropdownMenu.Item>
           <DropdownMenu.Separator className="my-1 h-px bg-slate-200" />
           <DropdownMenu.Item
-            className={`${menuItemClass} text-red-600 data-[highlighted]:bg-red-50 data-[highlighted]:text-red-700`}
+            className={menuItemDelete}
             onSelect={() => onDelete(meeting)}
           >
-            <TrashIcon className="size-4 shrink-0" />
+            <TrashIcon className="size-4 shrink-0 text-red-600" />
             Delete
           </DropdownMenu.Item>
         </DropdownMenu.Content>
@@ -141,9 +174,11 @@ export const MeetingsTable = ({
   onDelete,
   onAttendance,
   onSendFeedbackEmail,
+  onCreateFeedbackForm,
   openMeeting,
   openFeedback,
   sendingFeedbackEmailId,
+  creatingFeedbackFormId,
 }: MeetingsTableProps) => (
   <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
     <table className="min-w-full divide-y divide-slate-200 bg-white">
@@ -183,9 +218,11 @@ export const MeetingsTable = ({
                   onDelete={onDelete}
                   onAttendance={onAttendance}
                   onSendFeedbackEmail={onSendFeedbackEmail}
+                  onCreateFeedbackForm={onCreateFeedbackForm}
                   openMeeting={openMeeting}
                   openFeedback={openFeedback}
                   sendingFeedbackEmailId={sendingFeedbackEmailId}
+                  creatingFeedbackFormId={creatingFeedbackFormId}
                 />
               </div>
             </td>

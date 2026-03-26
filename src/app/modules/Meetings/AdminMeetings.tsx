@@ -32,6 +32,9 @@ export const AdminMeetings = () => {
   const [sendingFeedbackEmailId, setSendingFeedbackEmailId] = useState<
     string | null
   >(null)
+  const [creatingFeedbackFormId, setCreatingFeedbackFormId] = useState<
+    string | null
+  >(null)
 
   const handleOpenCreate = () => {
     setFormState(undefined)
@@ -89,13 +92,20 @@ export const AdminMeetings = () => {
     setAttendanceMeeting(meeting)
   }
 
-  const handleSendFeedbackEmail = async (meeting: MeetingFormState) => {
+  const handleSendFeedbackEmail = async (
+    meeting: MeetingFormState,
+    forceResend = false,
+  ) => {
     if (!meeting.id) return
     setSendingFeedbackEmailId(meeting.id)
     try {
       const res = await fetch(
         `/api/meetings/${encodeURIComponent(meeting.id)}/send-feedback-email`,
-        { method: 'POST' },
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ forceResend }),
+        },
       )
       const data = (await res.json().catch(() => ({}))) as {
         error?: string
@@ -129,6 +139,51 @@ export const AdminMeetings = () => {
     }
   }
 
+  const handleCreateFeedbackForm = async (meeting: MeetingFormState) => {
+    if (!meeting.id) return
+    setCreatingFeedbackFormId(meeting.id)
+    try {
+      const res = await fetch('/api/meetings/create-feedback-form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          meetingId: meeting.id,
+          meetingTitle: meeting.title,
+        }),
+      })
+      const data = (await res.json().catch(() => ({}))) as {
+        error?: string
+        feedbackFormUrl?: string
+      }
+      if (!res.ok) {
+        gooeyToast.error(data.error ?? 'Failed to create feedback form', {
+          bounce: 0.45,
+          borderColor: '#E0E0E0',
+          borderWidth: 2,
+          timing: { displayDuration: 3500 },
+        })
+        return
+      }
+      gooeyToast.success('Feedback form created.', {
+        description: meeting.title,
+        bounce: 0.45,
+        borderColor: '#E0E0E0',
+        borderWidth: 2,
+        timing: { displayDuration: 2500 },
+      })
+      await refetch()
+    } catch {
+      gooeyToast.error('Failed to create feedback form', {
+        bounce: 0.45,
+        borderColor: '#E0E0E0',
+        borderWidth: 2,
+        timing: { displayDuration: 3500 },
+      })
+    } finally {
+      setCreatingFeedbackFormId(null)
+    }
+  }
+
   const handleCloseAttendance = () => {
     setAttendanceMeeting(null)
   }
@@ -157,9 +212,11 @@ export const AdminMeetings = () => {
               onDelete={handleOpenDelete}
               onAttendance={handleOpenAttendance}
               onSendFeedbackEmail={handleSendFeedbackEmail}
+              onCreateFeedbackForm={handleCreateFeedbackForm}
               openMeeting={handleOpenMeeting}
               openFeedback={handleOpenFeedback}
               sendingFeedbackEmailId={sendingFeedbackEmailId}
+              creatingFeedbackFormId={creatingFeedbackFormId}
             />
           )}
         </div>
