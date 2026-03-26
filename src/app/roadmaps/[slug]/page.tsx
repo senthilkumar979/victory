@@ -11,6 +11,7 @@ import { useRoadmapProgress } from '@/hooks/useRoadmapProgress'
 import { JavaRoadmap } from '@/modules/Roadmaps/JavaRoadmap'
 import { JavaScriptRoadmap } from '@/modules/Roadmaps/JavaScriptRoadmap'
 import { ReactRoadmap } from '@/modules/Roadmaps/ReactRoadmap'
+import { SpringBootRoadmap } from '@/modules/Roadmaps/SpringBootRoadmap'
 import { TypeScriptRoadmap } from '@/modules/Roadmaps/TypeScriptRoadmap'
 import { PageMain } from '@/templates/PagaMain'
 import Link from 'next/link'
@@ -26,6 +27,7 @@ const ROADMAP_SVGS: Record<
   typescript: TypeScriptRoadmap,
   javascript: JavaScriptRoadmap,
   java: JavaRoadmap,
+  'spring-boot': SpringBootRoadmap,
 }
 
 export default function RoadmapSlugPage() {

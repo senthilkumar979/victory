@@ -1,4 +1,4 @@
-import { Braces, Coffee, FileCode, Zap } from "lucide-react"
+import { Braces, Coffee, FileCode, Leaf, Zap } from "lucide-react"
 import { RoadmapSlug } from "."
 
 export const ROADMAP_META: Record<
@@ -42,5 +42,14 @@ export const ROADMAP_META: Record<
     icon: Coffee,
     gradient:
       'from-orange-500/20 via-amber-500/10 to-transparent border border-orange-500/30',
+  },
+  'spring-boot': {
+    id: 'spring-boot',
+    description:
+      'Starters, auto-configuration, Spring Security, data access, and cloud-ready Java services.',
+    accent: 'text-emerald-400',
+    icon: Leaf,
+    gradient:
+      'from-emerald-500/20 via-green-500/10 to-transparent border border-emerald-500/30',
   },
 }
