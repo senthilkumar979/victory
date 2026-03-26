@@ -4,6 +4,7 @@ import { DropdownMenu } from 'radix-ui'
 import {
   ClipboardListIcon,
   FilePlus2Icon,
+  ImageIcon,
   LinkIcon,
   MailIcon,
   MessageCircleMoreIcon,
@@ -28,6 +29,7 @@ interface MeetingsTableProps {
   onCreateFeedbackForm: (meeting: MeetingFormState) => void
   openMeeting: (meeting: MeetingFormState) => void
   openFeedback: (meeting: MeetingFormState) => void
+  onGenerateCoverImage: (meeting: MeetingFormState) => void
   sendingFeedbackEmailId?: string | null
   creatingFeedbackFormId?: string | null
 }
@@ -41,6 +43,7 @@ const menuItemCreateForm = `${menuItemBase} text-violet-700 data-[highlighted]:b
 const menuItemFeedback = `${menuItemBase} text-amber-700 data-[highlighted]:bg-amber-50 data-[highlighted]:text-amber-900`
 const menuItemEmail = `${menuItemBase} text-teal-700 data-[highlighted]:bg-teal-50 data-[highlighted]:text-teal-900`
 const menuItemAttendance = `${menuItemBase} text-info data-[highlighted]:bg-info/30 data-[highlighted]:text-info`
+const menuItemCover = `${menuItemBase} text-emerald-800 data-[highlighted]:bg-emerald-50 data-[highlighted]:text-emerald-950`
 const menuItemDelete = `${menuItemBase} text-red-600 data-[highlighted]:bg-red-50 data-[highlighted]:text-red-700`
 
 const menuContentClass =
@@ -58,6 +61,7 @@ interface MeetingRowActionsProps {
   onCreateFeedbackForm: (meeting: MeetingFormState) => void
   openMeeting: (meeting: MeetingFormState) => void
   openFeedback: (meeting: MeetingFormState) => void
+  onGenerateCoverImage: (meeting: MeetingFormState) => void
   sendingFeedbackEmailId?: string | null
   creatingFeedbackFormId?: string | null
 }
@@ -71,6 +75,7 @@ const MeetingRowActions = ({
   onCreateFeedbackForm,
   openMeeting,
   openFeedback,
+  onGenerateCoverImage,
   sendingFeedbackEmailId,
   creatingFeedbackFormId,
 }: MeetingRowActionsProps) => {
@@ -154,6 +159,14 @@ const MeetingRowActions = ({
             <ClipboardListIcon className="size-4 shrink-0 text-info" />
             Mark attendance
           </DropdownMenu.Item>
+          <DropdownMenu.Item
+            className={menuItemCover}
+            disabled={!meeting.id}
+            onSelect={() => onGenerateCoverImage(meeting)}
+          >
+            <ImageIcon className="size-4 shrink-0 text-emerald-700" />
+            Generate cover image
+          </DropdownMenu.Item>
           <DropdownMenu.Separator className="my-1 h-px bg-slate-200" />
           <DropdownMenu.Item
             className={menuItemDelete}
@@ -177,6 +190,7 @@ export const MeetingsTable = ({
   onCreateFeedbackForm,
   openMeeting,
   openFeedback,
+  onGenerateCoverImage,
   sendingFeedbackEmailId,
   creatingFeedbackFormId,
 }: MeetingsTableProps) => (
@@ -221,6 +235,7 @@ export const MeetingsTable = ({
                   onCreateFeedbackForm={onCreateFeedbackForm}
                   openMeeting={openMeeting}
                   openFeedback={openFeedback}
+                  onGenerateCoverImage={onGenerateCoverImage}
                   sendingFeedbackEmailId={sendingFeedbackEmailId}
                   creatingFeedbackFormId={creatingFeedbackFormId}
                 />

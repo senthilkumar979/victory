@@ -24,7 +24,11 @@ export interface MeetingFormDrawerProps {
   isOpen: boolean
   meetingToEdit?: MeetingFormState
   onClose: () => void
-  onSuccess: () => void
+  /** Called after a successful create or update. `suggestCoverImage` is true only after a new meeting is created. */
+  onSuccess: (detail?: {
+    meetingId?: string
+    suggestCoverImage?: boolean
+  }) => void
 }
 
 export interface DeleteMeetingProps {

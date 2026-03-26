@@ -97,7 +97,9 @@ export function useManageMeeting({
   updateMeeting,
 }: ManageMeetingDeps) {
   const createMeetingWithPipeline = useCallback(
-    async (payload: Omit<MeetingFormState, 'id'>) => {
+    async (
+      payload: Omit<MeetingFormState, 'id'>,
+    ): Promise<{ id: string }> => {
       const description = payload.title
 
       const toastId = gooeyToast.info('Event is being created...', {
@@ -195,6 +197,7 @@ export function useManageMeeting({
           description,
           timing: { displayDuration: 3500 },
         })
+        return { id: meetingId }
       } catch (err) {
         gooeyToast.dismiss(toastId)
         gooeyToast.error('Failed to create meeting.', {

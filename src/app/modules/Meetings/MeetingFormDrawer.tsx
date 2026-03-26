@@ -73,10 +73,11 @@ export const MeetingFormDrawer = ({
           borderWidth: 2,
           timing: { displayDuration: 2000 },
         })
+        onSuccess({ meetingId: meetingToEdit.id })
       } else {
-        await createMeetingWithPipeline(payload)
+        const { id } = await createMeetingWithPipeline(payload)
+        onSuccess({ meetingId: id, suggestCoverImage: true })
       }
-      onSuccess()
     } catch (err) {
       if (isEditing && meetingToEdit?.id) {
         gooeyToast.error('Failed to save meeting.', {

@@ -74,6 +74,27 @@ body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
+/* Nano Banana playground: cinematic loading shimmer */
+@keyframes nano-banana-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.nano-banana-shimmer {
+  background: linear-gradient(
+    105deg,
+    rgb(228 228 231 / 0.35) 0%,
+    rgb(244 244 245 / 0.95) 45%,
+    rgb(228 228 231 / 0.35) 100%
+  );
+  background-size: 200% 100%;
+  animation: nano-banana-shimmer 1.75s ease-in-out infinite;
+}
+
 .font-bungee-tint {
   font-family: var(--font-bungee-tint), system-ui, sans-serif;
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { gooeyToast } from 'goey-toast'
 
@@ -9,6 +9,7 @@ import { useMeetings } from '@/hooks/useMeetings'
 import { AttendanceTrackerDrawer } from './AttendanceTrackerDrawer'
 import { DeleteMeeting } from './DeleteMeeting'
 import type { MeetingFormState } from './Meeting.types'
+import { MeetingCoverImageDrawer } from './MeetingCoverImageDrawer'
 import { MeetingFormDrawer } from './MeetingFormDrawer'
 import { MeetingsHeader } from './MeetingsHeader'
 import { MeetingsListStates } from './MeetingsListStates'
@@ -35,6 +36,13 @@ export const AdminMeetings = () => {
   const [creatingFeedbackFormId, setCreatingFeedbackFormId] = useState<
     string | null
   >(null)
+  const [isCoverDrawerOpen, setIsCoverDrawerOpen] = useState(false)
+  const [coverMeeting, setCoverMeeting] = useState<MeetingFormState | null>(
+    null,
+  )
+  const [pendingCoverMeetingId, setPendingCoverMeetingId] = useState<
+    string | null
+  >(null)
 
   const handleOpenCreate = () => {
     setFormState(undefined)
@@ -54,11 +62,26 @@ export const AdminMeetings = () => {
     setIsFormDrawerOpen(true)
   }
 
-  const handleFormSuccess = () => {
+  const handleFormSuccess = async (detail?: {
+    meetingId?: string
+    suggestCoverImage?: boolean
+  }) => {
     setIsFormDrawerOpen(false)
     setFormState(undefined)
-    refetch()
+    if (detail?.meetingId && detail.suggestCoverImage) {
+      setPendingCoverMeetingId(detail.meetingId)
+    }
+    await refetch()
   }
+
+  useEffect(() => {
+    if (!pendingCoverMeetingId) return
+    const m = meetings.find((x) => x.id === pendingCoverMeetingId)
+    if (!m) return
+    setCoverMeeting(m)
+    setIsCoverDrawerOpen(true)
+    setPendingCoverMeetingId(null)
+  }, [meetings, pendingCoverMeetingId])
 
   const handleCloseDrawer = () => {
     setIsFormDrawerOpen(false)
@@ -188,6 +211,17 @@ export const AdminMeetings = () => {
     setAttendanceMeeting(null)
   }
 
+  const handleGenerateCoverImage = (meeting: MeetingFormState) => {
+    if (!meeting.id) return
+    setCoverMeeting(meeting)
+    setIsCoverDrawerOpen(true)
+  }
+
+  const handleCloseCoverDrawer = () => {
+    setIsCoverDrawerOpen(false)
+    setCoverMeeting(null)
+  }
+
   const showStates = isLoading || error || meetings.length === 0
   const showTable = !isLoading && !error && meetings.length > 0
 
@@ -215,6 +249,7 @@ export const AdminMeetings = () => {
               onCreateFeedbackForm={handleCreateFeedbackForm}
               openMeeting={handleOpenMeeting}
               openFeedback={handleOpenFeedback}
+              onGenerateCoverImage={handleGenerateCoverImage}
               sendingFeedbackEmailId={sendingFeedbackEmailId}
               creatingFeedbackFormId={creatingFeedbackFormId}
             />
@@ -226,6 +261,13 @@ export const AdminMeetings = () => {
           meetingToEdit={formState}
           onClose={handleCloseDrawer}
           onSuccess={handleFormSuccess}
+        />
+
+        <MeetingCoverImageDrawer
+          meeting={coverMeeting}
+          isOpen={isCoverDrawerOpen}
+          onClose={handleCloseCoverDrawer}
+          onConfirmed={() => void refetch()}
         />
 
         <DeleteMeeting
