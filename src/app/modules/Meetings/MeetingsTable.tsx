@@ -6,6 +6,7 @@ import {
   FilePlus2Icon,
   ImageIcon,
   LinkIcon,
+  LinkedinIcon,
   MailIcon,
   MessageCircleMoreIcon,
   MoreVerticalIcon,
@@ -30,6 +31,7 @@ interface MeetingsTableProps {
   openMeeting: (meeting: MeetingFormState) => void
   openFeedback: (meeting: MeetingFormState) => void
   onGenerateCoverImage: (meeting: MeetingFormState) => void
+  onPublishToLinkedIn: (meeting: MeetingFormState) => void
   sendingFeedbackEmailId?: string | null
   creatingFeedbackFormId?: string | null
 }
@@ -44,6 +46,7 @@ const menuItemFeedback = `${menuItemBase} text-amber-700 data-[highlighted]:bg-a
 const menuItemEmail = `${menuItemBase} text-teal-700 data-[highlighted]:bg-teal-50 data-[highlighted]:text-teal-900`
 const menuItemAttendance = `${menuItemBase} text-info data-[highlighted]:bg-info/30 data-[highlighted]:text-info`
 const menuItemCover = `${menuItemBase} text-emerald-800 data-[highlighted]:bg-emerald-50 data-[highlighted]:text-emerald-950`
+const menuItemLinkedIn = `${menuItemBase} text-[#0a66c2] data-[highlighted]:bg-sky-50 data-[highlighted]:text-[#004182]`
 const menuItemDelete = `${menuItemBase} text-red-600 data-[highlighted]:bg-red-50 data-[highlighted]:text-red-700`
 
 const menuContentClass =
@@ -62,6 +65,7 @@ interface MeetingRowActionsProps {
   openMeeting: (meeting: MeetingFormState) => void
   openFeedback: (meeting: MeetingFormState) => void
   onGenerateCoverImage: (meeting: MeetingFormState) => void
+  onPublishToLinkedIn: (meeting: MeetingFormState) => void
   sendingFeedbackEmailId?: string | null
   creatingFeedbackFormId?: string | null
 }
@@ -76,6 +80,7 @@ const MeetingRowActions = ({
   openMeeting,
   openFeedback,
   onGenerateCoverImage,
+  onPublishToLinkedIn,
   sendingFeedbackEmailId,
   creatingFeedbackFormId,
 }: MeetingRowActionsProps) => {
@@ -167,6 +172,14 @@ const MeetingRowActions = ({
             <ImageIcon className="size-4 shrink-0 text-emerald-700" />
             Generate cover image
           </DropdownMenu.Item>
+          <DropdownMenu.Item
+            className={menuItemLinkedIn}
+            disabled={!meeting.id}
+            onSelect={() => onPublishToLinkedIn(meeting)}
+          >
+            <LinkedinIcon className="size-4 shrink-0 text-[#0a66c2]" />
+            Publish to LinkedIn
+          </DropdownMenu.Item>
           <DropdownMenu.Separator className="my-1 h-px bg-slate-200" />
           <DropdownMenu.Item
             className={menuItemDelete}
@@ -191,6 +204,7 @@ export const MeetingsTable = ({
   openMeeting,
   openFeedback,
   onGenerateCoverImage,
+  onPublishToLinkedIn,
   sendingFeedbackEmailId,
   creatingFeedbackFormId,
 }: MeetingsTableProps) => (
@@ -236,6 +250,7 @@ export const MeetingsTable = ({
                   openMeeting={openMeeting}
                   openFeedback={openFeedback}
                   onGenerateCoverImage={onGenerateCoverImage}
+                  onPublishToLinkedIn={onPublishToLinkedIn}
                   sendingFeedbackEmailId={sendingFeedbackEmailId}
                   creatingFeedbackFormId={creatingFeedbackFormId}
                 />

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 
 import { gooeyToast } from 'goey-toast'
 
+import { LinkedInPublishDrawer } from '@/components/linkedin'
 import { useMeetings } from '@/hooks/useMeetings'
 
 import { AttendanceTrackerDrawer } from './AttendanceTrackerDrawer'
@@ -43,6 +44,13 @@ export const AdminMeetings = () => {
   const [pendingCoverMeetingId, setPendingCoverMeetingId] = useState<
     string | null
   >(null)
+  const [
+    linkedInMeeting,
+    setLinkedInMeeting,
+  ] = useState<MeetingFormState | null>(null)
+
+  const linkedInCompanyName =
+    process.env.NEXT_PUBLIC_LINKEDIN_COMPANY_NAME?.trim() || 'MentorBridge'
 
   const handleOpenCreate = () => {
     setFormState(undefined)
@@ -217,6 +225,37 @@ export const AdminMeetings = () => {
     setIsCoverDrawerOpen(true)
   }
 
+  const handlePublishToLinkedIn = (meeting: MeetingFormState) => {
+    if (!meeting.coverImageUrl?.trim()) {
+      gooeyToast.error(
+        'Cover image is required. Generate a cover image for this meeting first.',
+        {
+          description: meeting.title,
+          bounce: 0.45,
+          borderColor: '#E0E0E0',
+          borderWidth: 2,
+          timing: { displayDuration: 4500 },
+        },
+      )
+      return
+    }
+    if (!meeting.meetingLink?.trim()) {
+      gooeyToast.error('Add a meeting link before publishing to LinkedIn.', {
+        description: meeting.title,
+        bounce: 0.45,
+        borderColor: '#E0E0E0',
+        borderWidth: 2,
+        timing: { displayDuration: 4000 },
+      })
+      return
+    }
+    setLinkedInMeeting(meeting)
+  }
+
+  const handleCloseLinkedInDrawer = () => {
+    setLinkedInMeeting(null)
+  }
+
   const handleCloseCoverDrawer = () => {
     setIsCoverDrawerOpen(false)
     setCoverMeeting(null)
@@ -250,6 +289,7 @@ export const AdminMeetings = () => {
               openMeeting={handleOpenMeeting}
               openFeedback={handleOpenFeedback}
               onGenerateCoverImage={handleGenerateCoverImage}
+              onPublishToLinkedIn={handlePublishToLinkedIn}
               sendingFeedbackEmailId={sendingFeedbackEmailId}
               creatingFeedbackFormId={creatingFeedbackFormId}
             />
@@ -282,6 +322,20 @@ export const AdminMeetings = () => {
           meeting={attendanceMeeting}
           onClose={handleCloseAttendance}
         />
+
+        {linkedInMeeting ? (
+          <LinkedInPublishDrawer
+            key={linkedInMeeting.id ?? linkedInMeeting.title}
+            isOpen
+            onClose={handleCloseLinkedInDrawer}
+            contextTitle={linkedInMeeting.title}
+            contextDescription={linkedInMeeting.description}
+            primaryLink={linkedInMeeting.meetingLink}
+            coverImageUrl={linkedInMeeting.coverImageUrl}
+            companyDisplayName={linkedInCompanyName}
+            contextExtra={`Event date: ${linkedInMeeting.date}`}
+          />
+        ) : null}
       </div>
     </div>
   )
