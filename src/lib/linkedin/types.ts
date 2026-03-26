@@ -4,6 +4,8 @@ export interface LinkedInGeneratedPost {
   hashtags: string[]
 }
 
+export type LinkedInPostVariant = 'default' | 'award'
+
 export interface GenerateLinkedInPostInput {
   title: string
   description: string
@@ -11,6 +13,8 @@ export interface GenerateLinkedInPostInput {
   context?: string
   /** Link included in the final commentary (meeting URL, article URL, etc.) */
   primaryLink: string
+  /** Adjust tone and JSON schema hints (e.g. student award celebration) */
+  variant?: LinkedInPostVariant
 }
 
 export interface PublishLinkedInPostInput {

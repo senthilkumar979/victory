@@ -9,9 +9,13 @@ import type {
 
 const MODEL_ID = 'gemini-2.5-flash'
 
-const SYSTEM = `You write short, professional LinkedIn posts for a company Page (not personal profiles).
+const SYSTEM_DEFAULT = `You write short, professional LinkedIn posts for a company Page (not personal profiles).
 Return ONLY valid JSON with keys: title (string, one line hook under 120 chars), description (string, 2-4 short paragraphs, no hashtags inside), hashtags (array of 4-8 strings WITHOUT the # symbol, relevant to tech/education/community).
 Do not include markdown. Keep total content suitable for a ~2500 character post body when combined with a URL and hashtags later.`
+
+const SYSTEM_AWARD = `You write short, professional LinkedIn posts for a company Page celebrating student achievements and mentorship (not personal profiles).
+Return ONLY valid JSON with keys: title (string, one line hook under 120 chars), description (string, 2-4 short paragraphs, no hashtags inside), hashtags (array of 4-8 strings WITHOUT the # symbol, relevant to education, mentorship, student success, learning, and community).
+Mention the award context naturally in the description. Do not include markdown. Keep total content suitable for a ~2500 character post body when combined with a URL and hashtags later.`
 
 function extractJsonObject(text: string): string {
   const t = text.trim()
@@ -73,6 +77,9 @@ export async function generateLinkedInPostWithGemini(
     .filter(Boolean)
     .join('\n\n')
 
+  const system =
+    input.variant === 'award' ? SYSTEM_AWARD : SYSTEM_DEFAULT
+
   const genAI = new GoogleGenerativeAI(apiKey)
   const model = genAI.getGenerativeModel({
     model: MODEL_ID,
@@ -81,7 +88,7 @@ export async function generateLinkedInPostWithGemini(
     },
   })
 
-  const result = await model.generateContent(`${SYSTEM}\n\n---\n${ctx}`)
+  const result = await model.generateContent(`${system}\n\n---\n${ctx}`)
   const text = result.response.text()?.trim()
   if (!text) throw new Error('No content generated')
 

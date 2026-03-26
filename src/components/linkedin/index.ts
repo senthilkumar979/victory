@@ -1,4 +1,7 @@
+export { AwardLinkedInPublishDrawer } from './AwardLinkedInPublishDrawer'
+export type { AwardLinkedInPublishDrawerProps } from './AwardLinkedInPublishDrawer'
 export { LinkedInFeedPreview } from './LinkedInFeedPreview'
 export { LinkedInPublishDrawer } from './LinkedInPublishDrawer'
 export type { LinkedInPublishDrawerProps } from './LinkedInPublishDrawer'
 export { useLinkedInPostDraft } from './useLinkedInPostDraft'
+export { useAwardLinkedInPublish } from './useAwardLinkedInPublish'

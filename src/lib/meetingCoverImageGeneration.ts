@@ -53,32 +53,77 @@ export interface GenerateMeetingCoverResult {
   mimeType: string
 }
 
+function readInlineImagePart(part: unknown): GenerateMeetingCoverResult | null {
+  if (!part || typeof part !== 'object') return null
+  const p = part as Record<string, unknown>
+  const inline = (p.inlineData ?? p.inline_data) as Record<string, unknown> | undefined
+  if (!inline) return null
+  const raw = inline.data
+  if (typeof raw !== 'string' || !raw.trim()) return null
+  const mimeRaw = inline.mimeType ?? inline.mime_type
+  const mime =
+    typeof mimeRaw === 'string' && mimeRaw.startsWith('image/')
+      ? mimeRaw
+      : 'image/png'
+  return { imageBase64: raw, mimeType: mime }
+}
+
+/** Collects model text (e.g. refusals) when no image part exists. */
+function collectResponseTextParts(data: unknown): string[] {
+  const out: string[] = []
+  const root = data as {
+    candidates?: Array<{ content?: { parts?: unknown[] } }>
+  }
+  for (const c of root.candidates ?? []) {
+    for (const part of c.content?.parts ?? []) {
+      if (!part || typeof part !== 'object') continue
+      const t = (part as { text?: string }).text
+      if (typeof t === 'string' && t.trim()) out.push(t.trim())
+    }
+  }
+  return out
+}
+
 function parseImageFromResponse(data: unknown): GenerateMeetingCoverResult | null {
   const root = data as {
-    candidates?: Array<{
-      content?: {
-        parts?: Array<{
-          text?: string
-          inlineData?: { mimeType?: string; data?: string }
-          inline_data?: { mime_type?: string; data?: string }
-        }>
-      }
-    }>
+    candidates?: Array<{ content?: { parts?: unknown[] } }>
   }
-  const parts = root.candidates?.[0]?.content?.parts ?? []
-  for (const part of parts) {
-    const mime =
-      part.inlineData?.mimeType ?? part.inline_data?.mime_type ?? 'image/png'
-    const raw = part.inlineData?.data ?? part.inline_data?.data
-    if (raw) {
-      return { imageBase64: raw, mimeType: mime }
+  for (const c of root.candidates ?? []) {
+    for (const part of c.content?.parts ?? []) {
+      const img = readInlineImagePart(part)
+      if (img) return img
     }
   }
   return null
 }
 
-export async function generateMeetingCoverImageWithGemini(
-  options: GenerateMeetingCoverOptions,
+function describeMissingImageResponse(data: unknown): string {
+  const root = data as {
+    promptFeedback?: { blockReason?: string }
+    candidates?: Array<{ finishReason?: string; finishMessage?: string }>
+  }
+  const block = root.promptFeedback?.blockReason
+  const fr = root.candidates?.[0]?.finishReason
+  const fm = root.candidates?.[0]?.finishMessage
+  const hints = [block, fr, fm].filter(
+    (x): x is string => typeof x === 'string' && x.length > 0,
+  )
+  const texts = collectResponseTextParts(data)
+  const extra =
+    texts.length > 0
+      ? texts.join(' ').slice(0, 500)
+      : ''
+  const base =
+    hints.length > 0 ? hints.join(' · ') : 'No image part in API response'
+  return extra ? `${base}. Model text: ${extra}` : base
+}
+
+type GeminiImagePart =
+  | { text: string }
+  | { inline_data: { mime_type: string; data: string } }
+
+async function generateCoverImageWithGeminiParts(
+  parts: GeminiImagePart[],
 ): Promise<GenerateMeetingCoverResult> {
   const apiKey = process.env.GEMINI_API_KEY?.trim()
   if (!apiKey) {
@@ -86,20 +131,6 @@ export async function generateMeetingCoverImageWithGemini(
       'GEMINI_API_KEY is not configured',
       'other',
     )
-  }
-
-  const parts: Array<
-    | { text: string }
-    | { inline_data: { mime_type: string; data: string } }
-  > = [{ text: options.prompt }]
-
-  if (options.logoBase64 && options.logoMimeType) {
-    parts.push({
-      inline_data: {
-        mime_type: options.logoMimeType,
-        data: options.logoBase64,
-      },
-    })
   }
 
   const model = resolveImageModel()
@@ -145,10 +176,90 @@ export async function generateMeetingCoverImageWithGemini(
 
   const parsed = parseImageFromResponse(data)
   if (!parsed) {
+    const detail = describeMissingImageResponse(data)
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('[Gemini image] no inline image in response', detail)
+    }
     throw new GeminiImageGenerationError(
-      'No image returned from Gemini. Try adjusting the prompt.',
+      `No image returned from Gemini. ${detail}`,
       'other',
     )
   }
   return parsed
+}
+
+export async function generateMeetingCoverImageWithGemini(
+  options: GenerateMeetingCoverOptions,
+): Promise<GenerateMeetingCoverResult> {
+  const parts: GeminiImagePart[] = [{ text: options.prompt }]
+  if (options.logoBase64 && options.logoMimeType) {
+    parts.push({
+      inline_data: {
+        mime_type: options.logoMimeType,
+        data: options.logoBase64,
+      },
+    })
+  }
+  return generateCoverImageWithGeminiParts(parts)
+}
+
+export interface GenerateAwardCoverOptions {
+  prompt: string
+  logoBase64?: string
+  logoMimeType?: string
+  studentPhotoBase64?: string
+  studentPhotoMimeType?: string
+}
+
+function buildAwardCoverParts(
+  options: GenerateAwardCoverOptions,
+): GeminiImagePart[] {
+  const parts: GeminiImagePart[] = [{ text: options.prompt }]
+  if (options.logoBase64 && options.logoMimeType) {
+    parts.push({
+      inline_data: {
+        mime_type: options.logoMimeType,
+        data: options.logoBase64,
+      },
+    })
+  }
+  if (options.studentPhotoBase64 && options.studentPhotoMimeType) {
+    parts.push({
+      inline_data: {
+        mime_type: options.studentPhotoMimeType,
+        data: options.studentPhotoBase64,
+      },
+    })
+  }
+  return parts
+}
+
+/**
+ * Award covers add an optional student photo. Some model responses return text-only
+ * (safety / policy) when a face image is included; retry once with logo + text only.
+ */
+export async function generateAwardCoverImageWithGemini(
+  options: GenerateAwardCoverOptions,
+): Promise<GenerateMeetingCoverResult> {
+  const withStudent =
+    Boolean(options.studentPhotoBase64) && Boolean(options.studentPhotoMimeType)
+
+  try {
+    return await generateCoverImageWithGeminiParts(buildAwardCoverParts(options))
+  } catch (e) {
+    if (
+      withStudent &&
+      e instanceof GeminiImageGenerationError &&
+      e.message.startsWith('No image returned from Gemini')
+    ) {
+      return generateCoverImageWithGeminiParts(
+        buildAwardCoverParts({
+          ...options,
+          studentPhotoBase64: undefined,
+          studentPhotoMimeType: undefined,
+        }),
+      )
+    }
+    throw e
+  }
 }

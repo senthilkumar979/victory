@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 
+import { AwardLinkedInPublishDrawer } from '@/components/linkedin'
 import { useAwardCategories } from '@/hooks/useAwardCategories'
 import { useAwards } from '@/hooks/useAwards'
 
@@ -23,6 +24,12 @@ export const AdminAwards = () => {
   const [awardToDelete, setAwardToDelete] = useState<AwardFormState | null>(
     null,
   )
+  const [linkedInAward, setLinkedInAward] = useState<AwardFormState | null>(
+    null,
+  )
+
+  const linkedInCompanyName =
+    process.env.NEXT_PUBLIC_LINKEDIN_COMPANY_NAME?.trim() || 'MentorBridge'
 
   const categoryNameById = useMemo(
     () =>
@@ -76,6 +83,15 @@ export const AdminAwards = () => {
     refetch()
   }
 
+  const handlePublishToLinkedIn = (award: AwardFormState) => {
+    if (!award.id) return
+    setLinkedInAward(award)
+  }
+
+  const handleCloseLinkedInDrawer = () => {
+    setLinkedInAward(null)
+  }
+
   const showStates = isLoading || error || awards.length === 0
   const showTable = !isLoading && !error && awards.length > 0
 
@@ -99,6 +115,7 @@ export const AdminAwards = () => {
               categoryNameById={categoryNameById}
               onEdit={handleOpenEdit}
               onDelete={handleOpenDelete}
+              onPublishToLinkedIn={handlePublishToLinkedIn}
             />
           )}
         </div>
@@ -116,6 +133,22 @@ export const AdminAwards = () => {
           onClose={handleDeleteClose}
           onDeleted={handleDeleted}
         />
+
+        {linkedInAward ? (
+          <AwardLinkedInPublishDrawer
+            key={linkedInAward.id ?? linkedInAward.awardedTo}
+            award={linkedInAward}
+            categoryName={
+              linkedInAward.awardCategoryId
+                ? categoryNameById[linkedInAward.awardCategoryId] ?? ''
+                : ''
+            }
+            isOpen
+            onClose={handleCloseLinkedInDrawer}
+            onPublished={() => void refetch()}
+            companyDisplayName={linkedInCompanyName}
+          />
+        ) : null}
       </div>
     </div>
   )

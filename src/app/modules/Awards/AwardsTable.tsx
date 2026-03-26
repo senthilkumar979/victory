@@ -1,10 +1,10 @@
-import { PencilIcon, TrashIcon } from 'lucide-react'
+'use client'
 
-import { TextButton } from '@/atoms/button/Button'
 import { StudentBatch } from '@/templates/StudentBatch'
 
 import Image from 'next/image'
 import type { AwardFormState } from './Award.types'
+import { AwardRowActions } from './AwardRowActions'
 import { formatAwardDateDisplay } from './formatAwardDate'
 
 const BatchDisplay = ({ batch }: { batch: string | number }) => {
@@ -21,6 +21,7 @@ interface AwardsTableProps {
   categoryNameById: Record<string, string>
   onEdit: (award: AwardFormState) => void
   onDelete: (award: AwardFormState) => void
+  onPublishToLinkedIn: (award: AwardFormState) => void
 }
 
 export const AwardsTable = ({
@@ -28,6 +29,7 @@ export const AwardsTable = ({
   categoryNameById,
   onEdit,
   onDelete,
+  onPublishToLinkedIn,
 }: AwardsTableProps) => (
   <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
     <table className="min-w-full divide-y divide-slate-200 bg-white">
@@ -107,17 +109,14 @@ export const AwardsTable = ({
                 }}
               />
             </td>
-            <td className="whitespace-nowrap px-4 py-3 text-right text-sm">
-              <div className="flex items-center justify-end gap-2">
-                <TextButton
-                  variant="textTertiary"
-                  onClick={() => onEdit(award)}
-                >
-                  <PencilIcon className="size-4" />
-                </TextButton>
-                <TextButton variant="textError" onClick={() => onDelete(award)}>
-                  <TrashIcon className="size-4" />
-                </TextButton>
+            <td className="whitespace-nowrap px-4 py-3 text-right align-middle">
+              <div className="flex justify-end">
+                <AwardRowActions
+                  award={award}
+                  onEdit={onEdit}
+                  onDelete={onDelete}
+                  onPublishToLinkedIn={onPublishToLinkedIn}
+                />
               </div>
             </td>
           </tr>

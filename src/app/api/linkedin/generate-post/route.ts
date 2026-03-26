@@ -12,6 +12,7 @@ const bodySchema = z.object({
   description: z.string(),
   primaryLink: z.string().url(),
   context: z.string().optional(),
+  variant: z.enum(['default', 'award']).optional(),
 })
 
 export async function POST(request: NextRequest) {
