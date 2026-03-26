@@ -32,25 +32,6 @@ async function fetchLogoAsBase64(): Promise<{
   }
 }
 
-async function fetchStudentPhotoAsBase64(
-  pictureUrl: string,
-): Promise<{ base64: string; mimeType: string } | null> {
-  const u = pictureUrl.trim()
-  if (!u || !/^https?:\/\//i.test(u)) return null
-  try {
-    const res = await fetch(u, { cache: 'no-store' })
-    if (!res.ok) return null
-    const mimeType =
-      res.headers.get('content-type')?.split(';')[0]?.trim() || 'image/jpeg'
-    if (!/^image\/(jpeg|jpg|png|webp|gif)$/i.test(mimeType)) return null
-    const buf = Buffer.from(await res.arrayBuffer())
-    if (buf.byteLength > 4_500_000) return null
-    return { base64: buf.toString('base64'), mimeType }
-  } catch {
-    return null
-  }
-}
-
 function mapAwardRow(row: Record<string, unknown>): AwardFormState {
   return {
     id: row.id as string,
@@ -116,7 +97,7 @@ export async function POST(
 
   const { data: studentRow } = await supabase
     .from('students')
-    .select('email, name, picture, batch')
+    .select('email, name, batch')
     .eq('email', baseAward.awardedTo)
     .maybeSingle()
 
@@ -125,7 +106,7 @@ export async function POST(
     student: studentRow
       ? {
           name: studentRow.name ?? '',
-          picture: studentRow.picture ?? '',
+          picture: '',
           batch: studentRow.batch ?? '',
         }
       : undefined,
@@ -137,10 +118,6 @@ export async function POST(
       : buildDefaultAwardCoverPrompt(award, categoryName)
 
   const logo = await fetchLogoAsBase64()
-  const studentPicUrl = award.student?.picture?.trim()
-  const studentPic = studentPicUrl
-    ? await fetchStudentPhotoAsBase64(studentPicUrl)
-    : null
 
   let imageBase64: string
   let mimeType: string
@@ -149,8 +126,6 @@ export async function POST(
       prompt,
       logoBase64: logo?.base64,
       logoMimeType: logo?.mimeType,
-      studentPhotoBase64: studentPic?.base64,
-      studentPhotoMimeType: studentPic?.mimeType,
     })
     imageBase64 = result.imageBase64
     mimeType = result.mimeType

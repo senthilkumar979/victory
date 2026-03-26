@@ -203,63 +203,11 @@ export async function generateMeetingCoverImageWithGemini(
   return generateCoverImageWithGeminiParts(parts)
 }
 
-export interface GenerateAwardCoverOptions {
-  prompt: string
-  logoBase64?: string
-  logoMimeType?: string
-  studentPhotoBase64?: string
-  studentPhotoMimeType?: string
-}
+/** Award covers use text + MentorBridge logo only (no student photos — trophy/award visuals from prompt). */
+export type GenerateAwardCoverOptions = GenerateMeetingCoverOptions
 
-function buildAwardCoverParts(
-  options: GenerateAwardCoverOptions,
-): GeminiImagePart[] {
-  const parts: GeminiImagePart[] = [{ text: options.prompt }]
-  if (options.logoBase64 && options.logoMimeType) {
-    parts.push({
-      inline_data: {
-        mime_type: options.logoMimeType,
-        data: options.logoBase64,
-      },
-    })
-  }
-  if (options.studentPhotoBase64 && options.studentPhotoMimeType) {
-    parts.push({
-      inline_data: {
-        mime_type: options.studentPhotoMimeType,
-        data: options.studentPhotoBase64,
-      },
-    })
-  }
-  return parts
-}
-
-/**
- * Award covers add an optional student photo. Some model responses return text-only
- * (safety / policy) when a face image is included; retry once with logo + text only.
- */
 export async function generateAwardCoverImageWithGemini(
   options: GenerateAwardCoverOptions,
 ): Promise<GenerateMeetingCoverResult> {
-  const withStudent =
-    Boolean(options.studentPhotoBase64) && Boolean(options.studentPhotoMimeType)
-
-  try {
-    return await generateCoverImageWithGeminiParts(buildAwardCoverParts(options))
-  } catch (e) {
-    if (
-      withStudent &&
-      e instanceof GeminiImageGenerationError &&
-      e.message.startsWith('No image returned from Gemini')
-    ) {
-      return generateCoverImageWithGeminiParts(
-        buildAwardCoverParts({
-          ...options,
-          studentPhotoBase64: undefined,
-          studentPhotoMimeType: undefined,
-        }),
-      )
-    }
-    throw e
-  }
+  return generateMeetingCoverImageWithGemini(options)
 }
