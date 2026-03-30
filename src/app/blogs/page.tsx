@@ -1,5 +1,7 @@
 'use client'
 
+import { useCallback } from 'react'
+
 import { BlogFilter } from '@/app/blogs/components/BlogFilter'
 import { BlogGrid } from '@/app/blogs/components/BlogGrid'
 import { FeaturedCarousel } from '@/app/blogs/components/FeaturedCarousel'
@@ -27,6 +29,14 @@ export default function BlogsPage() {
     authorFilter,
     setAuthorFilter,
   } = useBlogs()
+
+  const handleRemainingPageChange = useCallback(
+    (page: number) => {
+      setRemainingPage(page)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    },
+    [setRemainingPage],
+  )
 
   const hasRemaining = totalCount > 10
 
@@ -154,7 +164,7 @@ export default function BlogsPage() {
                 <Pagination
                   currentPage={remainingPage}
                   totalPages={totalRemainingPages}
-                  onPageChange={setRemainingPage}
+                  onPageChange={handleRemainingPageChange}
                 />
               </motion.div>
             )}

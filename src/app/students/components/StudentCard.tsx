@@ -114,7 +114,7 @@ export const StudentCard = ({ student, index }: StudentCardProps) => {
       <Link href={`/students/${id}`} className="block">
         <div
           // Remove any sm: or hidden/mobile-hiding class for universal visibility
-          className="relative w-full overflow-hidden rounded-2xl shadow-xl [perspective:1000px] h-72 lg:h-112"
+          className="relative w-full overflow-hidden rounded-2xl shadow-xl [perspective:1000px] h-48 lg:h-96"
           onMouseEnter={() => {
             setIsFlipped(true)
             setIsHovered(true)
