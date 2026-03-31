@@ -22,6 +22,8 @@ interface AwardsTableProps {
   onEdit: (award: AwardFormState) => void
   onDelete: (award: AwardFormState) => void
   onPublishToLinkedIn: (award: AwardFormState) => void
+  onSendAwardEmail: (award: AwardFormState) => void
+  sendingEmailId?: string | null
 }
 
 export const AwardsTable = ({
@@ -30,6 +32,8 @@ export const AwardsTable = ({
   onEdit,
   onDelete,
   onPublishToLinkedIn,
+  onSendAwardEmail,
+  sendingEmailId,
 }: AwardsTableProps) => (
   <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
     <table className="min-w-full divide-y divide-slate-200 bg-white">
@@ -116,6 +120,8 @@ export const AwardsTable = ({
                   onEdit={onEdit}
                   onDelete={onDelete}
                   onPublishToLinkedIn={onPublishToLinkedIn}
+                  onSendAwardEmail={onSendAwardEmail}
+                  sendingEmailId={sendingEmailId}
                 />
               </div>
             </td>

@@ -2,9 +2,12 @@
 
 import { useMemo, useState } from 'react'
 
+import { gooeyToast } from 'goey-toast'
+
 import { AwardLinkedInPublishDrawer } from '@/components/linkedin'
 import { useAwardCategories } from '@/hooks/useAwardCategories'
 import { useAwards } from '@/hooks/useAwards'
+import { useSendEmailWithTemplate } from '@/hooks/useSendEmailWithTemplate'
 
 import type { AwardFormState } from './Award.types'
 import { AwardsHeader } from './AwardsHeader'
@@ -12,10 +15,12 @@ import { AwardsListStates } from './AwardsListStates'
 import { AwardsTable } from './AwardsTable'
 import { AwardFormDrawer } from './AwardFormDrawer'
 import { DeleteAward } from './DeleteAward'
+import { sendAwardWinnerNotificationEmail } from './sendAwardWinnerNotificationEmail'
 
 export const AdminAwards = () => {
   const { awards, isLoading, error, refetch } = useAwards()
   const { categories } = useAwardCategories()
+  const { sendEmail } = useSendEmailWithTemplate()
   const [isFormDrawerOpen, setIsFormDrawerOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [formState, setFormState] = useState<AwardFormState | undefined>(
@@ -27,6 +32,7 @@ export const AdminAwards = () => {
   const [linkedInAward, setLinkedInAward] = useState<AwardFormState | null>(
     null,
   )
+  const [sendingEmailId, setSendingEmailId] = useState<string | null>(null)
 
   const linkedInCompanyName =
     process.env.NEXT_PUBLIC_LINKEDIN_COMPANY_NAME?.trim() || 'MentorBridge'
@@ -92,6 +98,43 @@ export const AdminAwards = () => {
     setLinkedInAward(null)
   }
 
+  const handleSendAwardEmail = async (award: AwardFormState) => {
+    if (!award.id || !award.awardedTo?.trim()) return
+    setSendingEmailId(award.id)
+    try {
+      const categoryName = award.awardCategoryId
+        ? categoryNameById[award.awardCategoryId] ?? ''
+        : ''
+      const displayName =
+        award.student?.name?.trim() ||
+        award.awardedTo.split('@')[0] ||
+        award.awardedTo
+      await sendAwardWinnerNotificationEmail(sendEmail, {
+        recipientEmail: award.awardedTo.trim(),
+        awardWinnerDisplayName: displayName,
+        awardCategoryName: categoryName,
+      })
+      gooeyToast.success('Award notification email sent.', {
+        description: award.awardedTo,
+        bounce: 0.45,
+        borderColor: '#E0E0E0',
+        borderWidth: 2,
+        timing: { displayDuration: 2500 },
+      })
+    } catch (err) {
+      gooeyToast.error('Failed to send email.', {
+        description:
+          err instanceof Error ? err.message : 'Please try again.',
+        bounce: 0.45,
+        borderColor: '#E0E0E0',
+        borderWidth: 2,
+        timing: { displayDuration: 4000 },
+      })
+    } finally {
+      setSendingEmailId(null)
+    }
+  }
+
   const showStates = isLoading || error || awards.length === 0
   const showTable = !isLoading && !error && awards.length > 0
 
@@ -116,6 +159,8 @@ export const AdminAwards = () => {
               onEdit={handleOpenEdit}
               onDelete={handleOpenDelete}
               onPublishToLinkedIn={handlePublishToLinkedIn}
+              onSendAwardEmail={handleSendAwardEmail}
+              sendingEmailId={sendingEmailId}
             />
           )}
         </div>

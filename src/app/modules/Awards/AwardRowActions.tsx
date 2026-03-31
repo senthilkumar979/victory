@@ -3,6 +3,7 @@
 import { DropdownMenu } from 'radix-ui'
 import {
   LinkedinIcon,
+  MailIcon,
   MoreVerticalIcon,
   PencilIcon,
   TrashIcon,
@@ -15,6 +16,7 @@ const menuItemBase =
 
 const menuItemEdit = `${menuItemBase} text-secondary data-[highlighted]:bg-secondary/30 data-[highlighted]:text-secondary`
 const menuItemLinkedIn = `${menuItemBase} text-[#0a66c2] data-[highlighted]:bg-sky-50 data-[highlighted]:text-[#004182]`
+const menuItemEmail = `${menuItemBase} text-teal-700 data-[highlighted]:bg-teal-50 data-[highlighted]:text-teal-900`
 const menuItemDelete = `${menuItemBase} text-red-600 data-[highlighted]:bg-red-50 data-[highlighted]:text-red-700`
 
 const menuContentClass =
@@ -25,6 +27,8 @@ interface AwardRowActionsProps {
   onEdit: (award: AwardFormState) => void
   onDelete: (award: AwardFormState) => void
   onPublishToLinkedIn: (award: AwardFormState) => void
+  onSendAwardEmail: (award: AwardFormState) => void
+  sendingEmailId?: string | null
 }
 
 export const AwardRowActions = ({
@@ -32,7 +36,13 @@ export const AwardRowActions = ({
   onEdit,
   onDelete,
   onPublishToLinkedIn,
-}: AwardRowActionsProps) => (
+  onSendAwardEmail,
+  sendingEmailId,
+}: AwardRowActionsProps) => {
+  const canEmail = Boolean(award.awardedTo?.trim())
+  const isSending = sendingEmailId === award.id
+
+  return (
   <DropdownMenu.Root modal={false}>
     <DropdownMenu.Trigger
       type="button"
@@ -62,6 +72,14 @@ export const AwardRowActions = ({
           <LinkedinIcon className="size-4 shrink-0 text-[#0a66c2]" />
           Publish to LinkedIn
         </DropdownMenu.Item>
+        <DropdownMenu.Item
+          className={menuItemEmail}
+          disabled={!canEmail || isSending}
+          onSelect={() => onSendAwardEmail(award)}
+        >
+          <MailIcon className="size-4 shrink-0 text-teal-600" />
+          {isSending ? 'Sending email…' : 'Send award email'}
+        </DropdownMenu.Item>
         <DropdownMenu.Separator className="my-1 h-px bg-slate-200" />
         <DropdownMenu.Item
           className={menuItemDelete}
@@ -73,4 +91,5 @@ export const AwardRowActions = ({
       </DropdownMenu.Content>
     </DropdownMenu.Portal>
   </DropdownMenu.Root>
-)
+  )
+}
