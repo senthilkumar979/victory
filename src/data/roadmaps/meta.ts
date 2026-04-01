@@ -1,4 +1,4 @@
-import { Braces, Coffee, FileCode, Leaf, Zap } from "lucide-react"
+import { Braces, Coffee, FileCode, Leaf, Sparkles, Zap } from "lucide-react"
 import { RoadmapSlug } from "."
 
 export const ROADMAP_META: Record<
@@ -51,5 +51,14 @@ export const ROADMAP_META: Record<
     icon: Leaf,
     gradient:
       'from-emerald-500/20 via-green-500/10 to-transparent border border-emerald-500/30',
+  },
+  storytelling: {
+    id: 'storytelling',
+    description:
+      'Craft compelling narratives, engage audiences, and drive action.',
+    accent: 'text-violet-400',
+    icon: Sparkles,
+    gradient:
+      'from-violet-500/20 via-purple-500/10 to-transparent border border-violet-500/30',
   },
 }
