@@ -1,4 +1,4 @@
-import { Braces, Coffee, FileCode, Leaf, Sparkles, Zap } from "lucide-react"
+import { Braces, Coffee, FileCode, Leaf, Lightbulb, Sparkles, Zap } from "lucide-react"
 import { RoadmapSlug } from "."
 
 export const ROADMAP_META: Record<
@@ -60,5 +60,14 @@ export const ROADMAP_META: Record<
     icon: Sparkles,
     gradient:
       'from-violet-500/20 via-purple-500/10 to-transparent border border-violet-500/30',
+  },
+  'design-thinking': {
+    id: 'design-thinking',
+    description:
+      'Human-centered innovation: empathize, define, ideate, prototype, and test.',
+    accent: 'text-fuchsia-400',
+    icon: Lightbulb,
+    gradient:
+      'from-fuchsia-500/20 via-pink-500/10 to-transparent border border-fuchsia-500/30',
   },
 }

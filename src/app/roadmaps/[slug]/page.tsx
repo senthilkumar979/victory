@@ -12,6 +12,7 @@ import { JavaRoadmap } from '@/modules/Roadmaps/JavaRoadmap'
 import { JavaScriptRoadmap } from '@/modules/Roadmaps/JavaScriptRoadmap'
 import { ReactRoadmap } from '@/modules/Roadmaps/ReactRoadmap'
 import { SpringBootRoadmap } from '@/modules/Roadmaps/SpringBootRoadmap'
+import { DesignThinkingRoadmap } from '@/modules/Roadmaps/DesignThinkingRoadmap'
 import { StorytellingRoadmap } from '@/modules/Roadmaps/StorytellingRoadmap'
 import { TypeScriptRoadmap } from '@/modules/Roadmaps/TypeScriptRoadmap'
 import { PageMain } from '@/templates/PagaMain'
@@ -30,6 +31,7 @@ const ROADMAP_SVGS: Record<
   java: JavaRoadmap,
   'spring-boot': SpringBootRoadmap,
   storytelling: StorytellingRoadmap,
+  'design-thinking': DesignThinkingRoadmap,
 }
 
 export default function RoadmapSlugPage() {
