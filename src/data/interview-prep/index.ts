@@ -1,10 +1,12 @@
 import { coreJavaTrack } from './tracks/core-java'
+import { javascriptTrack } from './tracks/javascript'
 import { reactTrack } from './tracks/react'
 import { springBootTrack } from './tracks/spring-boot'
 import type { InterviewTrack } from './types'
 
 export const INTERVIEW_TRACK_SLUGS = [
   'core-java',
+  'javascript',
   'react',
   'spring-boot',
 ] as const
@@ -13,6 +15,7 @@ export type InterviewTrackSlug = (typeof INTERVIEW_TRACK_SLUGS)[number]
 
 const TRACKS: Record<InterviewTrackSlug, InterviewTrack> = {
   'core-java': coreJavaTrack,
+  javascript: javascriptTrack,
   react: reactTrack,
   'spring-boot': springBootTrack,
 }
@@ -35,6 +38,7 @@ export function listInterviewTracks(): InterviewTrack[] {
 /** Roadmap `/roadmaps/[slug]` → interview prep `/interview-prep/[slug]` (subset of topics). */
 const ROADMAP_SLUG_TO_INTERVIEW_SLUG: Record<string, InterviewTrackSlug> = {
   java: 'core-java',
+  javascript: 'javascript',
   react: 'react',
   'spring-boot': 'spring-boot',
 }
