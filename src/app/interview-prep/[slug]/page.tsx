@@ -1,13 +1,12 @@
 import { Breadcrumbs } from '@/atoms/breadcrumbs/Breadcrumbs'
 import { getInterviewTrack } from '@/data/interview-prep'
-import { InterviewPrepDeck } from '@/modules/InterviewPrep/InterviewPrepDeck'
+import { InterviewPrepSession } from '@/modules/InterviewPrep/InterviewPrepSession'
 import { interviewPrepHeroGlow } from '@/modules/InterviewPrep/interviewPrepTheme'
 import { PageMain } from '@/templates/PagaMain'
 import { ArrowLeft, BookOpen, Keyboard } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-
 interface PageProps {
   params: Promise<{ slug: string }>
 }
@@ -43,7 +42,7 @@ export default async function InterviewPrepSlugPage({ params }: PageProps) {
           <div className="absolute inset-0 opacity-40 [background-size:48px_48px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)]" />
         </div>
 
-        <div className="relative mx-auto max-w-5xl px-4 pb-16 pt-8 sm:px-6 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 lg:px-8">
           <Breadcrumbs
             items={[
               { label: 'Interview Preparation', href: '/interview-prep' },
@@ -92,7 +91,7 @@ export default async function InterviewPrepSlugPage({ params }: PageProps) {
             <h2 id="deck-heading" className="sr-only">
               Questions for {track.title}
             </h2>
-            <InterviewPrepDeck trackSlug={slug} />
+            <InterviewPrepSession trackSlug={slug} />
           </section>
 
           <div className="mt-12 flex justify-center border-t border-white/[0.06] pt-10">

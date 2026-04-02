@@ -1,5 +1,6 @@
+'use client'
+
 import { cn } from '@/lib/utils'
-import { motion } from 'framer-motion'
 import { Keyboard } from 'lucide-react'
 
 interface InterviewPrepProgressProps {
@@ -34,11 +35,17 @@ export const InterviewPrepProgress = ({
       aria-label={`Question ${index + 1} of ${total}`}
     >
       <div className="h-2 overflow-hidden rounded-full bg-zinc-800/80 ring-1 ring-white/[0.06]">
-        <motion.div
-          className={cn('h-full rounded-full', progressBarClass)}
-          initial={false}
-          animate={{ width: `${progressPct}%` }}
-          transition={{ type: 'spring', stiffness: 280, damping: 32 }}
+        <div
+          className={cn(
+            'h-full rounded-full transition-all duration-700 ease-in-out',
+            progressBarClass,
+          )}
+          style={{
+            width:
+              total === 0
+                ? '0%'
+                : `${Math.max(0, Math.min(100, progressPct))}%`,
+          }}
         />
       </div>
       <p className="text-[11px] leading-relaxed text-zinc-500">
