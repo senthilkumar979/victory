@@ -51,7 +51,7 @@ export const CodingExercisesSection = ({
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-400">
               Read the scenario, sketch your solution in the editor, reveal
               hints only when you need them, then compare against our reference
-              implementation. Exercises are ordered from beginner to expert.
+              implementation. Exercises run from beginner through mid-level.
             </p>
           </div>
           <div className="shrink-0 rounded-2xl border border-white/10 bg-black/30 px-5 py-4 text-center sm:text-left">

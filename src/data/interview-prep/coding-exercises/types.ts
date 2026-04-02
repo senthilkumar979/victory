@@ -1,4 +1,4 @@
-export type CodingDifficulty = 'beginner' | 'mid' | 'expert'
+export type CodingDifficulty = 'beginner' | 'mid'
 
 export interface CodingAnswerFile {
   /** Display path, e.g. `utils/cart.js` */
