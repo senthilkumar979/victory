@@ -11,7 +11,7 @@ Given the following profile details, write a concise, engaging self-introduction
 - Reflects their personality and inspirations, including any provided 'inspirations' and 'MentorBridge Experience (myb inspirations)' when available
 - Uses first person ("I") and flows naturally for use in networking or applications
 
-Please naturally weave in references to being process-oriented, quality-focused, and upholding industry best practices (such as Agile, SOLID, DRY), and mention a keen interest in AI and continuous learning. 
+Please naturally weave in references to being process-oriented, quality-focused, and upholding industry best practices (such as Agile, SOLID, DRY, Design Thinking), and mention a keen interest in AI and continuous learning.
 If available, include both personal inspirations and any MentorBridge Experience or inspirations (myb inspirations).
 
 Respond only with the self-introduction text, no preamble or meta-commentary.`

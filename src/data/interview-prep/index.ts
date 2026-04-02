@@ -2,6 +2,7 @@ import { coreJavaTrack } from './tracks/core-java'
 import { javascriptTrack } from './tracks/javascript'
 import { reactTrack } from './tracks/react'
 import { springBootTrack } from './tracks/spring-boot'
+import { typescriptTrack } from './tracks/typescript'
 import type { InterviewTrack } from './types'
 
 export const INTERVIEW_TRACK_SLUGS = [
@@ -9,6 +10,7 @@ export const INTERVIEW_TRACK_SLUGS = [
   'javascript',
   'react',
   'spring-boot',
+  'typescript',
 ] as const
 
 export type InterviewTrackSlug = (typeof INTERVIEW_TRACK_SLUGS)[number]
@@ -18,6 +20,7 @@ const TRACKS: Record<InterviewTrackSlug, InterviewTrack> = {
   javascript: javascriptTrack,
   react: reactTrack,
   'spring-boot': springBootTrack,
+  typescript: typescriptTrack,
 }
 
 export function getInterviewTrack(slug: string): InterviewTrack | undefined {
@@ -41,6 +44,7 @@ const ROADMAP_SLUG_TO_INTERVIEW_SLUG: Record<string, InterviewTrackSlug> = {
   javascript: 'javascript',
   react: 'react',
   'spring-boot': 'spring-boot',
+  typescript: 'typescript',
 }
 
 export function getInterviewPrepSlugForRoadmap(
