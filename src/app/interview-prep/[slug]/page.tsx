@@ -1,9 +1,12 @@
 import { Breadcrumbs } from '@/atoms/breadcrumbs/Breadcrumbs'
-import { getInterviewTrack } from '@/data/interview-prep'
-import { InterviewPrepSession } from '@/modules/InterviewPrep/InterviewPrepSession'
+import {
+  getCodingExercisesForTrack,
+  getInterviewTrack,
+} from '@/data/interview-prep'
+import { InterviewPrepTrackShell } from '@/modules/InterviewPrep/InterviewPrepTrackShell'
 import { interviewPrepHeroGlow } from '@/modules/InterviewPrep/interviewPrepTheme'
 import { PageMain } from '@/templates/PagaMain'
-import { ArrowLeft, BookOpen, Keyboard } from 'lucide-react'
+import { ArrowLeft, BookOpen, Code2, Keyboard } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -31,6 +34,8 @@ export default async function InterviewPrepSlugPage({ params }: PageProps) {
   const Icon = track.icon
   const glow = interviewPrepHeroGlow(slug)
   const count = track.questions.length
+  const codingExercises = getCodingExercisesForTrack(slug)
+  const codingCount = codingExercises.length
 
   return (
     <PageMain>
@@ -75,9 +80,15 @@ export default async function InterviewPrepSlugPage({ params }: PageProps) {
                     <BookOpen className="size-4 text-primary" aria-hidden />
                     {count} curated questions
                   </span>
-                  <span className="inline-flex gap-2 items-center rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-secondary/80">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-secondary/80">
+                    <Code2 className="size-4 text-primary" aria-hidden />
+                    {codingCount > 0
+                      ? `${codingCount} coding exercise${codingCount === 1 ? '' : 's'}`
+                      : 'Coding exercises (more topics soon)'}
+                  </span>
+                  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-secondary/80">
                     <Keyboard className="size-4 text-primary" aria-hidden />
-                    Swipe cards or use keyboard
+                    Questions tab: swipe cards or keyboard
                   </span>
                 </div>
               </div>
@@ -89,9 +100,15 @@ export default async function InterviewPrepSlugPage({ params }: PageProps) {
             aria-labelledby="deck-heading"
           >
             <h2 id="deck-heading" className="sr-only">
-              Questions for {track.title}
+              Practice for {track.title}
             </h2>
-            <InterviewPrepSession trackSlug={slug} />
+            <div className="p-4 sm:p-6 lg:p-8">
+              <InterviewPrepTrackShell
+                trackSlug={slug}
+                trackTitle={track.title}
+                codingExercises={codingExercises}
+              />
+            </div>
           </section>
 
           <div className="mt-12 flex justify-center border-t border-white/[0.06] pt-10">

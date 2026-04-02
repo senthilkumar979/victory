@@ -54,3 +54,9 @@ export function getInterviewPrepSlugForRoadmap(
 }
 
 export type { InterviewQuestion, InterviewTrack } from './types'
+export {
+  getCodingExercisesForTrack,
+  type CodingAnswerFile,
+  type CodingDifficulty,
+  type CodingExercise,
+} from './coding-exercises'
