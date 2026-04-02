@@ -7,6 +7,7 @@ import {
   Images,
   Layers,
   Map,
+  NotebookPen,
   Shield,
   User,
   UserPen,
