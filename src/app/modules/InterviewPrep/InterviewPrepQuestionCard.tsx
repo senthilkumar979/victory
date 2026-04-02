@@ -109,7 +109,7 @@ export const InterviewPrepQuestionCard = ({
             >
               <span className="flex items-center gap-2">
                 <Sparkles className="size-4 text-primary opacity-90" aria-hidden />
-                {isAnswerVisible ? 'Hide model answer' : 'Reveal model answer'}
+                {isAnswerVisible ? 'Hide  answer' : 'Reveal  answer'}
               </span>
               {isAnswerVisible ? (
                 <ChevronUp className="size-4 text-zinc-500" />
