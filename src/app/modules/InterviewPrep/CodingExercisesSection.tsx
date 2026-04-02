@@ -19,8 +19,8 @@ export const CodingExercisesSection = ({
         <div className="mx-auto flex size-16 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04]">
           <Code2 className="size-8 text-zinc-500" aria-hidden />
         </div>
-        <h3 className="mt-6 font-bungee-tint text-xl font-bold text-white sm:text-2xl">
-          Coding exercises coming soon
+        <h3 className="mt-6 uppercase tracking-wider text-xl font-bold text-white sm:text-2xl">
+          Exercises coming soon
         </h3>
         <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-zinc-400">
           Scenario-based coding labs for{' '}
