@@ -32,4 +32,17 @@ export function listInterviewTracks(): InterviewTrack[] {
   return INTERVIEW_TRACK_SLUGS.map((s) => TRACKS[s])
 }
 
+/** Roadmap `/roadmaps/[slug]` → interview prep `/interview-prep/[slug]` (subset of topics). */
+const ROADMAP_SLUG_TO_INTERVIEW_SLUG: Record<string, InterviewTrackSlug> = {
+  java: 'core-java',
+  react: 'react',
+  'spring-boot': 'spring-boot',
+}
+
+export function getInterviewPrepSlugForRoadmap(
+  roadmapSlug: string,
+): InterviewTrackSlug | undefined {
+  return ROADMAP_SLUG_TO_INTERVIEW_SLUG[roadmapSlug]
+}
+
 export type { InterviewQuestion, InterviewTrack } from './types'

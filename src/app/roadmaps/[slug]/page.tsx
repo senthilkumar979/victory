@@ -7,6 +7,7 @@ import {
   RoadmapDetailsProps,
   RoadmapNodeMeta,
 } from '@/data/roadmaps'
+import { getInterviewPrepSlugForRoadmap } from '@/data/interview-prep'
 import { useRoadmapProgress } from '@/hooks/useRoadmapProgress'
 import { JavaRoadmap } from '@/modules/Roadmaps/JavaRoadmap'
 import { JavaScriptRoadmap } from '@/modules/Roadmaps/JavaScriptRoadmap'
@@ -16,6 +17,7 @@ import { DesignThinkingRoadmap } from '@/modules/Roadmaps/DesignThinkingRoadmap'
 import { StorytellingRoadmap } from '@/modules/Roadmaps/StorytellingRoadmap'
 import { TypeScriptRoadmap } from '@/modules/Roadmaps/TypeScriptRoadmap'
 import { PageMain } from '@/templates/PagaMain'
+import { MessagesSquare } from 'lucide-react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import type { ComponentType } from 'react'
@@ -40,6 +42,7 @@ export default function RoadmapSlugPage() {
 
   const roadmapDetails = getRoadmap(slug)
   const RoadmapSvg = slug ? ROADMAP_SVGS[slug] : undefined
+  const interviewPrepSlug = slug ? getInterviewPrepSlugForRoadmap(slug) : undefined
 
   const [selectedNode, setSelectedNode] = useState<RoadmapNodeMeta | null>(null)
   const {
@@ -117,6 +120,18 @@ export default function RoadmapSlugPage() {
         <p className="text-sm text-slate-500 text-center">
           {roadmapDetails?.description}
         </p>
+        {interviewPrepSlug && (
+          <div className="mx-auto mt-5 flex max-w-xl justify-center px-2">
+            <Link
+              href={`/interview-prep/${interviewPrepSlug}`}
+              className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-colors hover:border-primary/50 hover:bg-primary/15"
+            >
+              <MessagesSquare className="size-4 shrink-0" aria-hidden />
+              Interview prep for this track
+              <span className="text-primary/80">→</span>
+            </Link>
+          </div>
+        )}
         {error && (
           <div
             role="alert"

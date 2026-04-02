@@ -4,7 +4,7 @@ import { ROADMAPS, ROADMAP_META, ROADMAP_SLUGS } from '@/data/roadmaps'
 import { PageMain } from '@/templates/PagaMain'
 import { PageHeader } from '@/templates/PageHeader'
 import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, MessagesSquare } from 'lucide-react'
 import Link from 'next/link'
 
 const container = {
@@ -30,6 +30,37 @@ export default function RoadmapPage() {
           description="Structured, step-by-step guides to master modern web development technologies."
           subtitle="Learning Paths"
         />
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: 'easeOut' }}
+          className="mb-10"
+        >
+          <Link href="/interview-prep" className="group block">
+            <article className="relative overflow-hidden rounded-2xl border border-primary/25 p-6 shadow-lg transition-shadow hover:border-primary/40 hover:shadow-xl sm:p-8">
+              <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex gap-4">
+                  <span className="flex size-14 shrink-0 items-center justify-center rounded-xl border border-primary/30 bg-primary/10 text-primary">
+                    <MessagesSquare className="size-7" aria-hidden />
+                  </span>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-primary/90">
+                      Interview preparation
+                    </p>
+                    <h2 className="mt-1 text-xl font-bold text-slate-700 sm:text-2xl">
+                      Practice interview questions by topic
+                    </h2>
+                  </div>
+                </div>
+                <span className="inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-primary/30 bg-primary/10 px-4 py-2.5 text-sm font-semibold text-primary transition-transform group-hover:gap-3 sm:self-center">
+                  Open interview prep
+                  <ArrowRight className="size-4" />
+                </span>
+              </div>
+            </article>
+          </Link>
+        </motion.div>
 
         {/* Bento grid */}
         <motion.div
@@ -99,17 +130,46 @@ export default function RoadmapPage() {
           <div className="col-span-full flex justify-center mt-4">
             <div className="relative w-full max-w-md rounded-2xl border border-dashed border-muted bg-secondary p-4 shadow-lg mx-auto flex items-center gap-4 flex-col sm:flex-row">
               <div className="flex flex-col items-center justify-center flex-shrink-0">
-                <svg width="48" height="48" viewBox="0 0 48 48" className="mb-2 text-muted-foreground" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="3" y="10" width="42" height="28" rx="6" fill="#F5F5F5"/>
-                  <rect x="10" y="17" width="28" height="14" rx="4" fill="#E2E8F0"/>
-                  <path d="M15 26h18M15 22h18" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" />
-                  <circle cx="24" cy="34" r="2" fill="#94A3B8"/>
+                <svg
+                  width="48"
+                  height="48"
+                  viewBox="0 0 48 48"
+                  className="mb-2 text-muted-foreground"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    x="3"
+                    y="10"
+                    width="42"
+                    height="28"
+                    rx="6"
+                    fill="#F5F5F5"
+                  />
+                  <rect
+                    x="10"
+                    y="17"
+                    width="28"
+                    height="14"
+                    rx="4"
+                    fill="#E2E8F0"
+                  />
+                  <path
+                    d="M15 26h18M15 22h18"
+                    stroke="#94A3B8"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <circle cx="24" cy="34" r="2" fill="#94A3B8" />
                 </svg>
               </div>
               <div className="text-center sm:text-left">
-                <h3 className="text-lg font-semibold text-foreground mb-1">More roadmaps coming soon</h3>
+                <h3 className="text-lg font-semibold text-foreground mb-1">
+                  More roadmaps coming soon
+                </h3>
                 <p className="text-muted-foreground text-sm">
-                  We are working hard to bring you new roadmaps! Stay tuned for updates.
+                  We are working hard to bring you new roadmaps! Stay tuned for
+                  updates.
                 </p>
               </div>
             </div>
