@@ -11,7 +11,9 @@ import { SentryUserContext } from '@/components/analytics/SentryUserContext'
 import { ClarityComponent } from '../Clarity'
 import { AppProvider } from './contexts/AppContext'
 import './globals.css'
+import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd'
 import { VisitorChatWidget } from '@/components/visitor-chat/VisitorChatWidget'
+import { SITE_URL } from '@/lib/siteUrl'
 import { Footer } from './modules/Footer/Footer'
 import { LoaderProvider } from './modules/Loader/Loader'
 
@@ -41,31 +43,51 @@ const urbanist = Urbanist({
   preload: false,
 })
 
+const defaultDescription =
+  'MentorBridge is a Not-For-Profit community helping rural students prepare for the IT industry through hands-on training, mentorship, and real-world project experience since 2019.'
+
+const socialImageUrl =
+  'https://91qunajyvl11yxyb.public.blob.vercel-storage.com/favicon.ico'
+
 export const metadata: Metadata = {
-  title: 'MentorBridge - Bridging the Gap Between Learning and Industry',
-  description:
-    'MentorBridge is a Not-For-Profit community helping rural students prepare for the IT industry through hands-on training, mentorship, and real-world project experience.',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: 'MentorBridge - Bridging the Gap Between Learning and Industry',
+    template: '%s | MentorBridge',
+  },
+  description: defaultDescription,
   keywords:
     'mentorship, rural students, IT training, software development, career guidance, SSMIET',
   authors: [{ name: 'MentorBridge Team' }],
   creator: 'MentorBridge Team',
   publisher: 'MentorBridge',
-  robots: 'index, follow',
+  robots: { index: true, follow: true },
   icons: {
-    icon: 'https://91qunajyvl11yxyb.public.blob.vercel-storage.com/favicon.ico',
+    icon: socialImageUrl,
+    apple: socialImageUrl,
   },
   openGraph: {
-    title: 'MentorBridge',
-    description: 'Bridging the Gap Between Learning and Industry',
+    title: 'MentorBridge - Bridging the Gap Between Learning and Industry',
+    description: defaultDescription,
     type: 'website',
     locale: 'en_US',
     siteName: 'MentorBridge',
+    url: SITE_URL,
+    images: [
+      {
+        url: socialImageUrl,
+        width: 512,
+        height: 512,
+        alt: 'MentorBridge',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
+    site: '@mentorbridgein',
     title: 'MentorBridge - Bridging the Gap Between Learning and Industry',
-    description:
-      'MentorBridge is a Not-For-Profit community helping rural students prepare for the IT industry through hands-on training, mentorship, and real-world project experience.',
+    description: defaultDescription,
+    images: [socialImageUrl],
   },
 }
 
@@ -85,6 +107,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${bungeeTint.variable} ${urbanist.variable}`}
       >
         <body className="antialiased">
+          <OrganizationJsonLd />
           <LoaderProvider>
             <AppProvider>
               <PosthogRoot>

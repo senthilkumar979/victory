@@ -1,6 +1,8 @@
 import dynamic from 'next/dynamic'
+import type { Metadata } from 'next'
 
 import { LogSnagPageView } from '@/components/analytics/LogSnagPageView'
+import { SITE_URL } from '@/lib/siteUrl'
 import { PosthogCaptureOnce } from '@/components/analytics/PosthogCaptureOnce'
 
 import { Hero } from './modules/Homepage/Hero/Hero'
@@ -21,6 +23,10 @@ const JobPlacements = dynamic(() =>
 const ContactUs = dynamic(() =>
   import('./modules/Homepage/ContactUs/ContactUs').then((m) => m.ContactUs),
 )
+
+export const metadata: Metadata = {
+  alternates: { canonical: SITE_URL },
+}
 
 export default function Home() {
   return (
