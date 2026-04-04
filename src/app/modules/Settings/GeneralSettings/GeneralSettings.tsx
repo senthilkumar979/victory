@@ -11,6 +11,7 @@ import { AdminMeetings } from '../../Meetings/AdminMeetings'
 import { Partners } from '../../Partners/Partners'
 import { Students } from '../../Students/Students'
 import { SettingsNavItem } from '../SettingsNav/SettingNav.types'
+import { VisitorQueries } from './VisitorQueries'
 
 export const GeneralSettings = () => {
   const navItems: SettingsNavItem[] = [
@@ -58,6 +59,11 @@ export const GeneralSettings = () => {
       value: 'presenters',
       label: 'Presenters',
       content: <Presenters />,
+    },
+    {
+      value: 'visitor-queries',
+      label: 'Visitor Queries',
+      content: <VisitorQueries />,
     },
   ]
 
