@@ -1,3 +1,7 @@
+/** MentorBridge wordmark; matches {@link FooterLogo} asset */
+export const MENTORBRIDGE_LONG_LOGO_URL =
+  'https://91qunajyvl11yxyb.public.blob.vercel-storage.com/long-logo' as const
+
 export const COMPANY_LOGOS = [
   {
     name: 'Covai HelloTruck Pvt Ltd',

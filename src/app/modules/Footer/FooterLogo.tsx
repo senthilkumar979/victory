@@ -1,5 +1,8 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+
+import { MENTORBRIDGE_LONG_LOGO_URL } from '@/constants/CompanyConstants'
+
 export const FooterLogo = () => {
   return (
     <motion.div
@@ -10,7 +13,7 @@ export const FooterLogo = () => {
       className="flex flex-col items-center justify-center"
     >
       <Image
-        src="https://91qunajyvl11yxyb.public.blob.vercel-storage.com/long-logo"
+        src={MENTORBRIDGE_LONG_LOGO_URL}
         alt="MentorBridge"
         width={500}
         height={100}

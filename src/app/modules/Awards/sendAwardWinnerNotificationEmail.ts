@@ -1,17 +1,3 @@
-import { RESEND_TEMPLATE_IDS } from '@/constants/ThirdPartyConstants'
-
-const CC_EMAIL = 'mentorbridge-2026-offline@googlegroups.com'
-
-const SUBJECT = 'Congratulations on your Award!'
-
-export type SendWithTemplateFn = (payload: {
-  to: string | string[]
-  templateId: string
-  subject?: string
-  variables?: Record<string, unknown>
-  cc?: string | string[]
-}) => Promise<void>
-
 export interface AwardWinnerEmailParams {
   recipientEmail: string
   /** Display name for template; falls back to email local-part if empty */
@@ -19,39 +5,30 @@ export interface AwardWinnerEmailParams {
   awardCategoryName: string
 }
 
-function resolveDisplayName(
-  email: string,
-  explicitName?: string,
-): string {
-  const n = explicitName?.trim()
-  if (n) return n
-  const local = email.split('@')[0]?.trim()
-  return local || email
-}
-
 /**
- * Sends the Resend award-winner template (same payload as {@link AwardFormDrawer} on create).
+ * Sends the Resend award-winner template with a PDF certificate attachment
+ * ({@link AwardCertificatePdf}) via `POST /api/email/send-award-winner`.
  */
 export async function sendAwardWinnerNotificationEmail(
-  sendEmail: SendWithTemplateFn,
   params: AwardWinnerEmailParams,
 ): Promise<void> {
-  const templateId = RESEND_TEMPLATE_IDS.AWARD_WINNER?.trim()
-  if (!templateId) return
-
-  const awardWinner = resolveDisplayName(
-    params.recipientEmail,
-    params.awardWinnerDisplayName,
-  )
-
-  await sendEmail({
-    to: params.recipientEmail.trim(),
-    cc: CC_EMAIL,
-    templateId,
-    // subject: SUBJECT,
-    variables: {
-      award_winner: awardWinner,
-      award_name: params.awardCategoryName,
-    },
+  const response = await fetch('/api/email/send-award-winner', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      recipientEmail: params.recipientEmail.trim(),
+      awardWinnerDisplayName: params.awardWinnerDisplayName,
+      awardCategoryName: params.awardCategoryName,
+    }),
   })
+
+  const body = (await response.json()) as { error?: string }
+
+  if (!response.ok) {
+    const message =
+      typeof body?.error === 'string'
+        ? body.error
+        : 'Failed to send award notification email'
+    throw new Error(message)
+  }
 }

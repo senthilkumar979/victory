@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form'
 
 import { useAwardCategories } from '@/hooks/useAwardCategories'
 import { useAwards } from '@/hooks/useAwards'
-import { useSendEmailWithTemplate } from '@/hooks/useSendEmailWithTemplate'
 import { Drawer } from '@/ui/organisms/drawer/Drawer'
 import { Check, XIcon } from 'lucide-react'
 
@@ -35,7 +34,6 @@ export const AwardFormDrawer = ({
   onSuccess,
 }: AwardFormDrawerProps) => {
   const { createAward, updateAward } = useAwards()
-  const { sendEmail } = useSendEmailWithTemplate()
   const { categories } = useAwardCategories()
   const form = useForm<AwardFormValues>({
     resolver: zodResolver(awardFormSchema),
@@ -65,7 +63,7 @@ export const AwardFormDrawer = ({
         const categoryName =
           categories.find((c) => c.id === payload.awardCategoryId)?.name ?? ''
         try {
-          await sendAwardWinnerNotificationEmail(sendEmail, {
+          await sendAwardWinnerNotificationEmail({
             recipientEmail: payload.awardedTo,
             awardWinnerDisplayName: data.awardedToName ?? '',
             awardCategoryName: categoryName,

@@ -7,8 +7,6 @@ import { gooeyToast } from 'goey-toast'
 import { AwardLinkedInPublishDrawer } from '@/components/linkedin'
 import { useAwardCategories } from '@/hooks/useAwardCategories'
 import { useAwards } from '@/hooks/useAwards'
-import { useSendEmailWithTemplate } from '@/hooks/useSendEmailWithTemplate'
-
 import type { AwardFormState } from './Award.types'
 import { AwardsHeader } from './AwardsHeader'
 import { AwardsListStates } from './AwardsListStates'
@@ -20,7 +18,6 @@ import { sendAwardWinnerNotificationEmail } from './sendAwardWinnerNotificationE
 export const AdminAwards = () => {
   const { awards, isLoading, error, refetch } = useAwards()
   const { categories } = useAwardCategories()
-  const { sendEmail } = useSendEmailWithTemplate()
   const [isFormDrawerOpen, setIsFormDrawerOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [formState, setFormState] = useState<AwardFormState | undefined>(
@@ -109,7 +106,7 @@ export const AdminAwards = () => {
         award.student?.name?.trim() ||
         award.awardedTo.split('@')[0] ||
         award.awardedTo
-      await sendAwardWinnerNotificationEmail(sendEmail, {
+      await sendAwardWinnerNotificationEmail({
         recipientEmail: award.awardedTo.trim(),
         awardWinnerDisplayName: displayName,
         awardCategoryName: categoryName,
