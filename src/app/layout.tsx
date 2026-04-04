@@ -11,6 +11,7 @@ import { SentryUserContext } from '@/components/analytics/SentryUserContext'
 import { ClarityComponent } from '../Clarity'
 import { AppProvider } from './contexts/AppContext'
 import './globals.css'
+import { VisitorChatWidget } from '@/components/visitor-chat/VisitorChatWidget'
 import { Footer } from './modules/Footer/Footer'
 import { LoaderProvider } from './modules/Loader/Loader'
 
@@ -91,6 +92,7 @@ export default function RootLayout({
                 <Navbar />
                 {children}
                 <Footer />
+                <VisitorChatWidget />
                 <ClarityComponent />
                 <Script
                   src="https://t.contentsquare.net/uxa/5027a5ad08b17.js"

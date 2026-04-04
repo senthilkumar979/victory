@@ -21,11 +21,26 @@ const LoaderContext = createContext<LoaderContextValue | undefined>(undefined)
 
 const STATIC_ASSET_REGEX = /\.(png|jpe?g|gif|svg|ico|css|js|woff2?|ttf|eot)(\?.*)?$/i
 
+/** Fetch targets that should not trigger the full-page overlay (inline UI handles loading). */
+function isExcludedFromGlobalLoader(url: string): boolean {
+  try {
+    const raw =
+      url.startsWith('http://') || url.startsWith('https://')
+        ? new URL(url).pathname
+        : url.split('?')[0]?.split('#')[0] ?? ''
+    const path = raw.replace(/\/$/, '') || '/'
+    return path === '/api/visitor-chat'
+  } catch {
+    return false
+  }
+}
+
 function shouldShowLoaderForUrl(url: string): boolean {
   try {
     const parsed = typeof url === 'string' ? url : ''
     if (!parsed) return false
     if (STATIC_ASSET_REGEX.test(parsed)) return false
+    if (isExcludedFromGlobalLoader(parsed)) return false
     if (parsed.startsWith('/api/')) return true
     if (parsed.includes('supabase')) return true
     if (parsed.startsWith('/') && !parsed.startsWith('//')) return true

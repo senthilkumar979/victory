@@ -28,3 +28,7 @@ export const COMPANY_LOGOS = [
     logo: 'https://klyonix.com/assets/klyonix/frontend/assets/logo-C2Ly_RjO.png',
   },
 ] as const
+
+export const COMPANY_LOGOS_SORTED_LONGEST_FIRST = [...COMPANY_LOGOS].sort(
+  (a, b) => b.name.length - a.name.length,
+)
