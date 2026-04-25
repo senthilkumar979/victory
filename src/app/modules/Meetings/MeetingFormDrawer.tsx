@@ -43,11 +43,12 @@ export const MeetingFormDrawer = ({
     resolver: zodResolver(meetingFormSchema),
     defaultValues: toFormValues(null),
   })
+  const { reset } = form
 
   useEffect(() => {
     if (!isOpen) return
-    form.reset(toFormValues(meetingToEdit ?? null))
-  }, [isOpen, meetingToEdit, form])
+    reset(toFormValues(meetingToEdit ?? null))
+  }, [isOpen, meetingToEdit?.id, reset])
 
   const isEditing = useMemo(() => Boolean(meetingToEdit?.id), [
     meetingToEdit?.id,
