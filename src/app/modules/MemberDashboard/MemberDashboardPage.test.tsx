@@ -43,6 +43,30 @@ vi.mock('@/hooks/useMemberDashboardStudent', () => ({
   useMemberDashboardStudent: useMemberDashboardStudentMock,
 }))
 
+vi.mock('@/app/modules/MemberDashboard/MemberDashboardAnnouncementsSection', () => ({
+  MemberDashboardAnnouncementsSection: () => null,
+}))
+
+vi.mock('@/app/modules/MemberDashboard/MemberDashboardHeader', () => ({
+  MemberDashboardHeader: () => null,
+}))
+
+vi.mock('@/app/modules/MemberDashboard/MemberDashboardParticipationsSection', () => ({
+  MemberDashboardParticipationsSection: () => null,
+}))
+
+vi.mock('@/app/modules/MemberDashboard/MemberDashboardProfileChecklist', () => ({
+  MemberDashboardProfileChecklist: () => null,
+}))
+
+vi.mock('@/app/modules/MemberDashboard/MemberDashboardQuickLinks', () => ({
+  MemberDashboardQuickLinks: () => null,
+}))
+
+vi.mock('@/app/modules/MemberDashboard/MemberDashboardWeekSection', () => ({
+  MemberDashboardWeekSection: () => null,
+}))
+
 function makeProfile(overrides: Partial<ProfileData> = {}): ProfileData {
   return {
     id: 'student-1',
