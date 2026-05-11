@@ -1,5 +1,5 @@
 import type { AlertColor } from "@/core/theme/theme";
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Alert } from "./Alert";
 
 const meta: Meta<typeof Alert> = {

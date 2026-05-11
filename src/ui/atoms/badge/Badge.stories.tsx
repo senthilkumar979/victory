@@ -1,5 +1,5 @@
 import type { BadgeColor, BadgeVariant } from "@/core/theme/theme";
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Badge } from "./Badge";
 
 /**
