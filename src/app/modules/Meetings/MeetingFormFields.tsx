@@ -1,18 +1,16 @@
 'use client'
 
 import { useEffect } from 'react'
-import {
-  Controller,
-  useWatch,
-  type UseFormReturn,
-} from 'react-hook-form'
+import { Controller, useWatch, type UseFormReturn } from 'react-hook-form'
 
 import { FormLabel } from '@/atoms/form-label/FormLabel'
 import { useGoogleGroups } from '@/hooks/useGoogleGroups'
-import { CalendarInput } from '@/molecules/calendar'
 import { FormInput } from '@/molecules/form-input/FormInput'
 import { joinClassNames } from '@/utils/tailwindUtils'
 
+import { MeetingFormCalendarSection } from './MeetingFormCalendarSection'
+import { MeetingFormGoogleGroupSection } from './MeetingFormGoogleGroupSection'
+import { MeetingFormLinksSection } from './MeetingFormLinksSection'
 import type { MeetingFormValues } from './meetingFormSchema'
 
 interface MeetingFormFieldsProps {
@@ -20,16 +18,13 @@ interface MeetingFormFieldsProps {
   form: UseFormReturn<MeetingFormValues>
 }
 
-const selectBase =
-  'block w-full rounded-md border px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0.25'
-
 export const MeetingFormFields = ({
   formId,
   form,
 }: MeetingFormFieldsProps) => {
-  const { register, control, formState, setValue } = form
+  const { control, formState, setValue } = form
   const { errors } = formState
-  const { groups, isLoading, error } = useGoogleGroups()
+  const { groups, isLoading, error: directoryLoadError } = useGoogleGroups()
   const googleGroupIdWatch = useWatch({ control, name: 'googleGroupId' })
 
   /** DB may store google_groups.id while the select uses group.email as value */
@@ -53,92 +48,42 @@ export const MeetingFormFields = ({
 
   return (
     <div className="space-y-4">
-      <FormInput
-        id={`${formId}-title`}
-        label="Title"
-        type="text"
-        isDarkMode
-        isRequired
-        placeholder="e.g. Weekly sync"
-        autoFocus
-        errorMessage={errors.title?.message}
-        validationStatus={errors.title ? 'invalid' : 'default'}
-        {...register('title')}
-      />
       <Controller
-        name="date"
+        name="title"
         control={control}
         render={({ field }) => (
-          <div>
-            <CalendarInput
-              id={`${formId}-date`}
-              label={"Date (Indian Standard Time, 24h)"}
-              value={field.value}
-              onChange={field.onChange}
-              isDarkMode
-              placeholder="Select date and time (IST)"
-            />
-            {errors.date && (
-              <p className="mt-1 text-xs text-red-400">{errors.date.message}</p>
-            )}
-          </div>
+          <FormInput
+            id={`${formId}-title`}
+            label="Title"
+            type="text"
+            isDarkMode
+            isRequired
+            placeholder="e.g. Weekly sync"
+            autoFocus
+            errorMessage={errors.title?.message}
+            validationStatus={errors.title ? 'invalid' : 'default'}
+            name={field.name}
+            value={field.value}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+          />
         )}
       />
-      <div>
-        <FormLabel
-          htmlFor={`${formId}-googleGroupId`}
-          isDarkMode
-          isRequired
-          className="mb-1.5 block"
-        >
-          Google Group
-        </FormLabel>
-        <Controller
-          name="googleGroupId"
-          control={control}
-          render={({ field }) => (
-            <select
-              id={`${formId}-googleGroupId`}
-              disabled={isLoading}
-              className={joinClassNames(
-                selectBase,
-                'border-slate-600 bg-slate-800 text-slate-100 disabled:cursor-not-allowed disabled:opacity-60',
-                errors.googleGroupId && 'border-red-500',
-              )}
-              aria-invalid={Boolean(errors.googleGroupId || error)}
-              aria-describedby={
-                errors.googleGroupId || error
-                  ? `${formId}-googleGroupId-error`
-                  : undefined
-              }
-              value={field.value}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-              ref={field.ref}
-            >
-              <option value="">Select a group</option>
-              {showOrphanGroupOption && googleGroupIdWatch ? (
-                <option value={googleGroupIdWatch}>
-                  {googleGroupIdWatch} (not in directory)
-                </option>
-              ) : null}
-              {groups.map((group) => (
-                <option key={group.id ?? group.email} value={group.email}>
-                  {group.name} | ({group.email})
-                </option>
-              ))}
-            </select>
-          )}
-        />
-        {(errors.googleGroupId || error) && (
-          <p
-            id={`${formId}-googleGroupId-error`}
-            className="mt-1 text-xs text-red-400"
-          >
-            {errors.googleGroupId?.message ?? error}
-          </p>
-        )}
-      </div>
+      <MeetingFormCalendarSection
+        formId={formId}
+        control={control}
+        errors={errors}
+      />
+      <MeetingFormGoogleGroupSection
+        formId={formId}
+        control={control}
+        errors={errors}
+        groups={groups}
+        isLoading={isLoading}
+        directoryLoadError={directoryLoadError}
+        googleGroupIdWatch={googleGroupIdWatch}
+        showOrphanGroupOption={showOrphanGroupOption}
+      />
       <div>
         <FormLabel
           htmlFor={`${formId}-description`}
@@ -149,41 +94,36 @@ export const MeetingFormFields = ({
           Description
         </FormLabel>
         <div className="pl-1">
-        <textarea
-          id={`${formId}-description`}
-          placeholder="Meeting agenda and notes..."
-          className={joinClassNames(
-            'w-full h-40 resize-none p-3 rounded-md mt-2 border',
-            'border-slate-600 bg-slate-800 text-slate-100 placeholder:text-slate-500',
-            'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-offset-0.25',
-            errors.description && 'border-red-500',
-          )}
-          aria-invalid={Boolean(errors.description)}
-          {...register('description')}
+          <Controller
+            name="description"
+            control={control}
+            render={({ field }) => (
+              <textarea
+                id={`${formId}-description`}
+                placeholder="Meeting agenda and notes..."
+                className={joinClassNames(
+                  'mt-2 h-40 w-full resize-none rounded-md border p-3',
+                  'border-slate-600 bg-slate-800 text-slate-100 placeholder:text-slate-500',
+                  'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-offset-0.25',
+                  errors.description && 'border-red-500',
+                )}
+                aria-invalid={Boolean(errors.description)}
+                name={field.name}
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                ref={field.ref}
+              />
+            )}
           />
-          </div>
+        </div>
         {errors.description && (
           <p className="mt-1 text-xs text-red-400">
             {errors.description.message}
           </p>
         )}
       </div>
-      <FormInput
-        id={`${formId}-meetingLink`}
-        label="Meeting link"
-        type="url"
-        isDarkMode
-        placeholder="https://meet.google.com/..."
-        {...register('meetingLink')}
-      />
-      <FormInput
-        id={`${formId}-coverImageUrl`}
-        label="Cover image URL"
-        type="url"
-        isDarkMode
-        placeholder="https://..."
-        {...register('coverImageUrl')}
-      />
+      <MeetingFormLinksSection formId={formId} control={control} />
     </div>
   )
 }

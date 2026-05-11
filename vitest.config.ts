@@ -1,7 +1,9 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vitest/config';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 
@@ -30,6 +32,15 @@ export default defineConfig({
             instances: [{ browser: 'chromium' }],
           },
           setupFiles: ['.storybook/vitest.setup.ts'],
+        },
+      },
+      {
+        plugins: [tsconfigPaths(), react()],
+        test: {
+          name: 'app',
+          environment: 'jsdom',
+          include: ['src/**/*.test.{ts,tsx}'],
+          setupFiles: ['vitest.app.setup.ts'],
         },
       },
     ],
