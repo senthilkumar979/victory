@@ -12,6 +12,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "test": "vitest run --project app",
+    "test:all": "vitest run",
+    "test:watch": "vitest",
     "lint": "eslint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
