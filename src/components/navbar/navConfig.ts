@@ -5,12 +5,13 @@ import {
   CalendarDays,
   Home,
   Images,
+  LayoutDashboard,
   Layers,
   Map,
   Shield,
   User,
   UserPen,
-  Users
+  Users,
 } from 'lucide-react'
 
 export interface NavLinkItem {
@@ -44,6 +45,12 @@ export const NAV_MAIN: NavMainItem[] = [
 ]
 
 export const NAV_USER: NavUserItem[] = [
+  {
+    href: '/secured/dashboard',
+    label: 'Dashboard',
+    icon: LayoutDashboard,
+    checkAccess: true,
+  },
   { href: '/secured/profile', label: 'Profile', icon: User, checkAccess: true },
   {
     href: '/secured/admin',

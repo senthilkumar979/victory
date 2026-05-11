@@ -2,6 +2,7 @@ export interface AnnouncementFormState {
   id?: string
   title: string
   description: string
+  created_at?: string
 }
 
 export interface AnnouncementFormDrawerProps {

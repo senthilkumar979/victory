@@ -19,9 +19,14 @@ const getTodayKey = (): string => {
 
 interface CurrentWeekCardProps {
   onMeetingClick?: (meeting: MeetingFormState) => void
+  /** When false, the week view stays on the user-selected day (no auto-advance). Default true. */
+  enableAutoRotate?: boolean
 }
 
-export const CurrentWeekCard = ({ onMeetingClick }: CurrentWeekCardProps) => {
+export const CurrentWeekCard = ({
+  onMeetingClick,
+  enableAutoRotate = true,
+}: CurrentWeekCardProps) => {
   const { weekDays, meetingsByDay, isLoading, error } = useMeetingsForWeek()
   const todayKey = getTodayKey()
   const initialIndex = weekDays.findIndex((d) => d.key === todayKey)
@@ -45,11 +50,12 @@ export const CurrentWeekCard = ({ onMeetingClick }: CurrentWeekCardProps) => {
   }, [weekDays, todayKey])
 
   useEffect(() => {
+    if (!enableAutoRotate) return
     const id = setInterval(() => {
       setSelectedIndex((i) => (i + 1) % 7)
     }, AUTO_ROTATE_INTERVAL_MS)
     return () => clearInterval(id)
-  }, [])
+  }, [enableAutoRotate])
 
   const handleEventClick = (meeting: MeetingFormState) => {
     setSelectedMeeting(meeting)
