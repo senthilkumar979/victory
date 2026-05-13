@@ -116,8 +116,11 @@ export const ProfileHero = ({ student }: ProfileHeroProps) => {
             )}
           </div>
           <div className="flex items-center flex-col gap-5 md:flex-row justify-center md:justify-between flex-wrap">
+            <div className=" md:hidden text-xl font-bold letter-spacing-wide text-primary uppercase">
+              {name}
+            </div>
             <FancyText
-              className="text-3xl md:text-4xl lg:text-5xl font-black leading-none text-black/10 dark:text-primary/10 letter-spacing-wide uppercase"
+              className="hidden md:block text-3xl md:text-4xl lg:text-5xl font-black leading-none text-black/10 dark:text-primary/10 letter-spacing-wide uppercase"
               fillClassName="text-primary dark:text-primary"
               stagger={0.06}
               duration={1.2}

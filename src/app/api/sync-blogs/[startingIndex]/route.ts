@@ -32,8 +32,34 @@ function parseStartingIndex(param: string | undefined): number | null {
   return n;
 }
 
+/**
+ * Internal `/api/*` calls must target the same origin as the incoming request.
+ * Otherwise local `http://localhost:3001/api/sync-blogs/*` would POST to
+ * `NEXT_PUBLIC_APP_URL` or the production default and receive HTML (DOCTYPE),
+ * which breaks `response.json()`.
+ */
+function getInternalApiBaseUrl(request: NextRequest): string {
+  const host = request.headers.get("host");
+  if (host) {
+    const forwardedProto = request.headers.get("x-forwarded-proto");
+    const isLocal =
+      host.startsWith("localhost") ||
+      host.startsWith("127.0.0.1") ||
+      host.startsWith("[::1]");
+    const protocol =
+      forwardedProto ?? (isLocal ? "http" : "https");
+    return `${protocol}://${host}`;
+  }
+
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+
+  return process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+}
+
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ startingIndex: string }> }
 ): Promise<NextResponse<SyncBlogsResponse>> {
   try {
@@ -112,11 +138,7 @@ export async function GET(
 
     console.log("usernames", usernames);
 
-    const baseUrl =
-      process.env.VERCEL_URL != null
-        ? `https://${process.env.VERCEL_URL}`
-        : process.env.NEXT_PUBLIC_APP_URL ?? "https://mentorbridge.in";
-    const addBlogUrl = `${baseUrl}/api/add-blog`;
+    const addBlogUrl = `${getInternalApiBaseUrl(request)}/api/add-blog`;
 
     const results: SyncBlogsResponse["data"]["results"] = [];
     let totalAdded = 0;
@@ -129,7 +151,22 @@ export async function GET(
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username }),
         });
-        const json = (await res.json()) as AddAllBlogsResponse;
+
+        const rawBody = await res.text();
+        const contentType = res.headers.get("content-type") ?? "";
+        let json: AddAllBlogsResponse;
+        try {
+          json = JSON.parse(rawBody) as AddAllBlogsResponse;
+        } catch {
+          const preview = rawBody.slice(0, 160).replace(/\s+/g, " ");
+          results.push({
+            username,
+            added: 0,
+            skipped: 0,
+            error: `add-blog returned non-JSON (HTTP ${res.status}, ${contentType || "no Content-Type"}): ${preview}${rawBody.length > 160 ? "…" : ""}`,
+          });
+          continue;
+        }
 
         if (!res.ok) {
           results.push({

@@ -37,11 +37,12 @@ export const PresenterFormDrawer = ({
     resolver: zodResolver(presenterFormSchema),
     defaultValues: toFormValues(null),
   })
+  const { reset } = form
 
   useEffect(() => {
     if (!isOpen) return
-    form.reset(toFormValues(presenterToEdit ?? null))
-  }, [isOpen, presenterToEdit, form])
+    reset(toFormValues(presenterToEdit ?? null))
+  }, [isOpen, presenterToEdit, reset])
 
   const isEditing = Boolean(presenterToEdit?.id)
 

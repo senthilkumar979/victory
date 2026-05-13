@@ -114,7 +114,7 @@ export const StudentCard = ({ student, index }: StudentCardProps) => {
       <Link href={`/students/${id}`} className="block">
         <div
           // Remove any sm: or hidden/mobile-hiding class for universal visibility
-          className="relative w-full overflow-hidden rounded-2xl shadow-xl [perspective:1000px] h-48 lg:h-96"
+          className="relative w-full overflow-hidden rounded-2xl shadow-xl [perspective:1000px] h-96 lg:h-128"
           onMouseEnter={() => {
             setIsFlipped(true)
             setIsHovered(true)
@@ -156,7 +156,7 @@ export const StudentCard = ({ student, index }: StudentCardProps) => {
                       className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/70 via-black/40 to-transparent p-4 pt-5"
                     >
                       <motion.h3
-                        variants={nameVariants as unknown as Variants}
+                        variants={(nameVariants as unknown) as Variants}
                         initial="initial"
                         animate="animate"
                         exit="exit"
@@ -264,7 +264,7 @@ export const StudentCard = ({ student, index }: StudentCardProps) => {
                 <div className="flex flex-wrap gap-2 justify-center items-center">
                   <AnimatePresence>
                     <motion.div
-                      variants={badgeVariants as unknown as Variants}
+                      variants={(badgeVariants as unknown) as Variants}
                       initial="initial"
                       animate="animate"
                       exit="exit"
@@ -277,7 +277,7 @@ export const StudentCard = ({ student, index }: StudentCardProps) => {
                   </AnimatePresence>
                   {batch && (
                     <motion.div
-                      variants={badgeVariants as unknown as Variants}
+                      variants={(badgeVariants as unknown) as Variants}
                       initial="initial"
                       animate="animate"
                       exit="exit"
