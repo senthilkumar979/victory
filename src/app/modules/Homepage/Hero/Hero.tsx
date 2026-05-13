@@ -14,27 +14,11 @@ const PartnersCarousel = dynamic(
   { loading: () => null },
 )
 
-// Parent stays visible so LCP (hero h1) is not hidden until JS/hydration.
-const containerVariants = {
-  hidden: { opacity: 1 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.15,
-    },
-  },
-}
+const fadeUp = { opacity: 0, y: 14 }
+const fadeIn = { opacity: 1, y: 0 }
+const softSpring = { type: 'spring' as const, stiffness: 120, damping: 26 }
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { type: 'spring' as const, stiffness: 100, damping: 24 },
-  },
-}
-
+// Keep the hero <h1> outside of variant/stagger trees so LCP is not gated on Motion scheduling.
 export const Hero = () => (
   <PageMain>
     <section className="relative min-h-[85vh] overflow-hidden bg-[#0b1120] hero-mesh sm:min-h-[98vh] lg:min-h-[90vh]">
@@ -43,12 +27,7 @@ export const Hero = () => (
 
       <div className="relative z-10 mx-auto max-w-8xl px-6 py-20 sm:px-6 sm:py-60 md:py-0 lg:pr-12 lg:px-6 lg:py-20">
         <div className="grid items-center gap-10 sm:gap-12 md:gap-16 lg:grid-cols-2 lg:gap-2">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="flex flex-col items-center text-center lg:items-start lg:text-left"
-          >
+          <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
             <h1 className="text-3xl font-extrabold leading-[1.2] tracking-tight text-primary sm:text-4xl sm:leading-[1.15] md:text-5xl lg:text-6xl">
               Bridging the Gap from
               <br />
@@ -60,7 +39,9 @@ export const Hero = () => (
             </h1>
 
             <motion.p
-              variants={itemVariants}
+              initial={fadeUp}
+              animate={fadeIn}
+              transition={{ ...softSpring, delay: 0.04 }}
               className="mt-4 max-w-xl text-base leading-relaxed text-slate-900 sm:mt-6 sm:text-lg"
             >
               Empowering students from rural areas with core tech skills and
@@ -68,7 +49,9 @@ export const Hero = () => (
             </motion.p>
 
             <motion.div
-              variants={itemVariants}
+              initial={fadeUp}
+              animate={fadeIn}
+              transition={{ ...softSpring, delay: 0.08 }}
               className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4 lg:justify-start"
             >
               <Link
@@ -88,7 +71,7 @@ export const Hero = () => (
                 />
               </Link>
             </motion.div>
-          </motion.div>
+          </div>
 
           <motion.div
             initial={false}

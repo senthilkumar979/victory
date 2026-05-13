@@ -3,7 +3,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
-  productionBrowserSourceMaps: true,
+  /** Keep false: Sentry still receives maps from the build; serving `.map` to users hurts TBT/LCP. */
+  productionBrowserSourceMaps: false,
   async redirects() {
     return [
       {
