@@ -12,7 +12,7 @@ import { ClarityComponent } from '../Clarity'
 import { AppProvider } from './contexts/AppContext'
 import './globals.css'
 import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd'
-import { VisitorChatWidget } from '@/components/visitor-chat/VisitorChatWidget'
+import { VisitorChatWidgetLazy } from '@/components/visitor-chat/VisitorChatWidgetLazy'
 import { SITE_URL } from '@/lib/siteUrl'
 import { Footer } from './modules/Footer/Footer'
 import { LoaderProvider } from './modules/Loader/Loader'
@@ -20,11 +20,14 @@ import { LoaderProvider } from './modules/Loader/Loader'
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
+  display: 'swap',
 })
 
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+  display: 'swap',
+  preload: false,
 })
 
 const bungeeTint = Bungee_Tint({
@@ -106,6 +109,13 @@ export default function RootLayout({
         lang="en"
         className={`${geistSans.variable} ${geistMono.variable} ${bungeeTint.variable} ${urbanist.variable}`}
       >
+        <head>
+          <link
+            rel="preconnect"
+            href="https://wfkq0nguanh0273r.public.blob.vercel-storage.com"
+            crossOrigin="anonymous"
+          />
+        </head>
         <body className="antialiased">
           <OrganizationJsonLd />
           <LoaderProvider>
@@ -115,7 +125,7 @@ export default function RootLayout({
                 <Navbar />
                 {children}
                 <Footer />
-                <VisitorChatWidget />
+                <VisitorChatWidgetLazy />
                 <ClarityComponent />
                 <Script
                   src="https://t.contentsquare.net/uxa/5027a5ad08b17.js"

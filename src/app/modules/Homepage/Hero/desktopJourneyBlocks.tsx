@@ -12,12 +12,14 @@ interface DesktopStudentProps {
   data: TransformationCardData
   containerVariants: Variants
   lineVariants: Variants
+  portraitPriority?: boolean
 }
 
 export const DesktopJourneyStudentPanel = ({
   data,
   containerVariants,
   lineVariants,
+  portraitPriority = false,
 }: DesktopStudentProps) => {
   const reduced = useJourneyReducedMotion()
 
@@ -40,7 +42,14 @@ export const DesktopJourneyStudentPanel = ({
           Student
         </motion.span>
         <div className="flex items-center gap-2 justify-center flex-col">
-        <Image src={data.picture} alt={data.name} width={100} height={100} className="w-10 h-10 object-cover rounded-full" />
+        <Image
+          src={data.picture}
+          alt={data.name}
+          width={100}
+          height={100}
+          priority={portraitPriority}
+          className="w-10 h-10 object-cover rounded-full"
+        />
         <motion.p variants={lineVariants} className="mt-1 font-semibold text-info">
           {data.name}
         </motion.p>

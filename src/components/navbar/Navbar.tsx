@@ -73,7 +73,7 @@ export const Navbar = () => {
     <>
       <motion.header
         className="sticky top-0 z-50 w-full"
-        initial={reduceMotion ? false : { opacity: 0, y: -24 }}
+        initial={false}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
       >

@@ -1,4 +1,4 @@
-import dynamic from 'next/dynamic'
+import nextDynamic from 'next/dynamic'
 import type { Metadata } from 'next'
 
 import { LogSnagPageView } from '@/components/analytics/LogSnagPageView'
@@ -7,26 +7,29 @@ import { PosthogCaptureOnce } from '@/components/analytics/PosthogCaptureOnce'
 
 import { Hero } from './modules/Homepage/Hero/Hero'
 
-const Framework = dynamic(() =>
+const Framework = nextDynamic(() =>
   import('./modules/Homepage/Framework/Framework').then((m) => m.Framework),
 )
-const LearningDimensions = dynamic(
+const LearningDimensions = nextDynamic(
   () => import('./modules/Homepage/LearningDimensions/LearningDimensions'),
 )
-const Mentors = dynamic(() => import('./modules/Mentors/Mentors'))
-const MissionVision = dynamic(
+const Mentors = nextDynamic(() => import('./modules/Mentors/Mentors'))
+const MissionVision = nextDynamic(
   () => import('./modules/Homepage/MissionVision/MissionVision'),
 )
-const JobPlacements = dynamic(() =>
+const JobPlacements = nextDynamic(() =>
   import('./modules/Homepage/Placements/JobPlacements').then((m) => m.JobPlacements),
 )
-const ContactUs = dynamic(() =>
+const ContactUs = nextDynamic(() =>
   import('./modules/Homepage/ContactUs/ContactUs').then((m) => m.ContactUs),
 )
 
 export const metadata: Metadata = {
   alternates: { canonical: SITE_URL },
 }
+
+/** Fully static HTML enables CDN caching and improves field TTFB vs dynamic rendering. */
+export const dynamic = 'force-static'
 
 export default function Home() {
   return (

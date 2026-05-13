@@ -29,6 +29,7 @@ export const PartnersCarousel = () => (
               alt={'partner'}
               width={100}
               height={100}
+              sizes="(max-width: 640px) 72px, 100px"
               className="rounded-md"
             />
           </div>

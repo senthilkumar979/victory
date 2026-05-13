@@ -24,11 +24,13 @@ const reveal = { duration: T, ease: easeOutExpo }
 interface MobileTransformationJourneyProps {
   data: TransformationCardData
   phase: JourneyPhase
+  portraitPriority?: boolean
 }
 
 export const MobileTransformationJourney = ({
   data,
   phase,
+  portraitPriority = false,
 }: MobileTransformationJourneyProps) => {
   const reduced = useJourneyReducedMotion()
   const showBridge = phase >= 2
@@ -57,6 +59,7 @@ export const MobileTransformationJourney = ({
             data={data}
             containerVariants={studentStagger}
             lineVariants={studentLine}
+            portraitPriority={portraitPriority}
           />
         </div>
 

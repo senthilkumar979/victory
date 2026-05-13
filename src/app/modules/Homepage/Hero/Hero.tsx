@@ -1,12 +1,18 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { PageMain } from '@/templates/PagaMain'
 import { Briefcase, Sparkles } from 'lucide-react'
 import { motion } from 'motion/react'
 import Link from 'next/link'
-import { PartnersCarousel } from '../../Footer/PartnersCarousel'
 import { TransformationBridge } from './TransformationBridge'
 import { TransformationBridgeMobile } from './TransformationBridgeMobile'
+
+const PartnersCarousel = dynamic(
+  () =>
+    import('../../Footer/PartnersCarousel').then((m) => m.PartnersCarousel),
+  { loading: () => null },
+)
 
 // Parent stays visible so LCP (hero h1) is not hidden until JS/hydration.
 const containerVariants = {
@@ -85,9 +91,9 @@ export const Hero = () => (
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
+            initial={false}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ duration: 0.6 }}
             className="relative flex w-full items-center justify-center lg:overflow-hidden min-h-[12vh] lg:min-h-[360px]"
           >
             <div className="contents md:hidden">

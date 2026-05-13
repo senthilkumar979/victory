@@ -35,16 +35,30 @@ function isExcludedFromGlobalLoader(url: string): boolean {
   }
 }
 
+function pathnameOnly(url: string): string {
+  try {
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return new URL(url).pathname
+    }
+    return url.split('?')[0]?.split('#')[0] ?? ''
+  } catch {
+    return ''
+  }
+}
+
+/**
+ * Only real data fetches should dim the UI — not Next.js RSC/flight requests,
+ * same-origin navigations, or arbitrary `/path` fetches (those wreck mobile INP).
+ */
 function shouldShowLoaderForUrl(url: string): boolean {
   try {
     const parsed = typeof url === 'string' ? url : ''
     if (!parsed) return false
     if (STATIC_ASSET_REGEX.test(parsed)) return false
     if (isExcludedFromGlobalLoader(parsed)) return false
-    if (parsed.startsWith('/api/')) return true
     if (parsed.includes('supabase')) return true
-    if (parsed.startsWith('/') && !parsed.startsWith('//')) return true
-    if (parsed.startsWith(window.location.origin)) return true
+    const path = pathnameOnly(parsed)
+    if (path.startsWith('/api')) return true
   } catch {
     return false
   }

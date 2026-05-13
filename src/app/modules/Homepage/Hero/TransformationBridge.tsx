@@ -44,7 +44,11 @@ export const TransformationBridge = () => {
               className="absolute inset-x-0 top-0"
               aria-label={`${MENTOR_BRIDGE.headline} journey for ${currentCard.name}`}
             >
-              <DesktopTransformationJourney data={currentCard} phase={phase} />
+              <DesktopTransformationJourney
+                data={currentCard}
+                phase={phase}
+                portraitPriority={cardIndex === 0}
+              />
             </motion.div>
           </AnimatePresence>
         </div>

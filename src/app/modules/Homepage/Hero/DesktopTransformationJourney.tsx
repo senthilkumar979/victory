@@ -22,11 +22,14 @@ import { useJourneyReducedMotion } from './useJourneyReducedMotion'
 interface DesktopTransformationJourneyProps {
   data: TransformationCardData
   phase: JourneyPhase
+  /** First journey card: preload portrait for faster LCP on the hero. */
+  portraitPriority?: boolean
 }
 
 export const DesktopTransformationJourney = ({
   data,
   phase,
+  portraitPriority = false,
 }: DesktopTransformationJourneyProps) => {
   const reduced = useJourneyReducedMotion()
   const showBridge = phase >= 2
@@ -66,6 +69,7 @@ export const DesktopTransformationJourney = ({
             data={data}
             containerVariants={studentStagger}
             lineVariants={studentLine}
+            portraitPriority={portraitPriority}
           />
         </div>
 
