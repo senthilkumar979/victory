@@ -15,9 +15,9 @@ export const FooterLogo = () => {
       <Image
         src={MENTORBRIDGE_LONG_LOGO_URL}
         alt="MentorBridge"
-        width={500}
-        height={100}
-        className="w-auto h-25"
+        width={650}
+        height={125}
+        className="w-[650px]"
       />
       <p className="mb-6 mt-4 max-w-sm text-sm leading-relaxed text-black text-center">
         Empowering the next generation of builders through mentorship,
