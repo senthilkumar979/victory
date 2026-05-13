@@ -4,6 +4,15 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactCompiler: true,
   productionBrowserSourceMaps: true,
+  async redirects() {
+    return [
+      {
+        source: '/product-detail/:slug',
+        destination: '/products',
+        permanent: true,
+      },
+    ]
+  },
   experimental: {
     optimizePackageImports: [
       'lucide-react',

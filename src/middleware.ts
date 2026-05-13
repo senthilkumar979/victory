@@ -1,10 +1,9 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { clerkMiddleware } from "@clerk/nextjs/server";
 
-const isProtectedRoute = createRouteMatcher([
-  "/post-login(.*)",
-  "/secured(.*)",
-]);
-
+/**
+ * Use Clerk **production** API keys (`pk_live_…`) on Vercel production.
+ * Development keys can confuse crawlers and add dev-only auth edge behavior.
+ */
 export default clerkMiddleware();
 
 export const config = {

@@ -12,6 +12,7 @@ import { ClarityComponent } from '../Clarity'
 import { AppProvider } from './contexts/AppContext'
 import './globals.css'
 import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd'
+import { WebSiteJsonLd } from '@/components/seo/WebSiteJsonLd'
 import { VisitorChatWidgetLazy } from '@/components/visitor-chat/VisitorChatWidgetLazy'
 import { SITE_URL } from '@/lib/siteUrl'
 import { Footer } from './modules/Footer/Footer'
@@ -52,19 +53,37 @@ const defaultDescription =
 const socialImageUrl =
   'https://91qunajyvl11yxyb.public.blob.vercel-storage.com/favicon.ico'
 
+const googleSiteVerification =
+  process.env.GOOGLE_SITE_VERIFICATION ??
+  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  applicationName: 'MentorBridge',
   title: {
     default: 'MentorBridge - Bridging the Gap Between Learning and Industry',
     template: '%s | MentorBridge',
   },
   description: defaultDescription,
   keywords:
-    'mentorship, rural students, IT training, software development, career guidance, SSMIET',
-  authors: [{ name: 'MentorBridge Team' }],
+    'mentorship, rural students, IT training, software development, career guidance, SSMIET, MentorBridge India',
+  authors: [{ name: 'MentorBridge Team', url: SITE_URL }],
   creator: 'MentorBridge Team',
   publisher: 'MentorBridge',
-  robots: { index: true, follow: true },
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  referrer: 'origin-when-cross-origin',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
+  ...(googleSiteVerification
+    ? { verification: { google: googleSiteVerification } }
+    : {}),
   icons: {
     icon: socialImageUrl,
     apple: socialImageUrl,
@@ -73,7 +92,7 @@ export const metadata: Metadata = {
     title: 'MentorBridge - Bridging the Gap Between Learning and Industry',
     description: defaultDescription,
     type: 'website',
-    locale: 'en_US',
+    locale: 'en_IN',
     siteName: 'MentorBridge',
     url: SITE_URL,
     images: [
@@ -118,6 +137,7 @@ export default function RootLayout({
         </head>
         <body className="antialiased">
           <OrganizationJsonLd />
+          <WebSiteJsonLd />
           <LoaderProvider>
             <AppProvider>
               <PosthogRoot>

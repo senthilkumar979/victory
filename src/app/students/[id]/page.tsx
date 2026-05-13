@@ -1,78 +1,89 @@
-'use client'
+import type { Metadata } from 'next'
 
-import { useParams } from 'next/navigation'
+import { PersonJsonLd } from '@/components/seo/PersonJsonLd'
+import { getStudentForSeo } from '@/lib/seo/getStudentForSeo'
+import { SITE_URL } from '@/lib/siteUrl'
 
-import { Breadcrumbs } from '@/atoms/breadcrumbs/Breadcrumbs'
-import { LogSnagPageView } from '@/components/analytics/LogSnagPageView'
-import { PosthogCaptureOnce } from '@/components/analytics/PosthogCaptureOnce'
-import { StudentProfileView } from '@/components/profile/StudentProfileView'
-import { useStudent } from '@/hooks/useStudent'
-import { StudentNotFound } from '@/templates/StudentNotFound'
+import { StudentDetailPageClient } from './StudentDetailPageClient'
 
-export default function StudentDetailPage() {
-  const params = useParams()
-  const id = typeof params?.id === 'string' ? params.id : ''
-  const { student, loading, error } = useStudent(id)
+interface PageProps {
+  params: Promise<{ id: string }>
+}
 
-  if (!id) {
-    return <StudentNotFound message="Invalid student ID." />
+function buildDescription(row: NonNullable<Awaited<ReturnType<typeof getStudentForSeo>>>) {
+  if (row.summary?.trim()) {
+    const t = row.summary.trim()
+    return t.length > 160 ? `${t.slice(0, 157)}…` : t
+  }
+  const rolePart =
+    row.role && row.company
+      ? `${row.role} at ${row.company}`
+      : row.role || row.company || 'MentorBridge student'
+  return `${row.name} — ${rolePart}. Part of the MentorBridge rural tech community.`
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { id } = await params
+  const row = await getStudentForSeo(id)
+
+  if (!row) {
+    return {
+      title: 'Student not found',
+      robots: { index: false, follow: true },
+    }
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen w-full px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mx-auto w-full max-w-[1600px] animate-pulse space-y-6">
-          <div className="h-56 rounded-2xl bg-slate-200/80" />
-          <div className="grid gap-6 lg:grid-cols-3">
-            <div className="space-y-6 lg:col-span-2">
-              <div className="h-40 rounded-2xl bg-slate-200/80" />
-              <div className="h-32 rounded-2xl bg-slate-200/80" />
-            </div>
-            <div className="h-48 rounded-2xl bg-slate-200/80" />
-          </div>
-        </div>
-      </div>
-    )
-  }
+  const title = `${row.name} | Students`
+  const description = buildDescription(row)
+  const canonical = `${SITE_URL}/students/${id}`
 
-  if (error) {
-    return (
-      <StudentNotFound
-        message={'Something went wrong while fetching the student.'}
-      />
-    )
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      type: 'profile',
+      siteName: 'MentorBridge',
+      locale: 'en_IN',
+      ...(row.picture
+        ? {
+            images: [
+              {
+                url: row.picture,
+                width: 512,
+                height: 512,
+                alt: row.name,
+              },
+            ],
+          }
+        : {}),
+    },
+    twitter: {
+      card: row.picture ? 'summary_large_image' : 'summary',
+      title,
+      description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true },
+    },
   }
+}
 
-  if (!student) {
-    return <StudentNotFound message="Student not found." />
-  }
+export default async function StudentDetailPage({ params }: PageProps) {
+  const { id } = await params
+  const row = await getStudentForSeo(id)
 
   return (
-    <div className="min-h-screen w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-white to-slate-50">
-      <div className="mx-auto w-full max-w-[1600px] px-4 py-10 sm:px-6 lg:px-10 xl:px-14">
-        <LogSnagPageView
-          channel="profile"
-          description="Secured profile"
-          icon="👤"
-        />
-        <PosthogCaptureOnce
-          event="context_page_viewed"
-          properties={{
-            channel: 'profile',
-            description: 'Student public profile',
-            student_id: id,
-          }}
-        />
-        <Breadcrumbs
-          items={[
-            { label: 'Students', href: '/students' },
-            { label: student.name, href: `/students/${student.id}` },
-          ]}
-        />
-        <div className="mt-8">
-          <StudentProfileView student={student} />
-        </div>
-      </div>
-    </div>
+    <>
+      {row ? <PersonJsonLd student={row} /> : null}
+      <StudentDetailPageClient id={id} />
+    </>
   )
 }

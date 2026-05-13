@@ -26,6 +26,11 @@ const ContactUs = nextDynamic(() =>
 
 export const metadata: Metadata = {
   alternates: { canonical: SITE_URL },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
 }
 
 /** Fully static HTML enables CDN caching and improves field TTFB vs dynamic rendering. */
