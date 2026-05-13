@@ -26,7 +26,7 @@ export const CARDS: TransformationCardData[] = [
     picture: 'https://wfkq0nguanh0273r.public.blob.vercel-storage.com/mentorbridge-pics/Kiruthika_G.jpeg',
   },
   {
-    name: 'Umar Farooq',
+    name: 'Umar Farook',
     studentDept: 'CSE Department',
     studentCollege: 'SSM College of Engineering & Technology',
     professionalRole: 'Frontend Engineer',
