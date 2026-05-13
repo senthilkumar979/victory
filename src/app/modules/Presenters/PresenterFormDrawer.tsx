@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -39,10 +39,21 @@ export const PresenterFormDrawer = ({
   })
   const { reset } = form
 
+  // Reset only when the drawer opens/closes or when switching create vs which row is
+  // being edited — not when `presenterToEdit` gets a new object reference for the same
+  // logical row (can happen across re-renders and differs between dev and prod).
+  const formResetKey = useMemo(
+    () => (!isOpen ? 'closed' : (presenterToEdit?.id ?? 'create')) as string,
+    [isOpen, presenterToEdit?.id],
+  )
+
+  const presenterToEditRef = useRef(presenterToEdit)
+  presenterToEditRef.current = presenterToEdit
+
   useEffect(() => {
     if (!isOpen) return
-    reset(toFormValues(presenterToEdit ?? null))
-  }, [isOpen, presenterToEdit, reset])
+    reset(toFormValues(presenterToEditRef.current ?? null))
+  }, [isOpen, formResetKey, reset])
 
   const isEditing = Boolean(presenterToEdit?.id)
 

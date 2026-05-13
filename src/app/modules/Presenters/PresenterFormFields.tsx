@@ -18,7 +18,7 @@ export const PresenterFormFields = ({
   formId,
   form,
 }: PresenterFormFieldsProps) => {
-  const { register, control, formState } = form
+  const { control, formState } = form
   const { errors } = formState
 
   return (
@@ -83,36 +83,45 @@ export const PresenterFormFields = ({
           </div>
         )}
       />
-      <div>
-        <FormLabel
-          htmlFor={`${formId}-topic`}
-          isDarkMode
-          isRequired
-          className="mb-1.5 block"
-        >
-          Topic
-        </FormLabel>
-        <div className="pl-1">
-          <input
-            id={`${formId}-topic`}
-            type="text"
-            placeholder="Presentation topic..."
-            className={joinClassNames(
-              'mt-2 block w-full rounded-md border px-3 py-2 text-sm',
-              'border-slate-600 bg-slate-800 text-slate-100 placeholder:text-slate-500',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0.25',
-              errors.topic && 'border-red-500',
+      <Controller
+        name="topic"
+        control={control}
+        render={({ field }) => (
+          <div>
+            <FormLabel
+              htmlFor={`${formId}-topic`}
+              isDarkMode
+              isRequired
+              className="mb-1.5 block"
+            >
+              Topic
+            </FormLabel>
+            <div className="pl-1">
+              <input
+                id={`${formId}-topic`}
+                type="text"
+                placeholder="Presentation topic..."
+                className={joinClassNames(
+                  'mt-2 block w-full rounded-md border px-3 py-2 text-sm',
+                  'border-slate-600 bg-slate-800 text-slate-100 placeholder:text-slate-500',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0.25',
+                  errors.topic && 'border-red-500',
+                )}
+                aria-invalid={Boolean(errors.topic)}
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                ref={field.ref}
+              />
+            </div>
+            {errors.topic && (
+              <p className="mt-1 text-xs text-red-400">
+                {errors.topic.message}
+              </p>
             )}
-            aria-invalid={Boolean(errors.topic)}
-            {...register('topic')}
-          />
-        </div>
-        {errors.topic && (
-          <p className="mt-1 text-xs text-red-400">
-            {errors.topic.message}
-          </p>
+          </div>
         )}
-      </div>
+      />
     </div>
   )
 }
