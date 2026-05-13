@@ -38,14 +38,8 @@ vi.mock('framer-motion', async () => {
 
   return {
     motion: {
-      div: ({
-        children,
-        initial: _initial,
-        transition: _transition,
-        viewport: _viewport,
-        whileInView: _whileInView,
-        ...props
-      }: MockMotionDivProps) => React.createElement('div', props, children),
+      div: ({ children, className }: MockMotionDivProps) =>
+        React.createElement('div', { className }, children),
     },
   }
 })
