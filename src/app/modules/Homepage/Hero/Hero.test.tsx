@@ -122,9 +122,7 @@ describe('Hero', () => {
   it('keeps the LCP heading immediately visible while animating secondary content', () => {
     render(<Hero />)
 
-    const heading = screen.getByRole('heading', {
-      name: /bridging the gap from\s+rural classrooms\s+to global tech/i,
-    })
+    const heading = screen.getByRole('heading', { level: 1 })
     const textColumn = heading.parentElement
     const description = screen.getByText(
       /empowering students from rural areas/i,
@@ -134,6 +132,9 @@ describe('Hero', () => {
       .closest('[data-motion="div"]')
 
     expect(heading).toBeVisible()
+    expect(heading).toHaveTextContent(
+      /bridging the gap from\s*rural classrooms\s*to global tech/i,
+    )
     expect(heading).not.toHaveAttribute('data-motion')
     expect(textColumn).not.toHaveAttribute('data-motion')
     expect(textColumn).not.toHaveAttribute('data-initial')
