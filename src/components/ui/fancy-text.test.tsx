@@ -17,6 +17,7 @@ describe('FancyText', () => {
     expect(overlay).toHaveClass('overflow-hidden', 'w-full')
     expect(overlay).not.toHaveClass('flex-wrap')
     expect(animatedCharacters).toHaveLength('Ada Lovelace'.length)
-    expect(overlay).toHaveTextContent('Ada\u00A0Lovelace')
+    expect(animatedCharacters?.[3]).toHaveTextContent('\u00A0')
+    expect(animatedCharacters?.[3]).toHaveStyle({ whiteSpace: 'pre' })
   })
 })
