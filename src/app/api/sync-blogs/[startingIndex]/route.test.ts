@@ -35,6 +35,8 @@ interface StudentQueries {
   }
 }
 
+const originalAppUrl = process.env.NEXT_PUBLIC_APP_URL
+
 function createRequest(headers: HeadersInit = {}): NextRequest {
   return new Request('https://request.example.com/api/sync-blogs/5', {
     headers,
@@ -62,6 +64,11 @@ describe('sync-blogs route', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     vi.unstubAllGlobals()
+    if (originalAppUrl === undefined) {
+      delete process.env.NEXT_PUBLIC_APP_URL
+      return
+    }
+    process.env.NEXT_PUBLIC_APP_URL = originalAppUrl
   })
 
   it('rejects invalid starting indexes before calling Supabase or add-blog', async () => {
