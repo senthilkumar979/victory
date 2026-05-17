@@ -179,8 +179,11 @@ describe('PresenterFormDrawer', () => {
     await user.click(screen.getByRole('button', { name: /search students/i }))
     await user.clear(screen.getByLabelText('Presentation date'))
     await user.type(screen.getByLabelText('Presentation date'), ' 2026-07-01 ')
-    await user.clear(screen.getByLabelText('Topic'))
-    await user.type(screen.getByLabelText('Topic'), '  Type-safe forms  ')
+    await user.clear(screen.getByPlaceholderText('Presentation topic...'))
+    await user.type(
+      screen.getByPlaceholderText('Presentation topic...'),
+      '  Type-safe forms  ',
+    )
     await user.click(screen.getByRole('button', { name: /update/i }))
 
     await waitFor(() => expect(updatePresenterMock).toHaveBeenCalledTimes(1))
