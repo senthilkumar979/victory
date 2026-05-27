@@ -1,7 +1,12 @@
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { supabase } from "@/lib/supabaseClient";
-import { AddAllBlogsResponse } from "@/types/blog.types";
 import { NextRequest, NextResponse } from "next/server";
+
+import {
+  getInternalApiBaseUrl,
+  parseAddBlogResult,
+  parseStartingIndex,
+} from "./syncBlogsHelpers";
 
 const PAGE_SIZE = 10;
 
@@ -23,39 +28,6 @@ interface SyncBlogsResponse {
     totalSkipped: number;
     results: { username: string; added: number; skipped: number; error?: string }[];
   };
-}
-
-function parseStartingIndex(param: string | undefined): number | null {
-  if (param === undefined) return null;
-  const n = parseInt(param, 10);
-  if (Number.isNaN(n) || n < 1) return null;
-  return n;
-}
-
-/**
- * Internal `/api/*` calls must target the same origin as the incoming request.
- * Otherwise local `http://localhost:3001/api/sync-blogs/*` would POST to
- * `NEXT_PUBLIC_APP_URL` or the production default and receive HTML (DOCTYPE),
- * which breaks `response.json()`.
- */
-function getInternalApiBaseUrl(request: NextRequest): string {
-  const host = request.headers.get("host");
-  if (host) {
-    const forwardedProto = request.headers.get("x-forwarded-proto");
-    const isLocal =
-      host.startsWith("localhost") ||
-      host.startsWith("127.0.0.1") ||
-      host.startsWith("[::1]");
-    const protocol =
-      forwardedProto ?? (isLocal ? "http" : "https");
-    return `${protocol}://${host}`;
-  }
-
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
-  }
-
-  return process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 }
 
 export async function GET(
@@ -138,7 +110,7 @@ export async function GET(
 
     console.log("usernames", usernames);
 
-    const addBlogUrl = `${getInternalApiBaseUrl(request)}/api/add-blog`;
+    const addBlogUrl = `${getInternalApiBaseUrl(request.headers)}/api/add-blog`;
 
     const results: SyncBlogsResponse["data"]["results"] = [];
     let totalAdded = 0;
@@ -154,39 +126,33 @@ export async function GET(
 
         const rawBody = await res.text();
         const contentType = res.headers.get("content-type") ?? "";
-        let json: AddAllBlogsResponse;
-        try {
-          json = JSON.parse(rawBody) as AddAllBlogsResponse;
-        } catch {
-          const preview = rawBody.slice(0, 160).replace(/\s+/g, " ");
+        const result = parseAddBlogResult({
+          ok: res.ok,
+          status: res.status,
+          statusText: res.statusText,
+          contentType,
+          rawBody,
+        });
+
+        if (!result.shouldCountTotals) {
           results.push({
             username,
-            added: 0,
-            skipped: 0,
-            error: `add-blog returned non-JSON (HTTP ${res.status}, ${contentType || "no Content-Type"}): ${preview}${rawBody.length > 160 ? "…" : ""}`,
+            added: result.added,
+            skipped: result.skipped,
+            error: result.error,
           });
           continue;
         }
 
-        if (!res.ok) {
-          results.push({
-            username,
-            added: 0,
-            skipped: 0,
-            error: json.message ?? res.statusText,
-          });
-          continue;
-        }
-
-        const added = json.data?.added ?? 0;
-        const skipped = json.data?.skipped ?? 0;
+        const added = result.added;
+        const skipped = result.skipped;
         totalAdded += added;
         totalSkipped += skipped;
         results.push({
           username,
           added,
           skipped,
-          error: (json.data?.errors ?? []).length > 0 ? json.data.errors.join("; ") : undefined,
+          error: result.error,
         });
         console.log("added", results);
       } catch (err) {
