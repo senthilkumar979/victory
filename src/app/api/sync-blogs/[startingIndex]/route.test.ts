@@ -64,6 +64,14 @@ function jsonResponse(body: unknown, init?: ResponseInit): Response {
   })
 }
 
+function expectAddBlogFetch(index: number, url: string, username?: string): void {
+  const init =
+    username === undefined
+      ? expect.any(Object)
+      : expect.objectContaining({ body: JSON.stringify({ username }) })
+  expect(fetch).toHaveBeenNthCalledWith(index, url, init)
+}
+
 describe('sync blogs route', () => {
   beforeEach(() => {
     vi.clearAllMocks()
@@ -92,16 +100,8 @@ describe('sync blogs route', () => {
     expect(query.order).toHaveBeenCalledWith('serial_no', { ascending: true })
     expect(query.gte).toHaveBeenCalledWith('serial_no', 61)
     expect(query.limit).toHaveBeenCalledWith(10)
-    expect(fetch).toHaveBeenNthCalledWith(
-      1,
-      'http://localhost:3001/api/add-blog',
-      expect.objectContaining({ body: JSON.stringify({ username: 'ada' }) }),
-    )
-    expect(fetch).toHaveBeenNthCalledWith(
-      2,
-      'http://localhost:3001/api/add-blog',
-      expect.objectContaining({ body: JSON.stringify({ username: 'grace' }) }),
-    )
+    expectAddBlogFetch(1, 'http://localhost:3001/api/add-blog', 'ada')
+    expectAddBlogFetch(2, 'http://localhost:3001/api/add-blog', 'grace')
     expect(body.data).toEqual(
       expect.objectContaining({
         usernamesProcessed: 2,
@@ -129,16 +129,8 @@ describe('sync blogs route', () => {
     const body = await response.json()
 
     expect(response.status).toBe(200)
-    expect(fetch).toHaveBeenNthCalledWith(
-      1,
-      'https://preview.mentorbridge.in/api/add-blog',
-      expect.any(Object),
-    )
-    expect(fetch).toHaveBeenNthCalledWith(
-      2,
-      'https://preview.mentorbridge.in/api/add-blog',
-      expect.any(Object),
-    )
+    expectAddBlogFetch(1, 'https://preview.mentorbridge.in/api/add-blog')
+    expectAddBlogFetch(2, 'https://preview.mentorbridge.in/api/add-blog')
     expect(body.data.totalAdded).toBe(1)
     expect(body.data.results).toEqual([
       expect.objectContaining({
