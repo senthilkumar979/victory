@@ -117,7 +117,9 @@ describe('PresenterFormDrawer', () => {
       />,
     )
 
-    const topicInput = await screen.findByLabelText('Topic')
+    const topicInput = await screen.findByPlaceholderText(
+      'Presentation topic...',
+    )
     await waitFor(() => expect(topicInput).toHaveValue('Original topic'))
 
     await user.clear(topicInput)

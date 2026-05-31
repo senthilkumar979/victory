@@ -122,7 +122,9 @@ describe('sync blogs route helpers', () => {
     vi.stubGlobal('fetch', fetchMock)
 
     const response = await GET(
-      new NextRequest('http://localhost:3001/api/sync-blogs/1'),
+      new NextRequest('http://localhost:3001/api/sync-blogs/1', {
+        headers: { host: 'localhost:3001' },
+      }),
       { params: Promise.resolve({ startingIndex: '1' }) },
     )
     const body = await response.json()
