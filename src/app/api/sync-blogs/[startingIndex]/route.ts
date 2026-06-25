@@ -25,7 +25,7 @@ interface SyncBlogsResponse {
   };
 }
 
-function parseStartingIndex(param: string | undefined): number | null {
+export function parseStartingIndex(param: string | undefined): number | null {
   if (param === undefined) return null;
   const n = parseInt(param, 10);
   if (Number.isNaN(n) || n < 1) return null;
@@ -38,7 +38,7 @@ function parseStartingIndex(param: string | undefined): number | null {
  * `NEXT_PUBLIC_APP_URL` or the production default and receive HTML (DOCTYPE),
  * which breaks `response.json()`.
  */
-function getInternalApiBaseUrl(request: NextRequest): string {
+export function getInternalApiBaseUrl(request: NextRequest): string {
   const host = request.headers.get("host");
   if (host) {
     const forwardedProto = request.headers.get("x-forwarded-proto");
