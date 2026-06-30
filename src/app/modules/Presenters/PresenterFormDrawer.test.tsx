@@ -35,6 +35,15 @@ vi.mock('@/atoms/button/Button', () => ({
 }))
 
 vi.mock('@/ui/organisms/drawer/Drawer', () => {
+  const DrawerTitle = ({ children }: { children: ReactNode }) => (
+    <h2>{children}</h2>
+  )
+  const DrawerBody = ({ children }: { children: ReactNode }) => (
+    <div>{children}</div>
+  )
+  const DrawerFooter = ({ children }: { children: ReactNode }) => (
+    <footer>{children}</footer>
+  )
   const Drawer = ({
     children,
     isOpen,
@@ -42,11 +51,9 @@ vi.mock('@/ui/organisms/drawer/Drawer', () => {
     children: ReactNode
     isOpen: boolean
   }) => (isOpen ? <section>{children}</section> : null)
-  Drawer.Title = ({ children }: { children: ReactNode }) => <h2>{children}</h2>
-  Drawer.Body = ({ children }: { children: ReactNode }) => <div>{children}</div>
-  Drawer.Footer = ({ children }: { children: ReactNode }) => (
-    <footer>{children}</footer>
-  )
+  Drawer.Title = DrawerTitle
+  Drawer.Body = DrawerBody
+  Drawer.Footer = DrawerFooter
   return { Drawer }
 })
 
