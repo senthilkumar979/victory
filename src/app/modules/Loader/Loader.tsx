@@ -22,7 +22,7 @@ const LoaderContext = createContext<LoaderContextValue | undefined>(undefined)
 const STATIC_ASSET_REGEX = /\.(png|jpe?g|gif|svg|ico|css|js|woff2?|ttf|eot)(\?.*)?$/i
 
 /** Fetch targets that should not trigger the full-page overlay (inline UI handles loading). */
-function isExcludedFromGlobalLoader(url: string): boolean {
+export function isExcludedFromGlobalLoader(url: string): boolean {
   try {
     const raw =
       url.startsWith('http://') || url.startsWith('https://')
@@ -35,7 +35,7 @@ function isExcludedFromGlobalLoader(url: string): boolean {
   }
 }
 
-function pathnameOnly(url: string): string {
+export function pathnameOnly(url: string): string {
   try {
     if (url.startsWith('http://') || url.startsWith('https://')) {
       return new URL(url).pathname
@@ -50,7 +50,7 @@ function pathnameOnly(url: string): string {
  * Only real data fetches should dim the UI — not Next.js RSC/flight requests,
  * same-origin navigations, or arbitrary `/path` fetches (those wreck mobile INP).
  */
-function shouldShowLoaderForUrl(url: string): boolean {
+export function shouldShowLoaderForUrl(url: string): boolean {
   try {
     const parsed = typeof url === 'string' ? url : ''
     if (!parsed) return false

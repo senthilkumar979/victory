@@ -112,4 +112,19 @@ describe('useMemberDashboardStudent', () => {
     expect(result.current.profile).toBeNull()
     expect(result.current.error).toBeNull()
   })
+
+  it('surfaces Supabase errors and clears profile data', async () => {
+    mockUser('student@example.com')
+    mockStudentQuery({
+      data: null,
+      error: new Error('Supabase unavailable'),
+    })
+
+    const { result } = renderHook(() => useMemberDashboardStudent())
+
+    await waitFor(() => expect(result.current.isLoading).toBe(false))
+
+    expect(result.current.profile).toBeNull()
+    expect(result.current.error).toBe('Supabase unavailable')
+  })
 })
