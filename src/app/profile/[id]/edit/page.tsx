@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
+import { useIsAdmin } from '@/hooks/useIsAdmin'
 import { useStudent } from '@/hooks/useStudent'
 
 import { ProfileEditForm } from './ProfileEditForm'
@@ -10,7 +11,10 @@ import { ProfileEditForm } from './ProfileEditForm'
 export default function ProfileEditPage() {
   const params = useParams()
   const id = typeof params?.id === 'string' ? params.id : ''
-  const { student, loading, error } = useStudent(id)
+  const isAdmin = useIsAdmin()
+  const { student, loading, error } = useStudent(id, {
+    includeAdminFields: isAdmin,
+  })
 
   if (!id) {
     return (

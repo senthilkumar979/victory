@@ -38,6 +38,11 @@ export interface ProfileData {
   socialLinks?: ISocialLinks;
   resumeLink?: string;
   batch: string;
+  cohortId?: string;
+  /** Admin-only: not loaded for student self-service views */
+  fatherGuardianDetails?: string;
+  /** Admin-only: not loaded for student self-service views */
+  motherDetails?: string;
   gender?: string;
   selfIntro?: string;
   serialNo?: number;

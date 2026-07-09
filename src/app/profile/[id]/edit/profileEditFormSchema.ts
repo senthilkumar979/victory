@@ -49,7 +49,7 @@ export const profileEditFormSchema = z.object({
   summary: trimmed,
   email: emailField,
   mediumUsername: trimmed,
-  batch: trimmedRequired('Cohort batch is required'),
+  cohortId: z.string().uuid('Select a cohort'),
   gender: genderField,
   resumeLink: trimmed,
   skillSets: trimmed,
@@ -57,6 +57,8 @@ export const profileEditFormSchema = z.object({
   experience: z.array(experienceItemSchema).default([]),
   mentorBridgeExp: mentorBridgeExpSchema.optional(),
   socialLinks: socialLinksSchema.optional(),
+  fatherGuardianDetails: trimmed,
+  motherDetails: trimmed,
 })
 
 export type ProfileEditFormValues = z.output<typeof profileEditFormSchema>

@@ -5,6 +5,7 @@ import { Button } from '@/atoms/button/Button'
 import { Loader } from '@/atoms/loader/Loader'
 import { StudentProfileView } from '@/components/profile/StudentProfileView'
 import { useStudent } from '@/hooks/useStudent'
+import { useStudentGuardianDetails } from '@/hooks/useStudentGuardianDetails'
 import { StudentNotFound } from '@/templates/StudentNotFound'
 import { Pencil } from 'lucide-react'
 import Link from 'next/link'
@@ -14,6 +15,7 @@ export default function ProfileEditPage() {
   const params = useParams()
   const id = typeof params?.id === 'string' ? params.id : ''
   const { student, loading, error } = useStudent(id)
+  const guardianDetails = useStudentGuardianDetails(id, true)
 
   if (!id) {
     return <StudentNotFound message="Invalid student ID." />
@@ -53,7 +55,7 @@ export default function ProfileEditPage() {
             </Link>
           </div>
           <div className="mt-8">
-            <StudentProfileView student={student} />
+            <StudentProfileView student={student} guardianDetails={guardianDetails} />
           </div>
         </div>
       )}

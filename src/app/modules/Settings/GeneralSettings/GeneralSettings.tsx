@@ -2,6 +2,7 @@ import { joinClassNames } from '@/utils/tailwindUtils'
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { AdminAnnouncement } from '../../Announcements/AdminAnnouncement'
+import { Assignments } from '../../Assignments/Assignments'
 import { AwardCategories } from '../../AwardCategories'
 import { Awards } from '../../Awards/Awards'
 import { Presenters } from '../../Presenters/Presenters'
@@ -61,6 +62,11 @@ export const GeneralSettings = () => {
       content: <Presenters />,
     },
     {
+      value: 'assignments',
+      label: 'Assignments',
+      content: <Assignments />,
+    },
+    {
       value: 'visitor-queries',
       label: 'Visitor Queries',
       content: <VisitorQueries />,
@@ -117,6 +123,7 @@ export const GeneralSettings = () => {
                 onClick={() => {
                   if (isDisabled) return
                   setActiveTab(item.value)
+                  window.location.hash = item.value
                 }}
                 className={joinClassNames(
                   'relative w-full overflow-hidden rounded-xl px-3 py-2.5 text-left text-sm outline-none',

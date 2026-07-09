@@ -1,5 +1,10 @@
 import type { ProfileData } from '@/types/student.types'
 
+export interface CohortFilterOption {
+  id: string
+  name: string
+}
+
 export interface StudentsFilterState {
   cohort: string
   company: string
@@ -8,7 +13,7 @@ export interface StudentsFilterState {
 }
 
 export interface StudentsFilterOptions {
-  cohorts: string[]
+  cohorts: CohortFilterOption[]
   companies: string[]
   roles: string[]
 }

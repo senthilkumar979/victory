@@ -1,11 +1,15 @@
 import { supabase } from "@/lib/supabaseClient";
+import { mapSupabaseStudentRowToProfile } from "@/lib/mapSupabaseStudentRowToProfile";
+import { getStudentSelectColumns } from "@/lib/studentSelectColumns";
 import { useCallback, useEffect, useState } from "react";
 import { ProfileData, UseStudentReturn } from "../types/student.types";
-import { safeJsonParse } from "../utils/parseUtils";
 
 
 
-export const useStudent = (studentId: string): UseStudentReturn => {
+export const useStudent = (
+  studentId: string,
+  options?: { includeAdminFields?: boolean },
+): UseStudentReturn => {
   const [student, setStudent] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +27,7 @@ export const useStudent = (studentId: string): UseStudentReturn => {
 
       const { data, error: fetchError } = await supabase
         .from("students")
-        .select("*")
+        .select(getStudentSelectColumns(options?.includeAdminFields))
         .eq("id", studentId)
         .single();
 
@@ -35,32 +39,7 @@ export const useStudent = (studentId: string): UseStudentReturn => {
           throw fetchError;
         }
       } else if (data) {
-        // Transform the data to match ProfileData interface
-        const transformedStudent: ProfileData = {
-          id: data.id,
-          name: data.name,
-          picture: data.picture,
-          role: data.role,
-          company: data.company,
-          summary: data.summary,
-          email: data.email,
-          mediumUsername: data.medium_username ?? undefined,
-          experience: safeJsonParse(data.experience, []),
-          mentorBridgeExp: safeJsonParse(data.mentor_bridge_exp, {}),
-          skillSets: safeJsonParse(data.skill_sets, []) as string[],
-          inspirations: safeJsonParse(data.inspirations, []) as string[],
-          socialLinks: safeJsonParse(data.social_links, {}),
-          resumeLink: data.resume_link,
-          batch: data.batch,
-          gender: (() => {
-            const raw = typeof data.gender === 'string' ? data.gender.trim() : ''
-            const g = raw.toUpperCase()
-            return g === 'M' || g === 'F' ? g : undefined
-          })(),
-          serialNo: data.serial_no,
-        };
-
-        setStudent(transformedStudent);
+        setStudent(mapSupabaseStudentRowToProfile(data as unknown as Record<string, unknown>));
       }
     } catch (err) {
       console.error("Error fetching student:", err);
@@ -68,7 +47,7 @@ export const useStudent = (studentId: string): UseStudentReturn => {
     } finally {
       setLoading(false);
     }
-  }, [studentId]);
+  }, [studentId, options?.includeAdminFields]);
 
   useEffect(() => {
     fetchStudent();

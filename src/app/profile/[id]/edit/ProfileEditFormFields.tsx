@@ -1,7 +1,9 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Controller, useFieldArray, type UseFormReturn } from 'react-hook-form'
+
+import { useCohorts } from '@/hooks/useCohorts'
 
 import { FormInput } from '@/ui/molecules/form-input/FormInput'
 import { FormMultiInput } from '@/ui/molecules/form-multi-input/FormMultiInput'
@@ -32,6 +34,9 @@ interface ProfileEditFormFieldsProps {
   stagedResumeUrl: string | null
   onStagedPictureUrl: (url: string | null) => void
   onStagedResumeUrl: (url: string | null) => void
+  /** Pre-migration students may only have `batch`; map to cohort when options load. */
+  legacyBatch?: string
+  showAdminFields?: boolean
 }
 
 const inputBase =
@@ -48,9 +53,13 @@ export const ProfileEditFormFields = ({
   stagedResumeUrl,
   onStagedPictureUrl,
   onStagedResumeUrl,
+  legacyBatch,
+  showAdminFields = false,
 }: ProfileEditFormFieldsProps) => {
+  const { cohorts } = useCohorts()
   const { register, control, formState } = form
   const { errors } = formState
+  const legacyBatchResolvedRef = useRef(false)
   const { uploadFile, uploading, error } = useProfileFileUpload(studentId)
   const hasStudentId = Boolean(studentId?.trim())
   const [pictureLocalSrc, setPictureLocalSrc] = useState<string | null>(null)
@@ -64,6 +73,20 @@ export const ProfileEditFormFields = ({
   const resumeLinkUrl = form.watch('resumeLink')
   const pictureDisplaySrc = pictureLocalSrc || stagedPictureUrl || pictureUrl
   const resumeDisplayUrl = stagedResumeUrl || resumeLinkUrl
+
+  useEffect(() => {
+    if (legacyBatchResolvedRef.current || !legacyBatch || !cohorts.length) return
+    const current = form.getValues('cohortId')
+    if (current) {
+      legacyBatchResolvedRef.current = true
+      return
+    }
+    const match = cohorts.find((c) => c.name === legacyBatch.trim())
+    if (match) {
+      form.setValue('cohortId', match.id, { shouldValidate: true })
+      legacyBatchResolvedRef.current = true
+    }
+  }, [cohorts, legacyBatch, form])
 
   return (
     <div className="space-y-6 md:space-y-10">
@@ -273,16 +296,15 @@ export const ProfileEditFormFields = ({
             />
 
             <Controller
-              name="batch"
+              name="cohortId"
               control={control}
-              rules={{ required: 'Batch is required' }}
               render={({ field }) => (
                 <div>
-                  <FormLabel htmlFor={`${formId}-batch`} isRequired>
-                    Cohort Batch
+                  <FormLabel htmlFor={`${formId}-cohort`} isRequired>
+                    Cohort
                   </FormLabel>
                   <select
-                    id={`${formId}-batch`}
+                    id={`${formId}-cohort`}
                     className={joinClassNames(
                       selectBase,
                       'text-secondary rounded-sm',
@@ -295,14 +317,15 @@ export const ProfileEditFormFields = ({
                     required
                   >
                     <option value="">Select a cohort</option>
-                    <option value="2028">2028</option>
-                    <option value="2027">2027</option>
-                    <option value="2026">2026</option>
-                    <option value="2025">2025</option>
+                    {cohorts.map((cohort) => (
+                      <option key={cohort.id} value={cohort.id}>
+                        {cohort.name}
+                      </option>
+                    ))}
                   </select>
-                  {errors.batch && (
+                  {errors.cohortId && (
                     <span className="mt-1 block text-xs text-red-600">
-                      {errors.batch.message}
+                      {errors.cohortId.message}
                     </span>
                   )}
                 </div>
@@ -587,6 +610,39 @@ export const ProfileEditFormFields = ({
             )}
           />
         </section>
+
+        {showAdminFields && (
+          <section className="space-y-4 lg:col-span-3">
+            <h3 className="text-sm font-semibold uppercase tracking-widest text-primary">
+              Guardian details
+            </h3>
+            <p className="text-xs text-slate-500">
+              Visible to administrators only. Not shown on the public profile.
+            </p>
+            <div>
+              <FormLabel htmlFor={`${formId}-fatherGuardian`}>
+                Father&apos;s / Guardian&apos;s details
+              </FormLabel>
+              <textarea
+                id={`${formId}-fatherGuardian`}
+                rows={4}
+                placeholder="Name, phone, occupation, address..."
+                className={joinClassNames(inputBase, 'mt-1 resize-y')}
+                {...register('fatherGuardianDetails')}
+              />
+            </div>
+            <div>
+              <FormLabel htmlFor={`${formId}-mother`}>Mother&apos;s details</FormLabel>
+              <textarea
+                id={`${formId}-mother`}
+                rows={4}
+                placeholder="Name, phone, occupation, address..."
+                className={joinClassNames(inputBase, 'mt-1 resize-y')}
+                {...register('motherDetails')}
+              />
+            </div>
+          </section>
+        )}
       </div>
     </div>
   )

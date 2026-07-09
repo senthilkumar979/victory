@@ -7,6 +7,7 @@ import { Button, PrimaryButton } from '@/atoms/button/Button'
 import { useCheckIsAuthenticated } from '@/hooks/useCheckIsAuthenticated'
 import { useSelfIntroLimit } from '@/hooks/useSelfIntroLimit'
 import { mapSupabaseStudentRowToProfile } from '@/lib/mapSupabaseStudentRowToProfile'
+import { getStudentSelectColumns } from '@/lib/studentSelectColumns'
 import { supabase } from '@/lib/supabaseClient'
 import { ProfileData } from '@/types/student.types'
 import { Drawer } from '@/ui/organisms/drawer/Drawer'
@@ -40,11 +41,12 @@ const ProfilePage = () => {
     if (!email) return
     const { data, error } = await supabase
       .from('students')
-      .select('*')
+      .select(getStudentSelectColumns(false))
       .eq('email', email)
       .maybeSingle()
-    if (error || !data?.name) return
-    setStudent(mapSupabaseStudentRowToProfile(data as Record<string, unknown>))
+    const row = data as unknown as Record<string, unknown> | null
+    if (error || !row?.name) return
+    setStudent(mapSupabaseStudentRowToProfile(row))
   }, [email])
 
   const handleGenerateSelfIntro = useCallback(async () => {
@@ -129,17 +131,16 @@ const ProfilePage = () => {
       try {
         const { data, error } = await supabase
           .from('students')
-          .select('*')
+          .select(getStudentSelectColumns(false))
           .eq('email', email)
           .maybeSingle()
-        if (error || !data?.name) {
+        const row = data as unknown as Record<string, unknown> | null
+        if (error || !row?.name) {
           console.error('Error fetching student:', error)
           setStudent(null)
           setIsEditMode(true)
-        } else if (data?.name) {
-          setStudent(
-            mapSupabaseStudentRowToProfile(data as Record<string, unknown>),
-          )
+        } else if (row.name) {
+          setStudent(mapSupabaseStudentRowToProfile(row))
           setIsEditMode(false)
         }
       } catch (error) {

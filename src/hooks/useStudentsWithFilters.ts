@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import type { ProfileData } from '@/types/student.types'
 import type {
+  CohortFilterOption,
   StudentsFilterOptions,
   StudentsFilterState,
   UseStudentsWithFiltersReturn,
@@ -20,19 +21,16 @@ const safeJsonParse = (value: unknown, fallback: unknown = null) => {
   return fallback
 }
 
-const extractFilterOptions = (
-  data: { batch: string | number | null; company: string | null; role: string | null }[],
-): StudentsFilterOptions => {
-  const cohorts = [...new Set(data.map((r) => String(r.batch ?? '')).filter(Boolean))].sort(
-    (a, b) => Number(b) - Number(a),
-  )
+const extractCompanyRoleOptions = (
+  data: { company: string | null; role: string | null }[],
+): Pick<StudentsFilterOptions, 'companies' | 'roles'> => {
   const companies = [...new Set(data.map((r) => r.company ?? '').filter(Boolean))].sort()
   const roles = [...new Set(data.map((r) => r.role ?? '').filter(Boolean))].sort()
-  return { cohorts, companies, roles }
+  return { companies, roles }
 }
 
 const SELECT_COLS =
-  'id, name, picture, role, company, email, social_links, batch, gender'
+  'id, name, picture, role, company, email, social_links, batch, cohort_id, gender'
 
 export const useStudentsWithFilters = (): UseStudentsWithFiltersReturn => {
   const [students, setStudents] = useState<ProfileData[]>([])
@@ -65,7 +63,14 @@ export const useStudentsWithFilters = (): UseStudentsWithFiltersReturn => {
         query = query.ilike('name', `%${filters.nameSearch.trim()}%`)
       }
       if (filters.cohort) {
-        query = query.eq('batch', filters.cohort)
+        const cohort = filterOptions.cohorts.find((c) => c.id === filters.cohort)
+        if (cohort) {
+          query = query.or(
+            `cohort_id.eq.${filters.cohort},batch.eq.${cohort.name}`,
+          )
+        } else {
+          query = query.eq('cohort_id', filters.cohort)
+        }
       }
       if (filters.company) {
         query = query.eq('company', filters.company)
@@ -92,7 +97,8 @@ export const useStudentsWithFilters = (): UseStudentsWithFiltersReturn => {
             company: s.company,
             email: s.email,
             socialLinks: safeJsonParse(s.social_links, {}),
-            batch: s.batch,
+            batch: String(s.batch ?? ''),
+            cohortId: (s as { cohort_id?: string }).cohort_id ?? undefined,
             gender: rawGender || undefined,
           }
         })
@@ -103,13 +109,33 @@ export const useStudentsWithFilters = (): UseStudentsWithFiltersReturn => {
     } finally {
       setLoading(false)
     }
-  }, [filters.cohort, filters.company, filters.role, filters.nameSearch])
+  }, [
+    filters.cohort,
+    filters.company,
+    filters.role,
+    filters.nameSearch,
+    filterOptions.cohorts,
+  ])
 
   const fetchFilterOptions = useCallback(async () => {
-    const { data } = await supabase
-      .from('students')
-      .select('batch, company, role')
-    if (data) setFilterOptions(extractFilterOptions(data))
+    const [cohortsRes, studentsRes] = await Promise.all([
+      fetch('/api/public/cohorts'),
+      supabase.from('students').select('company, role'),
+    ])
+
+    let cohorts: CohortFilterOption[] = []
+    if (cohortsRes.ok) {
+      const body = (await cohortsRes.json()) as {
+        cohorts?: CohortFilterOption[]
+      }
+      cohorts = body.cohorts ?? []
+    }
+
+    const companyRole = studentsRes.data
+      ? extractCompanyRoleOptions(studentsRes.data)
+      : { companies: [], roles: [] }
+
+    setFilterOptions({ cohorts, ...companyRole })
   }, [])
 
   useEffect(() => {

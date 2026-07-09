@@ -4,7 +4,9 @@ import { Breadcrumbs } from '@/atoms/breadcrumbs/Breadcrumbs'
 import { LogSnagPageView } from '@/components/analytics/LogSnagPageView'
 import { PosthogCaptureOnce } from '@/components/analytics/PosthogCaptureOnce'
 import { StudentProfileView } from '@/components/profile/StudentProfileView'
+import { useIsAdmin } from '@/hooks/useIsAdmin'
 import { useStudent } from '@/hooks/useStudent'
+import { useStudentGuardianDetails } from '@/hooks/useStudentGuardianDetails'
 import { StudentNotFound } from '@/templates/StudentNotFound'
 
 interface StudentDetailPageClientProps {
@@ -14,7 +16,9 @@ interface StudentDetailPageClientProps {
 export const StudentDetailPageClient = ({
   id,
 }: StudentDetailPageClientProps) => {
+  const isAdmin = useIsAdmin()
   const { student, loading, error } = useStudent(id)
+  const guardianDetails = useStudentGuardianDetails(id, isAdmin)
 
   if (!id) {
     return <StudentNotFound message="Invalid student ID." />
@@ -72,7 +76,10 @@ export const StudentDetailPageClient = ({
           ]}
         />
         <div className="mt-8">
-          <StudentProfileView student={student} />
+          <StudentProfileView
+            student={student}
+            guardianDetails={isAdmin ? guardianDetails : undefined}
+          />
         </div>
       </div>
     </div>

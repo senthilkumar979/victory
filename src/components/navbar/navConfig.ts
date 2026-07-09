@@ -3,6 +3,7 @@ import {
   Award,
   BookOpen,
   CalendarDays,
+  ClipboardList,
   Home,
   Images,
   LayoutDashboard,
@@ -52,6 +53,12 @@ export const NAV_USER: NavUserItem[] = [
     checkAccess: true,
   },
   { href: '/secured/profile', label: 'Profile', icon: User, checkAccess: true },
+  {
+    href: '/secured/assignments',
+    label: 'Assignments',
+    icon: ClipboardList,
+    checkAccess: true,
+  },
   {
     href: '/secured/admin',
     label: 'Administration',

@@ -13,7 +13,7 @@ export interface ProfileUpdatePayload {
   summary?: string
   email: string
   mediumUsername?: string
-  batch: string
+  cohortId: string
   gender?: string
   resumeLink?: string
   skillSets?: string[]
@@ -21,14 +21,12 @@ export interface ProfileUpdatePayload {
   experience?: ProfileData['experience']
   mentorBridgeExp?: ProfileData['mentorBridgeExp']
   socialLinks?: ProfileData['socialLinks']
+  fatherGuardianDetails?: string
+  motherDetails?: string
 }
 
 export function toSupabasePayload(payload: ProfileUpdatePayload) {
-  const batchVal = payload.batch.trim()
-  const batchNum = parseInt(batchVal, 10)
-  const batch = !Number.isNaN(batchNum) ? batchNum : batchVal
-
-  return {
+  const row: Record<string, unknown> = {
     id: payload.id?.trim() ?? null,
     name: payload.name.trim(),
     picture: payload.picture?.trim() || null,
@@ -37,7 +35,7 @@ export function toSupabasePayload(payload: ProfileUpdatePayload) {
     summary: payload.summary?.trim() || null,
     email: payload.email.trim(),
     medium_username: payload.mediumUsername?.trim() || null,
-    batch,
+    cohort_id: payload.cohortId,
     gender: (() => {
       const g = payload.gender?.trim().toUpperCase()
       return g === 'M' || g === 'F' ? g : null
@@ -56,6 +54,15 @@ export function toSupabasePayload(payload: ProfileUpdatePayload) {
           }
         : null,
   }
+
+  if (payload.fatherGuardianDetails !== undefined) {
+    row.father_guardian_details = payload.fatherGuardianDetails.trim() || null
+  }
+  if (payload.motherDetails !== undefined) {
+    row.mother_details = payload.motherDetails.trim() || null
+  }
+
+  return row
 }
 
 export const useUpdateStudent = () => {

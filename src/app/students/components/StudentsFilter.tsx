@@ -36,6 +36,9 @@ export const StudentsFilter = ({
     [filters, onFiltersChange],
   )
 
+  const cohortLabel =
+    options.cohorts.find((c) => c.id === filters.cohort)?.name ?? filters.cohort
+
   const isFiltered =
     !!filters.cohort ||
     !!filters.company ||
@@ -80,7 +83,7 @@ export const StudentsFilter = ({
             )}
             {filters.cohort && (
               <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 border border-emerald-200">
-                Cohort: {filters.cohort}
+                Cohort: {cohortLabel}
                 <button
                   type="button"
                   onClick={() => handleChange('cohort', '')}
@@ -176,8 +179,8 @@ export const StudentsFilter = ({
             >
               <option value="">All cohorts</option>
               {options.cohorts.map((c) => (
-                <option key={c} value={c}>
-                  {c}
+                <option key={c.id} value={c.id}>
+                  {c.name}
                 </option>
               ))}
             </select>

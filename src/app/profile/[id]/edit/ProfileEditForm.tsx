@@ -6,7 +6,15 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { FieldErrors, Resolver } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 
+import { useCreateStudentProfile } from '@/hooks/useCreateStudentProfile'
+import { useIsAdmin } from '@/hooks/useIsAdmin'
 import { useUpdateStudent } from '@/hooks/useUpdateStudent'
+import type { ProfileData } from '@/types/student.types'
+import { ProfileEditFormFields } from './ProfileEditFormFields'
+import {
+  profileEditFormSchema,
+  type ProfileEditFormValues,
+} from './profileEditFormSchema'
 import { Button, PrimaryButton } from '@/ui/atoms/button/Button'
 import { motion } from 'framer-motion'
 import { gooeyToast } from 'goey-toast'
@@ -16,13 +24,6 @@ import { usePostHog } from 'posthog-js/react'
 
 import { LogSnagPageView } from '@/components/analytics/LogSnagPageView'
 import { PosthogCaptureOnce } from '@/components/analytics/PosthogCaptureOnce'
-import { useCreateStudentProfile } from '@/hooks/useCreateStudentProfile'
-import type { ProfileData } from '@/types/student.types'
-import { ProfileEditFormFields } from './ProfileEditFormFields'
-import {
-  profileEditFormSchema,
-  type ProfileEditFormValues,
-} from './profileEditFormSchema'
 
 function toFormValues(student: ProfileData | null): ProfileEditFormValues {
   if (!student) {
@@ -34,13 +35,15 @@ function toFormValues(student: ProfileData | null): ProfileEditFormValues {
       summary: '',
       email: '',
       mediumUsername: '',
-      batch: '',
+      cohortId: '',
       gender: '',
       resumeLink: '',
       skillSets: '',
       inspirations: '',
       experience: [],
       socialLinks: { linkedIn: '', gitHub: '', website: '' },
+      fatherGuardianDetails: '',
+      motherDetails: '',
     }
   }
   return {
@@ -51,7 +54,7 @@ function toFormValues(student: ProfileData | null): ProfileEditFormValues {
     summary: student.summary ?? '',
     email: student.email ?? '',
     mediumUsername: student.mediumUsername ?? '',
-    batch: String(student.batch ?? ''),
+    cohortId: student.cohortId ?? '',
     gender: (() => {
       const g = student.gender?.trim()?.toUpperCase()
       return g === 'M' || g === 'F' ? g : ''
@@ -80,6 +83,8 @@ function toFormValues(student: ProfileData | null): ProfileEditFormValues {
       gitHub: student.socialLinks?.gitHub ?? '',
       website: student.socialLinks?.website ?? '',
     },
+    fatherGuardianDetails: student.fatherGuardianDetails ?? '',
+    motherDetails: student.motherDetails ?? '',
   }
 }
 
@@ -163,6 +168,7 @@ export const ProfileEditForm = ({
   onBack,
   onSaveSuccess,
 }: ProfileEditFormProps) => {
+  const isAdmin = useIsAdmin()
   const posthog = usePostHog()
   const router = useRouter()
   const { updateStudent } = useUpdateStudent()
@@ -267,7 +273,7 @@ export const ProfileEditForm = ({
         summary: data.summary || undefined,
         email: data.email,
         mediumUsername: data.mediumUsername || undefined,
-        batch: data.batch,
+        cohortId: data.cohortId,
         gender: data.gender || undefined,
         resumeLink: resumeToSave || undefined,
         skillSets: skillSets.length > 0 ? skillSets : undefined,
@@ -275,6 +281,12 @@ export const ProfileEditForm = ({
         experience: validExperience?.length ? validExperience : undefined,
         mentorBridgeExp: data.mentorBridgeExp,
         socialLinks,
+        ...(isAdmin
+          ? {
+              fatherGuardianDetails: data.fatherGuardianDetails,
+              motherDetails: data.motherDetails,
+            }
+          : {}),
       }
 
       if (studentId?.trim()) {
@@ -385,6 +397,8 @@ export const ProfileEditForm = ({
             stagedResumeUrl={stagedResumeUrl}
             onStagedPictureUrl={setStagedPictureUrl}
             onStagedResumeUrl={setStagedResumeUrl}
+            legacyBatch={student?.batch ? String(student.batch) : undefined}
+            showAdminFields={isAdmin}
           />
         </div>
 

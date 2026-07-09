@@ -1,15 +1,18 @@
 import type { ProfileData } from '@/types/student.types'
 
-/** Matches required fields on `profileEditFormSchema` (name, role, batch). */
+/** Matches required fields on `profileEditFormSchema` (name, role, cohort). */
 export function isStudentProfileCompleteRow(row: {
   name?: unknown
   role?: unknown
   batch?: unknown
+  cohort_id?: unknown
+  cohortId?: unknown
 }): boolean {
   const name = String(row.name ?? '').trim()
   const role = String(row.role ?? '').trim()
-  const batch = String(row.batch ?? '').trim()
-  return name.length > 0 && role.length > 0 && batch.length > 0
+  const cohort =
+    String(row.cohort_id ?? row.cohortId ?? row.batch ?? '').trim()
+  return name.length > 0 && role.length > 0 && cohort.length > 0
 }
 
 export function isStudentProfileComplete(
@@ -20,6 +23,7 @@ export function isStudentProfileComplete(
     name: profile.name,
     role: profile.role,
     batch: profile.batch,
+    cohortId: profile.cohortId,
   })
 }
 
@@ -41,9 +45,11 @@ export function getProfileChecklistItems(
     { id: 'name', label: 'Full name', done: Boolean(profile.name?.trim()) },
     { id: 'role', label: 'Role / title', done: Boolean(profile.role?.trim()) },
     {
-      id: 'batch',
-      label: 'Cohort batch',
-      done: Boolean(String(profile.batch ?? '').trim()),
+      id: 'cohort',
+      label: 'Cohort',
+      done: Boolean(
+        String(profile.cohortId ?? profile.batch ?? '').trim(),
+      ),
     },
     {
       id: 'picture',

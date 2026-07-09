@@ -33,7 +33,10 @@ declare
     'presenters',
     'partners',
     'roadmap_completions',
-    'web_push_subscriptions'
+    'web_push_subscriptions',
+    'cohorts',
+    'assignments',
+    'assignment_submissions'
   ];
 begin
   foreach tbl in array tables

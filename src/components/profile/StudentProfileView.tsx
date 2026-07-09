@@ -18,12 +18,23 @@ import { useStudentBlogs } from '@/hooks/useStudentBlogs'
 import type { ProfileData } from '@/types/student.types'
 import { ProfileParticipations } from './sections/ProfileParticipations'
 import { ProfilePresentations } from './sections/ProfilePresentations'
+import { ProfileGuardianDetails } from './sections/ProfileGuardianDetails'
+
+interface GuardianDetailsView {
+  fatherGuardianDetails?: string
+  motherDetails?: string
+}
 
 interface StudentProfileViewProps {
   student: ProfileData
+  /** Set when viewer is admin; `undefined` hides the section. */
+  guardianDetails?: GuardianDetailsView | null
 }
 
-export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
+export const StudentProfileView = ({
+  student,
+  guardianDetails,
+}: StudentProfileViewProps) => {
   const { blogs, loading: blogsLoading } = useStudentBlogs(
     student.mediumUsername,
     student.name,
@@ -55,6 +66,19 @@ export const StudentProfileView = ({ student }: StudentProfileViewProps) => {
         {student.summary && (
           <BentoCard span="lg" delay={0.05}>
             <ProfileAbout summary={student.summary} />
+          </BentoCard>
+        )}
+
+        {guardianDetails !== undefined && (
+          <BentoCard span="lg" delay={0.06}>
+            {guardianDetails === null ? (
+              <p className="text-sm text-slate-500">Could not load guardian details.</p>
+            ) : (
+              <ProfileGuardianDetails
+                fatherGuardianDetails={guardianDetails.fatherGuardianDetails}
+                motherDetails={guardianDetails.motherDetails}
+              />
+            )}
           </BentoCard>
         )}
 
