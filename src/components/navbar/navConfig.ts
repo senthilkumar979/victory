@@ -13,6 +13,7 @@ import {
   User,
   UserPen,
   Users,
+  Video,
 } from 'lucide-react'
 
 export interface NavLinkItem {
@@ -57,6 +58,12 @@ export const NAV_USER: NavUserItem[] = [
     href: '/secured/assignments',
     label: 'Assignments',
     icon: ClipboardList,
+    checkAccess: true,
+  },
+  {
+    href: '/secured/videos',
+    label: 'Videos',
+    icon: Video,
     checkAccess: true,
   },
   {

@@ -11,6 +11,7 @@ import { HallOfFame } from '../../HallOfFame/HallOfFame'
 import { AdminMeetings } from '../../Meetings/AdminMeetings'
 import { Partners } from '../../Partners/Partners'
 import { Students } from '../../Students/Students'
+import { Videos } from '../../Videos/Videos'
 import { SettingsNavItem } from '../SettingsNav/SettingNav.types'
 import { VisitorQueries } from './VisitorQueries'
 
@@ -65,6 +66,11 @@ export const GeneralSettings = () => {
       value: 'assignments',
       label: 'Assignments',
       content: <Assignments />,
+    },
+    {
+      value: 'videos',
+      label: 'Videos',
+      content: <Videos />,
     },
     {
       value: 'visitor-queries',

@@ -36,7 +36,8 @@ declare
     'web_push_subscriptions',
     'cohorts',
     'assignments',
-    'assignment_submissions'
+    'assignment_submissions',
+    'session_videos'
   ];
 begin
   foreach tbl in array tables

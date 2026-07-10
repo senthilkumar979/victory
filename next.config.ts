@@ -76,6 +76,14 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'wfkq0nguanh0273r.public.blob.vercel-storage.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'img.youtube.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.ytimg.com',
+      },
     ],
   },
 };
