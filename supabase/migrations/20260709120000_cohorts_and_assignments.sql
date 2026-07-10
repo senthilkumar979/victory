@@ -31,6 +31,8 @@ create index if not exists students_cohort_id_idx on public.students (cohort_id)
 create or replace function public.sync_student_batch_from_cohort()
 returns trigger
 language plpgsql
+security definer
+set search_path = public
 as $$
 begin
   if new.cohort_id is not null then
@@ -106,7 +108,16 @@ alter table public.cohorts enable row level security;
 alter table public.assignments enable row level security;
 alter table public.assignment_submissions enable row level security;
 
-revoke all on table public.cohorts from anon, authenticated;
+-- cohorts: public read (id + name) for filters and profile cohort_id sync
+grant select on table public.cohorts to anon, authenticated;
+
+drop policy if exists cohorts_public_read on public.cohorts;
+create policy cohorts_public_read
+  on public.cohorts
+  for select
+  to anon, authenticated
+  using (true);
+
 revoke all on table public.assignments from anon, authenticated;
 revoke all on table public.assignment_submissions from anon, authenticated;
 
