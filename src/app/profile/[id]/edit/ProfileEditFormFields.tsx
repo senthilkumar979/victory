@@ -1,13 +1,13 @@
-'use client'
+"use client";
 
-import { useEffect, useRef, useState } from 'react'
-import { Controller, useFieldArray, type UseFormReturn } from 'react-hook-form'
+import { useEffect, useRef, useState } from "react";
+import { Controller, useFieldArray, type UseFormReturn } from "react-hook-form";
 
-import { useCohorts } from '@/hooks/useCohorts'
+import { useCohorts } from "@/hooks/useCohorts";
 
-import { FormInput } from '@/ui/molecules/form-input/FormInput'
-import { FormMultiInput } from '@/ui/molecules/form-multi-input/FormMultiInput'
-import { joinClassNames } from '@/utils/tailwindUtils'
+import { FormInput } from "@/ui/molecules/form-input/FormInput";
+import { FormMultiInput } from "@/ui/molecules/form-multi-input/FormMultiInput";
+import { joinClassNames } from "@/utils/tailwindUtils";
 import {
   FileText,
   Github,
@@ -19,31 +19,31 @@ import {
   Plus,
   Rss,
   Trash2,
-} from 'lucide-react'
+} from "lucide-react";
 
-import { FormLabel } from '@/atoms/form-label/FormLabel'
-import type { ProfileEditFormValues } from './profileEditFormSchema'
-import { useProfileFileUpload } from './useProfileFileUpload'
+import { FormLabel } from "@/atoms/form-label/FormLabel";
+import type { ProfileEditFormValues } from "./profileEditFormSchema";
+import { useProfileFileUpload } from "./useProfileFileUpload";
 
 interface ProfileEditFormFieldsProps {
-  formId: string
-  form: UseFormReturn<ProfileEditFormValues>
-  studentId: string
+  formId: string;
+  form: UseFormReturn<ProfileEditFormValues>;
+  studentId: string;
   /** Vercel URL after upload; persisted to DB only when parent submits Save. */
-  stagedPictureUrl: string | null
-  stagedResumeUrl: string | null
-  onStagedPictureUrl: (url: string | null) => void
-  onStagedResumeUrl: (url: string | null) => void
+  stagedPictureUrl: string | null;
+  stagedResumeUrl: string | null;
+  onStagedPictureUrl: (url: string | null) => void;
+  onStagedResumeUrl: (url: string | null) => void;
   /** Pre-migration students may only have `batch`; map to cohort when options load. */
-  legacyBatch?: string
-  showAdminFields?: boolean
+  legacyBatch?: string;
+  showAdminFields?: boolean;
 }
 
 const inputBase =
-  'block w-full rounded-xl border border-slate-200 bg-white/80 px-4 py-2 text-sm shadow-sm transition-all placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-secondary'
+  "block w-full rounded-xl border border-slate-200 bg-white/80 px-4 py-2 text-sm shadow-sm transition-all placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-secondary";
 
 const selectBase =
-  'block w-full rounded-lg border border-slate-200 bg-white/80 px-2 py-2 text-sm shadow-sm transition-all placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-secondary'
+  "block w-full rounded-lg border border-slate-200 bg-white/80 px-2 py-2 text-sm shadow-sm transition-all placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-secondary";
 
 export const ProfileEditFormFields = ({
   formId,
@@ -56,37 +56,38 @@ export const ProfileEditFormFields = ({
   legacyBatch,
   showAdminFields = false,
 }: ProfileEditFormFieldsProps) => {
-  const { cohorts } = useCohorts()
-  const { register, control, formState } = form
-  const { errors } = formState
-  const legacyBatchResolvedRef = useRef(false)
-  const { uploadFile, uploading, error } = useProfileFileUpload(studentId)
-  const hasStudentId = Boolean(studentId?.trim())
-  const [pictureLocalSrc, setPictureLocalSrc] = useState<string | null>(null)
-  const pictureInputRef = useRef<HTMLInputElement>(null)
-  const resumeInputRef = useRef<HTMLInputElement>(null)
+  const { cohorts } = useCohorts();
+  const { register, control, formState } = form;
+  const { errors } = formState;
+  const legacyBatchResolvedRef = useRef(false);
+  const { uploadFile, uploading, error } = useProfileFileUpload(studentId);
+  const hasStudentId = Boolean(studentId?.trim());
+  const [pictureLocalSrc, setPictureLocalSrc] = useState<string | null>(null);
+  const pictureInputRef = useRef<HTMLInputElement>(null);
+  const resumeInputRef = useRef<HTMLInputElement>(null);
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'experience',
-  })
-  const pictureUrl = form.watch('picture')
-  const resumeLinkUrl = form.watch('resumeLink')
-  const pictureDisplaySrc = pictureLocalSrc || stagedPictureUrl || pictureUrl
-  const resumeDisplayUrl = stagedResumeUrl || resumeLinkUrl
+    name: "experience",
+  });
+  const pictureUrl = form.watch("picture");
+  const resumeLinkUrl = form.watch("resumeLink");
+  const pictureDisplaySrc = pictureLocalSrc || stagedPictureUrl || pictureUrl;
+  const resumeDisplayUrl = stagedResumeUrl || resumeLinkUrl;
 
   useEffect(() => {
-    if (legacyBatchResolvedRef.current || !legacyBatch || !cohorts.length) return
-    const current = form.getValues('cohortId')
+    if (legacyBatchResolvedRef.current || !legacyBatch || !cohorts.length)
+      return;
+    const current = form.getValues("cohortId");
     if (current) {
-      legacyBatchResolvedRef.current = true
-      return
+      legacyBatchResolvedRef.current = true;
+      return;
     }
-    const match = cohorts.find((c) => c.name === legacyBatch.trim())
+    const match = cohorts.find((c) => c.name === legacyBatch.trim());
     if (match) {
-      form.setValue('cohortId', match.id, { shouldValidate: true })
-      legacyBatchResolvedRef.current = true
+      form.setValue("cohortId", match.id, { shouldValidate: true });
+      legacyBatchResolvedRef.current = true;
     }
-  }, [cohorts, legacyBatch, form])
+  }, [cohorts, legacyBatch, form]);
 
   return (
     <div className="space-y-6 md:space-y-10">
@@ -107,8 +108,8 @@ export const ProfileEditFormFields = ({
         </div>
       ) : (
         <p className="text-xs text-slate-500">
-          Files upload to storage as soon as you choose them. Your profile record is updated only
-          when you click Save changes.
+          Files upload to storage as soon as you choose them. Your profile
+          record is updated only when you click Save changes.
         </p>
       )}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-10">
@@ -142,40 +143,40 @@ export const ProfileEditFormFields = ({
                     accept=".jpg,.jpeg,.png,image/jpeg,image/png"
                     className="hidden"
                     onChange={async (e) => {
-                      const file = e.target.files?.[0]
-                      if (!file) return
-                      let objectUrl: string | null = null
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      let objectUrl: string | null = null;
                       try {
-                        objectUrl = URL.createObjectURL(file)
-                        setPictureLocalSrc(objectUrl)
-                        const url = await uploadFile(file, 'picture')
-                        if (url) onStagedPictureUrl(url)
+                        objectUrl = URL.createObjectURL(file);
+                        setPictureLocalSrc(objectUrl);
+                        const url = await uploadFile(file, "picture");
+                        if (url) onStagedPictureUrl(url);
                       } finally {
-                        if (objectUrl) URL.revokeObjectURL(objectUrl)
-                        setPictureLocalSrc(null)
-                        e.target.value = ''
+                        if (objectUrl) URL.revokeObjectURL(objectUrl);
+                        setPictureLocalSrc(null);
+                        e.target.value = "";
                       }
                     }}
                   />
                   <button
                     type="button"
                     onClick={() => pictureInputRef.current?.click()}
-                    disabled={!hasStudentId || uploading === 'picture'}
+                    disabled={!hasStudentId || uploading === "picture"}
                     className={joinClassNames(
                       inputBase,
-                      'flex w-full min-w-0 cursor-pointer items-center gap-2 text-left sm:w-auto',
-                      !hasStudentId && 'cursor-not-allowed opacity-60',
+                      "flex w-full min-w-0 cursor-pointer items-center gap-2 text-left sm:w-auto",
+                      !hasStudentId && "cursor-not-allowed opacity-60",
                     )}
                   >
-                    {uploading === 'picture' ? (
+                    {uploading === "picture" ? (
                       <Loader2 className="size-4 shrink-0 animate-spin" />
                     ) : (
                       <ImageIcon className="size-4 shrink-0" />
                     )}
                     <span className="truncate">
-                      {uploading === 'picture'
-                        ? 'Uploading...'
-                        : 'Choose image (JPG, PNG)'}
+                      {uploading === "picture"
+                        ? "Uploading..."
+                        : "Choose image (JPG, PNG)"}
                     </span>
                   </button>
                 </div>
@@ -195,8 +196,8 @@ export const ProfileEditFormFields = ({
                   isRequired
                   className="text-secondary"
                   errorMessage={errors.name?.message}
-                  validationStatus={errors.name ? 'invalid' : 'default'}
-                  value={field.value ?? ''}
+                  validationStatus={errors.name ? "invalid" : "default"}
+                  value={field.value ?? ""}
                   onChange={field.onChange}
                   onBlur={field.onBlur}
                 />
@@ -211,13 +212,13 @@ export const ProfileEditFormFields = ({
               className="text-secondary"
               readOnly={true}
               errorMessage={errors.email?.message}
-              validationStatus={errors.email ? 'invalid' : 'default'}
-              {...register('email')}
+              validationStatus={errors.email ? "invalid" : "default"}
+              {...register("email")}
             />
             <Controller
               name="role"
               control={control}
-              rules={{ required: 'Role is required' }}
+              rules={{ required: "Role is required" }}
               render={({ field }) => (
                 <div>
                   <FormLabel htmlFor={`${formId}-role`} isRequired>
@@ -227,11 +228,11 @@ export const ProfileEditFormFields = ({
                     id={`${formId}-role`}
                     className={joinClassNames(
                       selectBase,
-                      'text-secondary rounded-sm',
+                      "text-secondary rounded-sm",
                     )}
                     ref={field.ref}
                     name={field.name}
-                    value={String(field.value ?? '')}
+                    value={String(field.value ?? "")}
                     onBlur={field.onBlur}
                     onChange={(e) => field.onChange(e.target.value)}
                     required
@@ -239,18 +240,15 @@ export const ProfileEditFormFields = ({
                     <option value="">Select a role</option>
                     <option value="Frontend Engineer">Frontend Engineer</option>
                     <option value="Backend Engineer">Backend Engineer</option>
+                    <option value="Data Engineer">Data Engineer</option>
                     <option value="FullStack Engineer">
                       FullStack Engineer
                     </option>
                     <option value="Mobile App Developer">
                       Mobile App Developer
                     </option>
-                    <option value="Python Developer">
-                      Python Developer
-                    </option>
-                    <option value="UX Designer">
-                      UX Designer
-                    </option>
+                    <option value="Python Developer">Python Developer</option>
+                    <option value="UX Designer">UX Designer</option>
                   </select>
                   {errors.role && (
                     <span className="mt-1 block text-xs text-red-600">
@@ -269,10 +267,10 @@ export const ProfileEditFormFields = ({
                   <FormLabel htmlFor={`${formId}-company`}>Company</FormLabel>
                   <select
                     id={`${formId}-company`}
-                    className={joinClassNames(selectBase, 'text-secondary')}
+                    className={joinClassNames(selectBase, "text-secondary")}
                     ref={field.ref}
                     name={field.name}
-                    value={String(field.value ?? '')}
+                    value={String(field.value ?? "")}
                     onBlur={field.onBlur}
                     onChange={(e) => field.onChange(e.target.value)}
                   >
@@ -289,7 +287,7 @@ export const ProfileEditFormFields = ({
                       Sukiran Solutions Pvt Ltd
                     </option>
                     <option value="Techjays">Techjays</option>
-                    <option value="TS Techy">TS Techy</option>
+                    <option value="Teksage">Teksage</option>
                   </select>
                 </div>
               )}
@@ -307,11 +305,11 @@ export const ProfileEditFormFields = ({
                     id={`${formId}-cohort`}
                     className={joinClassNames(
                       selectBase,
-                      'text-secondary rounded-sm',
+                      "text-secondary rounded-sm",
                     )}
                     ref={field.ref}
                     name={field.name}
-                    value={String(field.value ?? '')}
+                    value={String(field.value ?? "")}
                     onBlur={field.onBlur}
                     onChange={(e) => field.onChange(e.target.value)}
                     required
@@ -340,10 +338,10 @@ export const ProfileEditFormFields = ({
                   <FormLabel htmlFor={`${formId}-gender`}>Gender</FormLabel>
                   <select
                     id={`${formId}-gender`}
-                    className={joinClassNames(selectBase, 'text-secondary')}
+                    className={joinClassNames(selectBase, "text-secondary")}
                     ref={field.ref}
                     name={field.name}
-                    value={String(field.value ?? '')}
+                    value={String(field.value ?? "")}
                     onBlur={field.onBlur}
                     onChange={(e) => field.onChange(e.target.value)}
                   >
@@ -368,9 +366,9 @@ export const ProfileEditFormFields = ({
               placeholder="Brief professional summary..."
               className={joinClassNames(
                 inputBase,
-                'resize-none text-secondary',
+                "resize-none text-secondary",
               )}
-              {...register('summary')}
+              {...register("summary")}
             />
           </div>
         </section>
@@ -386,8 +384,8 @@ export const ProfileEditFormFields = ({
               <input
                 type="url"
                 placeholder="https://linkedin.com/in/username"
-                className={joinClassNames(inputBase, 'text-secondary')}
-                {...register('socialLinks.linkedIn')}
+                className={joinClassNames(inputBase, "text-secondary")}
+                {...register("socialLinks.linkedIn")}
               />
             </div>
             <div>
@@ -397,8 +395,8 @@ export const ProfileEditFormFields = ({
               <input
                 type="url"
                 placeholder="https://github.com/username"
-                className={joinClassNames(inputBase, 'text-secondary')}
-                {...register('socialLinks.gitHub')}
+                className={joinClassNames(inputBase, "text-secondary")}
+                {...register("socialLinks.gitHub")}
               />
             </div>
             <div>
@@ -408,8 +406,8 @@ export const ProfileEditFormFields = ({
               <input
                 type="url"
                 placeholder="https://..."
-                className={joinClassNames(inputBase, 'text-secondary')}
-                {...register('socialLinks.website')}
+                className={joinClassNames(inputBase, "text-secondary")}
+                {...register("socialLinks.website")}
               />
             </div>
             <div>
@@ -420,8 +418,8 @@ export const ProfileEditFormFields = ({
                 type="text"
                 id={`${formId}-mediumUsername`}
                 placeholder="username"
-                className={joinClassNames(inputBase, 'text-secondary')}
-                {...register('mediumUsername')}
+                className={joinClassNames(inputBase, "text-secondary")}
+                {...register("mediumUsername")}
               />
             </div>
           </div>
@@ -440,29 +438,29 @@ export const ProfileEditFormFields = ({
                 accept=".pdf,application/pdf"
                 className="hidden"
                 onChange={async (e) => {
-                  const file = e.target.files?.[0]
-                  if (!file) return
-                  const url = await uploadFile(file, 'resume')
-                  if (url) onStagedResumeUrl(url)
-                  e.target.value = ''
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const url = await uploadFile(file, "resume");
+                  if (url) onStagedResumeUrl(url);
+                  e.target.value = "";
                 }}
               />
               <button
                 type="button"
                 onClick={() => resumeInputRef.current?.click()}
-                disabled={!hasStudentId || uploading === 'resume'}
+                disabled={!hasStudentId || uploading === "resume"}
                 className={joinClassNames(
                   inputBase,
-                  'flex w-full min-w-0 cursor-pointer items-center gap-2 text-left sm:w-auto',
-                  !hasStudentId && 'cursor-not-allowed opacity-60',
+                  "flex w-full min-w-0 cursor-pointer items-center gap-2 text-left sm:w-auto",
+                  !hasStudentId && "cursor-not-allowed opacity-60",
                 )}
               >
-                {uploading === 'resume' ? (
+                {uploading === "resume" ? (
                   <Loader2 className="size-4 animate-spin" />
                 ) : (
                   <FileText className="size-4" />
                 )}
-                {uploading === 'resume' ? 'Uploading...' : 'Choose PDF file'}
+                {uploading === "resume" ? "Uploading..." : "Choose PDF file"}
               </button>
               {resumeDisplayUrl ? (
                 <a
@@ -471,7 +469,9 @@ export const ProfileEditFormFields = ({
                   rel="noopener noreferrer"
                   className="text-xs text-primary hover:underline"
                 >
-                  {stagedResumeUrl ? 'Preview uploaded resume (save to keep)' : 'View current resume'}
+                  {stagedResumeUrl
+                    ? "Preview uploaded resume (save to keep)"
+                    : "View current resume"}
                 </a>
               ) : null}
             </div>
@@ -487,7 +487,7 @@ export const ProfileEditFormFields = ({
             <button
               type="button"
               onClick={() =>
-                append({ company: '', role: '', summary: '', website: '' })
+                append({ company: "", role: "", summary: "", website: "" })
               }
               className="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-lg bg-primary/10 px-3 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/20 sm:self-auto"
             >
@@ -538,7 +538,7 @@ export const ProfileEditFormFields = ({
                     placeholder="Describe your role..."
                     className={joinClassNames(
                       inputBase,
-                      'resize-none mt-1 text-secondary',
+                      "resize-none mt-1 text-secondary",
                     )}
                     {...register(`experience.${idx}.summary`)}
                   />
@@ -571,17 +571,17 @@ export const ProfileEditFormFields = ({
                 value={
                   field.value
                     ? field.value
-                        .split(',')
+                        .split(",")
                         .map((s) => s.trim())
                         .filter(Boolean)
                     : []
                 }
-                onChange={(tags) => field.onChange(tags.join(', '))}
+                onChange={(tags) => field.onChange(tags.join(", "))}
                 onBlur={field.onBlur}
                 placeholder="React, TypeScript, Node.js"
                 maxTags={15}
                 errorMessage={errors.skillSets?.message}
-                validationStatus={errors.skillSets ? 'invalid' : 'default'}
+                validationStatus={errors.skillSets ? "invalid" : "default"}
               />
             )}
           />
@@ -595,17 +595,17 @@ export const ProfileEditFormFields = ({
                 value={
                   field.value
                     ? field.value
-                        .split(',')
+                        .split(",")
                         .map((s) => s.trim())
                         .filter(Boolean)
                     : []
                 }
-                onChange={(tags) => field.onChange(tags.join(', '))}
+                onChange={(tags) => field.onChange(tags.join(", "))}
                 onBlur={field.onBlur}
                 placeholder="Kalam, Sachin, Elon Musk..."
                 maxTags={15}
                 errorMessage={errors.inspirations?.message}
-                validationStatus={errors.inspirations ? 'invalid' : 'default'}
+                validationStatus={errors.inspirations ? "invalid" : "default"}
               />
             )}
           />
@@ -627,23 +627,25 @@ export const ProfileEditFormFields = ({
                 id={`${formId}-fatherGuardian`}
                 rows={4}
                 placeholder="Name, phone, occupation, address..."
-                className={joinClassNames(inputBase, 'mt-1 resize-y')}
-                {...register('fatherGuardianDetails')}
+                className={joinClassNames(inputBase, "mt-1 resize-y")}
+                {...register("fatherGuardianDetails")}
               />
             </div>
             <div>
-              <FormLabel htmlFor={`${formId}-mother`}>Mother&apos;s details</FormLabel>
+              <FormLabel htmlFor={`${formId}-mother`}>
+                Mother&apos;s details
+              </FormLabel>
               <textarea
                 id={`${formId}-mother`}
                 rows={4}
                 placeholder="Name, phone, occupation, address..."
-                className={joinClassNames(inputBase, 'mt-1 resize-y')}
-                {...register('motherDetails')}
+                className={joinClassNames(inputBase, "mt-1 resize-y")}
+                {...register("motherDetails")}
               />
             </div>
           </section>
         )}
       </div>
     </div>
-  )
-}
+  );
+};
