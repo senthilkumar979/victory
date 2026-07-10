@@ -1,5 +1,10 @@
 import { z } from 'zod'
 
+import {
+  ASSIGNMENT_CATEGORIES,
+  type AssignmentCategory,
+} from '@/lib/assignments/assignmentCategories'
+
 const optionalUrl = z
   .string()
   .trim()
@@ -27,6 +32,13 @@ export const assignmentFormSchema = z.object({
   title: z.string().trim().min(1, 'Title is required'),
   description: z.string().trim().min(1, 'Description is required'),
   cohortId: z.string().uuid('Select a cohort'),
+  category: z
+    .string()
+    .refine(
+      (value): value is AssignmentCategory =>
+        ASSIGNMENT_CATEGORIES.includes(value as AssignmentCategory),
+      'Select a category',
+    ),
   googleGroupId: z.string().trim().min(1, 'Select a Google Group'),
   attachments: optionalUrl,
   dueDate: z
@@ -41,7 +53,7 @@ export const submissionFormSchema = z.object({
   githubRepoUrl: githubRepoUrlSchema,
 })
 
-export type AssignmentFormValues = z.infer<typeof assignmentFormSchema>
+export type AssignmentFormValues = z.input<typeof assignmentFormSchema>
 export type SubmissionFormValues = z.infer<typeof submissionFormSchema>
 
 const ratingRefine = (value: number) => {

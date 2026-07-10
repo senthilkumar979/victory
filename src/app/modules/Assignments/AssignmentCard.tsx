@@ -39,6 +39,7 @@ export const AssignmentCard = ({
     <p className="text-sm text-slate-400">
       Due: {formatDueDate(assignment.dueDate)}
       {assignment.cohortName && ` · Cohort ${assignment.cohortName}`}
+      {` · ${assignment.category}`}
     </p>
     <p className="text-sm text-slate-300">
       {assignment.stats.submittedCount} / {assignment.stats.totalStudents} Submitted

@@ -6,9 +6,13 @@ import { MarkdownEditor } from '@/components/assignments/MarkdownEditor'
 import { FormLabel } from '@/atoms/form-label/FormLabel'
 import { CalendarInput } from '@/molecules/calendar'
 import { FormInput } from '@/molecules/form-input/FormInput'
+import { ASSIGNMENT_CATEGORY_OPTIONS } from '@/lib/assignments/assignmentCategories'
 import type { AssignmentFormValues } from '@/lib/assignments/assignmentSchemas'
 import type { Cohort } from '@/types/assignment.types'
 import type { GoogleGroupFormState } from '@/app/modules/GoogleGroups/GoogleGroup.types'
+
+const selectClassName =
+  'mt-1 block w-full rounded-md border border-slate-600 bg-slate-800 px-3 py-2 text-sm text-slate-100'
 
 interface AssignmentFormFieldsProps {
   formId: string
@@ -60,36 +64,47 @@ export const AssignmentFormFields = ({
         />
       </div>
 
-      <div>
-        <FormLabel htmlFor={`${formId}-cohort`} isDarkMode isRequired>
-          Cohort
-        </FormLabel>
-        <select
-          id={`${formId}-cohort`}
-          className="mt-1 block w-full rounded-md border border-slate-600 bg-slate-800 px-3 py-2 text-sm text-slate-100"
-          {...register('cohortId')}
-        >
-          <option value="">Select cohort</option>
-          {cohorts.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </select>
-        {errors.cohortId && (
-          <p className="mt-1 text-xs text-red-400">{errors.cohortId.message}</p>
-        )}
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <FormLabel htmlFor={`${formId}-cohort`} isDarkMode isRequired>
+            Cohort
+          </FormLabel>
+          <select id={`${formId}-cohort`} className={selectClassName} {...register('cohortId')}>
+            <option value="">Select cohort</option>
+            {cohorts.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+          {errors.cohortId && (
+            <p className="mt-1 text-xs text-red-400">{errors.cohortId.message}</p>
+          )}
+        </div>
+
+        <div>
+          <FormLabel htmlFor={`${formId}-category`} isDarkMode isRequired>
+            Category
+          </FormLabel>
+          <select id={`${formId}-category`} className={selectClassName} {...register('category')}>
+            <option value="">Select category</option>
+            {ASSIGNMENT_CATEGORY_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+          {errors.category && (
+            <p className="mt-1 text-xs text-red-400">{errors.category.message}</p>
+          )}
+        </div>
       </div>
 
       <div>
         <FormLabel htmlFor={`${formId}-group`} isDarkMode isRequired>
           Google Group
         </FormLabel>
-        <select
-          id={`${formId}-group`}
-          className="mt-1 block w-full rounded-md border border-slate-600 bg-slate-800 px-3 py-2 text-sm text-slate-100"
-          {...register('googleGroupId')}
-        >
+        <select id={`${formId}-group`} className={selectClassName} {...register('googleGroupId')}>
           <option value="">Select group</option>
           {googleGroups.map((g) => (
             <option key={g.id ?? g.email} value={g.email}>
@@ -101,19 +116,6 @@ export const AssignmentFormFields = ({
           <p className="mt-1 text-xs text-red-400">
             {errors.googleGroupId.message}
           </p>
-        )}
-      </div>
-
-      <div>
-        <FormInput
-          id={`${formId}-attachments`}
-          label="Attachments URL"
-          isDarkMode
-          placeholder="https://..."
-          {...register('attachments')}
-        />
-        {errors.attachments && (
-          <p className="mt-1 text-xs text-red-400">{errors.attachments.message}</p>
         )}
       </div>
 
@@ -136,6 +138,19 @@ export const AssignmentFormFields = ({
           </div>
         )}
       />
+
+      <div>
+        <FormInput
+          id={`${formId}-attachments`}
+          label="Attachments URL"
+          isDarkMode
+          placeholder="https://..."
+          {...register('attachments')}
+        />
+        {errors.attachments && (
+          <p className="mt-1 text-xs text-red-400">{errors.attachments.message}</p>
+        )}
+      </div>
     </div>
   )
 }

@@ -6,6 +6,7 @@ import type {
   AssignmentSubmission,
   Cohort,
 } from '@/types/assignment.types'
+import type { AssignmentCategory } from '@/lib/assignments/assignmentCategories'
 import { getAssignmentDueStatus } from '@/lib/assignments/assignmentUtils'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 
@@ -17,6 +18,7 @@ function mapAssignment(row: Record<string, unknown>): Assignment {
     description: (row.description as string) ?? '',
     cohortId: row.cohort_id as string,
     cohortName: cohort?.name,
+    category: row.category as AssignmentCategory,
     googleGroupId: row.google_group_id as string,
     attachments: (row.attachments as string | null) ?? null,
     dueDate: row.due_date as string,
@@ -136,6 +138,7 @@ export async function createAssignment(
       title: payload.title,
       description: payload.description,
       cohort_id: payload.cohortId,
+      category: payload.category,
       google_group_id: payload.googleGroupId,
       attachments: payload.attachments || null,
       due_date: payload.dueDate,
@@ -156,6 +159,7 @@ export async function updateAssignment(
       | 'title'
       | 'description'
       | 'cohortId'
+      | 'category'
       | 'googleGroupId'
       | 'attachments'
       | 'dueDate'
@@ -166,6 +170,7 @@ export async function updateAssignment(
   if (payload.title !== undefined) updateRow.title = payload.title
   if (payload.description !== undefined) updateRow.description = payload.description
   if (payload.cohortId !== undefined) updateRow.cohort_id = payload.cohortId
+  if (payload.category !== undefined) updateRow.category = payload.category
   if (payload.googleGroupId !== undefined)
     updateRow.google_group_id = payload.googleGroupId
   if (payload.attachments !== undefined)

@@ -96,6 +96,7 @@ export async function PATCH(request: Request, context: RouteContext) {
       title: values.title,
       description: values.description,
       cohortId: values.cohortId,
+      category: values.category,
       googleGroupId: values.googleGroupId,
       attachments: values.attachments || null,
       dueDate: new Date(values.dueDate).toISOString(),

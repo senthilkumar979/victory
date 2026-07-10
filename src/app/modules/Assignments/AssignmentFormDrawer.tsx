@@ -21,6 +21,7 @@ const toFormValues = (a: AssignmentFormState | null): AssignmentFormValues => ({
   title: a?.title ?? '',
   description: a?.description ?? '',
   cohortId: a?.cohortId ?? '',
+  category: a?.category ?? '',
   googleGroupId: a?.googleGroupId ?? '',
   attachments: a?.attachments ?? '',
   dueDate: a?.dueDate ?? '',

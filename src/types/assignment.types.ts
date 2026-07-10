@@ -1,3 +1,7 @@
+import type { AssignmentCategory } from '@/lib/assignments/assignmentCategories'
+
+export type { AssignmentCategory }
+
 export type AssignmentDueStatus = 'upcoming' | 'due_soon' | 'past_due'
 
 export type StudentSubmissionStatus = 'not_submitted' | 'submitted'
@@ -13,6 +17,7 @@ export interface Assignment {
   description: string
   cohortId: string
   cohortName?: string
+  category: AssignmentCategory
   googleGroupId: string
   attachments: string | null
   dueDate: string
@@ -61,6 +66,7 @@ export interface AssignmentFormState {
   title: string
   description: string
   cohortId: string
+  category: AssignmentCategory
   googleGroupId: string
   attachments: string
   dueDate: string

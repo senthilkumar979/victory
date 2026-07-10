@@ -68,6 +68,7 @@ export const AssignmentDetailPage = ({ assignmentId }: AssignmentDetailPageProps
           <p className="text-sm text-slate-400">
             Due {formatDueDate(assignment.dueDate)}
             {assignment.cohortName && ` · Cohort ${assignment.cohortName}`}
+            {` · ${assignment.category}`}
           </p>
           {assignment.attachments && (
             <a

@@ -53,6 +53,8 @@ create table if not exists public.assignments (
   title text not null,
   description text not null default '',
   cohort_id uuid not null references public.cohorts (id) on delete restrict,
+  category text not null default 'Misc'
+    check (category in ('Frontend', 'Backend', 'Data', 'Misc')),
   google_group_id text not null,
   attachments text,
   due_date timestamptz not null,
