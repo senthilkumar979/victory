@@ -6,6 +6,7 @@ import { ArrowLeft } from 'lucide-react'
 
 import { GoogleDocPreview } from '@/components/assignments/GoogleDocPreview'
 import { GitHubRepoPreview } from '@/components/assignments/GitHubRepoPreview'
+import { SubmissionFeedbackForm } from '@/components/assignments/SubmissionFeedbackForm'
 import { useCheckIsAuthenticated } from '@/hooks/useCheckIsAuthenticated'
 import { formatDueDate } from '@/lib/assignments/assignmentUtils'
 import type { AssignmentSubmission } from '@/types/assignment.types'
@@ -52,6 +53,16 @@ const AdminSubmissionView = ({
         </p>
         <GoogleDocPreview url={submission.googleDocUrl} />
         <GitHubRepoPreview repoUrl={submission.githubRepoUrl} />
+        <section className="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">
+            Feedback
+          </h2>
+          <SubmissionFeedbackForm
+            assignmentId={assignmentId}
+            submission={submission}
+            onSaved={setSubmission}
+          />
+        </section>
       </div>
     </div>
   )

@@ -14,6 +14,7 @@ import {
 } from '@/components/assignments/AssignmentStatusChips'
 import { SubmissionsTable } from './SubmissionsTable'
 import { SubmissionFormDrawer } from './SubmissionFormDrawer'
+import { SubmissionFeedbackView } from '@/components/assignments/SubmissionFeedbackView'
 import { formatDueDate, isPastDue } from '@/lib/assignments/assignmentUtils'
 import { Button } from '@/atoms/button/Button'
 
@@ -99,6 +100,7 @@ export const AssignmentDetailPage = ({ assignmentId }: AssignmentDetailPageProps
                 </p>
                 <GoogleDocPreview url={mySubmission.googleDocUrl} />
                 <GitHubRepoPreview repoUrl={mySubmission.githubRepoUrl} />
+                <SubmissionFeedbackView submission={mySubmission} />
                 {canEditSubmission ? (
                   <Button
                     variant="primary"

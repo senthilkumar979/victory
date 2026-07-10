@@ -31,6 +31,10 @@ export const COMPANY_LOGOS = [
     name: 'Klyonix',
     logo: 'https://klyonix.com/assets/klyonix/frontend/assets/logo-C2Ly_RjO.png',
   },
+  {
+    name: 'Teksage',
+    logo: 'https://www.teksage.app/logo.webp',
+  },
 ] as const
 
 export const COMPANY_LOGOS_SORTED_LONGEST_FIRST = [...COMPANY_LOGOS].sort(

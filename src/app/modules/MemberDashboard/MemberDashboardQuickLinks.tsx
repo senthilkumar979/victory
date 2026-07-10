@@ -1,10 +1,10 @@
 'use client'
 
-import { NAV_MAIN } from '@/components/navbar/navConfig'
+import { NAV_MAIN, NAV_USER } from '@/components/navbar/navConfig'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
-const DASHBOARD_LINK_HREFS = new Set([
+const DASHBOARD_MAIN_HREFS = new Set([
   '/roadmaps',
   '/interview-prep',
   '/events',
@@ -12,8 +12,12 @@ const DASHBOARD_LINK_HREFS = new Set([
   '/students',
 ])
 
+const DASHBOARD_USER_HREFS = new Set(['/secured/assignments', '/secured/videos'])
+
 export const MemberDashboardQuickLinks = () => {
-  const links = NAV_MAIN.filter((item) => DASHBOARD_LINK_HREFS.has(item.href))
+  const mainLinks = NAV_MAIN.filter((item) => DASHBOARD_MAIN_HREFS.has(item.href))
+  const userLinks = NAV_USER.filter((item) => DASHBOARD_USER_HREFS.has(item.href))
+  const links = [...userLinks, ...mainLinks]
 
   return (
     <section

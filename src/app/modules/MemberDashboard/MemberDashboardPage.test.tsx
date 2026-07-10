@@ -2,6 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { ProfileData } from '@/types/student.types'
+import { useIsAdmin } from '@/hooks/useIsAdmin'
 
 import { MemberDashboardPage } from './MemberDashboardPage'
 
@@ -41,6 +42,29 @@ vi.mock('@/hooks/useFetchParticipationsByUser', () => ({
 
 vi.mock('@/hooks/useMemberDashboardStudent', () => ({
   useMemberDashboardStudent: useMemberDashboardStudentMock,
+}))
+
+vi.mock('@/hooks/useIsAdmin', () => ({
+  useIsAdmin: vi.fn(() => false),
+}))
+
+vi.mock('@/hooks/useMemberDashboardAssignments', () => ({
+  useMemberDashboardAssignments: vi.fn(() => ({
+    assignments: [],
+    submissions: {},
+    isLoading: false,
+    error: null,
+    refetch: vi.fn(),
+  })),
+}))
+
+vi.mock('@/hooks/useSessionVideos', () => ({
+  useSessionVideos: vi.fn(() => ({
+    videos: [],
+    isLoading: false,
+    error: null,
+    refetch: vi.fn(),
+  })),
 }))
 
 vi.mock('@/app/modules/MemberDashboard/MemberDashboardAnnouncementsSection', () => ({
@@ -83,6 +107,7 @@ function makeProfile(overrides: Partial<ProfileData> = {}): ProfileData {
 describe('MemberDashboardPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    vi.mocked(useIsAdmin).mockReturnValue(false)
     useUserMock.mockReturnValue({
       user: {
         firstName: 'Ada',
@@ -129,6 +154,21 @@ describe('MemberDashboardPage', () => {
     render(<MemberDashboardPage />)
 
     expect(useFetchParticipationsByUserMock).toHaveBeenCalledWith(17)
+    expect(replaceMock).not.toHaveBeenCalled()
+  })
+
+  it('does not redirect admins when student profile is missing', async () => {
+    vi.mocked(useIsAdmin).mockReturnValue(true)
+    useMemberDashboardStudentMock.mockReturnValue({
+      profile: null,
+      isLoading: false,
+      error: null,
+      refetch: vi.fn(),
+    })
+
+    render(<MemberDashboardPage />)
+
+    expect(screen.getByText(/signed in as an admin/i)).toBeInTheDocument()
     expect(replaceMock).not.toHaveBeenCalled()
   })
 })

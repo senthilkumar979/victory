@@ -43,3 +43,19 @@ export const submissionFormSchema = z.object({
 
 export type AssignmentFormValues = z.infer<typeof assignmentFormSchema>
 export type SubmissionFormValues = z.infer<typeof submissionFormSchema>
+
+const ratingRefine = (value: number) => {
+  if (!Number.isFinite(value) || value < 1 || value > 5) return false
+  const scaled = Math.round(value * 10)
+  return Math.abs(value * 10 - scaled) < 0.001
+}
+
+export const submissionFeedbackSchema = z.object({
+  rating: z
+    .number({ message: 'Rating is required' })
+    .refine(ratingRefine, 'Enter a rating between 1 and 5 (one decimal allowed)'),
+  reviewedBy: z.string().trim().min(1, 'Reviewer name is required'),
+  feedbackComment: z.string().trim().optional(),
+})
+
+export type SubmissionFeedbackFormValues = z.infer<typeof submissionFeedbackSchema>

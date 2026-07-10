@@ -31,6 +31,16 @@ export interface AssignmentSubmission {
   githubRepoUrl: string
   submittedAt: string
   updatedAt: string
+  rating: number | null
+  feedbackComment: string | null
+  reviewedBy: string | null
+  reviewedAt: string | null
+}
+
+export interface SubmissionFeedbackFormState {
+  rating: number
+  reviewedBy: string
+  feedbackComment: string
 }
 
 export interface AssignmentStats {

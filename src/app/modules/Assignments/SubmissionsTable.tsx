@@ -5,6 +5,10 @@ import Link from 'next/link'
 
 import type { AssignmentSubmission } from '@/types/assignment.types'
 import { SubmissionStatusChip } from '@/components/assignments/AssignmentStatusChips'
+import {
+  SubmissionRatingDisplay,
+  hasSubmissionFeedback,
+} from '@/components/assignments/SubmissionRatingDisplay'
 import { formatDueDate } from '@/lib/assignments/assignmentUtils'
 
 interface SubmissionsTableProps {
@@ -13,32 +17,31 @@ interface SubmissionsTableProps {
   cohortStudentCount: number
 }
 
+type ReviewFilter = 'all' | 'reviewed' | 'needs_review'
+
 export const SubmissionsTable = ({
   submissions,
   assignmentId,
   cohortStudentCount,
 }: SubmissionsTableProps) => {
   const [search, setSearch] = useState('')
-  const [filter, setFilter] = useState<'all' | 'submitted' | 'pending'>('all')
-
-  const submittedIds = new Set(submissions.map((s) => s.studentId))
+  const [reviewFilter, setReviewFilter] = useState<ReviewFilter>('all')
 
   const rows = useMemo(() => {
-    const submitted = submissions.filter((s) => {
+    return submissions.filter((s) => {
       const q = search.toLowerCase()
       const name = (s.studentName ?? '').toLowerCase()
       const email = (s.studentEmail ?? '').toLowerCase()
-      return !q || name.includes(q) || email.includes(q)
-    })
+      if (q && !name.includes(q) && !email.includes(q)) return false
 
-    if (filter === 'submitted') return submitted
-    if (filter === 'pending') {
-      return submitted.filter(() => false)
-    }
-    return submitted
-  }, [submissions, search, filter])
+      if (reviewFilter === 'reviewed') return hasSubmissionFeedback(s)
+      if (reviewFilter === 'needs_review') return !hasSubmissionFeedback(s)
+      return true
+    })
+  }, [submissions, search, reviewFilter])
 
   const submittedCount = submissions.length
+  const reviewedCount = submissions.filter((s) => hasSubmissionFeedback(s)).length
   const pendingCount = Math.max(0, cohortStudentCount - submittedCount)
   const pct =
     cohortStudentCount > 0
@@ -50,7 +53,7 @@ export const SubmissionsTable = ({
       <div className="grid gap-3 sm:grid-cols-4">
         <Stat label="Total students" value={String(cohortStudentCount)} />
         <Stat label="Submitted" value={String(submittedCount)} />
-        <Stat label="Pending" value={String(pendingCount)} />
+        <Stat label="Reviewed" value={String(reviewedCount)} />
         <Stat label="Submission %" value={`${pct}%`} />
       </div>
 
@@ -63,13 +66,13 @@ export const SubmissionsTable = ({
           className="rounded-md border border-slate-700 bg-slate-900 px-3 py-1.5 text-sm text-slate-200"
         />
         <select
-          value={filter}
-          onChange={(e) => setFilter(e.target.value as typeof filter)}
+          value={reviewFilter}
+          onChange={(e) => setReviewFilter(e.target.value as ReviewFilter)}
           className="rounded-md border border-slate-700 bg-slate-900 px-3 py-1.5 text-sm text-slate-200"
         >
           <option value="all">All submitted</option>
-          <option value="submitted">Submitted only</option>
-          <option value="pending">Pending only</option>
+          <option value="needs_review">Needs review</option>
+          <option value="reviewed">Reviewed</option>
         </select>
       </div>
 
@@ -79,6 +82,7 @@ export const SubmissionsTable = ({
             <tr>
               <th className="px-3 py-2">Student</th>
               <th className="px-3 py-2">Status</th>
+              <th className="px-3 py-2">Rating</th>
               <th className="px-3 py-2">Submitted</th>
               <th className="px-3 py-2">Action</th>
             </tr>
@@ -93,6 +97,13 @@ export const SubmissionsTable = ({
                 <td className="px-3 py-2">
                   <SubmissionStatusChip submitted />
                 </td>
+                <td className="px-3 py-2">
+                  {s.rating != null ? (
+                    <SubmissionRatingDisplay rating={s.rating} size="sm" />
+                  ) : (
+                    <span className="text-xs text-amber-400">Pending</span>
+                  )}
+                </td>
                 <td className="px-3 py-2 text-slate-400">
                   {formatDueDate(s.submittedAt)}
                 </td>
@@ -101,14 +112,14 @@ export const SubmissionsTable = ({
                     href={`/secured/assignments/${assignmentId}/submissions/${s.id}`}
                     className="text-primary hover:underline"
                   >
-                    Open submission
+                    Review
                   </Link>
                 </td>
               </tr>
             ))}
-            {filter !== 'submitted' && pendingCount > 0 && (
+            {pendingCount > 0 && (
               <tr className="border-t border-slate-800 text-slate-500">
-                <td className="px-3 py-2" colSpan={4}>
+                <td className="px-3 py-2" colSpan={5}>
                   {pendingCount} student(s) have not submitted yet.
                 </td>
               </tr>
@@ -116,9 +127,6 @@ export const SubmissionsTable = ({
           </tbody>
         </table>
       </div>
-      <p className="text-xs text-slate-500">
-        Submitted student IDs tracked: {submittedIds.size}
-      </p>
     </div>
   )
 }

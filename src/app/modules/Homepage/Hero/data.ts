@@ -30,7 +30,7 @@ export const CARDS: TransformationCardData[] = [
     studentDept: 'CSE Department',
     studentCollege: 'SSM College of Engineering & Technology',
     professionalRole: 'Frontend Engineer',
-    professionalCompany: 'Sukiran Solutions Pvt Ltd',
+    professionalCompany: 'Teksage',
     picture: 'https://wfkq0nguanh0273r.public.blob.vercel-storage.com/mentorbridge-pics/umar_farook.png',
   },
   {

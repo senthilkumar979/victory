@@ -28,6 +28,7 @@ function mapAssignment(row: Record<string, unknown>): Assignment {
 
 function mapSubmission(row: Record<string, unknown>): AssignmentSubmission {
   const student = row.students as { name?: string; email?: string } | null
+  const ratingRaw = row.rating
   return {
     id: row.id as string,
     assignmentId: row.assignment_id as string,
@@ -38,6 +39,10 @@ function mapSubmission(row: Record<string, unknown>): AssignmentSubmission {
     githubRepoUrl: row.github_repo_url as string,
     submittedAt: row.submitted_at as string,
     updatedAt: row.updated_at as string,
+    rating: ratingRaw == null ? null : Number(ratingRaw),
+    feedbackComment: (row.feedback_comment as string | null) ?? null,
+    reviewedBy: (row.reviewed_by as string | null) ?? null,
+    reviewedAt: (row.reviewed_at as string | null) ?? null,
   }
 }
 
@@ -241,6 +246,10 @@ export async function upsertSubmission(params: {
       .update({
         google_doc_url: params.googleDocUrl,
         github_repo_url: params.githubRepoUrl,
+        rating: null,
+        feedback_comment: null,
+        reviewed_by: null,
+        reviewed_at: null,
       })
       .eq('id', existing.id)
       .select('*')
@@ -259,6 +268,30 @@ export async function upsertSubmission(params: {
       github_repo_url: params.githubRepoUrl,
     })
     .select('*')
+    .single()
+
+  if (error) throw error
+  return mapSubmission(data)
+}
+
+export async function updateSubmissionFeedback(
+  submissionId: string,
+  input: {
+    rating: number
+    reviewedBy: string
+    feedbackComment?: string
+  },
+): Promise<AssignmentSubmission> {
+  const { data, error } = await getDb()
+    .from('assignment_submissions')
+    .update({
+      rating: input.rating,
+      reviewed_by: input.reviewedBy,
+      feedback_comment: input.feedbackComment?.trim() || null,
+      reviewed_at: new Date().toISOString(),
+    })
+    .eq('id', submissionId)
+    .select('*, students(name, email)')
     .single()
 
   if (error) throw error
