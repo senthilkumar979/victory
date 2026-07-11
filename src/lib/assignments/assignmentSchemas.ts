@@ -10,23 +10,31 @@ const optionalUrl = z
   .trim()
   .refine((v) => v === '' || z.url().safeParse(v).success, 'Enter a valid URL')
 
-export const googleDocUrlSchema = z
+export const optionalGoogleDocUrlSchema = z
   .string()
   .trim()
-  .min(1, 'Google Doc URL is required')
   .refine(
-    (v) => /docs\.google\.com\/document\/d\/[a-zA-Z0-9_-]+/.test(v),
+    (v) => v === '' || /docs\.google\.com\/document\/d\/[a-zA-Z0-9_-]+/.test(v),
     'Enter a valid Google Docs URL',
   )
 
-export const githubRepoUrlSchema = z
+export const optionalGithubRepoUrlSchema = z
   .string()
   .trim()
-  .min(1, 'GitHub repository URL is required')
   .refine(
-    (v) => /^https?:\/\/(www\.)?github\.com\/[\w.-]+\/[\w.-]+\/?$/.test(v),
+    (v) =>
+      v === '' ||
+      /^https?:\/\/(www\.)?github\.com\/[\w.-]+\/[\w.-]+\/?$/.test(v),
     'Enter a valid GitHub repository URL (github.com/owner/repo)',
   )
+
+export function hasValidGoogleDocUrl(value: string): boolean {
+  return optionalGoogleDocUrlSchema.safeParse(value).success && value.trim() !== ''
+}
+
+export function hasValidGithubRepoUrl(value: string): boolean {
+  return optionalGithubRepoUrlSchema.safeParse(value).success && value.trim() !== ''
+}
 
 export const assignmentFormSchema = z.object({
   title: z.string().trim().min(1, 'Title is required'),
@@ -48,10 +56,28 @@ export const assignmentFormSchema = z.object({
     .refine((val) => !Number.isNaN(new Date(val).getTime()), 'Invalid date'),
 })
 
-export const submissionFormSchema = z.object({
-  googleDocUrl: googleDocUrlSchema,
-  githubRepoUrl: githubRepoUrlSchema,
-})
+const atLeastOneSubmissionUrlMessage =
+  'Provide at least one URL — Google Doc or GitHub repository'
+
+export const submissionFormSchema = z
+  .object({
+    googleDocUrl: optionalGoogleDocUrlSchema,
+    githubRepoUrl: optionalGithubRepoUrlSchema,
+  })
+  .superRefine((data, ctx) => {
+    if (data.googleDocUrl.trim() || data.githubRepoUrl.trim()) return
+
+    ctx.addIssue({
+      code: 'custom',
+      message: atLeastOneSubmissionUrlMessage,
+      path: ['googleDocUrl'],
+    })
+    ctx.addIssue({
+      code: 'custom',
+      message: atLeastOneSubmissionUrlMessage,
+      path: ['githubRepoUrl'],
+    })
+  })
 
 export type AssignmentFormValues = z.input<typeof assignmentFormSchema>
 export type SubmissionFormValues = z.infer<typeof submissionFormSchema>

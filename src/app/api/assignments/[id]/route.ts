@@ -36,20 +36,17 @@ export async function GET(_request: Request, context: RouteContext) {
       return NextResponse.json({ error: 'Not found' }, { status: 404 })
     }
 
-    if (!isAdmin) {
-      const student = await getStudentForEmail(auth.context.email)
-      if (!student?.cohort_id || student.cohort_id !== assignment.cohortId) {
-        return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
-      }
-    }
+    const student = await getStudentForEmail(auth.context.email)
+    const canSubmit =
+      !isAdmin &&
+      Boolean(student?.id) &&
+      Boolean(student?.cohort_id) &&
+      student?.cohort_id === assignment.cohortId
 
     const stats = await getAssignmentStats(assignment.id, assignment.cohortId)
     let mySubmission = null
-    if (!isAdmin) {
-      const student = await getStudentForEmail(auth.context.email)
-      if (student?.id) {
-        mySubmission = await getSubmissionForStudent(id, student.id)
-      }
+    if (canSubmit && student?.id) {
+      mySubmission = await getSubmissionForStudent(id, student.id)
     }
 
     const submissions = isAdmin
@@ -61,6 +58,7 @@ export async function GET(_request: Request, context: RouteContext) {
       mySubmission,
       submissions,
       isAdmin,
+      canSubmit,
     })
   } catch (err) {
     console.error('[api/assignments/[id] GET]', err)

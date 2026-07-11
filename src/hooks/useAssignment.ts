@@ -12,6 +12,7 @@ interface UseAssignmentReturn {
   mySubmission: AssignmentSubmission | null
   submissions: AssignmentSubmission[] | null
   isAdmin: boolean
+  canSubmit: boolean
   isLoading: boolean
   error: string | null
   refetch: () => Promise<void>
@@ -25,6 +26,7 @@ export const useAssignment = (id: string): UseAssignmentReturn => {
     null,
   )
   const [isAdmin, setIsAdmin] = useState(false)
+  const [canSubmit, setCanSubmit] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -40,6 +42,7 @@ export const useAssignment = (id: string): UseAssignmentReturn => {
       setMySubmission(body.mySubmission ?? null)
       setSubmissions(body.submissions ?? null)
       setIsAdmin(Boolean(body.isAdmin))
+      setCanSubmit(Boolean(body.canSubmit))
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load assignment')
     } finally {
@@ -56,6 +59,7 @@ export const useAssignment = (id: string): UseAssignmentReturn => {
     mySubmission,
     submissions,
     isAdmin,
+    canSubmit,
     isLoading,
     error,
     refetch,

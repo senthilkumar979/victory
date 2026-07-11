@@ -31,7 +31,10 @@ export const GitHubRepoPreview = ({ repoUrl }: GitHubRepoPreviewProps) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!repoUrl) return
+    if (!repoUrl?.trim()) {
+      setLoading(false)
+      return
+    }
     setLoading(true)
     setError(null)
     setSelectedFile(null)
@@ -82,6 +85,8 @@ export const GitHubRepoPreview = ({ repoUrl }: GitHubRepoPreviewProps) => {
     },
     [repoUrl],
   )
+
+  if (!repoUrl?.trim()) return null
 
   if (loading) {
     return <p className="text-sm text-slate-400">Loading repository...</p>

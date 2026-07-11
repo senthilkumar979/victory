@@ -51,8 +51,12 @@ const AdminSubmissionView = ({
         <p className="text-sm text-slate-400">
           Updated {formatDueDate(submission.updatedAt)}
         </p>
-        <GoogleDocPreview url={submission.googleDocUrl} />
-        <GitHubRepoPreview repoUrl={submission.githubRepoUrl} />
+        {submission.googleDocUrl && (
+          <GoogleDocPreview url={submission.googleDocUrl} />
+        )}
+        {submission.githubRepoUrl && (
+          <GitHubRepoPreview repoUrl={submission.githubRepoUrl} />
+        )}
         <section className="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
           <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">
             Feedback

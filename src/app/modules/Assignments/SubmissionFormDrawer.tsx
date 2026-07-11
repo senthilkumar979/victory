@@ -78,7 +78,7 @@ export const SubmissionFormDrawer = ({
 
   return (
     <Drawer isOpen={isOpen} onClose={onClose} size="xxl">
-      <Drawer.Title description="Submit your Google Doc and GitHub repository links.">
+      <Drawer.Title description="Submit at least one link — Google Doc, GitHub repository, or both.">
         {submission ? 'Edit submission' : 'Submit assignment'}
       </Drawer.Title>
       <Drawer.Body>

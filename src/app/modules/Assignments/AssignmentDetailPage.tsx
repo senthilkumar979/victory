@@ -28,6 +28,7 @@ export const AssignmentDetailPage = ({ assignmentId }: AssignmentDetailPageProps
     mySubmission,
     submissions,
     isAdmin,
+    canSubmit,
     isLoading,
     error,
     refetch,
@@ -89,7 +90,7 @@ export const AssignmentDetailPage = ({ assignmentId }: AssignmentDetailPageProps
           <MarkdownContent content={assignment.description} />
         </section>
 
-        {!isAdmin && (
+        {!isAdmin && canSubmit && (
           <section className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-4">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
               My submission
@@ -99,8 +100,12 @@ export const AssignmentDetailPage = ({ assignmentId }: AssignmentDetailPageProps
                 <p className="text-xs text-slate-400">
                   Last updated {formatDueDate(mySubmission.updatedAt)}
                 </p>
-                <GoogleDocPreview url={mySubmission.googleDocUrl} />
-                <GitHubRepoPreview repoUrl={mySubmission.githubRepoUrl} />
+                {mySubmission.googleDocUrl && (
+                  <GoogleDocPreview url={mySubmission.googleDocUrl} />
+                )}
+                {mySubmission.githubRepoUrl && (
+                  <GitHubRepoPreview repoUrl={mySubmission.githubRepoUrl} />
+                )}
                 <SubmissionFeedbackView submission={mySubmission} />
                 {canEditSubmission ? (
                   <Button
