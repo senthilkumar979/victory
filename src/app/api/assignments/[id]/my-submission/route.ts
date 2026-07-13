@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 
-import { submissionFormSchema } from '@/lib/assignments/assignmentSchemas'
+import {
+  getSubmissionUrlRequirementError,
+  submissionFieldsSchema,
+} from '@/lib/assignments/assignmentSchemas'
 import {
   getAssignmentById,
   getSubmissionForStudent,
@@ -86,12 +89,17 @@ export async function POST(request: Request, context: RouteContext) {
     }
 
     const body = await request.json()
-    const parsed = submissionFormSchema.safeParse(body)
+    const parsed = submissionFieldsSchema.safeParse(body)
     if (!parsed.success) {
       return NextResponse.json(
         { error: parsed.error.issues[0]?.message ?? 'Invalid input' },
         { status: 400 },
       )
+    }
+
+    const urlRequirementError = getSubmissionUrlRequirementError(parsed.data)
+    if (urlRequirementError) {
+      return NextResponse.json({ error: urlRequirementError }, { status: 400 })
     }
 
     const targetStudentId =

@@ -59,28 +59,21 @@ export const assignmentFormSchema = z.object({
 const atLeastOneSubmissionUrlMessage =
   'Provide at least one URL — Google Doc or GitHub repository'
 
-export const submissionFormSchema = z
-  .object({
-    googleDocUrl: optionalGoogleDocUrlSchema,
-    githubRepoUrl: optionalGithubRepoUrlSchema,
-  })
-  .superRefine((data, ctx) => {
-    if (data.googleDocUrl.trim() || data.githubRepoUrl.trim()) return
+export const submissionFieldsSchema = z.object({
+  googleDocUrl: optionalGoogleDocUrlSchema,
+  githubRepoUrl: optionalGithubRepoUrlSchema,
+})
 
-    ctx.addIssue({
-      code: 'custom',
-      message: atLeastOneSubmissionUrlMessage,
-      path: ['googleDocUrl'],
-    })
-    ctx.addIssue({
-      code: 'custom',
-      message: atLeastOneSubmissionUrlMessage,
-      path: ['githubRepoUrl'],
-    })
-  })
+export function getSubmissionUrlRequirementError(data: {
+  googleDocUrl: string
+  githubRepoUrl: string
+}): string | null {
+  if (data.googleDocUrl.trim() || data.githubRepoUrl.trim()) return null
+  return atLeastOneSubmissionUrlMessage
+}
 
 export type AssignmentFormValues = z.input<typeof assignmentFormSchema>
-export type SubmissionFormValues = z.infer<typeof submissionFormSchema>
+export type SubmissionFormValues = z.infer<typeof submissionFieldsSchema>
 
 const ratingRefine = (value: number) => {
   if (!Number.isFinite(value) || value < 1 || value > 5) return false

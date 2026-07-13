@@ -1,6 +1,6 @@
 'use client'
 
-import { type UseFormReturn } from 'react-hook-form'
+import { Controller, type UseFormReturn } from 'react-hook-form'
 
 import { GoogleDocPreview } from '@/components/assignments/GoogleDocPreview'
 import { GitHubRepoPreview } from '@/components/assignments/GitHubRepoPreview'
@@ -22,10 +22,10 @@ export const SubmissionFormFields = ({
   form,
   readOnly = false,
 }: SubmissionFormFieldsProps) => {
-  const { register, watch, formState } = form
+  const { control, watch, formState } = form
   const { errors } = formState
-  const googleDocUrl = watch('googleDocUrl')
-  const githubRepoUrl = watch('githubRepoUrl')
+  const googleDocUrl = watch('googleDocUrl') ?? ''
+  const githubRepoUrl = watch('githubRepoUrl') ?? ''
 
   const docValid = hasValidGoogleDocUrl(googleDocUrl)
   const repoValid = hasValidGithubRepoUrl(githubRepoUrl)
@@ -35,14 +35,28 @@ export const SubmissionFormFields = ({
       <p className="text-sm text-slate-400">
         Provide at least one link — Google Doc, GitHub repository, or both.
       </p>
+
+      {errors.root?.message && (
+        <p className="text-xs text-red-400">{errors.root.message}</p>
+      )}
+
       <div>
-        <FormInput
-          id={`${formId}-googleDoc`}
-          label="Google Doc URL"
-          isDarkMode
-          disabled={readOnly}
-          placeholder="https://docs.google.com/document/d/..."
-          {...register('googleDocUrl')}
+        <Controller
+          name="googleDocUrl"
+          control={control}
+          render={({ field }) => (
+            <FormInput
+              id={`${formId}-googleDoc`}
+              label="Google Doc URL"
+              isDarkMode
+              disabled={readOnly}
+              placeholder="https://docs.google.com/document/d/..."
+              name={field.name}
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+            />
+          )}
         />
         {errors.googleDocUrl && (
           <p className="mt-1 text-xs text-red-400">{errors.googleDocUrl.message}</p>
@@ -51,13 +65,22 @@ export const SubmissionFormFields = ({
       </div>
 
       <div>
-        <FormInput
-          id={`${formId}-github`}
-          label="GitHub Repository URL"
-          isDarkMode
-          disabled={readOnly}
-          placeholder="https://github.com/owner/repo"
-          {...register('githubRepoUrl')}
+        <Controller
+          name="githubRepoUrl"
+          control={control}
+          render={({ field }) => (
+            <FormInput
+              id={`${formId}-github`}
+              label="GitHub Repository URL"
+              isDarkMode
+              disabled={readOnly}
+              placeholder="https://github.com/owner/repo"
+              name={field.name}
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+            />
+          )}
         />
         {errors.githubRepoUrl && (
           <p className="mt-1 text-xs text-red-400">

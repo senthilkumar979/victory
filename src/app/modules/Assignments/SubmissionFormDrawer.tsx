@@ -8,7 +8,8 @@ import { gooeyToast } from 'goey-toast'
 
 import { SubmissionFormFields } from './SubmissionFormFields'
 import {
-  submissionFormSchema,
+  getSubmissionUrlRequirementError,
+  submissionFieldsSchema,
   type SubmissionFormValues,
 } from '@/lib/assignments/assignmentSchemas'
 import type { AssignmentSubmission } from '@/types/assignment.types'
@@ -38,11 +39,14 @@ export const SubmissionFormDrawer = ({
   onSuccess,
 }: SubmissionFormDrawerProps) => {
   const form = useForm<SubmissionFormValues>({
-    resolver: zodResolver(submissionFormSchema),
-    mode: 'onChange',
+    resolver: zodResolver(submissionFieldsSchema),
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
     defaultValues: toFormValues(null),
   })
-  const { reset } = form
+  const { reset, setError, clearErrors, watch } = form
+  const googleDocUrl = watch('googleDocUrl')
+  const githubRepoUrl = watch('githubRepoUrl')
 
   const formResetKey = useMemo(
     () => (!isOpen ? 'closed' : (submission?.id ?? 'new')) as string,
@@ -56,8 +60,23 @@ export const SubmissionFormDrawer = ({
     reset(toFormValues(submissionRef.current ?? null))
   }, [isOpen, formResetKey, reset])
 
+  useEffect(() => {
+    if (googleDocUrl?.trim() || githubRepoUrl?.trim()) {
+      clearErrors('root')
+    }
+  }, [clearErrors, githubRepoUrl, googleDocUrl])
+
   const handleSubmit = form.handleSubmit(async (data) => {
     if (readOnly) return
+
+    const urlRequirementError = getSubmissionUrlRequirementError(data)
+    if (urlRequirementError) {
+      setError('root', { message: urlRequirementError })
+      return
+    }
+
+    clearErrors('root')
+
     try {
       const res = await fetch(`/api/assignments/${assignmentId}/my-submission`, {
         method: 'POST',
