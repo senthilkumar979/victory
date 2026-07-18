@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -18,6 +18,7 @@ import {
   meetingFormSchema,
   type MeetingFormValues,
 } from './meetingFormSchema'
+import { uploadMeetingCoverImage } from './useMeetingCoverImageUpload'
 
 const toFormValues = (m: MeetingFormState | null): MeetingFormValues => ({
   title: m?.title ?? '',
@@ -44,10 +45,15 @@ export const MeetingFormDrawer = ({
     defaultValues: toFormValues(null),
   })
   const { reset } = form
+  const [stagedCoverFile, setStagedCoverFile] = useState<File | null>(null)
 
   useEffect(() => {
-    if (!isOpen) return
+    if (!isOpen) {
+      setStagedCoverFile(null)
+      return
+    }
     reset(toFormValues(meetingToEdit ?? null))
+    setStagedCoverFile(null)
   }, [isOpen, meetingToEdit?.id, reset])
 
   const isEditing = useMemo(() => Boolean(meetingToEdit?.id), [
@@ -66,7 +72,14 @@ export const MeetingFormDrawer = ({
 
     try {
       if (isEditing && meetingToEdit?.id) {
-        await updateMeeting(meetingToEdit.id, payload)
+        let coverImageUrl = payload.coverImageUrl
+        if (stagedCoverFile) {
+          coverImageUrl = await uploadMeetingCoverImage(
+            meetingToEdit.id,
+            stagedCoverFile,
+          )
+        }
+        await updateMeeting(meetingToEdit.id, { ...payload, coverImageUrl })
         gooeyToast.success('Meeting saved successfully.', {
           description: payload.title,
           bounce: 0.45,
@@ -77,7 +90,25 @@ export const MeetingFormDrawer = ({
         onSuccess({ meetingId: meetingToEdit.id })
       } else {
         const { id } = await createMeetingWithPipeline(payload)
-        onSuccess({ meetingId: id, suggestCoverImage: true })
+        let hadCover = Boolean(payload.coverImageUrl)
+        if (stagedCoverFile) {
+          try {
+            await uploadMeetingCoverImage(id, stagedCoverFile)
+            hadCover = true
+          } catch (uploadErr) {
+            gooeyToast.warning('Meeting created but cover image upload failed.', {
+              description:
+                uploadErr instanceof Error
+                  ? uploadErr.message
+                  : 'Edit the meeting to upload a cover image.',
+              bounce: 0.45,
+              borderColor: '#E0E0E0',
+              borderWidth: 2,
+              timing: { displayDuration: 4500 },
+            })
+          }
+        }
+        onSuccess({ meetingId: id, suggestCoverImage: !hadCover })
       }
     } catch (err) {
       if (isEditing && meetingToEdit?.id) {
@@ -110,7 +141,13 @@ export const MeetingFormDrawer = ({
           className="space-y-4"
           onSubmit={handleSubmit}
         >
-          <MeetingFormFields formId="meeting-form" form={form} />
+          <MeetingFormFields
+            formId="meeting-form"
+            form={form}
+            meetingId={meetingToEdit?.id}
+            stagedCoverFile={stagedCoverFile}
+            onStagedCoverFileChange={setStagedCoverFile}
+          />
         </form>
       </Drawer.Body>
       <Drawer.Footer>

@@ -9,6 +9,7 @@ import { FormInput } from '@/molecules/form-input/FormInput'
 import { joinClassNames } from '@/utils/tailwindUtils'
 
 import { MeetingFormCalendarSection } from './MeetingFormCalendarSection'
+import { MeetingFormCoverImageSection } from './MeetingFormCoverImageSection'
 import { MeetingFormGoogleGroupSection } from './MeetingFormGoogleGroupSection'
 import { MeetingFormLinksSection } from './MeetingFormLinksSection'
 import type { MeetingFormValues } from './meetingFormSchema'
@@ -16,14 +17,21 @@ import type { MeetingFormValues } from './meetingFormSchema'
 interface MeetingFormFieldsProps {
   formId: string
   form: UseFormReturn<MeetingFormValues>
+  meetingId?: string
+  stagedCoverFile: File | null
+  onStagedCoverFileChange: (file: File | null) => void
 }
 
 export const MeetingFormFields = ({
   formId,
   form,
+  meetingId,
+  stagedCoverFile,
+  onStagedCoverFileChange,
 }: MeetingFormFieldsProps) => {
   const { control, formState, setValue } = form
   const { errors } = formState
+  const coverImageUrl = useWatch({ control, name: 'coverImageUrl' }) ?? ''
   const { groups, isLoading, error: directoryLoadError } = useGoogleGroups()
   const googleGroupIdWatch = useWatch({ control, name: 'googleGroupId' })
 
@@ -123,6 +131,16 @@ export const MeetingFormFields = ({
           </p>
         )}
       </div>
+      <MeetingFormCoverImageSection
+        formId={formId}
+        meetingId={meetingId}
+        coverImageUrl={coverImageUrl}
+        onCoverImageUrlChange={(url) =>
+          setValue('coverImageUrl', url, { shouldDirty: true })
+        }
+        stagedCoverFile={stagedCoverFile}
+        onStagedCoverFileChange={onStagedCoverFileChange}
+      />
       <MeetingFormLinksSection formId={formId} control={control} />
     </div>
   )

@@ -13,40 +13,21 @@ export const MeetingFormLinksSection = ({
   formId,
   control,
 }: MeetingFormLinksSectionProps) => (
-  <>
-    <Controller
-      name="meetingLink"
-      control={control}
-      render={({ field }) => (
-        <FormInput
-          id={`${formId}-meetingLink`}
-          label="Meeting link"
-          type="url"
-          isDarkMode
-          placeholder="https://meet.google.com/..."
-          name={field.name}
-          value={field.value ?? ''}
-          onChange={field.onChange}
-          onBlur={field.onBlur}
-        />
-      )}
-    />
-    <Controller
-      name="coverImageUrl"
-      control={control}
-      render={({ field }) => (
-        <FormInput
-          id={`${formId}-coverImageUrl`}
-          label="Cover image URL"
-          type="url"
-          isDarkMode
-          placeholder="https://..."
-          name={field.name}
-          value={field.value ?? ''}
-          onChange={field.onChange}
-          onBlur={field.onBlur}
-        />
-      )}
-    />
-  </>
+  <Controller
+    name="meetingLink"
+    control={control}
+    render={({ field }) => (
+      <FormInput
+        id={`${formId}-meetingLink`}
+        label="Meeting link"
+        type="url"
+        isDarkMode
+        placeholder="https://meet.google.com/..."
+        name={field.name}
+        value={field.value ?? ''}
+        onChange={field.onChange}
+        onBlur={field.onBlur}
+      />
+    )}
+  />
 )

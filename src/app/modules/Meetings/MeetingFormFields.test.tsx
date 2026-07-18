@@ -22,6 +22,15 @@ vi.mock('@/hooks/useGoogleGroups', () => ({
   }),
 }))
 
+vi.mock('./useMeetingCoverImageUpload', () => ({
+  useMeetingCoverImageUpload: () => ({
+    uploadCoverImage: vi.fn(),
+    isUploading: false,
+    error: null,
+  }),
+  uploadMeetingCoverImage: vi.fn(),
+}))
+
 function MeetingFormTestHarness({
   onValidSubmit,
 }: {
@@ -41,7 +50,12 @@ function MeetingFormTestHarness({
 
   return (
     <form onSubmit={form.handleSubmit(onValidSubmit)}>
-      <MeetingFormFields formId="meeting-form-test" form={form} />
+      <MeetingFormFields
+        formId="meeting-form-test"
+        form={form}
+        stagedCoverFile={null}
+        onStagedCoverFileChange={() => {}}
+      />
       <button type="submit">Submit</button>
     </form>
   )
