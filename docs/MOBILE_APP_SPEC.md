@@ -2051,17 +2051,17 @@ Use Fastlane locally for Play metadata, screenshots, or iOS TestFlight upload au
 
 **Exit criteria:** Open beta on Play Store; crash-free rate > 99%
 
-### Phase 3: iOS + Production (3–4 weeks)
+### Phase 3: iOS Personal + Android Production (3–4 weeks)
 
 **Features:**
 
-- [ ] iOS TestFlight build
+- [ ] Play Store production release (Android — primary distribution)
+- [ ] iOS build for **solo admin personal device** (`expo run:ios --device` or optional TestFlight)
 - [ ] iOS-specific UI polish (safe areas, haptics)
-- [ ] App Store + Play Store production release
 - [ ] PostHog + Sentry production dashboards
 - [ ] Tablet layout (optional)
 
-**Exit criteria:** Both stores live; admin documentation published
+**Exit criteria:** Android live on Play Store; iOS running on admin's personal device; **no public App Store listing**
 
 ### Phase 4: Enhancements (Ongoing)
 

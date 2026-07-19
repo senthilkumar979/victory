@@ -11,7 +11,9 @@ Before building mobile features or `/api/mobile/v1/*` BFF routes, read **`docs/M
 ## Key constraints
 
 - **Admin-only** mobile app; students denied at login
-- **Android first**, then iOS (Expo SDK 52+, Expo Router, Clerk Expo, TanStack Query)
+- **Android first**, then iOS personal use only (Expo SDK 52+, Expo Router, Clerk Expo, TanStack Query)
+- **Zero EAS cost** — local builds (`expo prebuild`, `expo run:*`); optional GitHub Actions free tier for Android AABs; manual Play Console upload. **Do not use paid EAS Build/Submit/Update.**
+- **Distribution:** Google Play production (Console already owned); iOS solo device via Xcode sideload or optional TestFlight ($99/yr Apple Developer) — no public App Store listing
 - **No Supabase keys in mobile** — all data via server BFF with Bearer JWT + `requireAdmin()`
 - **Phase 0 backend blockers:** Bearer auth in `requireAuth()`, mobile BFF routes, admin guard hardening, `GET /api/mobile/v1/me`
 
