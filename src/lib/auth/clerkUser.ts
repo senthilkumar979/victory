@@ -7,19 +7,32 @@ import { headers } from 'next/headers'
 export type ClerkUser = NonNullable<Awaited<ReturnType<typeof currentUser>>>
 
 /**
- * Cookie session first; Bearer JWT fallback for mobile BFF clients.
+ * Cookie session first when Clerk middleware ran; Bearer JWT for mobile BFF.
+ * `/api/mobile` is excluded from middleware, so `currentUser()` can throw — catch it
+ * and prefer Authorization Bearer for those routes.
  */
 export async function getCurrentUser(): Promise<ClerkUser | null> {
-  const cookieUser = await currentUser()
-  if (cookieUser) return cookieUser
-
   const headerStore = await headers()
   const authHeader = headerStore.get('authorization')
-  if (!authHeader?.startsWith('Bearer ')) return null
+  const bearer =
+    authHeader?.startsWith('Bearer ') ? authHeader.slice('Bearer '.length).trim() : ''
 
-  const token = authHeader.slice('Bearer '.length).trim()
-  if (!token) return null
+  if (bearer) {
+    const fromBearer = await userFromBearerToken(bearer)
+    if (fromBearer) return fromBearer
+  }
 
+  try {
+    const cookieUser = await currentUser()
+    if (cookieUser) return cookieUser
+  } catch (err) {
+    console.error('[getCurrentUser] currentUser() failed (middleware may be skipped)', err)
+  }
+
+  return null
+}
+
+async function userFromBearerToken(token: string): Promise<ClerkUser | null> {
   const secretKey = process.env.CLERK_SECRET_KEY
   if (!secretKey) {
     console.error('[getCurrentUser] CLERK_SECRET_KEY missing')
