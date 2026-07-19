@@ -32,19 +32,28 @@ export const AssignmentFormFields = ({
 
   return (
     <div className="space-y-4">
-      <div>
-        <FormInput
-          id={`${formId}-title`}
-          label="Title"
-          isDarkMode
-          isRequired
-          placeholder="Assignment title"
-          {...register('title')}
-        />
-        {errors.title && (
-          <p className="mt-1 text-xs text-red-400">{errors.title.message}</p>
+      <Controller
+        name="title"
+        control={control}
+        render={({ field }) => (
+          <div>
+            <FormInput
+              id={`${formId}-title`}
+              label="Title"
+              isDarkMode
+              isRequired
+              placeholder="Assignment title"
+              name={field.name}
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+            />
+            {errors.title && (
+              <p className="mt-1 text-xs text-red-400">{errors.title.message}</p>
+            )}
+          </div>
         )}
-      </div>
+      />
 
       <div>
         <FormLabel htmlFor={`${formId}-description`} isDarkMode isRequired>
@@ -139,18 +148,27 @@ export const AssignmentFormFields = ({
         )}
       />
 
-      <div>
-        <FormInput
-          id={`${formId}-attachments`}
-          label="Attachments URL"
-          isDarkMode
-          placeholder="https://..."
-          {...register('attachments')}
-        />
-        {errors.attachments && (
-          <p className="mt-1 text-xs text-red-400">{errors.attachments.message}</p>
+      <Controller
+        name="attachments"
+        control={control}
+        render={({ field }) => (
+          <div>
+            <FormInput
+              id={`${formId}-attachments`}
+              label="Attachments URL"
+              isDarkMode
+              placeholder="https://..."
+              name={field.name}
+              value={field.value ?? ''}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+            />
+            {errors.attachments && (
+              <p className="mt-1 text-xs text-red-400">{errors.attachments.message}</p>
+            )}
+          </div>
         )}
-      </div>
+      />
     </div>
   )
 }

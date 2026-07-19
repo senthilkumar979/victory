@@ -1,6 +1,6 @@
 'use client'
 
-import { UseFormReturn } from 'react-hook-form'
+import { Controller, type UseFormReturn } from 'react-hook-form'
 
 import { FormLabel } from '@/atoms/form-label/FormLabel'
 import { FormInput } from '@/molecules/form-input/FormInput'
@@ -24,53 +24,89 @@ interface PartnerFormFieldsProps {
 }
 
 export const PartnerFormFields = ({ formId, form }: PartnerFormFieldsProps) => {
-  const { register, formState } = form
+  const { control, register, formState } = form
   const { errors } = formState
 
   return (
     <div className="space-y-4">
-      <FormInput
-        id={`${formId}-name`}
-        label="Name"
-        type="text"
-        isDarkMode
-        isRequired
-        placeholder="Partner name"
-        autoFocus
-        errorMessage={errors.name?.message}
-        validationStatus={errors.name ? 'invalid' : 'default'}
-        {...register('name')}
+      <Controller
+        name="name"
+        control={control}
+        render={({ field }) => (
+          <FormInput
+            id={`${formId}-name`}
+            label="Name"
+            type="text"
+            isDarkMode
+            isRequired
+            placeholder="Partner name"
+            autoFocus
+            errorMessage={errors.name?.message}
+            validationStatus={errors.name ? 'invalid' : 'default'}
+            name={field.name}
+            value={field.value}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+          />
+        )}
       />
-      <FormInput
-        id={`${formId}-designation`}
-        label="Designation"
-        type="text"
-        isDarkMode
-        placeholder="e.g. CEO, Manager"
-        {...register('designation')}
+      <Controller
+        name="designation"
+        control={control}
+        render={({ field }) => (
+          <FormInput
+            id={`${formId}-designation`}
+            label="Designation"
+            type="text"
+            isDarkMode
+            placeholder="e.g. CEO, Manager"
+            name={field.name}
+            value={field.value ?? ''}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+          />
+        )}
       />
-      <FormInput
-        id={`${formId}-company`}
-        label="Company"
-        type="text"
-        isDarkMode
-        isRequired
-        placeholder="Company name"
-        errorMessage={errors.company?.message}
-        validationStatus={errors.company ? 'invalid' : 'default'}
-        {...register('company')}
+      <Controller
+        name="company"
+        control={control}
+        render={({ field }) => (
+          <FormInput
+            id={`${formId}-company`}
+            label="Company"
+            type="text"
+            isDarkMode
+            isRequired
+            placeholder="Company name"
+            errorMessage={errors.company?.message}
+            validationStatus={errors.company ? 'invalid' : 'default'}
+            name={field.name}
+            value={field.value}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+          />
+        )}
       />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <FormInput
-          id={`${formId}-location`}
-          label="Location"
-          type="text"
-          isDarkMode
-          isRequired
-          placeholder="e.g. City, Country"
-          errorMessage={errors.location?.message}
-          validationStatus={errors.location ? 'invalid' : 'default'}
-          {...register('location')}
+        <Controller
+          name="location"
+          control={control}
+          render={({ field }) => (
+            <FormInput
+              id={`${formId}-location`}
+              label="Location"
+              type="text"
+              isDarkMode
+              isRequired
+              placeholder="e.g. City, Country"
+              errorMessage={errors.location?.message}
+              validationStatus={errors.location ? 'invalid' : 'default'}
+              name={field.name}
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+            />
+          )}
         />
         <div>
           <FormLabel
@@ -104,41 +140,77 @@ export const PartnerFormFields = ({ formId, form }: PartnerFormFieldsProps) => {
           )}
         </div>
       </div>
-      <FormInput
-        id={`${formId}-primaryEmail`}
-        label="Primary email"
-        type="email"
-        isDarkMode
-        placeholder="email@example.com"
-        errorMessage={errors.primaryEmail?.message}
-        validationStatus={errors.primaryEmail ? 'invalid' : 'default'}
-        {...register('primaryEmail')}
+      <Controller
+        name="primaryEmail"
+        control={control}
+        render={({ field }) => (
+          <FormInput
+            id={`${formId}-primaryEmail`}
+            label="Primary email"
+            type="email"
+            isDarkMode
+            placeholder="email@example.com"
+            errorMessage={errors.primaryEmail?.message}
+            validationStatus={errors.primaryEmail ? 'invalid' : 'default'}
+            name={field.name}
+            value={field.value ?? ''}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+          />
+        )}
       />
-      <FormInput
-        id={`${formId}-primaryContact`}
-        label="Primary contact"
-        type="text"
-        isDarkMode
-        placeholder="Phone or other contact"
-        errorMessage={errors.primaryContact?.message}
-        validationStatus={errors.primaryContact ? 'invalid' : 'default'}
-        {...register('primaryContact')}
+      <Controller
+        name="primaryContact"
+        control={control}
+        render={({ field }) => (
+          <FormInput
+            id={`${formId}-primaryContact`}
+            label="Primary contact"
+            type="text"
+            isDarkMode
+            placeholder="Phone or other contact"
+            errorMessage={errors.primaryContact?.message}
+            validationStatus={errors.primaryContact ? 'invalid' : 'default'}
+            name={field.name}
+            value={field.value ?? ''}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+          />
+        )}
       />
-      <FormInput
-        id={`${formId}-secondaryEmail`}
-        label="Secondary email"
-        type="email"
-        isDarkMode
-        placeholder="email@example.com"
-        {...register('secondaryEmail')}
+      <Controller
+        name="secondaryEmail"
+        control={control}
+        render={({ field }) => (
+          <FormInput
+            id={`${formId}-secondaryEmail`}
+            label="Secondary email"
+            type="email"
+            isDarkMode
+            placeholder="email@example.com"
+            name={field.name}
+            value={field.value ?? ''}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+          />
+        )}
       />
-      <FormInput
-        id={`${formId}-secondaryContact`}
-        label="Secondary contact"
-        type="text"
-        isDarkMode
-        placeholder="Phone or other contact"
-        {...register('secondaryContact')}
+      <Controller
+        name="secondaryContact"
+        control={control}
+        render={({ field }) => (
+          <FormInput
+            id={`${formId}-secondaryContact`}
+            label="Secondary contact"
+            type="text"
+            isDarkMode
+            placeholder="Phone or other contact"
+            name={field.name}
+            value={field.value ?? ''}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+          />
+        )}
       />
       <div>
         <label

@@ -1,0 +1,43 @@
+---
+description: React Hook Form patterns — Controller vs register() for custom inputs
+globs: **/*Form*.tsx,**/*FormFields*.tsx
+alwaysApply: false
+---
+
+# Form Patterns
+
+Read `docs/FORM_PATTERNS.md` before creating or editing any form.
+
+## Critical rule
+
+Never use `{...register()}` on custom wrappers (`FormInput`, `FormMultiInput`, `CalendarInput`, `MarkdownEditor`, `UserSearch`). They are not ref-forwarding; RHF state and UI desync, especially after `reset()` in drawers.
+
+Use **`Controller`** with explicit `value`, `onChange`, `onBlur`:
+
+```tsx
+<Controller
+  name="title"
+  control={control}
+  render={({ field }) => (
+    <FormInput
+      name={field.name}
+      value={field.value}
+      onChange={field.onChange}
+      onBlur={field.onBlur}
+      errorMessage={errors.title?.message}
+    />
+  )}
+/>
+```
+
+Native `<input>`, `<textarea>`, `<select>` in JSX may use `register()`.
+
+## Canonical examples
+
+- `src/app/modules/Meetings/MeetingFormFields.tsx`
+- `src/app/modules/Videos/VideoFormFields.tsx`
+
+## Before shipping
+
+- Drawer forms: test submit after open + `reset()`
+- Add regression test if the form lives in a drawer/modal

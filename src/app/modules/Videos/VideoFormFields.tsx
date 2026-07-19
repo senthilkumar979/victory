@@ -1,6 +1,6 @@
 'use client'
 
-import { UseFormReturn } from 'react-hook-form'
+import { Controller, useWatch, type UseFormReturn } from 'react-hook-form'
 
 import { FormInput } from '@/molecules/form-input/FormInput'
 import { SESSION_VIDEO_CATEGORY_OPTIONS } from '@/lib/sessionVideos/sessionVideoCategories'
@@ -18,35 +18,53 @@ interface VideoFormFieldsProps {
 }
 
 export const VideoFormFields = ({ formId, form }: VideoFormFieldsProps) => {
-  const { register, formState, watch } = form
+  const { control, register, formState } = form
   const { errors } = formState
-  const youtubeUrl = watch('youtubeUrl')
+  const youtubeUrl = useWatch({ control, name: 'youtubeUrl' })
   const videoId = parseYoutubeVideoId(youtubeUrl ?? '')
 
   return (
     <div className="space-y-4">
-      <FormInput
-        id={`${formId}-title`}
-        label="Title"
-        type="text"
-        isDarkMode
-        isRequired
-        placeholder="Session title"
-        autoFocus
-        errorMessage={errors.title?.message}
-        validationStatus={errors.title ? 'invalid' : 'default'}
-        {...register('title')}
+      <Controller
+        name="title"
+        control={control}
+        render={({ field }) => (
+          <FormInput
+            id={`${formId}-title`}
+            label="Title"
+            type="text"
+            isDarkMode
+            isRequired
+            placeholder="Session title"
+            autoFocus
+            errorMessage={errors.title?.message}
+            validationStatus={errors.title ? 'invalid' : 'default'}
+            name={field.name}
+            value={field.value}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+          />
+        )}
       />
-      <FormInput
-        id={`${formId}-youtube-url`}
-        label="YouTube Video URL"
-        type="url"
-        isDarkMode
-        isRequired
-        placeholder="https://www.youtube.com/watch?v=..."
-        errorMessage={errors.youtubeUrl?.message}
-        validationStatus={errors.youtubeUrl ? 'invalid' : 'default'}
-        {...register('youtubeUrl')}
+      <Controller
+        name="youtubeUrl"
+        control={control}
+        render={({ field }) => (
+          <FormInput
+            id={`${formId}-youtube-url`}
+            label="YouTube Video URL"
+            type="url"
+            isDarkMode
+            isRequired
+            placeholder="https://www.youtube.com/watch?v=..."
+            errorMessage={errors.youtubeUrl?.message}
+            validationStatus={errors.youtubeUrl ? 'invalid' : 'default'}
+            name={field.name}
+            value={field.value}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+          />
+        )}
       />
       {videoId && (
         <div className="relative aspect-video w-full max-w-sm overflow-hidden rounded-lg border border-slate-700">
@@ -65,18 +83,31 @@ export const VideoFormFields = ({ formId, form }: VideoFormFieldsProps) => {
         >
           Category <span className="text-red-400">*</span>
         </label>
-        <select
-          id={`${formId}-category`}
-          className={joinClassNames(selectBase, errors.category && 'border-red-500')}
-          {...register('category')}
-        >
-          <option value="">Select category</option>
-          {SESSION_VIDEO_CATEGORY_OPTIONS.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
+        <Controller
+          name="category"
+          control={control}
+          render={({ field }) => (
+            <select
+              id={`${formId}-category`}
+              className={joinClassNames(
+                selectBase,
+                errors.category && 'border-red-500',
+              )}
+              name={field.name}
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              ref={field.ref}
+            >
+              <option value="">Select category</option>
+              {SESSION_VIDEO_CATEGORY_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          )}
+        />
         {errors.category?.message && (
           <p className="mt-1 text-sm text-red-400">{errors.category.message}</p>
         )}

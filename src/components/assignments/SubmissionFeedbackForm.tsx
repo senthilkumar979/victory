@@ -1,6 +1,6 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { gooeyToast } from 'goey-toast'
 
@@ -60,37 +60,55 @@ export const SubmissionFeedbackForm = ({
     }
   })
 
-  const { register, formState, watch } = form
+  const { control, register, formState, watch } = form
   const rating = watch('rating')
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <FormInput
-        id="feedback-rating"
-        label="Rating (1–5)"
-        type="number"
-        step="0.1"
-        min={1}
-        max={5}
-        isDarkMode
-        isRequired
-        errorMessage={formState.errors.rating?.message}
-        validationStatus={formState.errors.rating ? 'invalid' : 'default'}
-        {...register('rating', { valueAsNumber: true })}
+      <Controller
+        name="rating"
+        control={control}
+        render={({ field }) => (
+          <FormInput
+            id="feedback-rating"
+            label="Rating (1–5)"
+            type="number"
+            step="0.1"
+            min={1}
+            max={5}
+            isDarkMode
+            isRequired
+            errorMessage={formState.errors.rating?.message}
+            validationStatus={formState.errors.rating ? 'invalid' : 'default'}
+            name={field.name}
+            value={field.value}
+            onChange={(e) => field.onChange(e.target.valueAsNumber)}
+            onBlur={field.onBlur}
+          />
+        )}
       />
       {Number.isFinite(rating) && rating >= 1 && rating <= 5 && (
         <SubmissionRatingDisplay rating={rating} />
       )}
-      <FormInput
-        id="feedback-reviewed-by"
-        label="Reviewer name"
-        type="text"
-        isDarkMode
-        isRequired
-        placeholder="Your name as shown to the student"
-        errorMessage={formState.errors.reviewedBy?.message}
-        validationStatus={formState.errors.reviewedBy ? 'invalid' : 'default'}
-        {...register('reviewedBy')}
+      <Controller
+        name="reviewedBy"
+        control={control}
+        render={({ field }) => (
+          <FormInput
+            id="feedback-reviewed-by"
+            label="Reviewer name"
+            type="text"
+            isDarkMode
+            isRequired
+            placeholder="Your name as shown to the student"
+            errorMessage={formState.errors.reviewedBy?.message}
+            validationStatus={formState.errors.reviewedBy ? 'invalid' : 'default'}
+            name={field.name}
+            value={field.value}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+          />
+        )}
       />
       <div>
         <label htmlFor="feedback-comment" className="mb-1 block text-sm text-slate-200">

@@ -1,0 +1,26 @@
+---
+description: MentorBridge React Native admin mobile app — read before mobile or BFF API work
+globs: docs/MOBILE_APP_SPEC.md,src/app/api/mobile/**,src/app/api/**/mobile/**
+alwaysApply: false
+---
+
+# Mobile App Specification
+
+Before building mobile features or `/api/mobile/v1/*` BFF routes, read **`docs/MOBILE_APP_SPEC.md`**.
+
+## Key constraints
+
+- **Admin-only** mobile app; students denied at login
+- **Android first**, then iOS (Expo SDK 52+, Expo Router, Clerk Expo, TanStack Query)
+- **No Supabase keys in mobile** — all data via server BFF with Bearer JWT + `requireAdmin()`
+- **Phase 0 backend blockers:** Bearer auth in `requireAuth()`, mobile BFF routes, admin guard hardening, `GET /api/mobile/v1/me`
+
+## Domain
+
+Production: `https://www.mentorbridge.in`
+
+## When editing
+
+- New mobile endpoints → follow schemas in spec §8–9
+- Reuse existing APIs where noted (assignments, session-videos, cohorts, gallery, etc.)
+- Do not expose `NEXT_PUBLIC_*` secrets to mobile clients

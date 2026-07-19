@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, XIcon } from 'lucide-react'
@@ -42,17 +42,10 @@ export const VideoFormDrawer = ({
   })
   const { reset } = form
 
-  const formResetKey = useMemo(
-    () => (!isOpen ? 'closed' : (videoToEdit?.id ?? 'create')) as string,
-    [isOpen, videoToEdit?.id],
-  )
-  const editRef = useRef(videoToEdit)
-  editRef.current = videoToEdit
-
   useEffect(() => {
     if (!isOpen) return
-    reset(toFormValues(editRef.current ?? null))
-  }, [isOpen, formResetKey, reset])
+    reset(toFormValues(videoToEdit ?? null))
+  }, [isOpen, videoToEdit?.id, reset])
 
   const isEditing = Boolean(videoToEdit?.id)
 

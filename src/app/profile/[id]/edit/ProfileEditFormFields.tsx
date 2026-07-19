@@ -203,17 +203,26 @@ export const ProfileEditFormFields = ({
                 />
               )}
             />
-            <FormInput
-              id={`${formId}-email`}
-              label="Email"
-              type="email"
-              placeholder="john@example.com"
-              isRequired
-              className="text-secondary"
-              readOnly={true}
-              errorMessage={errors.email?.message}
-              validationStatus={errors.email ? "invalid" : "default"}
-              {...register("email")}
+            <Controller
+              name="email"
+              control={control}
+              render={({ field }) => (
+                <FormInput
+                  id={`${formId}-email`}
+                  label="Email"
+                  type="email"
+                  placeholder="john@example.com"
+                  isRequired
+                  className="text-secondary"
+                  readOnly={true}
+                  errorMessage={errors.email?.message}
+                  validationStatus={errors.email ? "invalid" : "default"}
+                  name={field.name}
+                  value={field.value ?? ""}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                />
+              )}
             />
             <Controller
               name="role"
@@ -514,19 +523,37 @@ export const ProfileEditFormFields = ({
                   </button>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <FormInput
-                    id={`${formId}-exp-company-${idx}`}
-                    label="Company"
-                    placeholder="Company name"
-                    {...register(`experience.${idx}.company`)}
-                    className="text-secondary"
+                  <Controller
+                    name={`experience.${idx}.company`}
+                    control={control}
+                    render={({ field }) => (
+                      <FormInput
+                        id={`${formId}-exp-company-${idx}`}
+                        label="Company"
+                        placeholder="Company name"
+                        className="text-secondary"
+                        name={field.name}
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        onBlur={field.onBlur}
+                      />
+                    )}
                   />
-                  <FormInput
-                    id={`${formId}-exp-role-${idx}`}
-                    label="Role"
-                    placeholder="Job title"
-                    {...register(`experience.${idx}.role`)}
-                    className="text-secondary"
+                  <Controller
+                    name={`experience.${idx}.role`}
+                    control={control}
+                    render={({ field }) => (
+                      <FormInput
+                        id={`${formId}-exp-role-${idx}`}
+                        label="Role"
+                        placeholder="Job title"
+                        className="text-secondary"
+                        name={field.name}
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        onBlur={field.onBlur}
+                      />
+                    )}
                   />
                 </div>
                 <div className="mt-4">
@@ -544,13 +571,22 @@ export const ProfileEditFormFields = ({
                   />
                 </div>
                 <div className="mt-4">
-                  <FormInput
-                    id={`${formId}-exp-website-${idx}`}
-                    label="Website"
-                    type="url"
-                    placeholder="https://..."
-                    {...register(`experience.${idx}.website`)}
-                    className="text-secondary"
+                  <Controller
+                    name={`experience.${idx}.website`}
+                    control={control}
+                    render={({ field }) => (
+                      <FormInput
+                        id={`${formId}-exp-website-${idx}`}
+                        label="Website"
+                        type="url"
+                        placeholder="https://..."
+                        className="text-secondary"
+                        name={field.name}
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        onBlur={field.onBlur}
+                      />
+                    )}
                   />
                 </div>
               </div>
