@@ -10,11 +10,15 @@ export async function GET() {
     if ('error' in auth) return auth.error
 
     const isAdmin = isAdminUser(auth.user)
+
+    // Admins do not need a linked student profile — skip the lookup
     let linkedStudent = null
-    try {
-      linkedStudent = await getStudentForEmail(auth.email)
-    } catch (err) {
-      console.error('[mobile/v1/me] linked student lookup failed', err)
+    if (!isAdmin) {
+      try {
+        linkedStudent = await getStudentForEmail(auth.email)
+      } catch (err) {
+        console.error('[mobile/v1/me] linked student lookup failed', err)
+      }
     }
 
     return NextResponse.json({

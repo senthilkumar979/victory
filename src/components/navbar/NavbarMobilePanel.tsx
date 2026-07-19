@@ -7,6 +7,7 @@ import { memo } from 'react'
 
 import { NavbarMobileNavScroll } from './NavbarMobileNavScroll'
 import { NAV_USER, filterUserNavLinks } from './navConfig'
+import { useIsAdmin } from '@/hooks/useIsAdmin'
 
 export interface NavbarMobilePanelProps {
   pathname: string
@@ -16,7 +17,7 @@ export interface NavbarMobilePanelProps {
 export const NavbarMobilePanel = memo(
   ({ pathname, onClose }: NavbarMobilePanelProps) => {
     const { user, isLoaded } = useUser()
-    const isAdmin = Boolean(user?.publicMetadata?.isAdmin)
+    const isAdmin = useIsAdmin()
     const userLinks = filterUserNavLinks(NAV_USER, Boolean(user), isAdmin)
 
     return (

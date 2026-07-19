@@ -1,6 +1,7 @@
 import { currentUser } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 
+import { isAdminUser } from '@/lib/auth/clerkUser'
 import { supabase } from '@/lib/supabaseClient'
 import { isStudentProfileCompleteRow } from '@/lib/studentProfileCompleteness'
 
@@ -13,9 +14,6 @@ const getPrimaryEmail = (user: NonNullable<Awaited<ReturnType<typeof currentUser
   const primary = user.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)
   return primary?.emailAddress ?? user.emailAddresses[0]?.emailAddress ?? null
 }
-
-const isAdminUser = (user: NonNullable<Awaited<ReturnType<typeof currentUser>>>): boolean =>
-  user.publicMetadata.role === 'admin'
 
 export async function GET() {
   const user = await currentUser()
@@ -30,6 +28,7 @@ export async function GET() {
     return NextResponse.redirect(new URL(PROFILE_PATH, base), 307)
   }
 
+  // Admins skip student profile completeness entirely
   if (isAdminUser(user)) {
     return NextResponse.redirect(new URL(ADMIN_PATH, base), 307)
   }

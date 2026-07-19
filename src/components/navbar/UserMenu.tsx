@@ -8,13 +8,14 @@ import { memo, useCallback, useEffect, useId, useRef, useState } from 'react'
 
 import { UserAccountDropdown } from './UserAccountDropdown'
 import { NAV_USER, filterUserNavLinks } from './navConfig'
+import { useIsAdmin } from '@/hooks/useIsAdmin'
 
 export const UserMenu = memo(() => {
   const { user, isLoaded } = useUser()
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
   const menuId = useId()
-  const isAdmin = Boolean(user?.publicMetadata?.isAdmin)
+  const isAdmin = useIsAdmin()
   const links = filterUserNavLinks(NAV_USER, Boolean(user), isAdmin)
   const reduceMotion = useReducedMotion()
 
