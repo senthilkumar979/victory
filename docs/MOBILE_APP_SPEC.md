@@ -1,6 +1,6 @@
 # MentorBridge Admin Mobile App — Technical Specification
 
-**Version:** 1.0  
+**Version:** 1.1  
 **Date:** July 19, 2026  
 **Domain:** [https://www.mentorbridge.in/](https://www.mentorbridge.in/)  
 **Status:** Planning — no implementation yet  
@@ -15,23 +15,24 @@
 3. [Target Users & Roles](#3-target-users--roles)
 4. [Recommended Tech Stack](#4-recommended-tech-stack)
 5. [Platform Strategy](#5-platform-strategy)
-6. [Authentication & Security](#6-authentication--security)
-7. [Feature Specifications](#7-feature-specifications)
-8. [Complete API Specification](#8-complete-api-specification)
-9. [Web App Backend Changes Required](#9-web-app-backend-changes-required)
-10. [Data Models & TypeScript Interfaces](#10-data-models--typescript-interfaces)
-11. [Navigation Architecture](#11-navigation-architecture)
-12. [State Management Architecture](#12-state-management-architecture)
-13. [Push Notifications](#13-push-notifications)
-14. [Deep Linking](#14-deep-linking)
-15. [Project Structure](#15-project-structure)
-16. [Environment Configuration](#16-environment-configuration)
-17. [Testing Strategy](#17-testing-strategy)
-18. [CI/CD Pipeline](#18-cicd-pipeline)
-19. [Performance & Accessibility](#19-performance--accessibility)
-20. [Security Checklist](#20-security-checklist)
-21. [Implementation Phases / Roadmap](#21-implementation-phases--roadmap)
-22. [Appendix](#22-appendix)
+6. [Design System & Brand Theme](#6-design-system--brand-theme)
+7. [Authentication & Security](#7-authentication--security)
+8. [Feature Specifications](#8-feature-specifications)
+9. [Complete API Specification](#9-complete-api-specification)
+10. [Web App Backend Changes Required](#10-web-app-backend-changes-required)
+11. [Data Models & TypeScript Interfaces](#11-data-models--typescript-interfaces)
+12. [Navigation Architecture](#12-navigation-architecture)
+13. [State Management Architecture](#13-state-management-architecture)
+14. [Push Notifications](#14-push-notifications)
+15. [Deep Linking](#15-deep-linking)
+16. [Project Structure](#16-project-structure)
+17. [Environment Configuration](#17-environment-configuration)
+18. [Testing Strategy](#18-testing-strategy)
+19. [CI/CD Pipeline](#19-cicd-pipeline)
+20. [Performance & Accessibility](#20-performance--accessibility)
+21. [Security Checklist](#21-security-checklist)
+22. [Implementation Phases / Roadmap](#22-implementation-phases--roadmap)
+23. [Appendix](#23-appendix)
 
 ---
 
@@ -41,9 +42,9 @@ MentorBridge is a mentorship platform for students and administrators, currently
 
 This document specifies a **React Native admin mobile app** that gives MentorBridge administrators full operational control from Android (priority) and iOS devices. The mobile app will authenticate via Clerk, consume a new **Mobile BFF (Backend-for-Frontend) API layer** hosted under `https://www.mentorbridge.in/api/mobile/v1/`, and mirror the admin capabilities currently available at `/secured/admin`.
 
-**Critical prerequisite:** Before mobile development can proceed beyond auth and read-only features, the web backend must expose secured REST endpoints for all admin modules currently accessed via direct Supabase client calls. Sections 8 and 9 detail existing endpoints and required new ones.
+**Critical prerequisite:** Before mobile development can proceed beyond auth and read-only features, the web backend must expose secured REST endpoints for all admin modules currently accessed via direct Supabase client calls. Sections 9 and 10 detail existing endpoints and required new ones.
 
-**Cost & deployment strategy:** Use **Expo SDK + Expo Router** (free OSS) with **local release builds** and optional **GitHub Actions** (free tier) for Android AABs. **Do not rely on paid EAS Build/Submit/Update tiers.** Android ships to **Google Play** (Console already owned). iOS is **Phase 2, solo personal use only** — no public App Store listing; sideload via Xcode or optional TestFlight with Apple Developer ($99/yr). See §4.8 and §18.
+**Cost & deployment strategy:** Use **Expo SDK + Expo Router** (free OSS) with **local release builds** and optional **GitHub Actions** (free tier) for Android AABs. **Do not rely on paid EAS Build/Submit/Update tiers.** Android ships to **Google Play** (Console already owned). iOS is **Phase 2, solo personal use only** — no public App Store listing; sideload via Xcode or optional TestFlight with Apple Developer ($99/yr). See §4.8 and §19.
 
 ---
 
@@ -133,7 +134,7 @@ Unlike the web student flow, mobile does **not** require a Supabase `students` r
 | **Framework** | **Expo SDK 52+** (React Native) | Free OSS; fast iteration, strong Android/iOS parity. **EAS cloud services are optional and not recommended** (see §4.8) |
 | **Language** | **TypeScript 5.9+** | Matches web codebase; shared types via monorepo or npm package |
 | **Navigation** | **Expo Router v4** (file-based) | Mirrors Next.js App Router mental model; deep linking built-in |
-| **UI** | **NativeWind v4** (Tailwind for RN) + **React Native Paper** or **Gluestack UI** | Tailwind parity with web; accessible component primitives |
+| **UI** | **NativeWind v4** (Tailwind for RN) + **React Native Paper** or **Gluestack UI** | Tailwind parity with web; accessible component primitives. **Theme tokens must match §6** |
 | **Forms** | **react-hook-form** + **Zod 4** | Identical to web stack (`profileEditFormSchema`, `assignmentFormSchema`, etc.) |
 
 ### 4.2 Data & State
@@ -253,12 +254,166 @@ No App Store public listing or review process is required for iOS.
 - **Category:** Business / Education
 - **Android:** Full Play Store listing (production distribution)
 - **iOS:** No public App Store listing; internal/personal install only (see §5.1)
+- **Brand assets:** Use logo URLs in §6.1 for splash, launcher icon source, and Play Store feature graphic / icon
 
 ---
 
-## 6. Authentication & Security
+## 6. Design System & Brand Theme
 
-### 6.1 Login Flow
+The mobile app **must match the MentorBridge web brand**. Source of truth on web: `src/app/globals.css` (CSS variables), `src/core/theme/theme.ts` (component variants), and `src/constants/CompanyConstants.ts` (logo URL). Implement tokens in `src/theme/` (NativeWind theme + RN Paper / Gluestack overrides) so screens do not hard-code one-off hex values.
+
+### 6.1 Brand Assets & Logo URLs
+
+| Asset | URL | Usage |
+|-------|-----|--------|
+| **Long logo (wordmark)** | `https://91qunajyvl11yxyb.public.blob.vercel-storage.com/long-logo` | Primary brand mark — login, splash, drawer header, empty states. Same asset as web `NavbarBrand` / `FooterLogo` (`MENTORBRIDGE_LONG_LOGO_URL`) |
+| **Favicon / mark** | `https://91qunajyvl11yxyb.public.blob.vercel-storage.com/favicon.ico` | App icon source, notification small icon, schema.org logo on web |
+
+```typescript
+// src/constants/brand.ts — mirror web CompanyConstants
+export const MENTORBRIDGE_LONG_LOGO_URL =
+  'https://91qunajyvl11yxyb.public.blob.vercel-storage.com/long-logo' as const
+
+export const MENTORBRIDGE_FAVICON_URL =
+  'https://91qunajyvl11yxyb.public.blob.vercel-storage.com/favicon.ico' as const
+
+export const BRAND_NAME = 'MentorBridge' as const
+export const APP_DISPLAY_NAME = 'MentorBridge Admin' as const
+```
+
+**Guidelines:**
+
+- Prefer the **long logo** for in-app chrome (login, splash, drawer). Load via `expo-image` with `contentFit="contain"`.
+- Generate Android adaptive icons / iOS app icons from the favicon or a cropped square mark derived from the wordmark; do not invent a new mark.
+- Do not hotlink partner logos from `COMPANY_LOGOS` as the MentorBridge brand.
+- Cache logo remotely; optionally bundle a local fallback under `assets/images/long-logo.png` for offline splash.
+
+### 6.2 Color Tokens (Match Web)
+
+Canonical values from web `:root` in `src/app/globals.css`:
+
+| Token | Hex | Role |
+|-------|-----|------|
+| `primary` | `#d53f8c` | Brand pink — CTAs, active tabs, links, focus rings |
+| `primaryStrong` | `#9d2765` | Darker pink for small text / badges on light surfaces (WCAG AA) |
+| `primaryForeground` | `#fdf2f8` | Text on primary fills |
+| `secondary` | `#111827` | Near-black secondary fills / strong text accents |
+| `secondaryForeground` | `#f9fafb` | Text on secondary fills |
+| `background` | `#0b1120` | App / admin canvas (slate-navy; web marketing uses this family) |
+| `foreground` | `#f9fafb` | Primary text on dark surfaces |
+| `muted` | `#1f2937` | Surfaces, tertiary buttons, dividers |
+| `mutedForeground` | `#9ca3af` | Secondary / helper text |
+| `success` | `#16a34a` | Positive status |
+| `successForeground` | `#ecfdf3` | Text on success |
+| `error` | `#dc2626` | Errors / destructive |
+| `errorForeground` | `#fef2f2` | Text on error |
+| `warning` | `#cea500` | Warnings |
+| `warningForeground` | `#1f2937` | Text on warning |
+| `info` | `#0ea5e9` | Informational |
+| `infoForeground` | `#ecfeff` | Text on info |
+
+**Admin UI surface (secured admin panel):** Prefer dark slate panels matching web admin (`bg-slate-950` / `border-slate-800`, text `slate-50` / `slate-400`) with **primary pink** accents — not a light gray “generic admin” theme.
+
+**Light surfaces:** Forms and cards may use white / slate-50 content areas when readability requires it; keep primary actions as `#d53f8c` and use `primaryStrong` (`#9d2765`) for small pink text on white.
+
+```typescript
+// src/theme/colors.ts — example NativeWind / RN tokens
+export const colors = {
+  primary: '#d53f8c',
+  primaryStrong: '#9d2765',
+  primaryForeground: '#fdf2f8',
+  secondary: '#111827',
+  secondaryForeground: '#f9fafb',
+  background: '#0b1120',
+  foreground: '#f9fafb',
+  muted: '#1f2937',
+  mutedForeground: '#9ca3af',
+  success: '#16a34a',
+  successForeground: '#ecfdf3',
+  error: '#dc2626',
+  errorForeground: '#fef2f2',
+  warning: '#cea500',
+  warningForeground: '#1f2937',
+  info: '#0ea5e9',
+  infoForeground: '#ecfeff',
+  // Admin chrome (web GeneralSettings)
+  surface: '#020617', // slate-950
+  surfaceElevated: '#0f172a', // slate-900
+  border: '#1e293b', // slate-800
+} as const
+```
+
+Map these into NativeWind `tailwind.config` / `global.css` `@theme` so classes like `bg-primary`, `text-primary-strong`, `bg-secondary` behave like web.
+
+### 6.3 Typography
+
+| Role | Web font | Mobile approach |
+|------|----------|-----------------|
+| **Body / UI** | Geist Sans (`--font-geist-sans`) | Bundle Geist (or closest licensed equivalent) via `expo-font`; fallback `System` |
+| **Mono** | Geist Mono | Optional for IDs, codes; system mono acceptable in v1 |
+| **Display / section titles** | Urbanist (500–700) | Use for drawer titles, section headers (`font-urbanist` on web) |
+| **Accent display** | Bungee Tint | Marketing-only on web; **skip on admin mobile** unless a branded splash needs it |
+
+- Default body size ~14–16sp; section labels often uppercase with wide tracking (`tracking-[0.2em]`–`0.24em`) in `primary` / `mutedForeground` — mirror that sparingly on mobile.
+- Respect Dynamic Type / system font scaling (§20.3).
+
+### 6.4 Component Patterns (Align with Web Theme)
+
+Mirror `defaultTheme` in `src/core/theme/theme.ts`:
+
+| Component | Pattern |
+|-----------|---------|
+| **Primary button** | `bg-primary` + `text-primaryForeground`; pressed → primary at ~90% opacity |
+| **Secondary button** | `bg-secondary` + `text-secondaryForeground` |
+| **Outline primary** | Border + text primary; fill primary on press |
+| **Destructive** | `error` / red-500 fills |
+| **Success / info / warning** | Semantic tokens above |
+| **Badge solid primary** | Primary fill + primaryForeground; optional border `primary/70` |
+| **Badge outline** | Border primary, text primary, light `primary/5` wash |
+| **Alert primary** | Border `primary/40`, bg `primary/5`, text primary |
+| **Focus ring** | Primary at ~40–100% opacity (web uses `ring-primary`) |
+| **Links / active nav** | `text-primary`; selected drawer item may use primary border / glow accents |
+
+**Radius:** Prefer `rounded-md`–`rounded-2xl` (8–16dp) for controls and panels — match web admin cards, not pill-everything.
+
+**Motion:** Keep transitions short (200–300ms); respect Reduce Motion (§20.3).
+
+### 6.5 Screen-Level Brand Placement
+
+| Screen | Brand treatment |
+|--------|-----------------|
+| **Splash** | Centered long logo on `background` (`#0b1120`); optional primary accent |
+| **Login** | Long logo above Clerk sign-in; primary CTA; no competing hero imagery |
+| **Access denied** | Logo + clear message + sign-out |
+| **Drawer header** | Long logo (compact height ~40–48dp) + “Admin” label |
+| **Tabs** | Active tint = `primary`; inactive = `mutedForeground` |
+
+### 6.6 Theme Implementation Checklist
+
+- [ ] `src/theme/colors.ts` matches web hex table above
+- [ ] NativeWind theme registers `primary`, `primary-strong`, `secondary`, semantic colors
+- [ ] RN Paper / Gluestack primary color overridden to `#d53f8c`
+- [ ] Login + splash use `MENTORBRIDGE_LONG_LOGO_URL`
+- [ ] App icons generated from brand favicon / mark (not a placeholder)
+- [ ] StatusBar style matches dark admin chrome (`light-content` on dark backgrounds)
+- [ ] Contrast: small pink text on white uses `primaryStrong` (`#9d2765`)
+
+### 6.7 Web Source Files
+
+| Purpose | Path |
+|---------|------|
+| CSS color variables | `src/app/globals.css` |
+| Button / badge / alert variants | `src/core/theme/theme.ts` |
+| Long logo constant | `src/constants/CompanyConstants.ts` → `MENTORBRIDGE_LONG_LOGO_URL` |
+| Navbar wordmark usage | `src/components/navbar/NavbarBrand.tsx` |
+| Favicon / org logo URL | `src/components/seo/WebSiteJsonLd.tsx`, `OrganizationJsonLd.tsx` |
+| PDF theme primary (same pink) | `src/lib/pdfx-theme.ts` (`primary: '#d53f8c'`) |
+
+---
+
+## 7. Authentication & Security
+
+### 7.1 Login Flow
 
 ```
 App Launch
@@ -272,7 +427,7 @@ App Launch
         → Store session → Dashboard
 ```
 
-### 6.2 Clerk Expo Integration
+### 7.2 Clerk Expo Integration
 
 ```typescript
 // Required Clerk env vars (mobile)
@@ -282,7 +437,7 @@ CLERK_SECRET_KEY=sk_live_...  // server only, never in mobile bundle
 
 Use `@clerk/clerk-expo` with `ClerkProvider`, `SignedIn`, `SignedOut`, `useAuth`, `useUser`.
 
-### 6.3 Token Storage & Refresh
+### 7.3 Token Storage & Refresh
 
 | Item | Storage | Notes |
 |------|---------|-------|
@@ -290,7 +445,7 @@ Use `@clerk/clerk-expo` with `ClerkProvider`, `SignedIn`, `SignedOut`, `useAuth`
 | Refresh handling | Clerk SDK automatic refresh | On 401, attempt refresh once then force re-login |
 | User metadata cache | AsyncStorage (non-sensitive) | `isAdmin`, display name, email |
 
-### 6.4 API Authentication Header
+### 7.4 API Authentication Header
 
 All mobile API requests:
 
@@ -304,19 +459,19 @@ X-App-Version: 1.0.0
 
 Backend validates JWT via Clerk's `verifyToken` or `@clerk/backend` `authenticateRequest`.
 
-### 6.5 Biometric Unlock (Optional — Phase 2)
+### 7.5 Biometric Unlock (Optional — Phase 2)
 
 - After initial Clerk login, offer "Unlock with fingerprint/face"
 - Store a device-local flag in SecureStore; re-prompt Clerk only after session expiry
 - Use `expo-local-authentication`
 
-### 6.6 Session Expiry UX
+### 7.6 Session Expiry UX
 
 - 401 from API → attempt Clerk token refresh
 - Refresh fails → clear SecureStore → Login screen with toast "Session expired"
 - Background > 30 min → optional re-auth prompt (configurable)
 
-### 6.7 Admin-Only Enforcement
+### 7.7 Admin-Only Enforcement
 
 **Client-side:** Check `user.publicMetadata.role === 'admin'` before rendering admin UI.
 
@@ -324,9 +479,9 @@ Backend validates JWT via Clerk's `verifyToken` or `@clerk/backend` `authenticat
 
 ---
 
-## 7. Feature Specifications
+## 8. Feature Specifications
 
-### 7.1 Dashboard (Homepage)
+### 8.1 Dashboard (Homepage)
 
 #### User Stories
 
@@ -360,7 +515,7 @@ Backend validates JWT via Clerk's `verifyToken` or `@clerk/backend` `authenticat
 
 ---
 
-### 7.2 Administration
+### 8.2 Administration
 
 #### User Stories
 
@@ -404,7 +559,7 @@ All **need backend implementation** — currently Supabase direct:
 
 ---
 
-### 7.3 Videos
+### 8.3 Videos
 
 #### User Stories
 
@@ -451,7 +606,7 @@ All **need backend implementation** — currently Supabase direct:
 
 ---
 
-### 7.4 Meetings
+### 8.4 Meetings
 
 #### User Stories
 
@@ -509,7 +664,7 @@ interface Meeting {
 
 ---
 
-### 7.5 Students List
+### 8.5 Students List
 
 #### User Stories
 
@@ -552,7 +707,7 @@ interface Meeting {
 
 ---
 
-### 7.6 Student Profile View
+### 8.6 Student Profile View
 
 #### User Stories
 
@@ -580,7 +735,7 @@ interface Meeting {
 
 #### Profile Fields (from `ProfileData`)
 
-See Section 10 for full interface. Admin edit uses `profileEditFormSchema` validation.
+See Section 11 for full interface. Admin edit uses `profileEditFormSchema` validation.
 
 #### UI/UX Notes
 
@@ -591,7 +746,7 @@ See Section 10 for full interface. Admin edit uses `profileEditFormSchema` valid
 
 ---
 
-### 7.7 Profile Management
+### 8.7 Profile Management
 
 #### User Stories
 
@@ -611,7 +766,7 @@ See Section 10 for full interface. Admin edit uses `profileEditFormSchema` valid
 
 ---
 
-### 7.8 Account Management
+### 8.8 Account Management
 
 #### User Stories
 
@@ -632,7 +787,7 @@ Sign out: `signOut()` → clear SecureStore → Login screen
 
 ---
 
-### 7.9 Roadmaps
+### 8.9 Roadmaps
 
 #### User Stories
 
@@ -664,7 +819,7 @@ Sign out: `signOut()` → clear SecureStore → Login screen
 
 ---
 
-### 7.10 Blogs
+### 8.10 Blogs
 
 #### User Stories
 
@@ -702,7 +857,7 @@ interface Blog {
 
 ---
 
-### 7.11 Gallery
+### 8.11 Gallery
 
 #### User Stories
 
@@ -733,7 +888,7 @@ Configure at build time or fetch folder list (needs new endpoint or hardcoded li
 
 ---
 
-### 7.12 Assignments
+### 8.12 Assignments
 
 #### User Stories
 
@@ -778,9 +933,9 @@ Configure at build time or fetch folder list (needs new endpoint or hardcoded li
 
 ---
 
-## 8. Complete API Specification
+## 9. Complete API Specification
 
-### 8.1 Base URL Structure
+### 9.1 Base URL Structure
 
 | Environment | Base URL |
 |-------------|----------|
@@ -788,14 +943,14 @@ Configure at build time or fetch folder list (needs new endpoint or hardcoded li
 | Staging | `https://staging.mentorbridge.in` (to be provisioned) |
 | Development | `http://localhost:3000` |
 
-### 8.2 API Versioning
+### 9.2 API Versioning
 
 ```
 https://www.mentorbridge.in/api/mobile/v1/...   ← New mobile BFF routes
 https://www.mentorbridge.in/api/...             ← Existing routes (reuse where possible)
 ```
 
-### 8.3 Standard Headers
+### 9.3 Standard Headers
 
 **Request:**
 
@@ -814,7 +969,7 @@ Content-Type: application/json
 X-Request-Id: <uuid>
 ```
 
-### 8.4 Error Response Format
+### 9.4 Error Response Format
 
 All errors follow this shape (align with existing routes):
 
@@ -837,7 +992,7 @@ All errors follow this shape (align with existing routes):
 | 500 | `INTERNAL_ERROR` | Server error |
 | 503 | `SERVICE_UNAVAILABLE` | Supabase/Clerk down |
 
-### 8.5 Pagination Pattern
+### 9.5 Pagination Pattern
 
 Query params: `page` (1-based), `limit` (default 20, max 100)
 
@@ -857,7 +1012,7 @@ Response envelope:
 }
 ```
 
-### 8.6 Sorting & Filtering
+### 9.6 Sorting & Filtering
 
 ```
 ?sort=date&order=desc
@@ -867,7 +1022,7 @@ Response envelope:
 ?from=2026-01-01&to=2026-12-31
 ```
 
-### 8.7 Rate Limiting
+### 9.7 Rate Limiting
 
 | Tier | Limit | Scope |
 |------|-------|-------|
@@ -880,7 +1035,7 @@ Implement via Vercel Edge middleware or Upstash Redis rate limiter.
 
 ---
 
-### 8.8 Auth Endpoints
+### 9.8 Auth Endpoints
 
 #### GET `/api/mobile/v1/me`
 
@@ -907,7 +1062,7 @@ Implement via Vercel Edge middleware or Upstash Redis rate limiter.
 
 ---
 
-### 8.9 Existing Endpoints (Reuse for Mobile)
+### 9.9 Existing Endpoints (Reuse for Mobile)
 
 Mobile must send `Authorization: Bearer <token>` instead of cookies. Existing routes using `requireAuth()` from `@clerk/nextjs/server` need verification that Bearer tokens work (Clerk supports this via `authenticateRequest`).
 
@@ -1003,7 +1158,7 @@ Mobile must send `Authorization: Bearer <token>` instead of cookies. Existing ro
 
 ---
 
-### 8.10 New Mobile BFF Endpoints (Needs Backend Implementation)
+### 9.10 New Mobile BFF Endpoints (Needs Backend Implementation)
 
 #### Dashboard
 
@@ -1132,9 +1287,9 @@ Each supports standard CRUD: `GET` (list), `GET /[id]`, `POST`, `PATCH /[id]`, `
 
 ---
 
-## 9. Web App Backend Changes Required
+## 10. Web App Backend Changes Required
 
-### 9.1 Priority 0 — Blockers (Before Mobile Phase 1)
+### 10.1 Priority 0 — Blockers (Before Mobile Phase 1)
 
 | Change | File/Area | Description |
 |--------|-----------|-------------|
@@ -1144,7 +1299,7 @@ Each supports standard CRUD: `GET` (list), `GET /[id]`, `POST`, `PATCH /[id]`, `
 | **Admin guard on invitations** | `src/app/api/invitations/create/route.ts` | Add `requireAdmin()` |
 | **Admin guard on visitor queries** | `src/app/api/admin/visitor-chat-queries/route.ts` | Add `requireAdmin()` |
 
-### 9.2 Priority 1 — Core Mobile APIs
+### 10.2 Priority 1 — Core Mobile APIs
 
 Create service layer files mirroring existing hooks:
 
@@ -1158,7 +1313,7 @@ Create service layer files mirroring existing hooks:
 
 All services use `supabaseAdmin` (service role) — never expose service role to mobile.
 
-### 9.3 JWT/Session Strategy for Mobile
+### 10.3 JWT/Session Strategy for Mobile
 
 ```
 Mobile App                    Next.js API                     Clerk
@@ -1176,7 +1331,7 @@ Mobile App                    Next.js API                     Clerk
 
 **Do not** issue custom JWTs. Use Clerk session tokens directly.
 
-### 9.4 Middleware Changes
+### 10.4 Middleware Changes
 
 Update `src/middleware.ts`:
 
@@ -1202,7 +1357,7 @@ export async function authenticateMobileRequest(request: Request) {
 }
 ```
 
-### 9.5 File Upload Endpoints
+### 10.5 File Upload Endpoints
 
 Existing upload routes work for mobile with Bearer auth:
 
@@ -1213,7 +1368,7 @@ Existing upload routes work for mobile with Bearer auth:
 
 **Recommended:** Add `POST /api/mobile/v1/upload/profile` that accepts multipart and uploads to Vercel Blob server-side (simpler than client-side Blob token in RN).
 
-### 9.6 Database Changes
+### 10.6 Database Changes
 
 #### New table: `mobile_push_subscriptions`
 
@@ -1234,7 +1389,7 @@ create table public.mobile_push_subscriptions (
 
 Mobile BFF uses `supabaseAdmin` (service role) — no new RLS policies needed for mobile routes. Do **not** expose Supabase anon key in mobile app.
 
-### 9.7 Security Hardening (Web)
+### 10.7 Security Hardening (Web)
 
 | Issue | Fix |
 |-------|-----|
@@ -1244,15 +1399,15 @@ Mobile BFF uses `supabaseAdmin` (service role) — no new RLS policies needed fo
 
 ---
 
-## 10. Data Models & TypeScript Interfaces
+## 11. Data Models & TypeScript Interfaces
 
-### 10.1 Shared Types Strategy
+### 11.1 Shared Types Strategy
 
 **Phase 1:** Copy types from web `src/types/` into mobile `src/types/`  
 **Phase 2:** Extract to `packages/shared-types` in monorepo  
 **Phase 3:** Generate OpenAPI types from BFF spec
 
-### 10.2 Core Interfaces (from web codebase)
+### 11.2 Core Interfaces (from web codebase)
 
 #### ProfileData (`src/types/student.types.ts`)
 
@@ -1459,7 +1614,7 @@ interface Announcement {
 }
 ```
 
-### 10.3 Supabase Column Mapping
+### 11.3 Supabase Column Mapping
 
 | TS (camelCase) | DB (snake_case) |
 |----------------|-----------------|
@@ -1498,9 +1653,9 @@ Use `mapSupabaseStudentRowToProfile()` pattern for all mobile BFF responses.
 
 ---
 
-## 11. Navigation Architecture
+## 12. Navigation Architecture
 
-### 11.1 Structure (Expo Router)
+### 12.1 Structure (Expo Router)
 
 ```
 app/
@@ -1559,7 +1714,7 @@ app/
     └── account.tsx
 ```
 
-### 11.2 Bottom Tab Bar (Primary)
+### 12.2 Bottom Tab Bar (Primary)
 
 | Tab | Icon | Screen |
 |-----|------|--------|
@@ -1568,7 +1723,7 @@ app/
 | Meetings | Calendar | Meetings List |
 | More | Menu | Drawer with remaining modules |
 
-### 11.3 Drawer (Secondary)
+### 12.3 Drawer (Secondary)
 
 - Videos
 - Assignments
@@ -1580,15 +1735,15 @@ app/
 - Account
 - Sign Out
 
-### 11.4 Stack Navigation
+### 12.4 Stack Navigation
 
 Each tab owns a stack for detail → edit → sub-screens. Use `router.push()` with typed params.
 
 ---
 
-## 12. State Management Architecture
+## 13. State Management Architecture
 
-### 12.1 Layer Diagram
+### 13.1 Layer Diagram
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -1606,7 +1761,7 @@ Each tab owns a stack for detail → edit → sub-screens. Use `router.push()` w
 └─────────────────────────────────────────────┘
 ```
 
-### 12.2 Query Key Conventions
+### 13.2 Query Key Conventions
 
 ```typescript
 ['dashboard']
@@ -1626,21 +1781,21 @@ Each tab owns a stack for detail → edit → sub-screens. Use `router.push()` w
 ['cohorts']
 ```
 
-### 12.3 Mutation Patterns
+### 13.3 Mutation Patterns
 
 - Optimistic updates for attendance toggle, announcement create
 - Invalidate related queries on success
 - Toast on error with retry action
 
-### 12.4 Filter Persistence
+### 13.4 Filter Persistence
 
 Store student list filters in Zustand + AsyncStorage so returning to the screen preserves state.
 
 ---
 
-## 13. Push Notifications
+## 14. Push Notifications
 
-### 13.1 Use Cases
+### 14.1 Use Cases
 
 | Event | Recipient | Trigger |
 |-------|-----------|---------|
@@ -1649,18 +1804,18 @@ Store student list filters in Zustand + AsyncStorage so returning to the screen 
 | Meeting reminder | Admins | 1 hour before meeting |
 | Feedback email sent | Admin who triggered | Confirmation |
 
-### 13.2 Architecture
+### 14.2 Architecture
 
 ```
 Mobile App → POST /api/mobile/v1/push/register → mobile_push_subscriptions (Supabase)
 Admin creates announcement → BFF → FCM/APNs via Expo Push API or Firebase Admin SDK
 ```
 
-### 13.3 Migration from Web Push
+### 14.3 Migration from Web Push
 
 Web uses VAPID + `NEXT_PUBLIC_PUSH_BROADCAST_ENDPOINT` (external). Mobile uses native FCM/APNs — separate subscription table and delivery pipeline.
 
-### 13.4 Implementation
+### 14.4 Implementation
 
 - `expo-notifications` for token registration
 - Server: `@expo/server-sdk` or Firebase Admin SDK
@@ -1669,16 +1824,16 @@ Web uses VAPID + `NEXT_PUBLIC_PUSH_BROADCAST_ENDPOINT` (external). Mobile uses n
 
 ---
 
-## 14. Deep Linking
+## 15. Deep Linking
 
-### 14.1 URL Scheme
+### 15.1 URL Scheme
 
 ```
 mentorbridge-admin://          # Custom scheme
 https://www.mentorbridge.in/app/  # Universal Links (iOS) / App Links (Android)
 ```
 
-### 14.2 Route Mapping
+### 15.2 Route Mapping
 
 | Web URL | Mobile Route |
 |---------|--------------|
@@ -1690,7 +1845,7 @@ https://www.mentorbridge.in/app/  # Universal Links (iOS) / App Links (Android)
 | `https://www.mentorbridge.in/blogs` | `/(admin)/blogs` |
 | `https://www.mentorbridge.in/gallery` | `/(admin)/gallery` |
 
-### 14.3 Expo Router Config
+### 15.3 Expo Router Config
 
 ```json
 {
@@ -1710,13 +1865,13 @@ https://www.mentorbridge.in/app/  # Universal Links (iOS) / App Links (Android)
 }
 ```
 
-### 14.4 Web Fallback
+### 15.4 Web Fallback
 
 Host `/.well-known/apple-app-site-association` and `/.well-known/assetlinks.json` on `www.mentorbridge.in` (Next.js public routes).
 
 ---
 
-## 15. Project Structure
+## 16. Project Structure
 
 ```
 mentorbridge-mobile/
@@ -1735,11 +1890,11 @@ mentorbridge-mobile/
 │   ├── hooks/                    # TanStack Query hooks
 │   ├── stores/                   # Zustand stores
 │   ├── utils/                    # Date formatting, validation
-│   ├── constants/                # API URLs, categories
-│   └── theme/                    # Colors, typography
+│   ├── constants/                # API URLs, brand.ts (logo URLs), categories
+│   └── theme/                    # colors.ts, typography — must match web §6
 ├── assets/
-│   ├── images/
-│   └── fonts/
+│   ├── images/                   # Optional offline fallback for long-logo
+│   └── fonts/                    # Geist / Urbanist (see §6.3)
 ├── maestro/                      # E2E test flows
 ├── .env.development
 ├── .env.production
@@ -1752,9 +1907,9 @@ mentorbridge-mobile/
 
 ---
 
-## 16. Environment Configuration
+## 17. Environment Configuration
 
-### 16.1 Mobile Environment Variables
+### 17.1 Mobile Environment Variables
 
 | Variable | Dev | Prod | Notes |
 |----------|-----|------|-------|
@@ -1764,8 +1919,9 @@ mentorbridge-mobile/
 | `EXPO_PUBLIC_POSTHOG_HOST` | `https://eu.posthog.com` | same | Analytics |
 | `EXPO_PUBLIC_SENTRY_DSN` | dev DSN | prod DSN | Crash reporting |
 | `EXPO_PUBLIC_APP_ENV` | `development` | `production` | Feature flags |
+| `EXPO_PUBLIC_LONG_LOGO_URL` | same as prod | `https://91qunajyvl11yxyb.public.blob.vercel-storage.com/long-logo` | Optional override; default in `brand.ts` (§6.1) |
 
-### 16.2 Web Environment (Existing — relevant to mobile)
+### 17.2 Web Environment (Existing — relevant to mobile)
 
 | Variable | Usage |
 |----------|-------|
@@ -1774,7 +1930,7 @@ mentorbridge-mobile/
 | `SUPABASE_SERVICE_ROLE_KEY` | Server-only BFF queries |
 | Clerk secret keys | Server-only JWT verification |
 
-### 16.3 Local Release Build Commands
+### 17.3 Local Release Build Commands
 
 No `eas.json` required. Generate native projects once, then build locally or in GitHub Actions:
 
@@ -1798,9 +1954,9 @@ Version codes and `versionName` are managed in `app.json` (`expo.version`, `expo
 
 ---
 
-## 17. Testing Strategy
+## 18. Testing Strategy
 
-### 17.1 Unit Tests (Vitest)
+### 18.1 Unit Tests (Vitest)
 
 | Area | Coverage Target |
 |------|-----------------|
@@ -1809,18 +1965,18 @@ Version codes and `versionName` are managed in `app.json` (`expo.version`, `expo
 | Utility functions (date, mapping) | 90% |
 | Custom hooks (with MSW mock) | 80% |
 
-### 17.2 Component Tests (Testing Library)
+### 18.2 Component Tests (Testing Library)
 
 - Form components: assignment form, student edit, meeting form
 - List components: empty state, loading, error state
 - Navigation guards: admin vs access denied
 
-### 17.3 Integration Tests
+### 18.3 Integration Tests
 
 - API client against mock server (MSW)
 - TanStack Query hook integration with mocked responses
 
-### 17.4 E2E Tests (Maestro — Android First)
+### 18.4 E2E Tests (Maestro — Android First)
 
 ```yaml
 # maestro/flows/login.yaml
@@ -1846,7 +2002,7 @@ appId: in.mentorbridge.admin
 6. Create announcement
 7. Sign out
 
-### 17.5 Manual QA Checklist
+### 18.5 Manual QA Checklist
 
 - Physical Android devices (Pixel, Samsung)
 - Offline mode (airplane mode → cached lists)
@@ -1856,11 +2012,11 @@ appId: in.mentorbridge.admin
 
 ---
 
-## 18. CI/CD Pipeline
+## 19. CI/CD Pipeline
 
 **Primary path: local builds (zero EAS cost).** Optional GitHub Actions on the free tier for automated Android AAB artifacts. Manual Play Console upload for all Android releases.
 
-### 18.1 Local Build Workflow (Primary)
+### 19.1 Local Build Workflow (Primary)
 
 | Platform | Command | Output |
 |----------|---------|--------|
@@ -1869,7 +2025,7 @@ appId: in.mentorbridge.admin
 | iOS (solo user) | `npx expo prebuild --platform ios && npx expo run:ios --device` | Install on personal iPhone via Xcode |
 | iOS TestFlight (optional) | Archive in Xcode → Upload to App Store Connect | Requires Apple Developer ($99/yr); no public listing needed |
 
-### 18.2 GitHub Actions Workflow (Optional — Free Tier)
+### 19.2 GitHub Actions Workflow (Optional — Free Tier)
 
 ```yaml
 # .github/workflows/mobile.yml
@@ -1910,7 +2066,7 @@ jobs:
 
 iOS CI builds are **not required** (solo personal device). Build iOS locally with Xcode when needed.
 
-### 18.3 Release Process
+### 19.3 Release Process
 
 | Stage | Action |
 |-------|--------|
@@ -1920,21 +2076,21 @@ iOS CI builds are **not required** (solo personal device). Build iOS locally wit
 | iOS (Phase 2) | `expo run:ios --device` for weekly sideload, or TestFlight for solo admin |
 | Production | **Play Store only** (Android). No public App Store release. |
 
-### 18.4 App Updates
+### 19.4 App Updates
 
 - Ship fixes via new **Play Store release** (upload updated AAB)
 - No EAS Update (paid tier avoided); JS-only changes still require a new store build unless a self-hosted update server is added later
 - Native dependency changes always require `expo prebuild` + full rebuild
 
-### 18.5 Fastlane (Optional)
+### 19.5 Fastlane (Optional)
 
 Use Fastlane locally for Play metadata, screenshots, or iOS TestFlight upload automation — not required for v1.
 
 ---
 
-## 19. Performance & Accessibility
+## 20. Performance & Accessibility
 
-### 19.1 Performance Targets
+### 20.1 Performance Targets
 
 | Metric | Target |
 |--------|--------|
@@ -1944,7 +2100,7 @@ Use Fastlane locally for Play metadata, screenshots, or iOS TestFlight upload au
 | Image load | Progressive with blur placeholder |
 | APK size | < 40MB (AAB optimized) |
 
-### 19.2 Optimization Strategies
+### 20.2 Optimization Strategies
 
 - FlashList for long lists (students, meetings)
 - TanStack Query staleTime tuning per module
@@ -1952,7 +2108,7 @@ Use Fastlane locally for Play metadata, screenshots, or iOS TestFlight upload au
 - Lazy load admin sub-modules
 - Prefetch student detail on list item press (onPressIn)
 
-### 19.3 Accessibility
+### 20.3 Accessibility
 
 - Minimum touch target: 44×44 dp
 - Screen reader labels on all interactive elements
@@ -1962,9 +2118,9 @@ Use Fastlane locally for Play metadata, screenshots, or iOS TestFlight upload au
 
 ---
 
-## 20. Security Checklist
+## 21. Security Checklist
 
-### 20.1 Pre-Launch Checklist
+### 21.1 Pre-Launch Checklist
 
 - [ ] Clerk production keys (`pk_live_`, `sk_live_`) in prod builds only
 - [ ] No Supabase service role key in mobile bundle
@@ -1982,7 +2138,7 @@ Use Fastlane locally for Play metadata, screenshots, or iOS TestFlight upload au
 - [ ] Sentry configured to scrub PII from breadcrumbs
 - [ ] Penetration test before Play Store public release
 
-### 20.2 OWASP Mobile Top 10 Mitigations
+### 21.2 OWASP Mobile Top 10 Mitigations
 
 | Risk | Mitigation |
 |------|------------|
@@ -1999,7 +2155,7 @@ Use Fastlane locally for Play metadata, screenshots, or iOS TestFlight upload au
 
 ---
 
-## 21. Implementation Phases / Roadmap
+## 22. Implementation Phases / Roadmap
 
 ### Phase 0: Backend Foundation (2–3 weeks)
 
@@ -2073,9 +2229,9 @@ Use Fastlane locally for Play metadata, screenshots, or iOS TestFlight upload au
 
 ---
 
-## 22. Appendix
+## 23. Appendix
 
-### 22.1 Screen Inventory
+### 23.1 Screen Inventory
 
 | # | Screen | Module | Phase |
 |---|--------|--------|-------|
@@ -2119,7 +2275,7 @@ Use Fastlane locally for Play metadata, screenshots, or iOS TestFlight upload au
 
 **Total: 37 screens**
 
-### 22.2 Endpoint Inventory
+### 23.2 Endpoint Inventory
 
 | # | Method | Path | Status | Module |
 |---|--------|------|--------|--------|
@@ -2183,27 +2339,30 @@ Use Fastlane locally for Play metadata, screenshots, or iOS TestFlight upload au
 
 **Summary:** 57 endpoint groups — 22 exist (reuse), 35 need implementation
 
-### 22.3 Current Web Architecture Reference
+### 23.3 Current Web Architecture Reference
 
 ```
 Browser → Clerk (auth) → React hooks → Supabase client (anon key) → Postgres
 Browser → Clerk (auth) → fetch(/api/*) → requireAuth → supabaseAdmin → Postgres
 ```
 
-### 22.4 Target Mobile Architecture
+### 23.4 Target Mobile Architecture
 
 ```
 Mobile App → Clerk Expo (auth) → Bearer JWT → /api/mobile/v1/* → requireAdmin → supabaseAdmin → Postgres
 Mobile App → Clerk Expo (auth) → Bearer JWT → /api/* (existing) → requireAuth → supabaseAdmin → Postgres
 ```
 
-### 22.5 Key Files Reference (Web Codebase)
+### 23.5 Key Files Reference (Web Codebase)
 
 | Purpose | Path |
 |---------|------|
 | Auth helpers | `src/lib/auth/requireAuth.ts`, `src/lib/auth/clerkUser.ts` |
 | Post-login routing | `src/app/post-login/route.ts` |
 | Admin settings nav | `src/app/modules/Settings/GeneralSettings/GeneralSettings.tsx` |
+| Brand colors (CSS) | `src/app/globals.css` |
+| Component theme variants | `src/core/theme/theme.ts` |
+| Long logo URL | `src/constants/CompanyConstants.ts` |
 | Student types | `src/types/student.types.ts` |
 | Assignment types/schemas | `src/types/assignment.types.ts`, `src/lib/assignments/assignmentSchemas.ts` |
 | Video types/schemas | `src/types/sessionVideo.types.ts`, `src/lib/sessionVideos/sessionVideoSchemas.ts` |
@@ -2213,6 +2372,18 @@ Mobile App → Clerk Expo (auth) → Bearer JWT → /api/* (existing) → requir
 | Students hook | `src/hooks/useStudentsWithFilters.ts` |
 | Announcements hook | `src/hooks/useAnnouncements.ts` |
 | DB migrations | `supabase/migrations/` |
+
+### 23.6 Brand Quick Reference
+
+| Item | Value |
+|------|--------|
+| Long logo | `https://91qunajyvl11yxyb.public.blob.vercel-storage.com/long-logo` |
+| Favicon / mark | `https://91qunajyvl11yxyb.public.blob.vercel-storage.com/favicon.ico` |
+| Primary | `#d53f8c` |
+| Primary strong | `#9d2765` |
+| Secondary | `#111827` |
+| Background | `#0b1120` |
+| Full theme spec | §6 |
 
 ---
 

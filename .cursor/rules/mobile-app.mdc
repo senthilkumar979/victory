@@ -23,6 +23,7 @@ Production: `https://www.mentorbridge.in`
 
 ## When editing
 
-- New mobile endpoints → follow schemas in spec §8–9
+- New mobile endpoints → follow schemas in spec §9–10
+- UI must follow web brand theme in spec §6 (primary `#d53f8c`, long logo URL)
 - Reuse existing APIs where noted (assignments, session-videos, cohorts, gallery, etc.)
 - Do not expose `NEXT_PUBLIC_*` secrets to mobile clients

@@ -2,12 +2,17 @@ import { clerkClient } from '@clerk/nextjs/server'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
+import { requireAdmin } from '@/lib/auth/requireAuth'
+
 interface CreateInvitationBody {
   emailAddress: string
 }
 
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireAdmin()
+    if ('response' in auth) return auth.response
+
     let body: CreateInvitationBody
     try {
       body = (await request.json()) as CreateInvitationBody

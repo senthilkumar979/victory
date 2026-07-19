@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "TEAMID.in.mentorbridge.admin",
+        "paths": ["/app/*", "/students/*", "/events", "/secured/*", "/roadmaps/*", "/blogs", "/gallery"]
+      }
+    ]
+  }
+}
