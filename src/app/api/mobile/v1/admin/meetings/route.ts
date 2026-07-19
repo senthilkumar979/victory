@@ -16,8 +16,11 @@ export async function GET(request: Request) {
   if ('error' in auth) return auth.error
 
   try {
-    const { page, limit } = parsePagination(new URL(request.url))
-    const result = await listMeetings(page, limit)
+    const url = new URL(request.url)
+    const { page, limit } = parsePagination(url)
+    const from = url.searchParams.get('from') ?? undefined
+    const to = url.searchParams.get('to') ?? undefined
+    const result = await listMeetings(page, limit, { from, to })
     return NextResponse.json(result)
   } catch (err) {
     return mobileErrorResponse(err)

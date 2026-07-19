@@ -48,16 +48,24 @@ function toPayload(form: Omit<MeetingFormState, 'id'>) {
   return base
 }
 
-export async function listMeetings(page = 1, limit = 20) {
+export async function listMeetings(
+  page = 1,
+  limit = 20,
+  range?: { from?: string; to?: string },
+) {
   const db = getMobileDb()
   const from = (page - 1) * limit
   const to = from + limit - 1
 
-  const { data, error, count } = await db
+  let query = db
     .from(MEETINGS_TABLE)
     .select(SELECT_COLS, { count: 'exact' })
-    .order('date', { ascending: false })
-    .range(from, to)
+    .order('date', { ascending: Boolean(range?.from) })
+
+  if (range?.from) query = query.gte('date', range.from)
+  if (range?.to) query = query.lte('date', range.to)
+
+  const { data, error, count } = await query.range(from, to)
 
   if (error) {
     console.error('[mobile/meetingService.list]', error)
