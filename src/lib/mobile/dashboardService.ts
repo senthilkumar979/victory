@@ -50,26 +50,38 @@ export async function getAdminDashboard() {
       .order('id', { ascending: false })
       .limit(5),
     db.from('assignments').select('id', { count: 'exact', head: true }),
+    // Pending = not reviewed yet (reviewed_at stays null until feedback is saved)
     db
       .from('assignment_submissions')
       .select('id', { count: 'exact', head: true })
-      .is('feedback', null),
+      .is('reviewed_at', null),
   ])
 
-  const errors = [
+  const criticalErrors = [
     studentsCount.error,
     meetingsToday.error,
     announcements.error,
     assignmentsOpen.error,
-    pendingSubmissions.error,
   ].filter(Boolean)
 
-  if (errors.length > 0) {
-    console.error('[mobile/dashboardService]', errors)
+  if (criticalErrors.length > 0) {
+    console.error('[mobile/dashboardService]', criticalErrors)
     throw new MobileServiceError(
       'Could not load dashboard.',
       500,
       'INTERNAL_ERROR',
+      criticalErrors.map((e) => ({
+        message: e?.message,
+        code: e?.code,
+        details: e?.details,
+      })),
+    )
+  }
+
+  if (pendingSubmissions.error) {
+    console.error(
+      '[mobile/dashboardService] pending submissions',
+      pendingSubmissions.error,
     )
   }
 
@@ -77,7 +89,9 @@ export async function getAdminDashboard() {
     studentCount: studentsCount.count ?? 0,
     meetingsTodayCount: meetingsToday.count ?? 0,
     openAssignmentsCount: assignmentsOpen.count ?? 0,
-    pendingSubmissionsCount: pendingSubmissions.count ?? 0,
+    pendingSubmissionsCount: pendingSubmissions.error
+      ? 0
+      : (pendingSubmissions.count ?? 0),
     recentAnnouncements: announcements.data ?? [],
   }
 }
