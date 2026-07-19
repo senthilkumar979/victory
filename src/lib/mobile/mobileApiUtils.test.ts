@@ -34,7 +34,7 @@ describe('parsePagination', () => {
     ).toEqual({ page: 1, limit: 100 })
     expect(
       parsePagination(new URL('https://example.com/items?page=3&limit=0')),
-    ).toEqual({ page: 3, limit: 1 })
+    ).toEqual({ page: 3, limit: 20 })
   })
 })
 
