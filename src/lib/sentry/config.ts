@@ -1,4 +1,7 @@
 /** Shared Sentry wiring; DSN must be set for any reporting to run. */
+export const cefSharpObjectNotFoundErrorPattern =
+  /Object Not Found Matching Id:\d+, MethodName:update, ParamCount:4/
+
 export const SENTRY_DSN =
   process.env.NEXT_PUBLIC_SENTRY_DSN ?? process.env.SENTRY_DSN
 
