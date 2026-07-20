@@ -1,6 +1,7 @@
 import * as Sentry from '@sentry/nextjs'
 
 import {
+  cefSharpObjectNotFoundErrorPattern,
   isSentryEnabled,
   SENTRY_DSN,
   sentryEnvironment,
@@ -20,6 +21,7 @@ if (isSentryEnabled) {
     ],
     replaysSessionSampleRate: 0,
     replaysOnErrorSampleRate: 1,
+    ignoreErrors: [cefSharpObjectNotFoundErrorPattern],
     beforeSend(event) {
       if (process.env.NODE_ENV === 'development') {
         console.warn(
