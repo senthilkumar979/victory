@@ -63,6 +63,10 @@ export async function createCalendarEventWithMeet(
 
   const requestId = generateRequestId()
 
+  const attendeeEmails = (params.attendees ?? [])
+    .map((email) => email.trim())
+    .filter(Boolean)
+
   const resource = {
     summary: params.title,
     description: params.description ?? undefined,
@@ -72,12 +76,12 @@ export async function createCalendarEventWithMeet(
       createRequest: {
         requestId,
         conferenceSolutionKey: { type: 'hangoutsMeet' },
-        conferenceConfiguration: {
-          allowGuestJoin: true
-        }
       },
     },
-    attendees: params.attendees?.map((email) => ({ email })) ?? undefined,
+    attendees:
+      attendeeEmails.length > 0
+        ? attendeeEmails.map((email) => ({ email }))
+        : undefined,
     reminders: {
       useDefault: false,
       overrides: [
@@ -87,31 +91,15 @@ export async function createCalendarEventWithMeet(
         { method: 'popup', minutes: 10 },
       ],
     },
-    organizer: {
-      displayName: 'MentorBridge - Admin',
-      email: 'mentorbridgeindia@gmail.com',
-    },
-    visibility: 'public',
-    status: 'confirmed',
-    transparency: 'opaque',
-    sequence: 0,
-    created: new Date().toISOString(),
-    updated: new Date().toISOString(),
-    creator: {
-      displayName: 'MentorBridge - Admin',
-      email: 'mentorbridgeindia@gmail.com',
-    },
-    anyoneCanAddSelf: true,
     guestsCanInviteOthers: true,
     guestsCanSeeOtherGuests: true,
-    guestsCanSeeEventContent: true,
   }
 
   const res = await calendar.events.insert({
     calendarId,
     requestBody: resource,
     conferenceDataVersion: 1,
-    sendUpdates: "all"
+    sendUpdates: attendeeEmails.length > 0 ? 'all' : 'none',
   })
 
   const data = res.data

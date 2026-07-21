@@ -1,19 +1,30 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
+import { isAdminUser } from '@/lib/auth/clerkUser'
+import { requireAuth } from '@/lib/auth/requireAuth'
 import {
   createCalendarEventWithMeet,
   type CreateMeetEventParams,
 } from '@/lib/googleCalendar'
+import { resolveGoogleGroupEmail } from '@/lib/googleGroups/resolveGoogleGroupEmail'
 
 interface CreateGoogleMeetBody {
   title: string
   date: string
   description?: string
   attendees?: string[]
+  googleGroupId?: string
 }
 
 export async function POST(request: NextRequest) {
+  const auth = await requireAuth()
+  if ('response' in auth) return auth.response
+
+  if (!isAdminUser(auth.context.user)) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
   try {
     let body: CreateGoogleMeetBody
     try {
@@ -25,7 +36,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { title, date, description, attendees } = body
+    const { title, date, description, attendees, googleGroupId } = body
     if (!title || typeof title !== 'string' || !date || typeof date !== 'string') {
       return NextResponse.json(
         { error: 'Missing or invalid required fields: title, date' },
@@ -33,9 +44,46 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Skip when Google Calendar is not configured (OAuth2 refresh token required).
     if (!process.env.GOOGLE_REFRESH_TOKEN?.trim()) {
-      return NextResponse.json({ meetingLink: null }, { status: 200 })
+      return NextResponse.json(
+        {
+          error:
+            'Google Calendar is not configured (GOOGLE_REFRESH_TOKEN missing). Calendar invites cannot be sent.',
+        },
+        { status: 503 },
+      )
+    }
+
+    const rawAttendees = Array.isArray(attendees)
+      ? attendees.filter((e): e is string => typeof e === 'string')
+      : []
+    const resolvedFromBody =
+      rawAttendees.length > 0
+        ? (
+            await Promise.all(
+              rawAttendees.map((value) => resolveGoogleGroupEmail(value)),
+            )
+          ).filter((email): email is string => Boolean(email))
+        : []
+
+    const resolvedGroupEmail = await resolveGoogleGroupEmail(googleGroupId)
+    const inviteEmails = [
+      ...new Set(
+        [
+          ...resolvedFromBody,
+          ...(resolvedGroupEmail ? [resolvedGroupEmail] : []),
+        ].filter(Boolean),
+      ),
+    ]
+
+    if (inviteEmails.length === 0) {
+      return NextResponse.json(
+        {
+          error:
+            'No valid Google Group email for calendar invite. Select a group from the directory (group email required).',
+        },
+        { status: 400 },
+      )
     }
 
     const calendarId = process.env.GOOGLE_CALENDAR_ID?.trim() || 'primary'
@@ -43,7 +91,7 @@ export async function POST(request: NextRequest) {
       title: title.trim(),
       date,
       description: typeof description === 'string' ? description.trim() : undefined,
-      attendees: attendees?.map((email) => email.trim()),
+      attendees: inviteEmails,
     }
 
     const meetingLink = await createCalendarEventWithMeet(calendarId, params)
@@ -55,7 +103,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    return NextResponse.json({ meetingLink }, { status: 200 })
+    return NextResponse.json(
+      { meetingLink, inviteSentTo: inviteEmails },
+      { status: 200 },
+    )
   } catch (err) {
     const rawMessage = err instanceof Error ? err.message : 'Failed to create Google Meet'
     const isUnauthorized =

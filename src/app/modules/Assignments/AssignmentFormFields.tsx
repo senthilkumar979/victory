@@ -1,6 +1,7 @@
 'use client'
 
-import { Controller, type UseFormReturn } from 'react-hook-form'
+import { useEffect } from 'react'
+import { Controller, useWatch, type UseFormReturn } from 'react-hook-form'
 
 import { MarkdownEditor } from '@/components/assignments/MarkdownEditor'
 import { FormLabel } from '@/atoms/form-label/FormLabel'
@@ -27,8 +28,25 @@ export const AssignmentFormFields = ({
   cohorts,
   googleGroups,
 }: AssignmentFormFieldsProps) => {
-  const { register, control, formState } = form
+  const { register, control, formState, setValue } = form
   const { errors } = formState
+  const googleGroupIdWatch = useWatch({ control, name: 'googleGroupId' })
+
+  useEffect(() => {
+    const gid = googleGroupIdWatch
+    if (!gid || googleGroups.length === 0) return
+    if (googleGroups.some((g) => g.email === gid)) return
+    const byId = googleGroups.find((g) => g.id === gid)
+    if (byId) {
+      setValue('googleGroupId', byId.email, { shouldDirty: false })
+    }
+  }, [googleGroupIdWatch, googleGroups, setValue])
+
+  const showOrphanGroupOption =
+    Boolean(googleGroupIdWatch) &&
+    !googleGroups.some(
+      (g) => g.email === googleGroupIdWatch || g.id === googleGroupIdWatch,
+    )
 
   return (
     <div className="space-y-4">
@@ -115,6 +133,11 @@ export const AssignmentFormFields = ({
         </FormLabel>
         <select id={`${formId}-group`} className={selectClassName} {...register('googleGroupId')}>
           <option value="">Select group</option>
+          {showOrphanGroupOption && googleGroupIdWatch ? (
+            <option value={googleGroupIdWatch}>
+              {googleGroupIdWatch} (not in directory)
+            </option>
+          ) : null}
           {googleGroups.map((g) => (
             <option key={g.id ?? g.email} value={g.email}>
               {g.name} ({g.email})

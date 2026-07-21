@@ -71,9 +71,10 @@ async function fetchGoogleMeetLink(payload: {
       title: payload.title,
       date: payload.date,
       description: payload.description || undefined,
+      googleGroupId: payload.googleGroupId.trim() || undefined,
       attendees: payload.googleGroupId.trim()
         ? [payload.googleGroupId.trim()]
-        : ['mentorbridgeindia@gmail.com'],
+        : undefined,
     }),
   })
   if (!res.ok) {
@@ -192,11 +193,20 @@ export function useManageMeeting({
         await updateMeeting(meetingId, merged)
 
         gooeyToast.dismiss(toastId)
-        gooeyToast.success('Event is updated successfully!', {
-          ...toastBase,
-          description,
-          timing: { displayDuration: 3500 },
-        })
+        if (meetingLink) {
+          gooeyToast.success('Meeting created and calendar invite sent.', {
+            ...toastBase,
+            description: `Google Group invite sent for "${description}".`,
+            timing: { displayDuration: 4500 },
+          })
+        } else {
+          gooeyToast.warning('Meeting saved without calendar invite.', {
+            ...toastBase,
+            description:
+              'Google Meet / calendar invite failed. Check Google Calendar config or edit the meeting to retry.',
+            timing: { displayDuration: 6000 },
+          })
+        }
         return { id: meetingId }
       } catch (err) {
         gooeyToast.dismiss(toastId)

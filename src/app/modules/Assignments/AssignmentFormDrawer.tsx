@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, XIcon } from 'lucide-react'
 import { gooeyToast } from 'goey-toast'
@@ -46,7 +46,18 @@ export const AssignmentFormDrawer = ({
     resolver: zodResolver(assignmentFormSchema),
     defaultValues: toFormValues(null),
   })
-  const { reset } = form
+  const { reset, control, setValue } = form
+  const googleGroupIdWatch = useWatch({ control, name: 'googleGroupId' })
+
+  useEffect(() => {
+    const gid = googleGroupIdWatch
+    if (!gid || groups.length === 0) return
+    if (groups.some((g) => g.email === gid)) return
+    const byId = groups.find((g) => g.id === gid)
+    if (byId) {
+      setValue('googleGroupId', byId.email, { shouldDirty: false })
+    }
+  }, [googleGroupIdWatch, groups, setValue])
 
   const formResetKey = useMemo(
     () => (!isOpen ? 'closed' : (assignmentToEdit?.id ?? 'create')) as string,
@@ -72,10 +83,22 @@ export const AssignmentFormDrawer = ({
           body: JSON.stringify(data),
         },
       )
-      const body = await res.json()
+      const body = (await res.json()) as {
+        error?: string
+        emailSent?: boolean
+        emailWarning?: string
+      }
       if (!res.ok) throw new Error(body.error ?? 'Failed to save')
 
-      gooeyToast.success('Assignment saved successfully.')
+      if (body.emailSent) {
+        gooeyToast.success('Assignment saved and group notified by email.')
+      } else {
+        gooeyToast.warning('Assignment saved, but email was not sent.', {
+          description:
+            body.emailWarning ??
+            'Check RESEND_API_KEY and Google Group email configuration.',
+        })
+      }
       onSuccess()
     } catch (err) {
       gooeyToast.error('Failed to save assignment.', {

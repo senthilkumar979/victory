@@ -102,17 +102,28 @@ export async function PATCH(request: Request, context: RouteContext) {
 
     const stats = await getAssignmentStats(assignment.id, assignment.cohortId)
 
-    await sendAssignmentNotificationEmail({
-      to: assignment.googleGroupId,
-      title: `[Updated] ${assignment.title}`,
-      description: assignment.description,
-      dueDate: formatDueDate(assignment.dueDate),
-      assignmentUrl: `${getBaseUrl()}/secured/assignments/${assignment.id}`,
-      attachmentsUrl: assignment.attachments,
-    }).catch((e) => console.error('[assignment update email]', e))
+    let emailSent = false
+    let emailWarning: string | undefined
+    try {
+      await sendAssignmentNotificationEmail({
+        googleGroupId: assignment.googleGroupId,
+        title: `[Updated] ${assignment.title}`,
+        description: assignment.description,
+        dueDate: formatDueDate(assignment.dueDate),
+        assignmentUrl: `${getBaseUrl()}/secured/assignments/${assignment.id}`,
+        attachmentsUrl: assignment.attachments,
+      })
+      emailSent = true
+    } catch (e) {
+      emailWarning =
+        e instanceof Error ? e.message : 'Failed to send notification email'
+      console.error('[assignment update email]', e)
+    }
 
     return NextResponse.json({
       assignment: enrichAssignmentListItem(assignment, stats),
+      emailSent,
+      emailWarning,
     })
   } catch (err) {
     console.error('[api/assignments/[id] PATCH]', err)
