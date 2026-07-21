@@ -11,7 +11,9 @@ const { calendarMock, insertMock, setCredentialsMock } = vi.hoisted(() => ({
 vi.mock('googleapis', () => ({
   google: {
     auth: {
-      OAuth2: vi.fn(() => ({ setCredentials: setCredentialsMock })),
+      OAuth2: vi.fn(function OAuth2() {
+        return { setCredentials: setCredentialsMock }
+      }),
     },
     calendar: calendarMock,
   },
