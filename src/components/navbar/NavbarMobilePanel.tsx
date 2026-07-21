@@ -3,7 +3,7 @@
 import { SignInButton, SignOutButton, useUser } from '@clerk/nextjs'
 import { motion } from 'framer-motion'
 import { X } from 'lucide-react'
-import { memo } from 'react'
+import { memo, useEffect, useState } from 'react'
 
 import { NavbarMobileNavScroll } from './NavbarMobileNavScroll'
 import { NAV_USER, filterUserNavLinks } from './navConfig'
@@ -14,11 +14,23 @@ export interface NavbarMobilePanelProps {
   onClose: () => void
 }
 
+const LOAD_FALLBACK_MS = 4000
+
 export const NavbarMobilePanel = memo(
   ({ pathname, onClose }: NavbarMobilePanelProps) => {
     const { user, isLoaded } = useUser()
     const isAdmin = useIsAdmin()
     const userLinks = filterUserNavLinks(NAV_USER, Boolean(user), isAdmin)
+    const [showLoadFallback, setShowLoadFallback] = useState(false)
+
+    useEffect(() => {
+      if (isLoaded) {
+        setShowLoadFallback(false)
+        return
+      }
+      const timer = window.setTimeout(() => setShowLoadFallback(true), LOAD_FALLBACK_MS)
+      return () => window.clearTimeout(timer)
+    }, [isLoaded])
 
     return (
       <motion.div
@@ -79,17 +91,27 @@ export const NavbarMobilePanel = memo(
             </div>
           ) : null}
 
-          {isLoaded && !user ? (
+          {(isLoaded && !user) || (!isLoaded && showLoadFallback) ? (
             <div className="border-t border-gray-200 p-4">
-              <SignInButton mode="modal">
-                <button
-                  type="button"
-                  className="w-full cursor-pointer rounded-lg bg-gray-900 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400"
+              {isLoaded ? (
+                <SignInButton mode="modal">
+                  <button
+                    type="button"
+                    className="w-full cursor-pointer rounded-lg bg-gray-900 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400"
+                    onClick={onClose}
+                  >
+                    Login
+                  </button>
+                </SignInButton>
+              ) : (
+                <a
+                  href="/sign-in"
+                  className="flex w-full cursor-pointer items-center justify-center rounded-lg bg-gray-900 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400"
                   onClick={onClose}
                 >
                   Login
-                </button>
-              </SignInButton>
+                </a>
+              )}
             </div>
           ) : null}
         </motion.aside>

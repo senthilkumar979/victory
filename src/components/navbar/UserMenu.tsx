@@ -10,9 +10,12 @@ import { UserAccountDropdown } from './UserAccountDropdown'
 import { NAV_USER, filterUserNavLinks } from './navConfig'
 import { useIsAdmin } from '@/hooks/useIsAdmin'
 
+const LOAD_FALLBACK_MS = 4000
+
 export const UserMenu = memo(() => {
   const { user, isLoaded } = useUser()
   const [open, setOpen] = useState(false)
+  const [showLoadFallback, setShowLoadFallback] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
   const menuId = useId()
   const isAdmin = useIsAdmin()
@@ -20,6 +23,15 @@ export const UserMenu = memo(() => {
   const reduceMotion = useReducedMotion()
 
   const close = useCallback(() => setOpen(false), [])
+
+  useEffect(() => {
+    if (isLoaded) {
+      setShowLoadFallback(false)
+      return
+    }
+    const timer = window.setTimeout(() => setShowLoadFallback(true), LOAD_FALLBACK_MS)
+    return () => window.clearTimeout(timer)
+  }, [isLoaded])
 
   useEffect(() => {
     if (!open) return
@@ -37,7 +49,26 @@ export const UserMenu = memo(() => {
     }
   }, [open, close])
 
+  const loginButton = (
+    <motion.button
+      type="button"
+      className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-gray-200/90 bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-black/[0.04] transition-colors hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35"
+      whileHover={reduceMotion ? undefined : { y: -1 }}
+      whileTap={reduceMotion ? undefined : { scale: 0.98 }}
+    >
+      <Sparkles className="h-4 w-4 text-primary" aria-hidden strokeWidth={2} />
+      Login
+    </motion.button>
+  )
+
   if (!isLoaded) {
+    if (showLoadFallback) {
+      return (
+        <a href="/sign-in" className="inline-flex">
+          {loginButton}
+        </a>
+      )
+    }
     return (
       <div
         className="h-10 w-10 shrink-0 animate-pulse rounded-full bg-gradient-to-br from-gray-200 to-gray-100"
@@ -47,19 +78,7 @@ export const UserMenu = memo(() => {
   }
 
   if (!user) {
-    return (
-      <SignInButton mode="modal">
-        <motion.button
-          type="button"
-          className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-gray-200/90 bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-black/[0.04] transition-colors hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35"
-          whileHover={reduceMotion ? undefined : { y: -1 }}
-          whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-        >
-          <Sparkles className="h-4 w-4 text-primary" aria-hidden strokeWidth={2} />
-          Login
-        </motion.button>
-      </SignInButton>
-    )
+    return <SignInButton mode="modal">{loginButton}</SignInButton>
   }
 
   const initial =
