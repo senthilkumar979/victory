@@ -163,14 +163,17 @@ describe('announcementService', () => {
     eq.mockResolvedValueOnce({ error: { message: 'fk violation' } })
     const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
 
-    await expect(deleteAnnouncement('ann-1')).rejects.toBeInstanceOf(
-      MobileServiceError,
-    )
-    await expect(deleteAnnouncement('ann-1')).rejects.toMatchObject({
-      message: 'Could not delete announcement.',
-      status: 500,
-      code: 'INTERNAL_ERROR',
-    })
+    try {
+      await deleteAnnouncement('ann-1')
+      expect.unreachable('deleteAnnouncement should have thrown')
+    } catch (error) {
+      expect(error).toBeInstanceOf(MobileServiceError)
+      expect(error).toMatchObject({
+        message: 'Could not delete announcement.',
+        status: 500,
+        code: 'INTERNAL_ERROR',
+      })
+    }
     expect(consoleError).toHaveBeenCalled()
   })
 })

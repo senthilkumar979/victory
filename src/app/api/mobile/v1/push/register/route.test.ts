@@ -9,7 +9,7 @@ const {
 } = vi.hoisted(() => ({
   authenticateMobileAdminMock: vi.fn(),
   getMobileDbMock: vi.fn(),
-  mobileErrorResponseMock: vi.fn((err: unknown) =>
+  mobileErrorResponseMock: vi.fn(() =>
     Response.json(
       { error: 'Internal server error', code: 'INTERNAL_ERROR' },
       { status: 500 },
