@@ -146,10 +146,8 @@ describe('POST /api/assignments', () => {
     )
 
     expect(response.status).toBe(200)
-    await expect(response.json()).resolves.toMatchObject({
-      emailSent: true,
-    })
-    const body = await response.clone().json()
+    const body = await response.json()
+    expect(body).toMatchObject({ emailSent: true })
     expect(body.emailWarning).toBeUndefined()
   })
 })
