@@ -19,13 +19,14 @@ function mapRow(row: Record<string, unknown>): MeetingFormState {
     .filter((n) => !Number.isNaN(n) && n > 0)
     .sort((a, b) => a - b)
   return {
-    id: row.id as string,
+    id: typeof row.id === 'string' ? row.id : undefined,
     title: (row.title as string) ?? '',
     date: (row.date as string) ?? '',
     googleGroupId: (row.google_group_id as string) ?? '',
     description: (row.description as string) ?? '',
     meetingLink: (row.meeting_link as string) ?? '',
-    coverImageUrl: (row.cover_image_url as string) ?? '',
+    coverImageUrl:
+      typeof row.cover_image_url === 'string' ? row.cover_image_url : '',
     feedbackForm: (row.feedback_form as string) ?? undefined,
     feedbackEmailSentAt:
       (row.feedback_email_sent_at as string | null) ?? undefined,

@@ -6,6 +6,7 @@ import { ImageIcon, Loader2, XIcon } from 'lucide-react'
 import { FormLabel } from '@/atoms/form-label/FormLabel'
 import { joinClassNames } from '@/utils/tailwindUtils'
 
+import { safeTrimmedString } from './safeTrimmedString'
 import { useMeetingCoverImageUpload } from './useMeetingCoverImageUpload'
 
 interface MeetingFormCoverImageSectionProps {
@@ -47,7 +48,9 @@ export const MeetingFormCoverImageSection = ({
     return () => URL.revokeObjectURL(objectUrl)
   }, [stagedCoverFile])
 
-  const previewUrl = localPreviewUrl || coverImageUrl.trim() || null
+  const resolvedMeetingId = safeTrimmedString(meetingId)
+  const previewUrl =
+    localPreviewUrl || safeTrimmedString(coverImageUrl) || null
 
   const handleClear = () => {
     onStagedCoverFileChange(null)
@@ -59,9 +62,9 @@ export const MeetingFormCoverImageSection = ({
     if (!file) return
     onStagedCoverFileChange(file)
 
-    if (!meetingId?.trim()) return
+    if (!resolvedMeetingId) return
 
-    const url = await uploadCoverImage(meetingId, file)
+    const url = await uploadCoverImage(resolvedMeetingId, file)
     if (url) {
       onCoverImageUrlChange(url)
       onStagedCoverFileChange(null)
@@ -75,7 +78,7 @@ export const MeetingFormCoverImageSection = ({
         Cover image
       </FormLabel>
       <p className="text-xs text-slate-500">
-        {meetingId
+        {resolvedMeetingId
           ? 'Upload a 16:9 image (JPG, PNG, or WebP). It is saved to storage immediately.'
           : 'Choose an image now — it uploads when you create the meeting.'}
       </p>
