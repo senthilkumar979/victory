@@ -24,40 +24,6 @@ import {
   upsertSubmission,
 } from './assignmentService'
 
-function createChain(result: {
-  data?: unknown
-  error?: { message: string } | null
-  count?: number | null
-}) {
-  const chain: Record<string, unknown> = {}
-  const methods = [
-    'select',
-    'eq',
-    'order',
-    'update',
-    'insert',
-    'maybeSingle',
-    'single',
-  ]
-  for (const method of methods) {
-    chain[method] = vi.fn().mockReturnValue(chain)
-  }
-  chain.maybeSingle = vi.fn().mockResolvedValue({
-    data: result.data ?? null,
-    error: result.error ?? null,
-  })
-  chain.single = vi.fn().mockResolvedValue({
-    data: result.data ?? null,
-    error: result.error ?? null,
-  })
-  // count queries resolve via thenable from select+eq without single
-  ;(chain as { then?: unknown }).then = undefined
-  Object.assign(chain, {
-    // When used as Promise.all count heads, callers await the builder itself
-  })
-  return chain
-}
-
 describe('assignmentService submission helpers', () => {
   beforeEach(() => {
     supabaseAdminState.client = null
