@@ -20,6 +20,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@clerk/backend": "3.11.7",
     "@clerk/nextjs": "^6.39.3",
     "@google/generative-ai": "^0.24.1",
     "@hookform/resolvers": "^5.2.2",
