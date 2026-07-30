@@ -35,7 +35,7 @@ function isExcludedFromGlobalLoader(url: string): boolean {
   }
 }
 
-function pathnameOnly(url: string): string {
+export function pathnameOnly(url: string): string {
   try {
     if (url.startsWith('http://') || url.startsWith('https://')) {
       return new URL(url).pathname
@@ -50,7 +50,7 @@ function pathnameOnly(url: string): string {
  * Only real data fetches should dim the UI — not Next.js RSC/flight requests,
  * same-origin navigations, or arbitrary `/path` fetches (those wreck mobile INP).
  */
-function shouldShowLoaderForUrl(url: string): boolean {
+export function shouldShowLoaderForUrl(url: string): boolean {
   try {
     const parsed = typeof url === 'string' ? url : ''
     if (!parsed) return false
