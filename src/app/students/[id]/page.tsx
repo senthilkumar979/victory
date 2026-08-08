@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { PersonJsonLd } from '@/components/seo/PersonJsonLd'
+import { buildStudentDescription } from '@/lib/seo/buildStudentDescription'
 import { getStudentForSeo } from '@/lib/seo/getStudentForSeo'
 import { SITE_URL } from '@/lib/siteUrl'
 
@@ -8,18 +9,6 @@ import { StudentDetailPageClient } from './StudentDetailPageClient'
 
 interface PageProps {
   params: Promise<{ id: string }>
-}
-
-function buildDescription(row: NonNullable<Awaited<ReturnType<typeof getStudentForSeo>>>) {
-  if (row.summary?.trim()) {
-    const t = row.summary.trim()
-    return t.length > 160 ? `${t.slice(0, 157)}…` : t
-  }
-  const rolePart =
-    row.role && row.company
-      ? `${row.role} at ${row.company}`
-      : row.role || row.company || 'MentorBridge student'
-  return `${row.name} — ${rolePart}. Part of the MentorBridge rural tech community.`
 }
 
 export async function generateMetadata({
@@ -36,7 +25,7 @@ export async function generateMetadata({
   }
 
   const title = `${row.name} | Students`
-  const description = buildDescription(row)
+  const description = buildStudentDescription(row)
   const canonical = `${SITE_URL}/students/${id}`
 
   return {
