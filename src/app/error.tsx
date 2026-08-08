@@ -1,8 +1,6 @@
 'use client'
 
-import * as Sentry from '@sentry/nextjs'
-import { useEffect } from 'react'
-
+import { useAppErrorHandler } from '@/hooks/useAppErrorHandler'
 import { PrimaryButton } from '@/ui/atoms/button/Button'
 
 export default function AppError({
@@ -12,9 +10,7 @@ export default function AppError({
   error: Error & { digest?: string }
   reset: () => void
 }) {
-  useEffect(() => {
-    Sentry.captureException(error)
-  }, [error])
+  useAppErrorHandler(error)
 
   return (
     <div className="flex min-h-[50vh] flex-col items-center justify-center gap-6 px-4 py-16">

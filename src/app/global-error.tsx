@@ -1,17 +1,15 @@
 'use client'
 
-import * as Sentry from '@sentry/nextjs'
 import NextError from 'next/error'
-import { useEffect } from 'react'
+
+import { useAppErrorHandler } from '@/hooks/useAppErrorHandler'
 
 export default function GlobalError({
   error,
 }: {
   error: Error & { digest?: string }
 }) {
-  useEffect(() => {
-    Sentry.captureException(error)
-  }, [error])
+  useAppErrorHandler(error)
 
   return (
     <html lang="en">
