@@ -17,7 +17,7 @@ const {
 }))
 
 vi.mock('@google/generative-ai', () => {
-  function GoogleGenerativeAI(_apiKey: string) {}
+  function GoogleGenerativeAI() {}
   GoogleGenerativeAI.prototype.getGenerativeModel = function getGenerativeModel(
     ...args: unknown[]
   ) {

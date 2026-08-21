@@ -5,6 +5,8 @@ const { authMock, generateMock } = vi.hoisted(() => ({
   generateMock: vi.fn(),
 }))
 
+vi.mock('server-only', () => ({}))
+
 vi.mock('@clerk/nextjs/server', () => ({
   auth: authMock,
 }))

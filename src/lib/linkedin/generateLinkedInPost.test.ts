@@ -5,7 +5,7 @@ const generateContentMock = vi.hoisted(() => vi.fn())
 vi.mock('server-only', () => ({}))
 
 vi.mock('@google/generative-ai', () => {
-  function GoogleGenerativeAI(_apiKey: string) {}
+  function GoogleGenerativeAI() {}
   GoogleGenerativeAI.prototype.getGenerativeModel = function getGenerativeModel() {
     return { generateContent: generateContentMock }
   }
@@ -23,7 +23,7 @@ describe('buildCommentaryFromGenerated', () => {
       {
         title: 'Cohort launch',
         description: 'Students shipped production work.',
-        hashtags: ['MentorBridge', '#ITCareers', ''],
+        hashtags: ['MentorBridge', '#ITCareers'],
       },
       ' https://mentorbridge.in/awards ',
     )

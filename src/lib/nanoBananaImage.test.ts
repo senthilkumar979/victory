@@ -10,7 +10,7 @@ vi.mock('server-only', () => ({}))
 vi.mock('@google/generative-ai', async (importOriginal) => {
   const original = await importOriginal<typeof import('@google/generative-ai')>()
 
-  function GoogleGenerativeAI(_apiKey: string) {}
+  function GoogleGenerativeAI() {}
   GoogleGenerativeAI.prototype.getGenerativeModel = function getGenerativeModel(
     opts: unknown,
   ) {
