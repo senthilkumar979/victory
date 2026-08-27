@@ -29,6 +29,7 @@ vi.mock('@/components/assignments/MarkdownEditor', () => ({
 }))
 
 const cohortId = '11111111-1111-4111-8111-111111111111'
+const directoryGroup = { id: 'g1', name: 'Team', email: 'team@test.com' }
 
 const validBaseValues: AssignmentFormValues = {
   title: '',
@@ -43,20 +44,24 @@ const validBaseValues: AssignmentFormValues = {
 function AssignmentFormTestHarness({
   isOpen = true,
   onValidSubmit,
+  values = validBaseValues,
+  googleGroups = [directoryGroup],
 }: {
   isOpen?: boolean
   onValidSubmit: (data: AssignmentFormValues) => void
+  values?: AssignmentFormValues
+  googleGroups?: { id?: string; name: string; email: string }[]
 }) {
   const form = useForm<AssignmentFormValues>({
     resolver: zodResolver(assignmentFormSchema),
-    defaultValues: validBaseValues,
+    defaultValues: values,
   })
   const { reset, handleSubmit } = form
 
   useEffect(() => {
     if (!isOpen) return
-    reset(validBaseValues)
-  }, [isOpen, reset])
+    reset(values)
+  }, [isOpen, reset, values])
 
   if (!isOpen) return null
 
@@ -67,7 +72,7 @@ function AssignmentFormTestHarness({
           formId="assignment-form"
           form={form}
           cohorts={[{ id: cohortId, name: 'Cohort A' }]}
-          googleGroups={[{ id: 'g1', name: 'Team', email: 'team@test.com' }]}
+          googleGroups={googleGroups}
         />
       </form>
       <button type="submit" form="assignment-form">
@@ -114,5 +119,35 @@ describe('AssignmentFormFields', () => {
       }),
       expect.anything(),
     )
+  })
+
+  it('rewrites a stored google_groups.id to the directory email', async () => {
+    render(
+      <AssignmentFormTestHarness
+        onValidSubmit={vi.fn()}
+        values={{ ...validBaseValues, googleGroupId: 'g1' }}
+      />,
+    )
+
+    await waitFor(() => {
+      expect(screen.getByLabelText(/Google Group/)).toHaveValue('team@test.com')
+    })
+    expect(
+      screen.queryByRole('option', { name: /not in directory/ }),
+    ).not.toBeInTheDocument()
+  })
+
+  it('keeps an unknown group value as an orphan option', () => {
+    render(
+      <AssignmentFormTestHarness
+        onValidSubmit={vi.fn()}
+        values={{ ...validBaseValues, googleGroupId: 'retired@old.com' }}
+      />,
+    )
+
+    expect(screen.getByLabelText(/Google Group/)).toHaveValue('retired@old.com')
+    expect(
+      screen.getByRole('option', { name: /retired@old.com \(not in directory\)/ }),
+    ).toBeInTheDocument()
   })
 })
