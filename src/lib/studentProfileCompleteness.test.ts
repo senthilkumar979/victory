@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import {
   getProfileChecklistItems,
+  isStudentProfileComplete,
   isStudentProfileCompleteRow,
 } from '@/lib/studentProfileCompleteness'
 import type { ProfileData } from '@/types/student.types'
@@ -38,6 +39,26 @@ describe('isStudentProfileCompleteRow', () => {
       }),
     ).toBe(true)
   })
+
+  it('accepts cohort_id or cohortId when batch is empty', () => {
+    expect(
+      isStudentProfileCompleteRow({ name: 'Ada', role: 'Dev', batch: '' }),
+    ).toBe(false)
+    expect(
+      isStudentProfileCompleteRow({
+        name: 'Ada',
+        role: 'Dev',
+        cohort_id: 'c1',
+      }),
+    ).toBe(true)
+    expect(
+      isStudentProfileCompleteRow({
+        name: 'Ada',
+        role: 'Dev',
+        cohortId: 'c1',
+      }),
+    ).toBe(true)
+  })
 })
 
 describe('getProfileChecklistItems', () => {
@@ -64,5 +85,48 @@ describe('getProfileChecklistItems', () => {
     }
     const items = getProfileChecklistItems(profile)
     expect(items.every((i) => i.done)).toBe(true)
+  })
+
+  it('treats GitHub-only social links as complete and ignores whitespace', () => {
+    const items = getProfileChecklistItems({
+      id: '1',
+      name: 'Test',
+      picture: 'https://example.com/p.jpg',
+      role: 'Engineer',
+      company: 'Co',
+      summary: 'Hi',
+      email: 't@example.com',
+      batch: '',
+      cohortId: '  C1  ',
+      selfIntro: 'Intro',
+      resumeLink: 'https://cv.example',
+      socialLinks: { linkedIn: '   ', gitHub: 'https://github.com/ada', website: '' },
+      serialNo: 1,
+    })
+    expect(items.find((i) => i.id === 'social')?.done).toBe(true)
+    expect(items.find((i) => i.id === 'cohort')?.done).toBe(true)
+  })
+})
+
+describe('isStudentProfileComplete', () => {
+  it('returns false for a missing profile', () => {
+    expect(isStudentProfileComplete(null)).toBe(false)
+  })
+
+  it('prefers cohortId over an empty batch', () => {
+    expect(
+      isStudentProfileComplete({
+        id: '1',
+        name: 'Ada',
+        picture: '',
+        role: 'Student',
+        company: '',
+        summary: '',
+        email: 'ada@example.com',
+        batch: '',
+        cohortId: '2026',
+        serialNo: 1,
+      }),
+    ).toBe(true)
   })
 })
