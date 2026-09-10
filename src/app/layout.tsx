@@ -2,10 +2,10 @@ import { Navbar } from '@/components/navbar/Navbar'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import Script from 'next/script'
 import 'goey-toast/styles.css'
 import type { Metadata } from 'next'
 import { Bungee_Tint, Geist, Geist_Mono, Urbanist } from 'next/font/google'
+import { ContentSquareScript } from '@/components/analytics/ContentSquareScript'
 import { PosthogRoot } from '@/components/analytics/PosthogRoot'
 import { SentryUserContext } from '@/components/analytics/SentryUserContext'
 import { ClarityComponent } from '../Clarity'
@@ -147,10 +147,7 @@ export default function RootLayout({
                 <Footer />
                 <VisitorChatWidgetLazy />
                 <ClarityComponent />
-                <Script
-                  src="https://t.contentsquare.net/uxa/5027a5ad08b17.js"
-                  strategy="lazyOnload"
-                />
+                <ContentSquareScript />
                 <Analytics />
                 <SpeedInsights />
               </PosthogRoot>
