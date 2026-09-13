@@ -15,6 +15,7 @@ import {
   profileEditFormSchema,
   type ProfileEditFormValues,
 } from './profileEditFormSchema'
+import { buildProfileSavePayload } from './profileEditSavePayload'
 import { Button, PrimaryButton } from '@/ui/atoms/button/Button'
 import { motion } from 'framer-motion'
 import { gooeyToast } from 'goey-toast'
@@ -86,14 +87,6 @@ function toFormValues(student: ProfileData | null): ProfileEditFormValues {
     fatherGuardianDetails: student.fatherGuardianDetails ?? '',
     motherDetails: student.motherDetails ?? '',
   }
-}
-
-function parseCommaList(s: string | undefined): string[] {
-  if (!s?.trim()) return []
-  return s
-    .split(',')
-    .map((x) => x.trim())
-    .filter(Boolean)
 }
 
 const toastSurface = {
@@ -250,44 +243,11 @@ export const ProfileEditForm = ({
       student_id: studentId || undefined,
     })
     try {
-      const skillSets = parseCommaList(data.skillSets)
-      const inspirations = parseCommaList(data.inspirations)
-      const socialLinks = {
-        linkedIn: data.socialLinks?.linkedIn?.trim() ?? '',
-        gitHub: data.socialLinks?.gitHub?.trim() ?? '',
-        website: data.socialLinks?.website?.trim() ?? '',
-      }
-
-      const validExperience = data.experience.filter(
-        (e) => e.company.trim() || e.role.trim(),
-      )
-
-      const pictureToSave = (stagedPictureUrl ?? data.picture)?.trim() || ''
-      const resumeToSave = (stagedResumeUrl ?? data.resumeLink)?.trim() || ''
-
-      const payload = {
-        name: data.name,
-        picture: pictureToSave || undefined,
-        role: data.role,
-        company: data.company || undefined,
-        summary: data.summary || undefined,
-        email: data.email,
-        mediumUsername: data.mediumUsername || undefined,
-        cohortId: data.cohortId,
-        gender: data.gender || undefined,
-        resumeLink: resumeToSave || undefined,
-        skillSets: skillSets.length > 0 ? skillSets : undefined,
-        inspirations: inspirations.length > 0 ? inspirations : undefined,
-        experience: validExperience?.length ? validExperience : undefined,
-        mentorBridgeExp: data.mentorBridgeExp,
-        socialLinks,
-        ...(isAdmin
-          ? {
-              fatherGuardianDetails: data.fatherGuardianDetails,
-              motherDetails: data.motherDetails,
-            }
-          : {}),
-      }
+      const payload = buildProfileSavePayload(data, {
+        stagedPictureUrl,
+        stagedResumeUrl,
+        isAdmin,
+      })
 
       if (studentId?.trim()) {
         await updateStudent(studentId, payload)
