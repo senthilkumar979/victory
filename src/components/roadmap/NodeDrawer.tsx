@@ -3,7 +3,7 @@
 import { Badge } from '@/atoms/badge/Badge'
 import { Button } from '@/atoms/button/Button'
 import type { RoadmapNodeMeta } from '@/data/roadmaps'
-import { useUser } from '@clerk/nextjs'
+import { useIsAdmin } from '@/hooks/useIsAdmin'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Check, CheckCircle, X, XCircle } from 'lucide-react'
 import { useEffect } from 'react'
@@ -25,8 +25,7 @@ export const NodeDrawer = ({
   onComplete,
   onIncomplete,
 }: NodeDrawerProps) => {
-  const { user } = useUser()
-  const isAdmin = user?.publicMetadata?.isAdmin ?? false
+  const isAdmin = useIsAdmin()
   useEffect(() => {
     if (!node) return
     const handleKeyDown = (event: KeyboardEvent) => {
