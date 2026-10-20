@@ -4,6 +4,7 @@ import type { Variants } from 'framer-motion'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
 import { horizontalPillars } from './learningDimensionsContent'
+import { cardVariants, floatLoop, pillarCardHover } from './horizontalPillarMotion'
 
 const gridContainer: Variants = {
   hidden: { opacity: 0 },
@@ -12,27 +13,6 @@ const gridContainer: Variants = {
     transition: { staggerChildren: 0.08, delayChildren: 0.06 },
   },
 }
-
-const cardVariants = (reduce: boolean): Variants => ({
-  hidden: { opacity: 0, scale: reduce ? 1 : 0.94 },
-  show: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-  },
-})
-
-const floatLoop = (reduce: boolean) =>
-  reduce
-    ? false
-    : {
-        y: [0, -5, 0],
-        transition: {
-          duration: 5.5,
-          repeat: Infinity,
-          ease: 'easeInOut' as const,
-        },
-      }
 
 export const HorizontalIntelligencePillars = () => {
   const reduceMotion = useReducedMotion()
@@ -121,14 +101,7 @@ export const HorizontalIntelligencePillars = () => {
               >
                 <motion.div
                   className="rounded-2xl border border-gray-200 bg-white/70 p-5 shadow-lg shadow-slate-900/5 backdrop-blur-md transition-shadow duration-300 ease-in-out hover:ring-2 hover:ring-indigo-400/30"
-                  whileHover={
-                    reduceMotion
-                      ? undefined
-                      : {
-                          scale: 1.05,
-                          boxShadow: '0 0 28px 2px rgba(212, 59, 246, 0.28)',
-                        }
-                  }
+                  whileHover={pillarCardHover(!!reduceMotion)}
                   transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <h3 className="text-base font-semibold text-primary">
