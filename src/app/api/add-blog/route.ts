@@ -1,3 +1,8 @@
+import {
+  extractCoverImageFromDescription,
+  fetchMediumRssFeed,
+  type MediumRssItem,
+} from "@/lib/mediumRss";
 import { supabase } from "@/lib/supabaseClient";
 import {
   AddAllBlogsResponse,
@@ -7,50 +12,7 @@ import {
 } from "@/types/blog.types";
 import { NextRequest, NextResponse } from "next/server";
 
-interface RSSItem {
-  title: string;
-  author: string;
-  pubDate: string;
-  description: string;
-  link: string;
-}
-
-interface RSSResponse {
-  status: string;
-  feed: {
-    title: string;
-    description: string;
-    link: string;
-  };
-  items: RSSItem[];
-}
-
-const MEDIUM_USER_RSS_BASE = "https://medium.com/feed";
-const RSS2JSON_API = "https://api.rss2json.com/v1/api.json";
-
-function extractCoverImageFromDescription(description: string): string | null {
-  const imgMatch = description.match(/<img[^>]+src="([^"]+)"/i);
-  return imgMatch ? imgMatch[1] : null;
-}
-
-function buildMediumRssUrl(username: string): string {
-  const normalized = username.startsWith("@") ? username.slice(1) : username;
-  return `${MEDIUM_USER_RSS_BASE}/@${normalized}`;
-}
-
-async function fetchMediumRssFeed(username: string): Promise<RSSResponse> {
-  const rssUrl = buildMediumRssUrl(username);
-  const apiUrl = `${RSS2JSON_API}?rss_url=${encodeURIComponent(rssUrl)}`;
-  const response = await fetch(apiUrl);
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch RSS feed: ${response.statusText}`);
-  }
-
-  return response.json();
-}
-
-function rssItemToBlog(item: RSSItem): Pick<
+function rssItemToBlog(item: MediumRssItem): Pick<
   Blog,
   "title" | "author_name" | "published_date" | "cover_image_url" | "link"
 > {
