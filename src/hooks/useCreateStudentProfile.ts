@@ -3,6 +3,7 @@ import uuid from 'react-uuid'
 
 import { RESEND_TEMPLATE_IDS } from '@/constants/ThirdPartyConstants'
 
+import { toProfileSaveError } from '@/lib/profileSaveError'
 import { supabase } from '../lib/supabaseClient'
 import { ProfileUpdatePayload, toSupabasePayload } from './useUpdateStudent'
 
@@ -15,7 +16,7 @@ export const useCreateStudentProfile = () => {
         .eq('email', payload.email.trim())
         .maybeSingle()
 
-      if (checkError) throw checkError
+      if (checkError) throw toProfileSaveError(checkError)
       if (existing) {
         throw new Error('A student with this email already exists.')
       }
@@ -27,7 +28,7 @@ export const useCreateStudentProfile = () => {
         .select('id')
         .maybeSingle()
 
-      if (error) throw error
+      if (error) throw toProfileSaveError(error)
       if (!data) {
         throw new Error(
           'No rows were inserted. The student may not exist or you may not have permission to insert (check RLS policies).',

@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 
+import { toProfileSaveError } from '@/lib/profileSaveError'
 import { supabase } from '@/lib/supabaseClient'
 
 import type { ProfileData } from '@/types/student.types'
@@ -77,7 +78,7 @@ export const useUpdateStudent = () => {
 
     if (error) {
       console.error('Error updating student:', error)
-      throw error
+      throw toProfileSaveError(error)
     }
     if (!data) {
       throw new Error(

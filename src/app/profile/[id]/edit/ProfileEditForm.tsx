@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form'
 import { useCreateStudentProfile } from '@/hooks/useCreateStudentProfile'
 import { useIsAdmin } from '@/hooks/useIsAdmin'
 import { useUpdateStudent } from '@/hooks/useUpdateStudent'
+import { classifyProfileSaveFailure } from '@/lib/profileSaveError'
 import type { ProfileData } from '@/types/student.types'
 import { ProfileEditFormFields } from './ProfileEditFormFields'
 import {
@@ -140,16 +141,6 @@ function collectFormErrorMessages(errors: FieldErrors<ProfileEditFormValues>): s
   }
   walk(errors)
   return [...new Set(out)]
-}
-
-function getThrownMessage(err: unknown): string {
-  if (err instanceof Error) return err.message
-  if (typeof err === 'string') return err
-  if (err && typeof err === 'object' && 'message' in err) {
-    const m = (err as { message: unknown }).message
-    if (typeof m === 'string' && m.trim()) return m
-  }
-  return 'Please try again.'
 }
 
 interface ProfileEditFormProps {
@@ -312,14 +303,23 @@ export const ProfileEditForm = ({
       if (onBack) onBack()
       else router.back()
     } catch (err) {
-      Sentry.captureException(err, {
-        tags: { area: 'profile_edit_form' },
-        extra: {
-          student_id: studentId || undefined,
-          is_update: Boolean(studentId),
-        },
-      })
-      const errorMessage = getThrownMessage(err)
+      const failure = classifyProfileSaveFailure(err)
+      if (failure.field === 'mediumUsername') {
+        form.setError('mediumUsername', {
+          type: 'server',
+          message: failure.message,
+        })
+      }
+      if (failure.shouldReport) {
+        Sentry.captureException(failure.error, {
+          tags: { area: 'profile_edit_form' },
+          extra: {
+            student_id: studentId || undefined,
+            is_update: Boolean(studentId),
+          },
+        })
+      }
+      const errorMessage = failure.message
       posthog.capture('profile_form_submit_failed', {
         student_id: studentId || undefined,
         is_update: Boolean(studentId),

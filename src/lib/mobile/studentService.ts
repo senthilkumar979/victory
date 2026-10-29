@@ -2,6 +2,7 @@ import 'server-only'
 
 import { toSupabasePayload } from '@/hooks/useUpdateStudent'
 import type { ProfileUpdatePayload } from '@/hooks/useUpdateStudent'
+import { ProfileSaveError, toProfileSaveError } from '@/lib/profileSaveError'
 import { mapSupabaseStudentRowToProfile } from '@/lib/mapSupabaseStudentRowToProfile'
 import {
   getMobileDb,
@@ -147,6 +148,10 @@ export async function updateStudent(
     .maybeSingle()
 
   if (error) {
+    const saveError = toProfileSaveError(error)
+    if (saveError instanceof ProfileSaveError) {
+      throw new MobileServiceError(saveError.message, 409, 'MEDIUM_USERNAME_TAKEN')
+    }
     console.error('[mobile/studentService.update]', error)
     throw new MobileServiceError(
       'Could not update student.',

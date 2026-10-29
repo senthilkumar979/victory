@@ -420,16 +420,37 @@ export const ProfileEditFormFields = ({
               />
             </div>
             <div>
-              <label className="mb-1.5 flex items-center gap-2 text-sm font-medium text-slate-600">
+              <label
+                htmlFor={`${formId}-mediumUsername`}
+                className="mb-1.5 flex items-center gap-2 text-sm font-medium text-slate-600"
+              >
                 <Rss className="size-4" /> Medium
               </label>
               <input
                 type="text"
                 id={`${formId}-mediumUsername`}
                 placeholder="username"
-                className={joinClassNames(inputBase, "text-secondary")}
+                aria-invalid={errors.mediumUsername ? true : undefined}
+                aria-describedby={
+                  errors.mediumUsername
+                    ? `${formId}-mediumUsername-error`
+                    : undefined
+                }
+                className={joinClassNames(
+                  inputBase,
+                  "text-secondary",
+                  errors.mediumUsername && "border-red-500",
+                )}
                 {...register("mediumUsername")}
               />
+              {errors.mediumUsername?.message && (
+                <span
+                  id={`${formId}-mediumUsername-error`}
+                  className="mt-1 block text-xs text-red-600"
+                >
+                  {errors.mediumUsername.message}
+                </span>
+              )}
             </div>
           </div>
           <div>
