@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 
 import { supabase } from '@/lib/supabaseClient'
+import { toThrownQueryError } from '@/lib/supabase/clientQueryError'
 
 import type { ProfileData } from '@/types/student.types'
 
@@ -77,7 +78,7 @@ export const useUpdateStudent = () => {
 
     if (error) {
       console.error('Error updating student:', error)
-      throw error
+      throw toThrownQueryError(error)
     }
     if (!data) {
       throw new Error(
