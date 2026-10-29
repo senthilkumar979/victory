@@ -24,6 +24,11 @@ import { usePostHog } from 'posthog-js/react'
 
 import { LogSnagPageView } from '@/components/analytics/LogSnagPageView'
 import { PosthogCaptureOnce } from '@/components/analytics/PosthogCaptureOnce'
+import {
+  profileSaveFailure,
+  readSupabaseErrorCode,
+  toThrownQueryError,
+} from '@/lib/supabase/clientQueryError'
 
 function toFormValues(student: ProfileData | null): ProfileEditFormValues {
   if (!student) {
@@ -140,16 +145,6 @@ function collectFormErrorMessages(errors: FieldErrors<ProfileEditFormValues>): s
   }
   walk(errors)
   return [...new Set(out)]
-}
-
-function getThrownMessage(err: unknown): string {
-  if (err instanceof Error) return err.message
-  if (typeof err === 'string') return err
-  if (err && typeof err === 'object' && 'message' in err) {
-    const m = (err as { message: unknown }).message
-    if (typeof m === 'string' && m.trim()) return m
-  }
-  return 'Please try again.'
 }
 
 interface ProfileEditFormProps {
@@ -312,14 +307,18 @@ export const ProfileEditForm = ({
       if (onBack) onBack()
       else router.back()
     } catch (err) {
-      Sentry.captureException(err, {
-        tags: { area: 'profile_edit_form' },
-        extra: {
-          student_id: studentId || undefined,
-          is_update: Boolean(studentId),
-        },
-      })
-      const errorMessage = getThrownMessage(err)
+      const failure = profileSaveFailure(err)
+      if (failure.shouldReport) {
+        Sentry.captureException(toThrownQueryError(err), {
+          tags: { area: 'profile_edit_form' },
+          extra: {
+            student_id: studentId || undefined,
+            is_update: Boolean(studentId),
+            supabase_code: readSupabaseErrorCode(err),
+          },
+        })
+      }
+      const errorMessage = failure.message
       posthog.capture('profile_form_submit_failed', {
         student_id: studentId || undefined,
         is_update: Boolean(studentId),
