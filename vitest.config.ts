@@ -36,6 +36,13 @@ export default defineConfig({
       },
       {
         plugins: [tsconfigPaths(), react()],
+        resolve: {
+          alias: {
+            // pnpm does not hoist this transitive Clerk package; alias the test stub
+            // so auth unit tests can import clerkUser.ts without a direct dependency.
+            '@clerk/backend': path.join(dirname, 'vitest-stubs/clerk-backend.ts'),
+          },
+        },
         test: {
           name: 'app',
           environment: 'jsdom',
