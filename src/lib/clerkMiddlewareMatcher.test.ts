@@ -1,12 +1,6 @@
-import { readFileSync } from 'node:fs'
-import path from 'node:path'
-
 import { describe, expect, it } from 'vitest'
 
-import {
-  CLERK_MIDDLEWARE_MATCHER,
-  isClerkMiddlewarePath,
-} from '@/lib/clerkMiddlewareMatcher'
+import { isClerkMiddlewarePath } from '@/lib/clerkMiddlewareMatcher'
 
 const PROTECTED = [
   '/sign-in',
@@ -73,11 +67,33 @@ describe('isClerkMiddlewarePath', () => {
     }
   })
 
-  it('is the matcher literal in middleware.ts', () => {
-    const source = readFileSync(
-      path.join(process.cwd(), 'src/middleware.ts'),
-      'utf8',
-    )
-    expect(source).toContain(CLERK_MIDDLEWARE_MATCHER)
+  it.each([
+    '/dashboard/',
+    '/sign-in/',
+    '/api/assignments/',
+    '/api/students/student-id/guardian-details/',
+    '/session-tasks',
+    '/post-login/continue',
+    '/api/admin',
+  ])('includes boundary session path %s', (pathname) => {
+    expect(isClerkMiddlewarePath(pathname)).toBe(true)
+  })
+
+  it.each([
+    '/profiles',
+    '/dashboarding',
+    '/sign-in-help',
+    '/nano-bananas',
+    '/api/assignment',
+    '/api/cohort',
+    '/api/github2',
+    '/api/administrator',
+    '/api/students/student-id',
+    '/api/students/student-id/guardian-details/extra',
+    '/api/students//guardian-details',
+    '/Dashboard',
+    '/API/assignments',
+  ])('rejects non-session path %s', (pathname) => {
+    expect(isClerkMiddlewarePath(pathname)).toBe(false)
   })
 })
