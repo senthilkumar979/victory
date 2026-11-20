@@ -1,17 +1,17 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
 
 /**
- * Use Clerk **production** API keys (`pk_live_…`) on Vercel production.
- * Development keys can confuse crawlers and add dev-only auth edge behavior.
+ * Clerk runs only where a server session is required. Public pages and public
+ * APIs are omitted so anonymous traffic does not spend Fluid Active CPU here.
+ * The navbar still reads the signed-in user through Clerk's client SDK.
  *
- * `/api/mobile` is excluded so mobile Bearer JWT routes handle auth in-route
- * without cookie-based redirects. Other API routes still run through middleware
- * so cookie sessions and Bearer tokens can be resolved by Clerk.
+ * The matcher string is `CLERK_MIDDLEWARE_MATCHER` in
+ * `src/lib/clerkMiddlewareMatcher.ts`. Next.js requires that literal below.
  */
 export default clerkMiddleware();
 
 export const config = {
   matcher: [
-    "/((?!_next|api/webhooks|api/mobile|static|.*\\..*).*)",
+    "/((?:sign-in|sign-up|session-tasks|post-login|secured|dashboard|profile|nano-banana)(?:/.*)?|api/(?:assignments|session-videos|meetings|github|cohorts|admin|invitations|awards|linkedin|nano-banana|logsnag)(?:/.*)?|api/students/[^/]+/guardian-details)",
   ],
 };
