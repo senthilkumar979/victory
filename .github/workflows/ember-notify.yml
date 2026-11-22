@@ -1,0 +1,176 @@
+# Ember notifications: posts this repo's GitHub, CI and Vercel events to Ember (slack.mentorbridge.in).
+# Rooms: issues and PRs go to #dev (EMBER_DEV_WEBHOOK), CI pass/fail to #builds (EMBER_BUILDS_WEBHOOK),
+# and Vercel deploys (deployment_status) to #deploys (EMBER_DEPLOYS_WEBHOOK).
+# Each secret holds a bot's Slack-compatible webhook URL. If a secret is missing, that post is skipped.
+name: Ember notify
+
+on:
+  issues:
+    types: [opened, closed, reopened, assigned]
+  pull_request:
+    types: [opened, ready_for_review, review_requested, closed]
+  # CI results from the workflow named below (workflow_run only fires from this file on the default branch).
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+  # Vercel's GitHub app posts a deployment status for every Preview and Production deploy.
+  deployment_status:
+
+permissions: {}
+
+jobs:
+  notify:
+    # Pull requests from forks get no secrets, so skip them instead of posting nothing.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Build the Slack-compatible payload and post it to Ember
+        env:
+          # Webhook URLs are secrets (they carry the bot's key); they are never echoed.
+          FALLBACK_URL: ""
+          DEV_URL: ${{ secrets.EMBER_DEV_WEBHOOK }}
+          BUILDS_URL: ${{ secrets.EMBER_BUILDS_WEBHOOK }}
+          DEPLOYS_URL: ${{ secrets.EMBER_DEPLOYS_WEBHOOK }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          FALLBACK_URL="${FALLBACK_URL:-}"; DEV_URL="${DEV_URL:-}"; BUILDS_URL="${BUILDS_URL:-}"; DEPLOYS_URL="${DEPLOYS_URL:-}"
+          ev="$GITHUB_EVENT_PATH"
+          repo="$GITHUB_REPOSITORY"
+          action="$(jq -r '.action // ""' "$ev")"
+
+          # Slack mrkdwn needs &, < and > escaped in anything people typed (titles, names).
+          esc='def esc: gsub("&";"&") | gsub("<";"<") | gsub(">";">");'
+
+          payload=""
+          url=""
+          case "$GITHUB_EVENT_NAME" in
+            issues)
+              url="${DEV_URL:-$FALLBACK_URL}"
+              case "$action" in
+                opened)   verb="opened";  color="#d53f8c" ;;
+                closed)   verb="closed";  color="#6b7280" ;;
+                reopened) verb="reopened"; color="#d53f8c" ;;
+                assigned) verb="assigned to $(jq -r '.assignee.login // "someone"' "$ev")"; color="#0ea5e9" ;;
+                *) echo "issues/$action: nothing to post"; exit 0 ;;
+              esac
+              payload="$(jq -c --arg repo "$repo" --arg verb "$verb" --arg color "$color" "$esc"'
+                {
+                  text: ":memo: Issue \(.issue.number) \($verb) in *\($repo)* by \(.sender.login | esc)",
+                  attachments: [{
+                    color: $color,
+                    mrkdwn_in: ["text", "fields"],
+                    title: ("#\(.issue.number) \(.issue.title | esc)"),
+                    title_link: .issue.html_url,
+                    text: ((.issue.body // "") | .[0:300] | esc),
+                    fields: ([
+                      (if (.issue.labels | length) > 0 then {title: "Labels", value: ([.issue.labels[].name] | join(", ") | esc), short: true} else empty end),
+                      (if (.issue.assignees | length) > 0 then {title: "Assignees", value: ([.issue.assignees[].login] | join(", ")), short: true} else empty end)
+                    ]),
+                    footer: $repo
+                  }]
+                }' "$ev")"
+              ;;
+
+            pull_request|pull_request_target)
+              url="${DEV_URL:-$FALLBACK_URL}"
+              merged="$(jq -r '.pull_request.merged // false' "$ev")"
+              case "$action" in
+                opened)           verb="opened";  color="#d53f8c"; icon=":sparkles:" ;;
+                ready_for_review) verb="is ready for review"; color="#d53f8c"; icon=":eyes:" ;;
+                review_requested) verb="needs a review from $(jq -r '.requested_reviewer.login // .requested_team.name // "someone"' "$ev")"; color="#0ea5e9"; icon=":eyes:" ;;
+                closed)
+                  if [ "$merged" = "true" ]; then verb="merged"; color="#16a34a"; icon=":tada:"
+                  else verb="closed without merging"; color="#6b7280"; icon=":x:"; fi ;;
+                *) echo "pull_request/$action: nothing to post"; exit 0 ;;
+              esac
+              payload="$(jq -c --arg repo "$repo" --arg verb "$verb" --arg color "$color" --arg icon "$icon" "$esc"'
+                {
+                  text: "\($icon) PR \(.pull_request.number) \($verb) in *\($repo)* (\(.sender.login | esc))",
+                  attachments: [{
+                    color: $color,
+                    mrkdwn_in: ["text", "fields"],
+                    title: ("#\(.pull_request.number) \(.pull_request.title | esc)"),
+                    title_link: .pull_request.html_url,
+                    fields: [
+                      {title: "Branch", value: ("`\(.pull_request.head.ref | esc)` → `\(.pull_request.base.ref | esc)`"), short: true},
+                      {title: "Author", value: (.pull_request.user.login | esc), short: true}
+                    ],
+                    footer: $repo
+                  }]
+                }' "$ev")"
+              ;;
+
+            workflow_run)
+              url="${BUILDS_URL:-$FALLBACK_URL}"
+              [ "$action" = "completed" ] || { echo "workflow_run/$action: nothing to post"; exit 0; }
+              conclusion="$(jq -r '.workflow_run.conclusion // ""' "$ev")"
+              case "$conclusion" in
+                success)           color="#16a34a"; icon=":white_check_mark:"; word="passed" ;;
+                failure|timed_out) color="#dc2626"; icon=":rotating_light:";   word="failed" ;;
+                *) echo "workflow_run conclusion $conclusion: nothing to post"; exit 0 ;;
+              esac
+              payload="$(jq -c --arg repo "$repo" --arg color "$color" --arg icon "$icon" --arg word "$word" "$esc"'
+                {
+                  text: "\($icon) *\(.workflow_run.name | esc)* \($word) on `\(.workflow_run.head_branch // "" | esc)` in *\($repo)*",
+                  attachments: [{
+                    color: $color,
+                    mrkdwn_in: ["text", "fields"],
+                    title: ((.workflow_run.display_title // .workflow_run.head_commit.message // "") | split("\n")[0] | esc),
+                    title_link: .workflow_run.html_url,
+                    fields: [
+                      {title: "Commit", value: ("<\(.repository.html_url)/commit/\(.workflow_run.head_sha)|\(.workflow_run.head_sha[0:7])>"), short: true},
+                      {title: "Triggered by", value: ((.workflow_run.triggering_actor.login // .workflow_run.actor.login // "") | esc), short: true}
+                    ],
+                    footer: "\($repo) · run #\(.workflow_run.run_number)"
+                  }]
+                }' "$ev")"
+              ;;
+
+            deployment_status)
+              # Vercel's GitHub integration creates a deployment per push with environment
+              # "Preview" or "Production" (sometimes "Production – <project>") and posts its statuses.
+              url="${DEPLOYS_URL:-$FALLBACK_URL}"
+              state="$(jq -r '.deployment_status.state' "$ev")"
+              case "$state" in
+                success)       color="#16a34a"; word="ready" ;;
+                failure|error) color="#dc2626"; word="failed" ;;
+                *) echo "deployment_status $state: nothing to post"; exit 0 ;;
+              esac
+              payload="$(jq -c --arg repo "$repo" --arg color "$color" --arg word "$word" "$esc"'
+                (.deployment.environment // "") as $env
+                | ($env | ascii_downcase | test("production")) as $prod
+                | (.deployment_status.environment_url // .deployment_status.target_url // "") as $link
+                | {
+                    text: ((if $prod then ":rocket: *Production* deploy \($word)" else ":eyes: *Preview* deploy \($word)" end)
+                          + " for *\($repo)*" + (if $link != "" then ": <\($link)>" else "" end)),
+                    attachments: [{
+                      color: $color,
+                      mrkdwn_in: ["text", "fields"],
+                    mrkdwn_in: ["text", "fields"],
+                      fields: [
+                        {title: "Environment", value: ($env | esc), short: true},
+                        {title: "Ref", value: ("`\(.deployment.ref | esc)` @ <\(.repository.html_url)/commit/\(.deployment.sha)|\(.deployment.sha[0:7])>"), short: true},
+                        {title: "Creator", value: ((.deployment_status.creator.login // .deployment.creator.login // "") | esc), short: true}
+                      ],
+                      footer: ((.deployment_status.description // "Vercel") | esc)
+                    }]
+                  }' "$ev")"
+              ;;
+
+            *)
+              echo "Event $GITHUB_EVENT_NAME isn't one Ember notify handles"; exit 0 ;;
+          esac
+
+          if [ -z "$url" ]; then
+            echo "::warning::No Ember webhook secret set for $GITHUB_EVENT_NAME; skipping."
+            exit 0
+          fi
+
+          # Ember answers `ok`, or a Slack-style error such as `invalid_payload` or `no_text`.
+          answer="$(curl -sS --max-time 20 -X POST -H 'Content-Type: application/json' --data "$payload" "$url" -w $'\n%{http_code}')"
+          code="${answer##*$'\n'}"
+          body="${answer%$'\n'*}"
+          echo "Ember answered $code: $body"
+          [ "$code" = "200" ] || { echo "::warning::Ember refused the post ($code: $body)"; exit 0; }
