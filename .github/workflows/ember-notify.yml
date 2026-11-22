@@ -41,7 +41,7 @@ jobs:
           action="$(jq -r '.action // ""' "$ev")"
 
           # Slack mrkdwn needs &, < and > escaped in anything people typed (titles, names).
-          esc='def esc: gsub("&";"&") | gsub("<";"<") | gsub(">";">");'
+          esc='def esc: gsub("&";"&"+"amp;") | gsub("<";"&"+"lt;") | gsub(">";"&"+"gt;");'
 
           payload=""
           url=""
