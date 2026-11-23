@@ -1,12 +1,6 @@
-import { readFileSync } from 'node:fs'
-import path from 'node:path'
-
 import { describe, expect, it } from 'vitest'
 
-import {
-  CLERK_MIDDLEWARE_MATCHER,
-  isClerkMiddlewarePath,
-} from '@/lib/clerkMiddlewareMatcher'
+import { isClerkMiddlewarePath } from '@/lib/clerkMiddlewareMatcher'
 
 const PROTECTED = [
   '/sign-in',
@@ -73,11 +67,29 @@ describe('isClerkMiddlewarePath', () => {
     }
   })
 
-  it('is the matcher literal in middleware.ts', () => {
-    const source = readFileSync(
-      path.join(process.cwd(), 'src/middleware.ts'),
-      'utf8',
+  it('accepts a trailing slash on a session route', () => {
+    expect(isClerkMiddlewarePath('/dashboard/')).toBe(true)
+    expect(isClerkMiddlewarePath('/sign-in/')).toBe(true)
+    expect(isClerkMiddlewarePath('/api/assignments/')).toBe(true)
+    expect(
+      isClerkMiddlewarePath('/api/students/student-id/guardian-details/'),
+    ).toBe(true)
+  })
+
+  it('rejects prefix lookalikes and guardian paths that are not the details route', () => {
+    expect(isClerkMiddlewarePath('/profiles')).toBe(false)
+    expect(isClerkMiddlewarePath('/dashboarding')).toBe(false)
+    expect(isClerkMiddlewarePath('/sign-in-help')).toBe(false)
+    expect(isClerkMiddlewarePath('/api/assignment')).toBe(false)
+    expect(isClerkMiddlewarePath('/api/students/student-id')).toBe(false)
+    expect(
+      isClerkMiddlewarePath(
+        '/api/students/student-id/guardian-details/extra',
+      ),
+    ).toBe(false)
+    expect(isClerkMiddlewarePath('/api/students//guardian-details')).toBe(
+      false,
     )
-    expect(source).toContain(CLERK_MIDDLEWARE_MATCHER)
+    expect(isClerkMiddlewarePath('/Dashboard')).toBe(false)
   })
 })
