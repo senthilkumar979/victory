@@ -128,6 +128,32 @@ describe('listStudents', () => {
     expect(studentQuery.or).not.toHaveBeenCalled()
   })
 
+  it('does not apply a name filter for whitespace-only search', async () => {
+    const { db, studentQuery } = createStudentDb({
+      data: [],
+      error: null,
+      count: 0,
+    })
+    getMobileDbMock.mockReturnValue(db)
+
+    await listStudents({ search: '   ' })
+
+    expect(studentQuery.ilike).not.toHaveBeenCalled()
+  })
+
+  it('filters by cohort id when the cohort name is blank', async () => {
+    const { db, studentQuery } = createStudentDb(
+      { data: [], error: null, count: 0 },
+      { id: 'cohort-blank', name: '' },
+    )
+    getMobileDbMock.mockReturnValue(db)
+
+    await listStudents({ cohort: 'cohort-blank' })
+
+    expect(studentQuery.eq).toHaveBeenCalledWith('cohort_id', 'cohort-blank')
+    expect(studentQuery.or).not.toHaveBeenCalled()
+  })
+
   it('surfaces database failures as mobile service errors', async () => {
     const databaseError = { message: 'database unavailable' }
     const { db } = createStudentDb({
